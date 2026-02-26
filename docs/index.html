@@ -7,10 +7,6 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    html {
-      overflow-x: hidden;
-    }
-
     body {
       font-family: 'Courier New', Courier, monospace;
       font-weight: 700;
@@ -18,12 +14,10 @@
       color: #fff;
       line-height: 1.4;
       padding: 20px;
-      overflow-x: hidden;
     }
 
     .container {
       max-width: 880px;
-      width: 100%;
       margin: 0 auto;
       border: 3px solid #fff;
       padding: 0;
@@ -105,11 +99,11 @@
         border-right: none;
         border-bottom: 2px solid #fff;
       }
-      .table-section h2 {
-        display: block;
+      .table-header {
+        flex-direction: column;
+        align-items: center;
       }
       .week-label {
-        display: block;
         margin-left: 0;
         margin-top: 4px;
         font-size: 0.8em;
@@ -118,49 +112,19 @@
       .player .lname {
         display: block;
       }
-      body {
-        padding: 8px;
-      }
-      table {
-        table-layout: fixed;
-        width: 100%;
-        font-size: 0.85em;
-      }
-      td, thead th {
-        padding: 4px 5px;
-      }
-      .rank {
-        width: 28px;
-      }
-      .player {
-        min-width: 0;
-        overflow: hidden;
-        word-break: break-word;
-      }
-      .team {
-        width: 34px;
-        font-size: 0.85em;
-      }
-      .num {
-        width: 44px;
-      }
-      .stat {
-        font-size: 1.05em;
-      }
-      .description {
-        padding: 12px 14px;
-      }
     }
 
     .table-section {
-      overflow: hidden;
+      overflow: visible;
     }
 
     .table-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
       background: #fff;
       border: 2px solid #000;
       padding: 10px 12px;
-      text-align: center;
     }
 
     .table-section h2 {
@@ -174,7 +138,6 @@
       padding: 0;
       border: none;
       background: none;
-      display: inline;
     }
 
     .week-label {
