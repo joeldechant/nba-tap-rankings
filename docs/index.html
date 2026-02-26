@@ -111,6 +111,7 @@
       .player .fname,
       .player .lname {
         display: block;
+        white-space: nowrap;
       }
     }
 
@@ -122,9 +123,11 @@
       display: flex;
       align-items: baseline;
       justify-content: center;
+      flex-wrap: wrap;
       background: #fff;
       border: 2px solid #000;
       padding: 10px 12px;
+      text-align: center;
     }
 
     .table-section h2 {
