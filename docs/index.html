@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NBA TAP Rankings &mdash; 2025-26 Season</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: 700;
+      background: #000;
+      color: #fff;
+      line-height: 1.4;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 880px;
+      margin: 0 auto;
+      border: 3px solid #fff;
+      padding: 0;
+    }
+
+    header {
+      text-align: center;
+      padding: 25px 20px 15px;
+      background: #fff;
+      color: #000;
+    }
+
+    header h1 {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 3em;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .basketball {
+      display: block;
+      margin: 8px auto 0;
+    }
+
+    header .subtitle {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1em;
+      font-style: italic;
+      color: #000;
+      margin-top: 6px;
+    }
+
+    .description {
+      display: flex;
+      justify-content: center;
+      padding: 16px 24px;
+      border-bottom: 2px solid #fff;
+    }
+
+    .stat-desc {
+      max-width: 620px;
+    }
+
+    .stat-desc h3 {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1em;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 4px;
+      color: #fff;
+      text-align: center;
+    }
+
+    .stat-desc p {
+      font-size: 0.85em;
+      color: #fff;
+      line-height: 1.5;
+      text-align: justify;
+    }
+
+    .tables-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin-bottom: 0;
+    }
+
+    .tables-grid > :first-child {
+      border-right: 2px solid #fff;
+    }
+
+    @media (max-width: 900px) {
+      .tables-grid {
+        grid-template-columns: 1fr;
+      }
+      .tables-grid > :first-child {
+        border-right: none;
+        border-bottom: 2px solid #fff;
+      }
+    }
+
+    .table-section {
+      overflow: hidden;
+    }
+
+    .table-section h2 {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1em;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 10px 12px;
+      background: #000;
+      border-bottom: 1px solid #fff;
+      color: #fff;
+      text-align: center;
+    }
+
+    .week-label {
+      font-weight: 400;
+      font-style: italic;
+      text-transform: none;
+      letter-spacing: 0;
+      color: #fff;
+      font-size: 0.9em;
+      margin-left: 6px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95em;
+    }
+
+    thead th {
+      font-family: Georgia, 'Times New Roman', serif;
+      text-align: left;
+      padding: 6px 10px;
+      font-weight: 900;
+      font-size: 0.95em;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #fff;
+      border-bottom: 1px solid #fff;
+      background: #000;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #fff;
+    }
+
+    tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    td {
+      padding: 5px 10px;
+    }
+
+    .rank {
+      width: 32px;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .player {
+      min-width: 130px;
+    }
+
+    .team {
+      width: 40px;
+      text-align: center;
+      font-size: 0.9em;
+    }
+
+    .num {
+      width: 52px;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat {
+      font-weight: 900;
+      font-size: 1.15em;
+    }
+
+    thead th.num {
+      text-align: right;
+    }
+
+    thead th.rank {
+      text-align: center;
+    }
+
+    thead th.team {
+      text-align: center;
+    }
+
+    thead th.stat {
+      text-align: right;
+    }
+
+    .empty {
+      text-align: center;
+      color: #fff;
+      padding: 30px;
+      font-style: italic;
+    }
+
+    footer {
+      text-align: center;
+      padding: 14px 0;
+      border-top: 2px solid #fff;
+      font-size: 0.82em;
+      color: #fff;
+      background: #000;
+    }
+
+    footer .updated {
+      margin-bottom: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>NBA TAP Rankings</h1>
+      <svg class="basketball" width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="46" stroke="#000" stroke-width="3"/>
+        <path d="M4 50 C4 50 96 50 96 50" stroke="#000" stroke-width="2"/>
+        <path d="M50 4 C50 4 50 96 50 96" stroke="#000" stroke-width="2"/>
+        <path d="M10 18 C30 38 30 62 10 82" stroke="#000" stroke-width="2" fill="none"/>
+        <path d="M90 18 C70 38 70 62 90 82" stroke="#000" stroke-width="2" fill="none"/>
+      </svg>
+      <div class="subtitle">2025-26 Season</div>
+    </header>
+
+    <div class="description">
+      <div class="stat-desc">
+        <h3>TAP &mdash; Total Adjusted Production</h3>
+        <p>TAP estimates total player production per game as a single points-equivalent number. It builds on TED (Total Earned Differential), which converts all box-score contributions &mdash; points scored, scoring efficiency, rebounds, assists, steals, turnovers, blocks &mdash; plus a defensive adjustment (using DBPM and DWS) into one value. TAP takes this approach one step further, overlaying an additional offensive adjustment (using OBPM and OWS) to capture the residual offensive impact that box-score stats miss &mdash; for example, shooting gravity that warps defenses, or anti-gravity. TAP is meant to capture a player's full impact on points scored in the game &mdash; his Total Adjusted Production. For example, if a player scored 30 points with a TAP of 52 in last night's game &mdash; he actually contributed 52 points of total production for his team across all facets of the game, not 30. Both are normalized to per 36 minutes and 71 possessions for cleaner cross-player and cross-era comparisons.</p>
+      </div>
+    </div>
+
+    <div class="tables-grid">
+  <div class="table-section">
+    <h2>WEEKLY TAP TOP 40<span class="week-label">Feb 16 &ndash; Feb 22, 2026</span></h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="rank">Rank</th>
+          <th class="player">Player</th>
+          <th class="team">Team</th>
+          <th class="num stat">TAP</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="rank">1</td>
+          <td class="player">Victor Wembanyama</td>
+          <td class="team">SAS</td>
+          <td class="num stat">62.2</td>
+        </tr>
+        <tr>
+          <td class="rank">2</td>
+          <td class="player">Nikola Jokić</td>
+          <td class="team">DEN</td>
+          <td class="num stat">61.3</td>
+        </tr>
+        <tr>
+          <td class="rank">3</td>
+          <td class="player">Cade Cunningham</td>
+          <td class="team">DET</td>
+          <td class="num stat">57.8</td>
+        </tr>
+        <tr>
+          <td class="rank">4</td>
+          <td class="player">Jalen Duren</td>
+          <td class="team">DET</td>
+          <td class="num stat">50.7</td>
+        </tr>
+        <tr>
+          <td class="rank">5</td>
+          <td class="player">Luka Dončić</td>
+          <td class="team">LAL</td>
+          <td class="num stat">49.1</td>
+        </tr>
+        <tr>
+          <td class="rank">6</td>
+          <td class="player">Kawhi Leonard</td>
+          <td class="team">LAC</td>
+          <td class="num stat">48.0</td>
+        </tr>
+        <tr>
+          <td class="rank">7</td>
+          <td class="player">Scotty Pippen Jr.</td>
+          <td class="team">MEM</td>
+          <td class="num stat">47.9</td>
+        </tr>
+        <tr>
+          <td class="rank">8</td>
+          <td class="player">Ty Jerome</td>
+          <td class="team">MEM</td>
+          <td class="num stat">47.6</td>
+        </tr>
+        <tr>
+          <td class="rank">9</td>
+          <td class="player">Jaylen Brown</td>
+          <td class="team">BOS</td>
+          <td class="num stat">45.7</td>
+        </tr>
+        <tr>
+          <td class="rank">10</td>
+          <td class="player">Paul Reed</td>
+          <td class="team">DET</td>
+          <td class="num stat">44.9</td>
+        </tr>
+        <tr>
+          <td class="rank">11</td>
+          <td class="player">Kevin Porter Jr.</td>
+          <td class="team">MIL</td>
+          <td class="num stat">44.0</td>
+        </tr>
+        <tr>
+          <td class="rank">12</td>
+          <td class="player">Kevin Durant</td>
+          <td class="team">HOU</td>
+          <td class="num stat">43.1</td>
+        </tr>
+        <tr>
+          <td class="rank">13</td>
+          <td class="player">Tyrese Maxey</td>
+          <td class="team">PHI</td>
+          <td class="num stat">43.0</td>
+        </tr>
+        <tr>
+          <td class="rank">14</td>
+          <td class="player">Stephon Castle</td>
+          <td class="team">SAS</td>
+          <td class="num stat">42.5</td>
+        </tr>
+        <tr>
+          <td class="rank">15</td>
+          <td class="player">LaMelo Ball</td>
+          <td class="team">CHO</td>
+          <td class="num stat">42.4</td>
+        </tr>
+        <tr>
+          <td class="rank">16</td>
+          <td class="player">Donovan Clingan</td>
+          <td class="team">POR</td>
+          <td class="num stat">41.1</td>
+        </tr>
+        <tr>
+          <td class="rank">17</td>
+          <td class="player">Zion Williamson</td>
+          <td class="team">NOP</td>
+          <td class="num stat">40.7</td>
+        </tr>
+        <tr>
+          <td class="rank">18</td>
+          <td class="player">Isaiah Collier</td>
+          <td class="team">UTA</td>
+          <td class="num stat">40.5</td>
+        </tr>
+        <tr>
+          <td class="rank">19</td>
+          <td class="player">Anthony Edwards</td>
+          <td class="team">MIN</td>
+          <td class="num stat">40.5</td>
+        </tr>
+        <tr>
+          <td class="rank">20</td>
+          <td class="player">Karl-Anthony Towns</td>
+          <td class="team">NYK</td>
+          <td class="num stat">39.7</td>
+        </tr>
+        <tr>
+          <td class="rank">21</td>
+          <td class="player">Payton Pritchard</td>
+          <td class="team">BOS</td>
+          <td class="num stat">39.7</td>
+        </tr>
+        <tr>
+          <td class="rank">22</td>
+          <td class="player">Brandon Ingram</td>
+          <td class="team">TOR</td>
+          <td class="num stat">39.6</td>
+        </tr>
+        <tr>
+          <td class="rank">23</td>
+          <td class="player">Rudy Gobert</td>
+          <td class="team">MIN</td>
+          <td class="num stat">39.1</td>
+        </tr>
+        <tr>
+          <td class="rank">24</td>
+          <td class="player">Immanuel Quickley</td>
+          <td class="team">TOR</td>
+          <td class="num stat">38.9</td>
+        </tr>
+        <tr>
+          <td class="rank">25</td>
+          <td class="player">Tyler Herro</td>
+          <td class="team">MIA</td>
+          <td class="num stat">38.8</td>
+        </tr>
+        <tr>
+          <td class="rank">26</td>
+          <td class="player">Jalen Johnson</td>
+          <td class="team">ATL</td>
+          <td class="num stat">38.6</td>
+        </tr>
+        <tr>
+          <td class="rank">27</td>
+          <td class="player">GG Jackson II</td>
+          <td class="team">MEM</td>
+          <td class="num stat">38.5</td>
+        </tr>
+        <tr>
+          <td class="rank">28</td>
+          <td class="player">Donovan Mitchell</td>
+          <td class="team">CLE</td>
+          <td class="num stat">38.5</td>
+        </tr>
+        <tr>
+          <td class="rank">29</td>
+          <td class="player">Pascal Siakam</td>
+          <td class="team">IND</td>
+          <td class="num stat">38.4</td>
+        </tr>
+        <tr>
+          <td class="rank">30</td>
+          <td class="player">Naz Reid</td>
+          <td class="team">MIN</td>
+          <td class="num stat">38.3</td>
+        </tr>
+        <tr>
+          <td class="rank">31</td>
+          <td class="player">Isaiah Hartenstein</td>
+          <td class="team">OKC</td>
+          <td class="num stat">38.0</td>
+        </tr>
+        <tr>
+          <td class="rank">32</td>
+          <td class="player">Grayson Allen</td>
+          <td class="team">PHO</td>
+          <td class="num stat">37.8</td>
+        </tr>
+        <tr>
+          <td class="rank">33</td>
+          <td class="player">Norman Powell</td>
+          <td class="team">MIA</td>
+          <td class="num stat">37.1</td>
+        </tr>
+        <tr>
+          <td class="rank">34</td>
+          <td class="player">Desmond Bane</td>
+          <td class="team">ORL</td>
+          <td class="num stat">36.7</td>
+        </tr>
+        <tr>
+          <td class="rank">35</td>
+          <td class="player">Jay Huff</td>
+          <td class="team">IND</td>
+          <td class="num stat">36.6</td>
+        </tr>
+        <tr>
+          <td class="rank">36</td>
+          <td class="player">Bennedict Mathurin</td>
+          <td class="team">LAC</td>
+          <td class="num stat">36.6</td>
+        </tr>
+        <tr>
+          <td class="rank">37</td>
+          <td class="player">Chet Holmgren</td>
+          <td class="team">OKC</td>
+          <td class="num stat">36.6</td>
+        </tr>
+        <tr>
+          <td class="rank">38</td>
+          <td class="player">Cason Wallace</td>
+          <td class="team">OKC</td>
+          <td class="num stat">36.5</td>
+        </tr>
+        <tr>
+          <td class="rank">39</td>
+          <td class="player">De'Aaron Fox</td>
+          <td class="team">SAS</td>
+          <td class="num stat">36.4</td>
+        </tr>
+        <tr>
+          <td class="rank">40</td>
+          <td class="player">Brandon Williams</td>
+          <td class="team">DAL</td>
+          <td class="num stat">36.2</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table-section">
+    <h2>SEASON-TO-DATE TAP TOP 40</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="rank">Rank</th>
+          <th class="player">Player</th>
+          <th class="team">Team</th>
+          <th class="num stat">TAP</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="rank">1</td>
+          <td class="player">Nikola Jokić</td>
+          <td class="team">DEN</td>
+          <td class="num stat">61.0</td>
+        </tr>
+        <tr>
+          <td class="rank">2</td>
+          <td class="player">Shai Gilgeous-Alexander</td>
+          <td class="team">OKC</td>
+          <td class="num stat">57.8</td>
+        </tr>
+        <tr>
+          <td class="rank">3</td>
+          <td class="player">Giannis Antetokounmpo</td>
+          <td class="team">MIL</td>
+          <td class="num stat">55.0</td>
+        </tr>
+        <tr>
+          <td class="rank">4</td>
+          <td class="player">Victor Wembanyama</td>
+          <td class="team">SAS</td>
+          <td class="num stat">54.1</td>
+        </tr>
+        <tr>
+          <td class="rank">5</td>
+          <td class="player">Luka Dončić</td>
+          <td class="team">LAL</td>
+          <td class="num stat">49.6</td>
+        </tr>
+        <tr>
+          <td class="rank">6</td>
+          <td class="player">Kawhi Leonard</td>
+          <td class="team">LAC</td>
+          <td class="num stat">46.8</td>
+        </tr>
+        <tr>
+          <td class="rank">7</td>
+          <td class="player">Cade Cunningham</td>
+          <td class="team">DET</td>
+          <td class="num stat">46.3</td>
+        </tr>
+        <tr>
+          <td class="rank">8</td>
+          <td class="player">Jaylen Brown</td>
+          <td class="team">BOS</td>
+          <td class="num stat">42.4</td>
+        </tr>
+        <tr>
+          <td class="rank">9</td>
+          <td class="player">Donovan Mitchell</td>
+          <td class="team">CLE</td>
+          <td class="num stat">42.2</td>
+        </tr>
+        <tr>
+          <td class="rank">10</td>
+          <td class="player">Tyrese Maxey</td>
+          <td class="team">PHI</td>
+          <td class="num stat">41.3</td>
+        </tr>
+        <tr>
+          <td class="rank">11</td>
+          <td class="player">Joel Embiid</td>
+          <td class="team">PHI</td>
+          <td class="num stat">41.2</td>
+        </tr>
+        <tr>
+          <td class="rank">12</td>
+          <td class="player">Stephen Curry</td>
+          <td class="team">GSW</td>
+          <td class="num stat">40.8</td>
+        </tr>
+        <tr>
+          <td class="rank">13</td>
+          <td class="player">Alperen Şengün</td>
+          <td class="team">HOU</td>
+          <td class="num stat">39.7</td>
+        </tr>
+        <tr>
+          <td class="rank">14</td>
+          <td class="player">Jalen Johnson</td>
+          <td class="team">ATL</td>
+          <td class="num stat">39.5</td>
+        </tr>
+        <tr>
+          <td class="rank">15</td>
+          <td class="player">Anthony Edwards</td>
+          <td class="team">MIN</td>
+          <td class="num stat">39.4</td>
+        </tr>
+        <tr>
+          <td class="rank">16</td>
+          <td class="player">LaMelo Ball</td>
+          <td class="team">CHO</td>
+          <td class="num stat">39.3</td>
+        </tr>
+        <tr>
+          <td class="rank">17</td>
+          <td class="player">Jalen Duren</td>
+          <td class="team">DET</td>
+          <td class="num stat">39.0</td>
+        </tr>
+        <tr>
+          <td class="rank">18</td>
+          <td class="player">Chet Holmgren</td>
+          <td class="team">OKC</td>
+          <td class="num stat">38.3</td>
+        </tr>
+        <tr>
+          <td class="rank">19</td>
+          <td class="player">Jimmy Butler</td>
+          <td class="team">GSW</td>
+          <td class="num stat">38.2</td>
+        </tr>
+        <tr>
+          <td class="rank">20</td>
+          <td class="player">Jalen Williams</td>
+          <td class="team">OKC</td>
+          <td class="num stat">37.6</td>
+        </tr>
+        <tr>
+          <td class="rank">21</td>
+          <td class="player">Scottie Barnes</td>
+          <td class="team">TOR</td>
+          <td class="num stat">37.3</td>
+        </tr>
+        <tr>
+          <td class="rank">22</td>
+          <td class="player">Jamal Murray</td>
+          <td class="team">DEN</td>
+          <td class="num stat">37.2</td>
+        </tr>
+        <tr>
+          <td class="rank">23</td>
+          <td class="player">Anthony Davis</td>
+          <td class="team">DAL</td>
+          <td class="num stat">37.2</td>
+        </tr>
+        <tr>
+          <td class="rank">24</td>
+          <td class="player">Deni Avdija</td>
+          <td class="team">POR</td>
+          <td class="num stat">37.0</td>
+        </tr>
+        <tr>
+          <td class="rank">25</td>
+          <td class="player">Jalen Brunson</td>
+          <td class="team">NYK</td>
+          <td class="num stat">37.0</td>
+        </tr>
+        <tr>
+          <td class="rank">26</td>
+          <td class="player">Karl-Anthony Towns</td>
+          <td class="team">NYK</td>
+          <td class="num stat">36.6</td>
+        </tr>
+        <tr>
+          <td class="rank">27</td>
+          <td class="player">Kevin Durant</td>
+          <td class="team">HOU</td>
+          <td class="num stat">36.6</td>
+        </tr>
+        <tr>
+          <td class="rank">28</td>
+          <td class="player">James Harden</td>
+          <td class="team">2TM</td>
+          <td class="num stat">36.5</td>
+        </tr>
+        <tr>
+          <td class="rank">29</td>
+          <td class="player">Austin Reaves</td>
+          <td class="team">LAL</td>
+          <td class="num stat">36.2</td>
+        </tr>
+        <tr>
+          <td class="rank">30</td>
+          <td class="player">Jalen Suggs</td>
+          <td class="team">ORL</td>
+          <td class="num stat">35.5</td>
+        </tr>
+        <tr>
+          <td class="rank">31</td>
+          <td class="player">Isaiah Hartenstein</td>
+          <td class="team">OKC</td>
+          <td class="num stat">35.3</td>
+        </tr>
+        <tr>
+          <td class="rank">32</td>
+          <td class="player">Devin Booker</td>
+          <td class="team">PHO</td>
+          <td class="num stat">35.2</td>
+        </tr>
+        <tr>
+          <td class="rank">33</td>
+          <td class="player">Julius Randle</td>
+          <td class="team">MIN</td>
+          <td class="num stat">34.5</td>
+        </tr>
+        <tr>
+          <td class="rank">34</td>
+          <td class="player">LeBron James</td>
+          <td class="team">LAL</td>
+          <td class="num stat">34.5</td>
+        </tr>
+        <tr>
+          <td class="rank">35</td>
+          <td class="player">Kevin Porter Jr.</td>
+          <td class="team">MIL</td>
+          <td class="num stat">34.4</td>
+        </tr>
+        <tr>
+          <td class="rank">36</td>
+          <td class="player">Michael Porter Jr.</td>
+          <td class="team">BRK</td>
+          <td class="num stat">34.3</td>
+        </tr>
+        <tr>
+          <td class="rank">37</td>
+          <td class="player">De'Aaron Fox</td>
+          <td class="team">SAS</td>
+          <td class="num stat">34.2</td>
+        </tr>
+        <tr>
+          <td class="rank">38</td>
+          <td class="player">Zion Williamson</td>
+          <td class="team">NOP</td>
+          <td class="num stat">34.1</td>
+        </tr>
+        <tr>
+          <td class="rank">39</td>
+          <td class="player">Ajay Mitchell</td>
+          <td class="team">OKC</td>
+          <td class="num stat">34.0</td>
+        </tr>
+        <tr>
+          <td class="rank">40</td>
+          <td class="player">Franz Wagner</td>
+          <td class="team">ORL</td>
+          <td class="num stat">33.7</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+    </div>
+
+    <footer>
+      <div class="updated">Last updated: February 26, 2026</div>
+      <div>TAP and TED created by Joel Dechant</div>
+    </footer>
+  </div>
+</body>
+</html>

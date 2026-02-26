@@ -1,0 +1,9 @@
+# Everything ignored by default — we only include docs/ for the website
+*
+
+# Allow the docs folder (GitHub Pages source)
+!docs/
+!docs/index.html
+
+# Allow .gitignore itself
+!.gitignore
