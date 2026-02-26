@@ -91,35 +91,6 @@
       border-right: 2px solid #fff;
     }
 
-    @media (max-width: 900px) {
-      .tables-grid {
-        grid-template-columns: 1fr;
-      }
-      .tables-grid > :first-child {
-        border-right: none;
-        border-bottom: 2px solid #fff;
-      }
-      .table-section h2 {
-        display: block;
-      }
-      .week-label {
-        display: block;
-        margin-left: 0;
-        margin-top: 4px;
-        font-size: 0.8em;
-      }
-      .player .fname,
-      .player .lname {
-        display: block;
-      }
-      td, thead th {
-        padding: 4px 6px;
-      }
-      .player {
-        min-width: 0;
-      }
-    }
-
     .table-section {
       overflow: visible;
     }
@@ -248,6 +219,35 @@
 
     footer .updated {
       margin-bottom: 3px;
+    }
+
+    @media (max-width: 900px) {
+      .tables-grid {
+        grid-template-columns: 1fr;
+      }
+      .tables-grid > :first-child {
+        border-right: none;
+        border-bottom: 2px solid #fff;
+      }
+      .table-section h2 {
+        display: block;
+      }
+      .week-label {
+        display: block;
+        margin-left: 0;
+        margin-top: 4px;
+        font-size: 0.8em;
+      }
+      .player .fname,
+      .player .lname {
+        display: block;
+      }
+      td, thead th {
+        padding: 4px 6px;
+      }
+      .player {
+        min-width: 0;
+      }
     }
   </style>
 </head>
