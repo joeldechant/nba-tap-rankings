@@ -124,7 +124,17 @@
       letter-spacing: 0;
       color: #000;
       font-size: 0.9em;
+      display: inline;
       margin-left: 6px;
+    }
+
+    @media (max-width: 900px) {
+      .week-label {
+        display: block;
+        margin-left: 0;
+        margin-top: 4px;
+        font-size: 0.8em;
+      }
     }
 
     table {
@@ -245,7 +255,7 @@
 
     <div class="tables-grid">
   <div class="table-section">
-    <h2>WEEKLY TAP TOP 40<span class="week-label">Feb 16 &ndash; Feb 22, 2026</span></h2>
+    <h2>WEEKLY TAP TOP 40<div class="week-label">Feb 16 &ndash; Feb 22, 2026</div></h2>
     <table>
       <thead>
         <tr>
