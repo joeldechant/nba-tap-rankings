@@ -299,12 +299,21 @@
       margin: 0;
     }
 
-    .year-table {
+    .year-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       border-top: 1px solid #555;
     }
 
+    .year-pair > :first-child {
+      border-right: 1px solid #555;
+    }
+
+    .year-table {
+    }
+
     .year-table table {
-      max-width: 680px;
+      max-width: 100%;
       margin: 0 auto;
     }
 
@@ -395,6 +404,13 @@
       .decade-nav a {
         font-size: 0.85em;
         padding: 4px 8px;
+      }
+      .year-pair {
+        grid-template-columns: 1fr;
+      }
+      .year-pair > :first-child {
+        border-right: none;
+        border-bottom: 1px solid #555;
       }
       .year-table table {
         max-width: 100%;
@@ -1667,11 +1683,12 @@
     <div class="historical-header"><h2>Historical TAP Rankings</h2></div>
   <div class="decade" id="decade-2020s">
     <div class="decade-header"><h3>2020s</h3></div>
-    <div class="year-table" id="year-2024">
-      <div class="table-header"><h2>2024-25 SEASON &mdash; TAP TOP 40</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-2024">
+        <div class="table-header"><h2>2024-25 SEASON &mdash; TAP TOP 40</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player"><span class="fname">Shai Gilgeous-</span><span class="lname">Alexander</span></td><td class="team">OKC</td><td class="num stat">57.3</td></tr>
         <tr><td class="rank">2</td><td class="player"><span class="fname">Nikola</span> <span class="lname">Jokić</span></td><td class="team">DEN</td><td class="num stat">56.4</td></tr>
         <tr><td class="rank">3</td><td class="player"><span class="fname">Giannis</span> <span class="lname">Antetokounmpo</span></td><td class="team">MIL</td><td class="num stat">53.5</td></tr>
@@ -1712,14 +1729,14 @@
         <tr><td class="rank">38</td><td class="player"><span class="fname">Jaylen</span> <span class="lname">Brown</span></td><td class="team">BOS</td><td class="num stat">33.5</td></tr>
         <tr><td class="rank">39</td><td class="player"><span class="fname">Bam</span> <span class="lname">Adebayo</span></td><td class="team">MIA</td><td class="num stat">33.4</td></tr>
         <tr><td class="rank">40</td><td class="player"><span class="fname">Jalen</span> <span class="lname">Duren</span></td><td class="team">DET</td><td class="num stat">33.2</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-2023">
-      <div class="table-header"><h2>2023-24 SEASON &mdash; TAP TOP 40</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-2023">
+        <div class="table-header"><h2>2023-24 SEASON &mdash; TAP TOP 40</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player"><span class="fname">Nikola</span> <span class="lname">Jokić</span></td><td class="team">DEN</td><td class="num stat">57.7</td></tr>
         <tr><td class="rank">2</td><td class="player"><span class="fname">Shai Gilgeous-</span><span class="lname">Alexander</span></td><td class="team">OKC</td><td class="num stat">52.9</td></tr>
         <tr><td class="rank">3</td><td class="player"><span class="fname">Luka</span> <span class="lname">Dončić</span></td><td class="team">DAL</td><td class="num stat">52.7</td></tr>
@@ -1760,14 +1777,16 @@
         <tr><td class="rank">38</td><td class="player"><span class="fname">Jalen</span> <span class="lname">Williams</span></td><td class="team">OKC</td><td class="num stat">33.4</td></tr>
         <tr><td class="rank">39</td><td class="player"><span class="fname">Brandon</span> <span class="lname">Ingram</span></td><td class="team">NOP</td><td class="num stat">33.4</td></tr>
         <tr><td class="rank">40</td><td class="player"><span class="fname">James</span> <span class="lname">Harden</span></td><td class="team">LAC</td><td class="num stat">33.4</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-2022">
-      <div class="table-header"><h2>2022-23 SEASON &mdash; TAP TOP 40</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-2022">
+        <div class="table-header"><h2>2022-23 SEASON &mdash; TAP TOP 40</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player"><span class="fname">Nikola</span> <span class="lname">Jokić</span></td><td class="team">DEN</td><td class="num stat">55.3</td></tr>
         <tr><td class="rank">2</td><td class="player"><span class="fname">Joel</span> <span class="lname">Embiid</span></td><td class="team">PHI</td><td class="num stat">54.5</td></tr>
         <tr><td class="rank">3</td><td class="player"><span class="fname">Giannis</span> <span class="lname">Antetokounmpo</span></td><td class="team">MIL</td><td class="num stat">54.0</td></tr>
@@ -1808,14 +1827,14 @@
         <tr><td class="rank">38</td><td class="player"><span class="fname">Christian</span> <span class="lname">Wood</span></td><td class="team">DAL</td><td class="num stat">32.9</td></tr>
         <tr><td class="rank">39</td><td class="player"><span class="fname">Malcolm</span> <span class="lname">Brogdon</span></td><td class="team">BOS</td><td class="num stat">32.8</td></tr>
         <tr><td class="rank">40</td><td class="player"><span class="fname">Fred</span> <span class="lname">VanVleet</span></td><td class="team">TOR</td><td class="num stat">32.7</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-2021">
-      <div class="table-header"><h2>2021-22 SEASON &mdash; TAP TOP 40</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-2021">
+        <div class="table-header"><h2>2021-22 SEASON &mdash; TAP TOP 40</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player"><span class="fname">Nikola</span> <span class="lname">Jokić</span></td><td class="team">DEN</td><td class="num stat">57.9</td></tr>
         <tr><td class="rank">2</td><td class="player"><span class="fname">Giannis</span> <span class="lname">Antetokounmpo</span></td><td class="team">MIL</td><td class="num stat">55.7</td></tr>
         <tr><td class="rank">3</td><td class="player"><span class="fname">Joel</span> <span class="lname">Embiid</span></td><td class="team">PHI</td><td class="num stat">53.9</td></tr>
@@ -1856,14 +1875,16 @@
         <tr><td class="rank">38</td><td class="player"><span class="fname">Al</span> <span class="lname">Horford</span></td><td class="team">BOS</td><td class="num stat">31.9</td></tr>
         <tr><td class="rank">39</td><td class="player"><span class="fname">Khris</span> <span class="lname">Middleton</span></td><td class="team">MIL</td><td class="num stat">31.8</td></tr>
         <tr><td class="rank">40</td><td class="player"><span class="fname">Desmond</span> <span class="lname">Bane</span></td><td class="team">MEM</td><td class="num stat">31.7</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-2020">
-      <div class="table-header"><h2>2020-21 SEASON &mdash; TAP TOP 40</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair single">
+      <div class="year-table" id="year-2020">
+        <div class="table-header"><h2>2020-21 SEASON &mdash; TAP TOP 40</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player"><span class="fname">Nikola</span> <span class="lname">Jokić</span></td><td class="team">DEN</td><td class="num stat">52.9</td></tr>
         <tr><td class="rank">2</td><td class="player"><span class="fname">Joel</span> <span class="lname">Embiid</span></td><td class="team">PHI</td><td class="num stat">51.2</td></tr>
         <tr><td class="rank">3</td><td class="player"><span class="fname">Giannis</span> <span class="lname">Antetokounmpo</span></td><td class="team">MIL</td><td class="num stat">50.4</td></tr>
@@ -1904,17 +1925,19 @@
         <tr><td class="rank">38</td><td class="player"><span class="fname">Thaddeus</span> <span class="lname">Young</span></td><td class="team">CHI</td><td class="num stat">33.2</td></tr>
         <tr><td class="rank">39</td><td class="player"><span class="fname">De'Aaron</span> <span class="lname">Fox</span></td><td class="team">SAC</td><td class="num stat">33.2</td></tr>
         <tr><td class="rank">40</td><td class="player"><span class="fname">Jordan</span> <span class="lname">Clarkson</span></td><td class="team">UTA</td><td class="num stat">33.2</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <div class="decade" id="decade-2010s">
     <div class="decade-header"><h3>2010s</h3></div>
-    <div class="year-table" id="year-2019">
-      <div class="table-header"><h2>2019-20 SEASON &mdash; TAP TOP 40</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-2019">
+        <div class="table-header"><h2>2019-20 SEASON &mdash; TAP TOP 40</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player"><span class="fname">Giannis</span> <span class="lname">Antetokounmpo</span></td><td class="team">MIL</td><td class="num stat">59.4</td></tr>
         <tr><td class="rank">2</td><td class="player"><span class="fname">James</span> <span class="lname">Harden</span></td><td class="team">HOU</td><td class="num stat">50.1</td></tr>
         <tr><td class="rank">3</td><td class="player"><span class="fname">Luka</span> <span class="lname">Dončić</span></td><td class="team">DAL</td><td class="num stat">48.7</td></tr>
@@ -1955,14 +1978,14 @@
         <tr><td class="rank">38</td><td class="player"><span class="fname">Fred</span> <span class="lname">VanVleet</span></td><td class="team">TOR</td><td class="num stat">32.4</td></tr>
         <tr><td class="rank">39</td><td class="player"><span class="fname">Donovan</span> <span class="lname">Mitchell</span></td><td class="team">UTA</td><td class="num stat">32.3</td></tr>
         <tr><td class="rank">40</td><td class="player"><span class="fname">John</span> <span class="lname">Collins</span></td><td class="team">ATL</td><td class="num stat">31.7</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-2018">
-      <div class="table-header"><h2>2018-19 SEASON &mdash; TAP TOP 40</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-2018">
+        <div class="table-header"><h2>2018-19 SEASON &mdash; TAP TOP 40</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player"><span class="fname">Giannis</span> <span class="lname">Antetokounmpo</span></td><td class="team">MIL</td><td class="num stat">54.9</td></tr>
         <tr><td class="rank">2</td><td class="player"><span class="fname">James</span> <span class="lname">Harden</span></td><td class="team">HOU</td><td class="num stat">54.2</td></tr>
         <tr><td class="rank">3</td><td class="player"><span class="fname">Anthony</span> <span class="lname">Davis</span></td><td class="team">NOP</td><td class="num stat">48.8</td></tr>
@@ -2003,14 +2026,16 @@
         <tr><td class="rank">38</td><td class="player"><span class="fname">DeMar</span> <span class="lname">DeRozan</span></td><td class="team">SAS</td><td class="num stat">32.4</td></tr>
         <tr><td class="rank">39</td><td class="player"><span class="fname">Bradley</span> <span class="lname">Beal</span></td><td class="team">WAS</td><td class="num stat">32.4</td></tr>
         <tr><td class="rank">40</td><td class="player"><span class="fname">Danilo</span> <span class="lname">Gallinari</span></td><td class="team">LAC</td><td class="num stat">32.2</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-2017">
-      <div class="table-header"><h2>2017-18 SEASON &mdash; TAP TOP 40</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-2017">
+        <div class="table-header"><h2>2017-18 SEASON &mdash; TAP TOP 40</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player"><span class="fname">James</span> <span class="lname">Harden</span></td><td class="team">HOU</td><td class="num stat">52.6</td></tr>
         <tr><td class="rank">2</td><td class="player"><span class="fname">Russell</span> <span class="lname">Westbrook</span></td><td class="team">OKC</td><td class="num stat">45.9</td></tr>
         <tr><td class="rank">3</td><td class="player"><span class="fname">LeBron</span> <span class="lname">James</span></td><td class="team">CLE</td><td class="num stat">45.6</td></tr>
@@ -2051,14 +2076,14 @@
         <tr><td class="rank">38</td><td class="player"><span class="fname">Donovan</span> <span class="lname">Mitchell</span></td><td class="team">UTA</td><td class="num stat">31.7</td></tr>
         <tr><td class="rank">39</td><td class="player"><span class="fname">Eric</span> <span class="lname">Bledsoe</span></td><td class="team">TOT</td><td class="num stat">31.6</td></tr>
         <tr><td class="rank">40</td><td class="player"><span class="fname">Kelly</span> <span class="lname">Olynyk</span></td><td class="team">MIA</td><td class="num stat">31.2</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-2016">
-      <div class="table-header"><h2>2016-17 SEASON &mdash; TAP TOP 40</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-2016">
+        <div class="table-header"><h2>2016-17 SEASON &mdash; TAP TOP 40</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Westbrook</td><td class="team">&mdash;</td><td class="num stat">59.9</td></tr>
         <tr><td class="rank">2</td><td class="player">Harden</td><td class="team">&mdash;</td><td class="num stat">49.2</td></tr>
         <tr><td class="rank">3</td><td class="player">Durant</td><td class="team">&mdash;</td><td class="num stat">48.4</td></tr>
@@ -2099,14 +2124,16 @@
         <tr><td class="rank">38</td><td class="player">Kanter</td><td class="team">&mdash;</td><td class="num stat">31.0</td></tr>
         <tr><td class="rank">39</td><td class="player">Horford</td><td class="team">&mdash;</td><td class="num stat">30.7</td></tr>
         <tr><td class="rank">40</td><td class="player">Lopez</td><td class="team">&mdash;</td><td class="num stat">30.6</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-2015">
-      <div class="table-header"><h2>2015-16 SEASON &mdash; TAP TOP 40</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-2015">
+        <div class="table-header"><h2>2015-16 SEASON &mdash; TAP TOP 40</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Curry</td><td class="team">&mdash;</td><td class="num stat">51.5</td></tr>
         <tr><td class="rank">2</td><td class="player">Westbrook</td><td class="team">&mdash;</td><td class="num stat">48.4</td></tr>
         <tr><td class="rank">3</td><td class="player">James</td><td class="team">&mdash;</td><td class="num stat">46.6</td></tr>
@@ -2147,14 +2174,14 @@
         <tr><td class="rank">38</td><td class="player">Hayward</td><td class="team">&mdash;</td><td class="num stat">30.2</td></tr>
         <tr><td class="rank">39</td><td class="player">Monroe</td><td class="team">&mdash;</td><td class="num stat">29.4</td></tr>
         <tr><td class="rank">40</td><td class="player">Gobert</td><td class="team">&mdash;</td><td class="num stat">29.4</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-2014">
-      <div class="table-header"><h2>2014-15 SEASON &mdash; TAP TOP 40</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-2014">
+        <div class="table-header"><h2>2014-15 SEASON &mdash; TAP TOP 40</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Westbrook</td><td class="team">&mdash;</td><td class="num stat">52.6</td></tr>
         <tr><td class="rank">2</td><td class="player">Davis</td><td class="team">&mdash;</td><td class="num stat">47.1</td></tr>
         <tr><td class="rank">3</td><td class="player">Curry</td><td class="team">&mdash;</td><td class="num stat">46.7</td></tr>
@@ -2195,14 +2222,16 @@
         <tr><td class="rank">38</td><td class="player">Anthony</td><td class="team">&mdash;</td><td class="num stat">29.6</td></tr>
         <tr><td class="rank">39</td><td class="player">Jennings</td><td class="team">&mdash;</td><td class="num stat">29.3</td></tr>
         <tr><td class="rank">40</td><td class="player">Vucevic</td><td class="team">&mdash;</td><td class="num stat">29.2</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-2013">
-      <div class="table-header"><h2>2013-14 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-2013">
+        <div class="table-header"><h2>2013-14 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Durant</td><td class="team">&mdash;</td><td class="num stat">47.5</td></tr>
         <tr><td class="rank">2</td><td class="player">James</td><td class="team">&mdash;</td><td class="num stat">45.1</td></tr>
         <tr><td class="rank">3</td><td class="player">Westbrook</td><td class="team">&mdash;</td><td class="num stat">43.9</td></tr>
@@ -2223,14 +2252,14 @@
         <tr><td class="rank">18</td><td class="player">Wall</td><td class="team">&mdash;</td><td class="num stat">34.8</td></tr>
         <tr><td class="rank">19</td><td class="player">Lowry</td><td class="team">&mdash;</td><td class="num stat">34.7</td></tr>
         <tr><td class="rank">20</td><td class="player">Leonard</td><td class="team">&mdash;</td><td class="num stat">34.5</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-2012">
-      <div class="table-header"><h2>2012-13 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-2012">
+        <div class="table-header"><h2>2012-13 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">James</td><td class="team">&mdash;</td><td class="num stat">51.8</td></tr>
         <tr><td class="rank">2</td><td class="player">Durant</td><td class="team">&mdash;</td><td class="num stat">45.7</td></tr>
         <tr><td class="rank">3</td><td class="player">Duncan</td><td class="team">&mdash;</td><td class="num stat">43.8</td></tr>
@@ -2251,14 +2280,16 @@
         <tr><td class="rank">18</td><td class="player">Pierce</td><td class="team">&mdash;</td><td class="num stat">33.9</td></tr>
         <tr><td class="rank">19</td><td class="player">Conley</td><td class="team">&mdash;</td><td class="num stat">33.9</td></tr>
         <tr><td class="rank">20</td><td class="player">Garnett</td><td class="team">&mdash;</td><td class="num stat">33.5</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-2011">
-      <div class="table-header"><h2>2011-12 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-2011">
+        <div class="table-header"><h2>2011-12 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">James</td><td class="team">&mdash;</td><td class="num stat">51.4</td></tr>
         <tr><td class="rank">2</td><td class="player">Wade</td><td class="team">&mdash;</td><td class="num stat">44.2</td></tr>
         <tr><td class="rank">3</td><td class="player">Paul</td><td class="team">&mdash;</td><td class="num stat">42.3</td></tr>
@@ -2279,14 +2310,14 @@
         <tr><td class="rank">18</td><td class="player">Jefferson</td><td class="team">&mdash;</td><td class="num stat">34.1</td></tr>
         <tr><td class="rank">19</td><td class="player">Nowitzki</td><td class="team">&mdash;</td><td class="num stat">33.7</td></tr>
         <tr><td class="rank">20</td><td class="player">Parker</td><td class="team">&mdash;</td><td class="num stat">33.3</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-2010">
-      <div class="table-header"><h2>2010-11 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-2010">
+        <div class="table-header"><h2>2010-11 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">James</td><td class="team">&mdash;</td><td class="num stat">46.9</td></tr>
         <tr><td class="rank">2</td><td class="player">Howard</td><td class="team">&mdash;</td><td class="num stat">44.5</td></tr>
         <tr><td class="rank">3</td><td class="player">Wade</td><td class="team">&mdash;</td><td class="num stat">43.0</td></tr>
@@ -2307,17 +2338,19 @@
         <tr><td class="rank">18</td><td class="player">Stoudemire</td><td class="team">&mdash;</td><td class="num stat">33.4</td></tr>
         <tr><td class="rank">19</td><td class="player">Bynum</td><td class="team">&mdash;</td><td class="num stat">33.0</td></tr>
         <tr><td class="rank">20</td><td class="player">Smith</td><td class="team">&mdash;</td><td class="num stat">33.0</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <div class="decade" id="decade-2000s">
     <div class="decade-header"><h3>2000s</h3></div>
-    <div class="year-table" id="year-2009">
-      <div class="table-header"><h2>2009-10 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-2009">
+        <div class="table-header"><h2>2009-10 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">James</td><td class="team">&mdash;</td><td class="num stat">54.6</td></tr>
         <tr><td class="rank">2</td><td class="player">Wade</td><td class="team">&mdash;</td><td class="num stat">48.8</td></tr>
         <tr><td class="rank">3</td><td class="player">Howard</td><td class="team">&mdash;</td><td class="num stat">42.1</td></tr>
@@ -2338,14 +2371,14 @@
         <tr><td class="rank">18</td><td class="player">Rondo</td><td class="team">&mdash;</td><td class="num stat">33.2</td></tr>
         <tr><td class="rank">19</td><td class="player">Granger</td><td class="team">&mdash;</td><td class="num stat">33.2</td></tr>
         <tr><td class="rank">20</td><td class="player">Bosh</td><td class="team">&mdash;</td><td class="num stat">33.0</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-2008">
-      <div class="table-header"><h2>2008-09 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-2008">
+        <div class="table-header"><h2>2008-09 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">James</td><td class="team">&mdash;</td><td class="num stat">57.7</td></tr>
         <tr><td class="rank">2</td><td class="player">Paul</td><td class="team">&mdash;</td><td class="num stat">51.5</td></tr>
         <tr><td class="rank">3</td><td class="player">Wade</td><td class="team">&mdash;</td><td class="num stat">51.4</td></tr>
@@ -2366,14 +2399,16 @@
         <tr><td class="rank">18</td><td class="player">Bosh</td><td class="team">&mdash;</td><td class="num stat">32.6</td></tr>
         <tr><td class="rank">19</td><td class="player"><span class="fname">D</span> <span class="lname">Williams</span></td><td class="team">&mdash;</td><td class="num stat">32.5</td></tr>
         <tr><td class="rank">20</td><td class="player">Bynum</td><td class="team">&mdash;</td><td class="num stat">32.1</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-2007">
-      <div class="table-header"><h2>2007-08 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-2007">
+        <div class="table-header"><h2>2007-08 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">James</td><td class="team">&mdash;</td><td class="num stat">50.3</td></tr>
         <tr><td class="rank">2</td><td class="player">Paul</td><td class="team">&mdash;</td><td class="num stat">48.1</td></tr>
         <tr><td class="rank">3</td><td class="player">Garnett</td><td class="team">&mdash;</td><td class="num stat">47.7</td></tr>
@@ -2394,14 +2429,14 @@
         <tr><td class="rank">18</td><td class="player">Parker</td><td class="team">&mdash;</td><td class="num stat">32.8</td></tr>
         <tr><td class="rank">19</td><td class="player">Iverson</td><td class="team">&mdash;</td><td class="num stat">32.8</td></tr>
         <tr><td class="rank">20</td><td class="player">Rondo</td><td class="team">&mdash;</td><td class="num stat">32.4</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-2006">
-      <div class="table-header"><h2>2006-07 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-2006">
+        <div class="table-header"><h2>2006-07 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Wade</td><td class="team">&mdash;</td><td class="num stat">47.4</td></tr>
         <tr><td class="rank">2</td><td class="player">Duncan</td><td class="team">&mdash;</td><td class="num stat">47.2</td></tr>
         <tr><td class="rank">3</td><td class="player">Nowitzki</td><td class="team">&mdash;</td><td class="num stat">43.9</td></tr>
@@ -2422,14 +2457,16 @@
         <tr><td class="rank">18</td><td class="player">Marion</td><td class="team">&mdash;</td><td class="num stat">34.1</td></tr>
         <tr><td class="rank">19</td><td class="player">Nash</td><td class="team">&mdash;</td><td class="num stat">33.8</td></tr>
         <tr><td class="rank">20</td><td class="player"><span class="fname">B</span> <span class="lname">Davis</span></td><td class="team">&mdash;</td><td class="num stat">33.8</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-2005">
-      <div class="table-header"><h2>2005-06 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-2005">
+        <div class="table-header"><h2>2005-06 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">James</td><td class="team">&mdash;</td><td class="num stat">46.3</td></tr>
         <tr><td class="rank">2</td><td class="player">Wade</td><td class="team">&mdash;</td><td class="num stat">45.0</td></tr>
         <tr><td class="rank">3</td><td class="player">Garnett</td><td class="team">&mdash;</td><td class="num stat">44.6</td></tr>
@@ -2450,14 +2487,14 @@
         <tr><td class="rank">18</td><td class="player"><span class="fname">J</span> <span class="lname">O'Neal</span></td><td class="team">&mdash;</td><td class="num stat">36.4</td></tr>
         <tr><td class="rank">19</td><td class="player">Arenas</td><td class="team">&mdash;</td><td class="num stat">36.3</td></tr>
         <tr><td class="rank">20</td><td class="player">Kidd</td><td class="team">&mdash;</td><td class="num stat">36.1</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-2004">
-      <div class="table-header"><h2>2004-05 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-2004">
+        <div class="table-header"><h2>2004-05 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Duncan</td><td class="team">&mdash;</td><td class="num stat">49.1</td></tr>
         <tr><td class="rank">2</td><td class="player">Garnett</td><td class="team">&mdash;</td><td class="num stat">48.4</td></tr>
         <tr><td class="rank">3</td><td class="player">O'Neal</td><td class="team">&mdash;</td><td class="num stat">43.6</td></tr>
@@ -2478,14 +2515,16 @@
         <tr><td class="rank">18</td><td class="player">Pierce</td><td class="team">&mdash;</td><td class="num stat">34.7</td></tr>
         <tr><td class="rank">19</td><td class="player">Marion</td><td class="team">&mdash;</td><td class="num stat">34.4</td></tr>
         <tr><td class="rank">20</td><td class="player"><span class="fname">B</span> <span class="lname">Davis</span></td><td class="team">&mdash;</td><td class="num stat">34.3</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-2003">
-      <div class="table-header"><h2>2003-04 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-2003">
+        <div class="table-header"><h2>2003-04 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Garnett</td><td class="team">&mdash;</td><td class="num stat">52.7</td></tr>
         <tr><td class="rank">2</td><td class="player">Duncan</td><td class="team">&mdash;</td><td class="num stat">50.3</td></tr>
         <tr><td class="rank">3</td><td class="player"><span class="fname">J</span> <span class="lname">O'Neal</span></td><td class="team">&mdash;</td><td class="num stat">39.3</td></tr>
@@ -2506,14 +2545,14 @@
         <tr><td class="rank">18</td><td class="player">Nowitzki</td><td class="team">&mdash;</td><td class="num stat">32.3</td></tr>
         <tr><td class="rank">19</td><td class="player">Odom</td><td class="team">&mdash;</td><td class="num stat">32.0</td></tr>
         <tr><td class="rank">20</td><td class="player">Brand</td><td class="team">&mdash;</td><td class="num stat">32.0</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-2002">
-      <div class="table-header"><h2>2002-03 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-2002">
+        <div class="table-header"><h2>2002-03 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">McGrady</td><td class="team">&mdash;</td><td class="num stat">46.4</td></tr>
         <tr><td class="rank">2</td><td class="player">Duncan</td><td class="team">&mdash;</td><td class="num stat">46.3</td></tr>
         <tr><td class="rank">3</td><td class="player">Garnett</td><td class="team">&mdash;</td><td class="num stat">44.4</td></tr>
@@ -2534,14 +2573,16 @@
         <tr><td class="rank">18</td><td class="player">Stockton</td><td class="team">&mdash;</td><td class="num stat">31.7</td></tr>
         <tr><td class="rank">19</td><td class="player">Stojakovic</td><td class="team">&mdash;</td><td class="num stat">31.6</td></tr>
         <tr><td class="rank">20</td><td class="player">Ming</td><td class="team">&mdash;</td><td class="num stat">31.5</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-2001">
-      <div class="table-header"><h2>2001-02 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-2001">
+        <div class="table-header"><h2>2001-02 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Duncan</td><td class="team">&mdash;</td><td class="num stat">46.5</td></tr>
         <tr><td class="rank">2</td><td class="player">O'Neal</td><td class="team">&mdash;</td><td class="num stat">46.5</td></tr>
         <tr><td class="rank">3</td><td class="player">Webber</td><td class="team">&mdash;</td><td class="num stat">42.4</td></tr>
@@ -2562,14 +2603,14 @@
         <tr><td class="rank">18</td><td class="player">Mourning</td><td class="team">&mdash;</td><td class="num stat">33.2</td></tr>
         <tr><td class="rank">19</td><td class="player">Stockton</td><td class="team">&mdash;</td><td class="num stat">33.1</td></tr>
         <tr><td class="rank">20</td><td class="player">Marion</td><td class="team">&mdash;</td><td class="num stat">32.9</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-2000">
-      <div class="table-header"><h2>2000-01 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-2000">
+        <div class="table-header"><h2>2000-01 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">O'Neal</td><td class="team">&mdash;</td><td class="num stat">45.4</td></tr>
         <tr><td class="rank">2</td><td class="player">Duncan</td><td class="team">&mdash;</td><td class="num stat">42.6</td></tr>
         <tr><td class="rank">3</td><td class="player">Webber</td><td class="team">&mdash;</td><td class="num stat">42.1</td></tr>
@@ -2590,17 +2631,19 @@
         <tr><td class="rank">18</td><td class="player">Pierce</td><td class="team">&mdash;</td><td class="num stat">34.2</td></tr>
         <tr><td class="rank">19</td><td class="player">Stockton</td><td class="team">&mdash;</td><td class="num stat">33.7</td></tr>
         <tr><td class="rank">20</td><td class="player">Francis</td><td class="team">&mdash;</td><td class="num stat">33.2</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <div class="decade" id="decade-1990s">
     <div class="decade-header"><h3>1990s</h3></div>
-    <div class="year-table" id="year-1999">
-      <div class="table-header"><h2>1999-00 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-1999">
+        <div class="table-header"><h2>1999-00 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">O'Neal</td><td class="team">&mdash;</td><td class="num stat">51.8</td></tr>
         <tr><td class="rank">2</td><td class="player">Malone</td><td class="team">&mdash;</td><td class="num stat">44.8</td></tr>
         <tr><td class="rank">3</td><td class="player">Robinson</td><td class="team">&mdash;</td><td class="num stat">43.7</td></tr>
@@ -2621,14 +2664,14 @@
         <tr><td class="rank">18</td><td class="player">Camby</td><td class="team">&mdash;</td><td class="num stat">33.2</td></tr>
         <tr><td class="rank">19</td><td class="player"><span class="fname">T</span> <span class="lname">Brandon</span></td><td class="team">&mdash;</td><td class="num stat">32.7</td></tr>
         <tr><td class="rank">20</td><td class="player">Divac</td><td class="team">&mdash;</td><td class="num stat">32.7</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-1998">
-      <div class="table-header"><h2>1998-99 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-1998">
+        <div class="table-header"><h2>1998-99 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Robinson</td><td class="team">&mdash;</td><td class="num stat">46.6</td></tr>
         <tr><td class="rank">2</td><td class="player">Malone</td><td class="team">&mdash;</td><td class="num stat">44.4</td></tr>
         <tr><td class="rank">3</td><td class="player">O'Neal</td><td class="team">&mdash;</td><td class="num stat">42.8</td></tr>
@@ -2649,14 +2692,16 @@
         <tr><td class="rank">18</td><td class="player">McGrady</td><td class="team">&mdash;</td><td class="num stat">31.4</td></tr>
         <tr><td class="rank">19</td><td class="player">Bradley</td><td class="team">&mdash;</td><td class="num stat">31.3</td></tr>
         <tr><td class="rank">20</td><td class="player">Camby</td><td class="team">&mdash;</td><td class="num stat">31.0</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-1997">
-      <div class="table-header"><h2>1997-98 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-1997">
+        <div class="table-header"><h2>1997-98 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Robinson</td><td class="team">&mdash;</td><td class="num stat">49.8</td></tr>
         <tr><td class="rank">2</td><td class="player">Malone</td><td class="team">&mdash;</td><td class="num stat">45.3</td></tr>
         <tr><td class="rank">3</td><td class="player">O'Neal</td><td class="team">&mdash;</td><td class="num stat">44.1</td></tr>
@@ -2677,14 +2722,14 @@
         <tr><td class="rank">18</td><td class="player">Smits</td><td class="team">&mdash;</td><td class="num stat">33.2</td></tr>
         <tr><td class="rank">19</td><td class="player">Divac</td><td class="team">&mdash;</td><td class="num stat">32.6</td></tr>
         <tr><td class="rank">20</td><td class="player">Cassell</td><td class="team">&mdash;</td><td class="num stat">32.3</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-1996">
-      <div class="table-header"><h2>1996-97 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-1996">
+        <div class="table-header"><h2>1996-97 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Malone</td><td class="team">&mdash;</td><td class="num stat">49.0</td></tr>
         <tr><td class="rank">2</td><td class="player">Jordan</td><td class="team">&mdash;</td><td class="num stat">47.7</td></tr>
         <tr><td class="rank">3</td><td class="player">O'Neal</td><td class="team">&mdash;</td><td class="num stat">46.4</td></tr>
@@ -2705,14 +2750,16 @@
         <tr><td class="rank">18</td><td class="player">Stockton</td><td class="team">&mdash;</td><td class="num stat">34.9</td></tr>
         <tr><td class="rank">19</td><td class="player"><span class="fname">K</span> <span class="lname">Anderson</span></td><td class="team">&mdash;</td><td class="num stat">34.5</td></tr>
         <tr><td class="rank">20</td><td class="player">Kukoc</td><td class="team">&mdash;</td><td class="num stat">34.2</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-1995">
-      <div class="table-header"><h2>1995-96 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-1995">
+        <div class="table-header"><h2>1995-96 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Jordan</td><td class="team">&mdash;</td><td class="num stat">52.1</td></tr>
         <tr><td class="rank">2</td><td class="player">Robinson</td><td class="team">&mdash;</td><td class="num stat">51.9</td></tr>
         <tr><td class="rank">3</td><td class="player">Malone</td><td class="team">&mdash;</td><td class="num stat">45.5</td></tr>
@@ -2733,14 +2780,14 @@
         <tr><td class="rank">18</td><td class="player">Drexler</td><td class="team">&mdash;</td><td class="num stat">33.8</td></tr>
         <tr><td class="rank">19</td><td class="player">Strickland</td><td class="team">&mdash;</td><td class="num stat">33.5</td></tr>
         <tr><td class="rank">20</td><td class="player"><span class="fname">K</span> <span class="lname">Johnson</span></td><td class="team">&mdash;</td><td class="num stat">33.0</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-1994">
-      <div class="table-header"><h2>1994-95 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-1994">
+        <div class="table-header"><h2>1994-95 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Robinson</td><td class="team">&mdash;</td><td class="num stat">50.0</td></tr>
         <tr><td class="rank">2</td><td class="player">Olajuwon</td><td class="team">&mdash;</td><td class="num stat">45.6</td></tr>
         <tr><td class="rank">3</td><td class="player">O'Neal</td><td class="team">&mdash;</td><td class="num stat">44.9</td></tr>
@@ -2761,14 +2808,16 @@
         <tr><td class="rank">18</td><td class="player">Schrempf</td><td class="team">&mdash;</td><td class="num stat">32.5</td></tr>
         <tr><td class="rank">19</td><td class="player">Webber</td><td class="team">&mdash;</td><td class="num stat">32.1</td></tr>
         <tr><td class="rank">20</td><td class="player"><span class="fname">A</span> <span class="lname">Hardaway</span></td><td class="team">&mdash;</td><td class="num stat">32.1</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-1993">
-      <div class="table-header"><h2>1993-94 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-1993">
+        <div class="table-header"><h2>1993-94 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Robinson</td><td class="team">&mdash;</td><td class="num stat">54.7</td></tr>
         <tr><td class="rank">2</td><td class="player">Olajuwon</td><td class="team">&mdash;</td><td class="num stat">47.3</td></tr>
         <tr><td class="rank">3</td><td class="player">Ewing</td><td class="team">&mdash;</td><td class="num stat">45.4</td></tr>
@@ -2789,14 +2838,14 @@
         <tr><td class="rank">18</td><td class="player">Mutombo</td><td class="team">&mdash;</td><td class="num stat">32.7</td></tr>
         <tr><td class="rank">19</td><td class="player">Smits</td><td class="team">&mdash;</td><td class="num stat">32.6</td></tr>
         <tr><td class="rank">20</td><td class="player">Grant</td><td class="team">&mdash;</td><td class="num stat">32.4</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-1992">
-      <div class="table-header"><h2>1992-93 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-1992">
+        <div class="table-header"><h2>1992-93 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Jordan</td><td class="team">&mdash;</td><td class="num stat">51.8</td></tr>
         <tr><td class="rank">2</td><td class="player">Olajuwon</td><td class="team">&mdash;</td><td class="num stat">50.4</td></tr>
         <tr><td class="rank">3</td><td class="player">Malone</td><td class="team">&mdash;</td><td class="num stat">44.7</td></tr>
@@ -2817,14 +2866,16 @@
         <tr><td class="rank">18</td><td class="player">Mourning</td><td class="team">&mdash;</td><td class="num stat">32.4</td></tr>
         <tr><td class="rank">19</td><td class="player">Manning</td><td class="team">&mdash;</td><td class="num stat">32.3</td></tr>
         <tr><td class="rank">20</td><td class="player">Hardaway</td><td class="team">&mdash;</td><td class="num stat">31.6</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-1991">
-      <div class="table-header"><h2>1991-92 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-1991">
+        <div class="table-header"><h2>1991-92 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Robinson</td><td class="team">&mdash;</td><td class="num stat">50.8</td></tr>
         <tr><td class="rank">2</td><td class="player">Jordan</td><td class="team">&mdash;</td><td class="num stat">49.9</td></tr>
         <tr><td class="rank">3</td><td class="player">Drexler</td><td class="team">&mdash;</td><td class="num stat">43.4</td></tr>
@@ -2845,14 +2896,14 @@
         <tr><td class="rank">18</td><td class="player"><span class="fname">C</span> <span class="lname">Smith</span></td><td class="team">&mdash;</td><td class="num stat">33.2</td></tr>
         <tr><td class="rank">19</td><td class="player">Hornacek</td><td class="team">&mdash;</td><td class="num stat">33.2</td></tr>
         <tr><td class="rank">20</td><td class="player">Ellison</td><td class="team">&mdash;</td><td class="num stat">32.8</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-1990">
-      <div class="table-header"><h2>1990-91 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-1990">
+        <div class="table-header"><h2>1990-91 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Jordan</td><td class="team">&mdash;</td><td class="num stat">53.8</td></tr>
         <tr><td class="rank">2</td><td class="player">Robinson</td><td class="team">&mdash;</td><td class="num stat">47.5</td></tr>
         <tr><td class="rank">3</td><td class="player">Olajuwon</td><td class="team">&mdash;</td><td class="num stat">45.5</td></tr>
@@ -2873,17 +2924,19 @@
         <tr><td class="rank">18</td><td class="player">McHale</td><td class="team">&mdash;</td><td class="num stat">32.4</td></tr>
         <tr><td class="rank">19</td><td class="player"><span class="fname">I</span> <span class="lname">Thomas</span></td><td class="team">&mdash;</td><td class="num stat">32.2</td></tr>
         <tr><td class="rank">20</td><td class="player">Daughtery</td><td class="team">&mdash;</td><td class="num stat">30.9</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <div class="decade" id="decade-1980s">
     <div class="decade-header"><h3>1980s</h3></div>
-    <div class="year-table" id="year-1989">
-      <div class="table-header"><h2>1989-90 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-1989">
+        <div class="table-header"><h2>1989-90 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Jordan</td><td class="team">&mdash;</td><td class="num stat">50.7</td></tr>
         <tr><td class="rank">2</td><td class="player">Olajuwon</td><td class="team">&mdash;</td><td class="num stat">46.1</td></tr>
         <tr><td class="rank">3</td><td class="player">Robinson</td><td class="team">&mdash;</td><td class="num stat">45.7</td></tr>
@@ -2904,14 +2957,14 @@
         <tr><td class="rank">18</td><td class="player"><span class="fname">I</span> <span class="lname">Thomas</span></td><td class="team">&mdash;</td><td class="num stat">33.4</td></tr>
         <tr><td class="rank">19</td><td class="player">Hornacek</td><td class="team">&mdash;</td><td class="num stat">32.2</td></tr>
         <tr><td class="rank">20</td><td class="player">Nance</td><td class="team">&mdash;</td><td class="num stat">32.0</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-1988">
-      <div class="table-header"><h2>1988-89 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-1988">
+        <div class="table-header"><h2>1988-89 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Jordan</td><td class="team">&mdash;</td><td class="num stat">52.9</td></tr>
         <tr><td class="rank">2</td><td class="player"><span class="fname">M</span> <span class="lname">Johnson</span></td><td class="team">&mdash;</td><td class="num stat">45.1</td></tr>
         <tr><td class="rank">3</td><td class="player">Olajuwon</td><td class="team">&mdash;</td><td class="num stat">44.5</td></tr>
@@ -2932,14 +2985,16 @@
         <tr><td class="rank">18</td><td class="player">Parish</td><td class="team">&mdash;</td><td class="num stat">31.6</td></tr>
         <tr><td class="rank">19</td><td class="player">Price</td><td class="team">&mdash;</td><td class="num stat">31.5</td></tr>
         <tr><td class="rank">20</td><td class="player"><span class="fname">I</span> <span class="lname">Thomas</span></td><td class="team">&mdash;</td><td class="num stat">31.2</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-1987">
-      <div class="table-header"><h2>1987-88 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-1987">
+        <div class="table-header"><h2>1987-88 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Jordan</td><td class="team">&mdash;</td><td class="num stat">55.0</td></tr>
         <tr><td class="rank">2</td><td class="player">Bird</td><td class="team">&mdash;</td><td class="num stat">45.2</td></tr>
         <tr><td class="rank">3</td><td class="player">Olajuwon</td><td class="team">&mdash;</td><td class="num stat">40.6</td></tr>
@@ -2960,14 +3015,14 @@
         <tr><td class="rank">18</td><td class="player"><span class="fname">B</span> <span class="lname">Scott</span></td><td class="team">&mdash;</td><td class="num stat">30.5</td></tr>
         <tr><td class="rank">19</td><td class="player">Nance</td><td class="team">&mdash;</td><td class="num stat">30.2</td></tr>
         <tr><td class="rank">20</td><td class="player">Schaves</td><td class="team">&mdash;</td><td class="num stat">30.0</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-1986">
-      <div class="table-header"><h2>1986-87 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-1986">
+        <div class="table-header"><h2>1986-87 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Jordan</td><td class="team">&mdash;</td><td class="num stat">50.7</td></tr>
         <tr><td class="rank">2</td><td class="player"><span class="fname">M</span> <span class="lname">Johnson</span></td><td class="team">&mdash;</td><td class="num stat">45.1</td></tr>
         <tr><td class="rank">3</td><td class="player">Bird</td><td class="team">&mdash;</td><td class="num stat">45.0</td></tr>
@@ -2988,14 +3043,16 @@
         <tr><td class="rank">18</td><td class="player">Lucas</td><td class="team">&mdash;</td><td class="num stat">32.0</td></tr>
         <tr><td class="rank">19</td><td class="player">Malone</td><td class="team">&mdash;</td><td class="num stat">31.6</td></tr>
         <tr><td class="rank">20</td><td class="player">Ewing</td><td class="team">&mdash;</td><td class="num stat">29.8</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-1985">
-      <div class="table-header"><h2>1985-86 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-1985">
+        <div class="table-header"><h2>1985-86 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Bird</td><td class="team">&mdash;</td><td class="num stat">45.8</td></tr>
         <tr><td class="rank">2</td><td class="player">Olajuwon</td><td class="team">&mdash;</td><td class="num stat">38.5</td></tr>
         <tr><td class="rank">3</td><td class="player"><span class="fname">M</span> <span class="lname">Johnson</span></td><td class="team">&mdash;</td><td class="num stat">38.4</td></tr>
@@ -3016,14 +3073,14 @@
         <tr><td class="rank">18</td><td class="player">Rivers</td><td class="team">&mdash;</td><td class="num stat">31.0</td></tr>
         <tr><td class="rank">19</td><td class="player">Parish</td><td class="team">&mdash;</td><td class="num stat">31.0</td></tr>
         <tr><td class="rank">20</td><td class="player">Ewing</td><td class="team">&mdash;</td><td class="num stat">30.7</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-1984">
-      <div class="table-header"><h2>1984-85 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-1984">
+        <div class="table-header"><h2>1984-85 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Bird</td><td class="team">&mdash;</td><td class="num stat">44.9</td></tr>
         <tr><td class="rank">2</td><td class="player">Jordan</td><td class="team">&mdash;</td><td class="num stat">41.7</td></tr>
         <tr><td class="rank">3</td><td class="player">Cummings</td><td class="team">&mdash;</td><td class="num stat">37.9</td></tr>
@@ -3044,14 +3101,16 @@
         <tr><td class="rank">18</td><td class="player">Erving</td><td class="team">&mdash;</td><td class="num stat">32.1</td></tr>
         <tr><td class="rank">19</td><td class="player">Moore</td><td class="team">&mdash;</td><td class="num stat">31.9</td></tr>
         <tr><td class="rank">20</td><td class="player">Rivers</td><td class="team">&mdash;</td><td class="num stat">31.7</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-1983">
-      <div class="table-header"><h2>1983-84 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-1983">
+        <div class="table-header"><h2>1983-84 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Bird</td><td class="team">&mdash;</td><td class="num stat">42.9</td></tr>
         <tr><td class="rank">2</td><td class="player">Erving</td><td class="team">&mdash;</td><td class="num stat">38.9</td></tr>
         <tr><td class="rank">3</td><td class="player"><span class="fname">M</span> <span class="lname">Johnson</span></td><td class="team">&mdash;</td><td class="num stat">37.0</td></tr>
@@ -3072,14 +3131,14 @@
         <tr><td class="rank">18</td><td class="player">Nance</td><td class="team">&mdash;</td><td class="num stat">30.2</td></tr>
         <tr><td class="rank">19</td><td class="player">Ruland</td><td class="team">&mdash;</td><td class="num stat">30.0</td></tr>
         <tr><td class="rank">20</td><td class="player">Wilkins</td><td class="team">&mdash;</td><td class="num stat">28.8</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-1982">
-      <div class="table-header"><h2>1982-83 SEASON &mdash; TAP TOP 20</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-1982">
+        <div class="table-header"><h2>1982-83 SEASON &mdash; TAP TOP 20</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Bird</td><td class="team">&mdash;</td><td class="num stat">41.1</td></tr>
         <tr><td class="rank">2</td><td class="player">Erving</td><td class="team">&mdash;</td><td class="num stat">38.6</td></tr>
         <tr><td class="rank">3</td><td class="player"><span class="fname">M</span> <span class="lname">Malone</span></td><td class="team">&mdash;</td><td class="num stat">37.4</td></tr>
@@ -3100,14 +3159,16 @@
         <tr><td class="rank">18</td><td class="player">Kellogg</td><td class="team">&mdash;</td><td class="num stat">28.1</td></tr>
         <tr><td class="rank">19</td><td class="player">Aguirre</td><td class="team">&mdash;</td><td class="num stat">28.1</td></tr>
         <tr><td class="rank">20</td><td class="player">McHale</td><td class="team">&mdash;</td><td class="num stat">27.6</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-1981">
-      <div class="table-header"><h2>1981-82 SEASON &mdash; TAP TOP 10</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-1981">
+        <div class="table-header"><h2>1981-82 SEASON &mdash; TAP TOP 10</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Erving</td><td class="team">&mdash;</td><td class="num stat">42.2</td></tr>
         <tr><td class="rank">2</td><td class="player">Bird</td><td class="team">&mdash;</td><td class="num stat">40.5</td></tr>
         <tr><td class="rank">3</td><td class="player"><span class="fname">M</span> <span class="lname">Johnson</span></td><td class="team">&mdash;</td><td class="num stat">38.3</td></tr>
@@ -3118,14 +3179,14 @@
         <tr><td class="rank">8</td><td class="player">Sikma</td><td class="team">&mdash;</td><td class="num stat">35.9</td></tr>
         <tr><td class="rank">9</td><td class="player">Gervin</td><td class="team">&mdash;</td><td class="num stat">34.8</td></tr>
         <tr><td class="rank">10</td><td class="player">Moncrief</td><td class="team">&mdash;</td><td class="num stat">33.2</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-1980">
-      <div class="table-header"><h2>1980-81 SEASON &mdash; TAP TOP 10</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-1980">
+        <div class="table-header"><h2>1980-81 SEASON &mdash; TAP TOP 10</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Erving</td><td class="team">&mdash;</td><td class="num stat">43.8</td></tr>
         <tr><td class="rank">2</td><td class="player">Parish</td><td class="team">&mdash;</td><td class="num stat">42.0</td></tr>
         <tr><td class="rank">3</td><td class="player">Jabbar</td><td class="team">&mdash;</td><td class="num stat">39.1</td></tr>
@@ -3136,17 +3197,19 @@
         <tr><td class="rank">8</td><td class="player"><span class="fname">M</span> <span class="lname">Malone</span></td><td class="team">&mdash;</td><td class="num stat">34.3</td></tr>
         <tr><td class="rank">9</td><td class="player">Gervin</td><td class="team">&mdash;</td><td class="num stat">33.0</td></tr>
         <tr><td class="rank">10</td><td class="player">Dantley</td><td class="team">&mdash;</td><td class="num stat">31.0</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <div class="decade" id="decade-1970s">
     <div class="decade-header"><h3>1970s</h3></div>
-    <div class="year-table" id="year-1979">
-      <div class="table-header"><h2>1979-80 SEASON &mdash; TAP TOP 10</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-1979">
+        <div class="table-header"><h2>1979-80 SEASON &mdash; TAP TOP 10</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Erving</td><td class="team">&mdash;</td><td class="num stat">42.7</td></tr>
         <tr><td class="rank">2</td><td class="player">Jabbar</td><td class="team">&mdash;</td><td class="num stat">39.7</td></tr>
         <tr><td class="rank">3</td><td class="player">Williams</td><td class="team">&mdash;</td><td class="num stat">38.6</td></tr>
@@ -3157,14 +3220,14 @@
         <tr><td class="rank">8</td><td class="player"><span class="fname">M</span> <span class="lname">Johnson</span></td><td class="team">&mdash;</td><td class="num stat">33.5</td></tr>
         <tr><td class="rank">9</td><td class="player"><span class="fname">Mic</span> <span class="lname">Johnson</span></td><td class="team">&mdash;</td><td class="num stat">32.8</td></tr>
         <tr><td class="rank">10</td><td class="player">Westphal</td><td class="team">&mdash;</td><td class="num stat">32.2</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-1978">
-      <div class="table-header"><h2>1978-79 SEASON &mdash; TAP TOP 10</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-1978">
+        <div class="table-header"><h2>1978-79 SEASON &mdash; TAP TOP 10</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Jabbar</td><td class="team">&mdash;</td><td class="num stat">40.6</td></tr>
         <tr><td class="rank">2</td><td class="player"><span class="fname">W</span> <span class="lname">Davis</span></td><td class="team">&mdash;</td><td class="num stat">36.3</td></tr>
         <tr><td class="rank">3</td><td class="player">Parish</td><td class="team">&mdash;</td><td class="num stat">34.7</td></tr>
@@ -3175,14 +3238,16 @@
         <tr><td class="rank">8</td><td class="player">Erving</td><td class="team">&mdash;</td><td class="num stat">33.0</td></tr>
         <tr><td class="rank">9</td><td class="player">Gervin</td><td class="team">&mdash;</td><td class="num stat">32.9</td></tr>
         <tr><td class="rank">10</td><td class="player">Gilmore</td><td class="team">&mdash;</td><td class="num stat">31.8</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-1977">
-      <div class="table-header"><h2>1977-78 SEASON &mdash; TAP TOP 10</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-1977">
+        <div class="table-header"><h2>1977-78 SEASON &mdash; TAP TOP 10</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Jabbar</td><td class="team">&mdash;</td><td class="num stat">45.0</td></tr>
         <tr><td class="rank">2</td><td class="player">Walton</td><td class="team">&mdash;</td><td class="num stat">42.5</td></tr>
         <tr><td class="rank">3</td><td class="player">Lanier</td><td class="team">&mdash;</td><td class="num stat">34.4</td></tr>
@@ -3193,14 +3258,14 @@
         <tr><td class="rank">8</td><td class="player">Erving</td><td class="team">&mdash;</td><td class="num stat">32.3</td></tr>
         <tr><td class="rank">9</td><td class="player">McGinnis</td><td class="team">&mdash;</td><td class="num stat">32.1</td></tr>
         <tr><td class="rank">10</td><td class="player">Barry</td><td class="team">&mdash;</td><td class="num stat">31.8</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-1976">
-      <div class="table-header"><h2>1976-77 SEASON &mdash; TAP TOP 10</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-1976">
+        <div class="table-header"><h2>1976-77 SEASON &mdash; TAP TOP 10</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Jabbar</td><td class="team">&mdash;</td><td class="num stat">45.8</td></tr>
         <tr><td class="rank">2</td><td class="player">Walton</td><td class="team">&mdash;</td><td class="num stat">38.3</td></tr>
         <tr><td class="rank">3</td><td class="player"><span class="fname">B</span> <span class="lname">Jones</span></td><td class="team">&mdash;</td><td class="num stat">38.0</td></tr>
@@ -3211,14 +3276,16 @@
         <tr><td class="rank">8</td><td class="player">Erving</td><td class="team">&mdash;</td><td class="num stat">33.0</td></tr>
         <tr><td class="rank">9</td><td class="player">Issel</td><td class="team">&mdash;</td><td class="num stat">32.9</td></tr>
         <tr><td class="rank">10</td><td class="player">McAdoo</td><td class="team">&mdash;</td><td class="num stat">31.8</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-1975">
-      <div class="table-header"><h2>1975-76 SEASON &mdash; TAP TOP 10</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-1975">
+        <div class="table-header"><h2>1975-76 SEASON &mdash; TAP TOP 10</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Jabbar</td><td class="team">&mdash;</td><td class="num stat">44.4</td></tr>
         <tr><td class="rank">2</td><td class="player">McAdoo</td><td class="team">&mdash;</td><td class="num stat">34.8</td></tr>
         <tr><td class="rank">3</td><td class="player">Adams</td><td class="team">&mdash;</td><td class="num stat">33.8</td></tr>
@@ -3229,14 +3296,14 @@
         <tr><td class="rank">8</td><td class="player">Walton</td><td class="team">&mdash;</td><td class="num stat">30.5</td></tr>
         <tr><td class="rank">9</td><td class="player">Barry</td><td class="team">&mdash;</td><td class="num stat">30.1</td></tr>
         <tr><td class="rank">10</td><td class="player">Maravich</td><td class="team">&mdash;</td><td class="num stat">29.1</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-1974">
-      <div class="table-header"><h2>1974-75 SEASON &mdash; TAP TOP 10</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-1974">
+        <div class="table-header"><h2>1974-75 SEASON &mdash; TAP TOP 10</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Jabbar</td><td class="team">&mdash;</td><td class="num stat">41.5</td></tr>
         <tr><td class="rank">2</td><td class="player">McAdoo</td><td class="team">&mdash;</td><td class="num stat">36.5</td></tr>
         <tr><td class="rank">3</td><td class="player">Lanier</td><td class="team">&mdash;</td><td class="num stat">36.1</td></tr>
@@ -3247,14 +3314,16 @@
         <tr class="empty-row"><td class="rank">8</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
         <tr class="empty-row"><td class="rank">9</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
         <tr class="empty-row"><td class="rank">10</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-1973">
-      <div class="table-header"><h2>1973-74 SEASON &mdash; TAP TOP 10</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-1973">
+        <div class="table-header"><h2>1973-74 SEASON &mdash; TAP TOP 10</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Jabbar</td><td class="team">&mdash;</td><td class="num stat">41.5</td></tr>
         <tr><td class="rank">2</td><td class="player">Lanier</td><td class="team">&mdash;</td><td class="num stat">40.9</td></tr>
         <tr><td class="rank">3</td><td class="player">McAdoo</td><td class="team">&mdash;</td><td class="num stat">34.3</td></tr>
@@ -3265,14 +3334,14 @@
         <tr class="empty-row"><td class="rank">8</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
         <tr class="empty-row"><td class="rank">9</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
         <tr class="empty-row"><td class="rank">10</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-1972">
-      <div class="table-header"><h2>1972-73 SEASON &mdash; TAP TOP 10</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-1972">
+        <div class="table-header"><h2>1972-73 SEASON &mdash; TAP TOP 10</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Jabbar</td><td class="team">&mdash;</td><td class="num stat">47.2</td></tr>
         <tr><td class="rank">2</td><td class="player">Cowens</td><td class="team">&mdash;</td><td class="num stat">36.2</td></tr>
         <tr><td class="rank">3</td><td class="player">West</td><td class="team">&mdash;</td><td class="num stat">35.5</td></tr>
@@ -3283,14 +3352,16 @@
         <tr><td class="rank">8</td><td class="player">Archibald</td><td class="team">&mdash;</td><td class="num stat">27.9</td></tr>
         <tr><td class="rank">9</td><td class="player">Maravich</td><td class="team">&mdash;</td><td class="num stat">24.9</td></tr>
         <tr><td class="rank">10</td><td class="player">Haywood</td><td class="team">&mdash;</td><td class="num stat">23.8</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-1971">
-      <div class="table-header"><h2>1971-72 SEASON &mdash; TAP TOP 10</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-1971">
+        <div class="table-header"><h2>1971-72 SEASON &mdash; TAP TOP 10</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Jabbar</td><td class="team">&mdash;</td><td class="num stat">46.7</td></tr>
         <tr><td class="rank">2</td><td class="player">West</td><td class="team">&mdash;</td><td class="num stat">36.1</td></tr>
         <tr><td class="rank">3</td><td class="player">Walker</td><td class="team">&mdash;</td><td class="num stat">33.3</td></tr>
@@ -3301,14 +3372,14 @@
         <tr><td class="rank">8</td><td class="player">Robertson</td><td class="team">&mdash;</td><td class="num stat">28.0</td></tr>
         <tr><td class="rank">9</td><td class="player">Archibald</td><td class="team">&mdash;</td><td class="num stat">25.7</td></tr>
         <tr class="empty-row"><td class="rank">10</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-1970">
-      <div class="table-header"><h2>1970-71 SEASON &mdash; TAP TOP 10</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-1970">
+        <div class="table-header"><h2>1970-71 SEASON &mdash; TAP TOP 10</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Jabbar</td><td class="team">&mdash;</td><td class="num stat">42.9</td></tr>
         <tr><td class="rank">2</td><td class="player">West</td><td class="team">&mdash;</td><td class="num stat">33.4</td></tr>
         <tr><td class="rank">3</td><td class="player">Chamberlain</td><td class="team">&mdash;</td><td class="num stat">31.7</td></tr>
@@ -3319,17 +3390,19 @@
         <tr><td class="rank">8</td><td class="player">Lanier</td><td class="team">&mdash;</td><td class="num stat">27.8</td></tr>
         <tr><td class="rank">9</td><td class="player">Frazier</td><td class="team">&mdash;</td><td class="num stat">27.3</td></tr>
         <tr><td class="rank">10</td><td class="player">Robertson</td><td class="team">&mdash;</td><td class="num stat">27.1</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <div class="decade" id="decade-1960s">
     <div class="decade-header"><h3>1960s</h3></div>
-    <div class="year-table" id="year-1969">
-      <div class="table-header"><h2>1969-70 SEASON &mdash; TAP TOP 10</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-1969">
+        <div class="table-header"><h2>1969-70 SEASON &mdash; TAP TOP 10</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">West</td><td class="team">&mdash;</td><td class="num stat">34.6</td></tr>
         <tr><td class="rank">2</td><td class="player">Frazier</td><td class="team">&mdash;</td><td class="num stat">32.4</td></tr>
         <tr><td class="rank">3</td><td class="player">Reed</td><td class="team">&mdash;</td><td class="num stat">31.4</td></tr>
@@ -3340,14 +3413,14 @@
         <tr><td class="rank">8</td><td class="player">Robertson</td><td class="team">&mdash;</td><td class="num stat">26.5</td></tr>
         <tr><td class="rank">9</td><td class="player">Bing</td><td class="team">&mdash;</td><td class="num stat">25.3</td></tr>
         <tr class="empty-row"><td class="rank">10</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-1968">
-      <div class="table-header"><h2>1968-69 SEASON &mdash; TAP TOP 10</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-1968">
+        <div class="table-header"><h2>1968-69 SEASON &mdash; TAP TOP 10</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Chamberlain</td><td class="team">&mdash;</td><td class="num stat">33.0</td></tr>
         <tr><td class="rank">2</td><td class="player">Reed</td><td class="team">&mdash;</td><td class="num stat">30.8</td></tr>
         <tr><td class="rank">3</td><td class="player">West</td><td class="team">&mdash;</td><td class="num stat">30.8</td></tr>
@@ -3358,14 +3431,16 @@
         <tr><td class="rank">8</td><td class="player">Lucas</td><td class="team">&mdash;</td><td class="num stat">19.8</td></tr>
         <tr class="empty-row"><td class="rank">9</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
         <tr class="empty-row"><td class="rank">10</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-1967">
-      <div class="table-header"><h2>1967-68 SEASON &mdash; TAP TOP 10</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-1967">
+        <div class="table-header"><h2>1967-68 SEASON &mdash; TAP TOP 10</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Chamberlain</td><td class="team">&mdash;</td><td class="num stat">42.4</td></tr>
         <tr><td class="rank">2</td><td class="player">Robertson</td><td class="team">&mdash;</td><td class="num stat">29.8</td></tr>
         <tr><td class="rank">3</td><td class="player">West</td><td class="team">&mdash;</td><td class="num stat">29.8</td></tr>
@@ -3376,14 +3451,14 @@
         <tr class="empty-row"><td class="rank">8</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
         <tr class="empty-row"><td class="rank">9</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
         <tr class="empty-row"><td class="rank">10</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-1966">
-      <div class="table-header"><h2>1966-67 SEASON &mdash; TAP TOP 10</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-1966">
+        <div class="table-header"><h2>1966-67 SEASON &mdash; TAP TOP 10</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Chamberlain</td><td class="team">&mdash;</td><td class="num stat">38.0</td></tr>
         <tr><td class="rank">2</td><td class="player">Russell</td><td class="team">&mdash;</td><td class="num stat">32.9</td></tr>
         <tr><td class="rank">3</td><td class="player">Barry</td><td class="team">&mdash;</td><td class="num stat">32.5</td></tr>
@@ -3394,14 +3469,16 @@
         <tr class="empty-row"><td class="rank">8</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
         <tr class="empty-row"><td class="rank">9</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
         <tr class="empty-row"><td class="rank">10</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-1965">
-      <div class="table-header"><h2>1965-66 SEASON &mdash; TAP TOP 10</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-1965">
+        <div class="table-header"><h2>1965-66 SEASON &mdash; TAP TOP 10</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Chamberlain</td><td class="team">&mdash;</td><td class="num stat">42.5</td></tr>
         <tr><td class="rank">2</td><td class="player">Russell</td><td class="team">&mdash;</td><td class="num stat">34.8</td></tr>
         <tr><td class="rank">3</td><td class="player">Jones</td><td class="team">&mdash;</td><td class="num stat">32.5</td></tr>
@@ -3412,14 +3489,14 @@
         <tr><td class="rank">8</td><td class="player">Bellamy</td><td class="team">&mdash;</td><td class="num stat">18.1</td></tr>
         <tr class="empty-row"><td class="rank">9</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
         <tr class="empty-row"><td class="rank">10</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-1964">
-      <div class="table-header"><h2>1964-65 SEASON &mdash; TAP TOP 10</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-1964">
+        <div class="table-header"><h2>1964-65 SEASON &mdash; TAP TOP 10</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Russell</td><td class="team">&mdash;</td><td class="num stat">42.7</td></tr>
         <tr><td class="rank">2</td><td class="player">Chamberlain</td><td class="team">&mdash;</td><td class="num stat">37.8</td></tr>
         <tr><td class="rank">3</td><td class="player">Jones</td><td class="team">&mdash;</td><td class="num stat">33.3</td></tr>
@@ -3430,14 +3507,16 @@
         <tr><td class="rank">8</td><td class="player">Baylor</td><td class="team">&mdash;</td><td class="num stat">22.4</td></tr>
         <tr class="empty-row"><td class="rank">9</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
         <tr class="empty-row"><td class="rank">10</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-1963">
-      <div class="table-header"><h2>1963-64 SEASON &mdash; TAP TOP 10</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-1963">
+        <div class="table-header"><h2>1963-64 SEASON &mdash; TAP TOP 10</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Chamberlain</td><td class="team">&mdash;</td><td class="num stat">52.3</td></tr>
         <tr><td class="rank">2</td><td class="player">Russell</td><td class="team">&mdash;</td><td class="num stat">45.5</td></tr>
         <tr><td class="rank">3</td><td class="player">Robertson</td><td class="team">&mdash;</td><td class="num stat">36.9</td></tr>
@@ -3448,14 +3527,14 @@
         <tr><td class="rank">8</td><td class="player">Howell</td><td class="team">&mdash;</td><td class="num stat">23.6</td></tr>
         <tr class="empty-row"><td class="rank">9</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
         <tr class="empty-row"><td class="rank">10</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-1962">
-      <div class="table-header"><h2>1962-63 SEASON &mdash; TAP TOP 10</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-1962">
+        <div class="table-header"><h2>1962-63 SEASON &mdash; TAP TOP 10</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Chamberlain</td><td class="team">&mdash;</td><td class="num stat">42.3</td></tr>
         <tr><td class="rank">2</td><td class="player">Russell</td><td class="team">&mdash;</td><td class="num stat">37.7</td></tr>
         <tr><td class="rank">3</td><td class="player">Baylor</td><td class="team">&mdash;</td><td class="num stat">35.5</td></tr>
@@ -3466,14 +3545,16 @@
         <tr><td class="rank">8</td><td class="player">Bellamy</td><td class="team">&mdash;</td><td class="num stat">25.3</td></tr>
         <tr><td class="rank">9</td><td class="player">Howell</td><td class="team">&mdash;</td><td class="num stat">25.2</td></tr>
         <tr class="empty-row"><td class="rank">10</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="year-table" id="year-1961">
-      <div class="table-header"><h2>1961-62 SEASON &mdash; TAP TOP 10</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+    <div class="year-pair">
+      <div class="year-table" id="year-1961">
+        <div class="table-header"><h2>1961-62 SEASON &mdash; TAP TOP 10</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Chamberlain</td><td class="team">&mdash;</td><td class="num stat">40.6</td></tr>
         <tr><td class="rank">2</td><td class="player">Russell</td><td class="team">&mdash;</td><td class="num stat">37.0</td></tr>
         <tr><td class="rank">3</td><td class="player">Baylor</td><td class="team">&mdash;</td><td class="num stat">33.2</td></tr>
@@ -3484,14 +3565,14 @@
         <tr><td class="rank">8</td><td class="player">West</td><td class="team">&mdash;</td><td class="num stat">27.6</td></tr>
         <tr><td class="rank">9</td><td class="player">Guerin</td><td class="team">&mdash;</td><td class="num stat">24.4</td></tr>
         <tr class="empty-row"><td class="rank">10</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="year-table" id="year-1960">
-      <div class="table-header"><h2>1960-61 SEASON &mdash; TAP TOP 10</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
-        <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table" id="year-1960">
+        <div class="table-header"><h2>1960-61 SEASON &mdash; TAP TOP 10</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
+          <tbody>
         <tr><td class="rank">1</td><td class="player">Baylor</td><td class="team">&mdash;</td><td class="num stat">36.7</td></tr>
         <tr><td class="rank">2</td><td class="player">Chamberlain</td><td class="team">&mdash;</td><td class="num stat">34.7</td></tr>
         <tr><td class="rank">3</td><td class="player">Russell</td><td class="team">&mdash;</td><td class="num stat">33.1</td></tr>
@@ -3502,8 +3583,9 @@
         <tr><td class="rank">8</td><td class="player">Robertson</td><td class="team">&mdash;</td><td class="num stat">26.7</td></tr>
         <tr><td class="rank">9</td><td class="player">Howell</td><td class="team">&mdash;</td><td class="num stat">20.2</td></tr>
         <tr class="empty-row"><td class="rank">10</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   </div>
