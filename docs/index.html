@@ -45,6 +45,20 @@
       cursor: pointer;
     }
 
+    .toggle-link {
+      display: block;
+      text-align: center;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.75em;
+      color: #ee7623;
+      cursor: pointer;
+      margin-top: 2px;
+      letter-spacing: 0.03em;
+    }
+    .toggle-link:hover {
+      text-decoration: underline;
+    }
+
     header .subtitle {
       font-family: Georgia, 'Times New Roman', serif;
       font-size: 1em;
@@ -438,6 +452,7 @@
         <path d="M10 18 C30 38 30 62 10 82" stroke="#000" stroke-width="2.5" fill="none"/>
         <path d="M90 18 C70 38 70 62 90 82" stroke="#000" stroke-width="2.5" fill="none"/>
       </svg>
+      <div class="toggle-link" id="toggle-link">TAP Click Here</div>
       <div class="subtitle">2025-26 Season</div>
     </header>
 
@@ -5038,12 +5053,14 @@
   <script>
   (function() {
     var stat = 'ted';
-    document.querySelector('.basketball').addEventListener('click', function() {
+    var toggleLink = document.getElementById('toggle-link');
+    function doToggle() {
       stat = stat === 'ted' ? 'tap' : 'ted';
       document.querySelector('.view-ted').style.display = stat === 'ted' ? '' : 'none';
       document.querySelector('.view-tap').style.display = stat === 'tap' ? '' : 'none';
       document.querySelector('.desc-ted').style.display = stat === 'ted' ? '' : 'none';
       document.querySelector('.desc-tap').style.display = stat === 'tap' ? '' : 'none';
+      toggleLink.textContent = stat === 'ted' ? 'TAP Click Here' : 'TED Click Here';
       document.querySelectorAll('[data-ted-text]').forEach(function(el) {
         el.textContent = el.getAttribute('data-' + stat + '-text');
       });
@@ -5051,7 +5068,9 @@
         if (!el.dataset.ted) el.dataset.ted = el.textContent;
         el.textContent = el.dataset[stat];
       });
-    });
+    }
+    document.querySelector('.basketball').addEventListener('click', doToggle);
+    toggleLink.addEventListener('click', doToggle);
   })();
   </script>
 </body>
