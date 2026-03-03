@@ -59,6 +59,40 @@
       text-decoration: underline;
     }
 
+    .float-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      width: 64px;
+      height: 64px;
+    }
+    .float-toggle svg {
+      width: 64px;
+      height: 64px;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .float-toggle .float-label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 64px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 19px;
+      font-weight: 900;
+      color: #000;
+      letter-spacing: 0.03em;
+    }
+
     .season-header {
       background: #000;
       padding: 10px 16px;
@@ -2954,7 +2988,7 @@
   <div class="decade" id="decade-2020s">
     <div class="decade-header"><h3>2020s</h3></div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="2024">
         <div class="table-header"><h2>2024-25 SEASON &mdash; TED TOP 40</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3002,7 +3036,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="2023">
         <div class="table-header"><h2>2023-24 SEASON &mdash; TED TOP 40</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3052,7 +3086,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="2022">
         <div class="table-header"><h2>2022-23 SEASON &mdash; TED TOP 40</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3100,7 +3134,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="2021">
         <div class="table-header"><h2>2021-22 SEASON &mdash; TED TOP 40</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3150,7 +3184,7 @@
       </div>
     </div>
     <div class="year-pair single">
-      <div class="year-table">
+      <div class="year-table" data-year="2020">
         <div class="table-header"><h2>2020-21 SEASON &mdash; TED TOP 40</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3203,7 +3237,7 @@
   <div class="decade" id="decade-2010s">
     <div class="decade-header"><h3>2010s</h3></div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="2019">
         <div class="table-header"><h2>2019-20 SEASON &mdash; TED TOP 40</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3251,7 +3285,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="2018">
         <div class="table-header"><h2>2018-19 SEASON &mdash; TED TOP 40</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3301,7 +3335,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="2017">
         <div class="table-header"><h2>2017-18 SEASON &mdash; TED TOP 40</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3349,7 +3383,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="2016">
         <div class="table-header"><h2>2016-17 SEASON &mdash; TED TOP 40</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3399,7 +3433,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="2015">
         <div class="table-header"><h2>2015-16 SEASON &mdash; TED TOP 40</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3447,7 +3481,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="2014">
         <div class="table-header"><h2>2014-15 SEASON &mdash; TED TOP 40</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3497,7 +3531,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="2013">
         <div class="table-header"><h2>2013-14 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3525,7 +3559,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="2012">
         <div class="table-header"><h2>2012-13 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3555,7 +3589,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="2011">
         <div class="table-header"><h2>2011-12 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3583,7 +3617,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="2010">
         <div class="table-header"><h2>2010-11 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3616,7 +3650,7 @@
   <div class="decade" id="decade-2000s">
     <div class="decade-header"><h3>2000s</h3></div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="2009">
         <div class="table-header"><h2>2009-10 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3644,7 +3678,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="2008">
         <div class="table-header"><h2>2008-09 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3674,7 +3708,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="2007">
         <div class="table-header"><h2>2007-08 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3702,7 +3736,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="2006">
         <div class="table-header"><h2>2006-07 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3732,7 +3766,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="2005">
         <div class="table-header"><h2>2005-06 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3760,7 +3794,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="2004">
         <div class="table-header"><h2>2004-05 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3790,7 +3824,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="2003">
         <div class="table-header"><h2>2003-04 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3818,7 +3852,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="2002">
         <div class="table-header"><h2>2002-03 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3848,7 +3882,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="2001">
         <div class="table-header"><h2>2001-02 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3876,7 +3910,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="2000">
         <div class="table-header"><h2>2000-01 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3909,7 +3943,7 @@
   <div class="decade" id="decade-1990s">
     <div class="decade-header"><h3>1990s</h3></div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1999">
         <div class="table-header"><h2>1999-00 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3937,7 +3971,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1998">
         <div class="table-header"><h2>1998-99 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3967,7 +4001,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1997">
         <div class="table-header"><h2>1997-98 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -3995,7 +4029,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1996">
         <div class="table-header"><h2>1996-97 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4025,7 +4059,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1995">
         <div class="table-header"><h2>1995-96 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4053,7 +4087,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1994">
         <div class="table-header"><h2>1994-95 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4083,7 +4117,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1993">
         <div class="table-header"><h2>1993-94 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4111,7 +4145,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1992">
         <div class="table-header"><h2>1992-93 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4141,7 +4175,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1991">
         <div class="table-header"><h2>1991-92 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4169,7 +4203,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1990">
         <div class="table-header"><h2>1990-91 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4202,7 +4236,7 @@
   <div class="decade" id="decade-1980s">
     <div class="decade-header"><h3>1980s</h3></div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1989">
         <div class="table-header"><h2>1989-90 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4230,7 +4264,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1988">
         <div class="table-header"><h2>1988-89 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4260,7 +4294,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1987">
         <div class="table-header"><h2>1987-88 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4288,7 +4322,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1986">
         <div class="table-header"><h2>1986-87 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4318,7 +4352,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1985">
         <div class="table-header"><h2>1985-86 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4346,7 +4380,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1984">
         <div class="table-header"><h2>1984-85 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4376,7 +4410,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1983">
         <div class="table-header"><h2>1983-84 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4404,7 +4438,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1982">
         <div class="table-header"><h2>1982-83 SEASON &mdash; TED TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4434,7 +4468,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1981">
         <div class="table-header"><h2>1981-82 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4452,7 +4486,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1980">
         <div class="table-header"><h2>1980-81 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4475,7 +4509,7 @@
   <div class="decade" id="decade-1970s">
     <div class="decade-header"><h3>1970s</h3></div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1979">
         <div class="table-header"><h2>1979-80 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4493,7 +4527,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1978">
         <div class="table-header"><h2>1978-79 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4513,7 +4547,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1977">
         <div class="table-header"><h2>1977-78 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4531,7 +4565,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1976">
         <div class="table-header"><h2>1976-77 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4551,7 +4585,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1975">
         <div class="table-header"><h2>1975-76 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4569,7 +4603,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1974">
         <div class="table-header"><h2>1974-75 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4586,7 +4620,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1973">
         <div class="table-header"><h2>1973-74 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4601,7 +4635,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1972">
         <div class="table-header"><h2>1972-73 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4621,7 +4655,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1971">
         <div class="table-header"><h2>1971-72 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4638,7 +4672,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1970">
         <div class="table-header"><h2>1970-71 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4661,7 +4695,7 @@
   <div class="decade" id="decade-1960s">
     <div class="decade-header"><h3>1960s</h3></div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1969">
         <div class="table-header"><h2>1969-70 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4678,7 +4712,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1968">
         <div class="table-header"><h2>1968-69 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4696,7 +4730,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1967">
         <div class="table-header"><h2>1967-68 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4711,7 +4745,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1966">
         <div class="table-header"><h2>1966-67 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4728,7 +4762,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1965">
         <div class="table-header"><h2>1965-66 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4744,7 +4778,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1964">
         <div class="table-header"><h2>1964-65 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4762,7 +4796,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1963">
         <div class="table-header"><h2>1963-64 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4778,7 +4812,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1962">
         <div class="table-header"><h2>1962-63 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4797,7 +4831,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1961">
         <div class="table-header"><h2>1961-62 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4814,7 +4848,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1960">
         <div class="table-header"><h2>1960-61 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4836,7 +4870,7 @@
   <div class="decade" id="decade-1950s">
     <div class="decade-header"><h3>1950s</h3></div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1959">
         <div class="table-header"><h2>1959-60 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4852,7 +4886,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1958">
         <div class="table-header"><h2>1958-59 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4872,7 +4906,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1957">
         <div class="table-header"><h2>1957-58 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4889,7 +4923,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1956">
         <div class="table-header"><h2>1956-57 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4909,7 +4943,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1955">
         <div class="table-header"><h2>1955-56 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4927,7 +4961,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1954">
         <div class="table-header"><h2>1954-55 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4947,7 +4981,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1953">
         <div class="table-header"><h2>1953-54 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4965,7 +4999,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1952">
         <div class="table-header"><h2>1952-53 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -4985,7 +5019,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1951">
         <div class="table-header"><h2>1951-52 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -5001,7 +5035,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1950">
         <div class="table-header"><h2>1950-51 SEASON &mdash; TED TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TED</th></tr></thead>
@@ -5026,7 +5060,7 @@
   <div class="decade" id="decade-2020s-tap">
     <div class="decade-header"><h3>2020s</h3></div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="2024">
         <div class="table-header"><h2>2024-25 SEASON &mdash; TAP TOP 40</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5074,7 +5108,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="2023">
         <div class="table-header"><h2>2023-24 SEASON &mdash; TAP TOP 40</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5124,7 +5158,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="2022">
         <div class="table-header"><h2>2022-23 SEASON &mdash; TAP TOP 40</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5172,7 +5206,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="2021">
         <div class="table-header"><h2>2021-22 SEASON &mdash; TAP TOP 40</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5222,7 +5256,7 @@
       </div>
     </div>
     <div class="year-pair single">
-      <div class="year-table">
+      <div class="year-table" data-year="2020">
         <div class="table-header"><h2>2020-21 SEASON &mdash; TAP TOP 40</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5275,7 +5309,7 @@
   <div class="decade" id="decade-2010s-tap">
     <div class="decade-header"><h3>2010s</h3></div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="2019">
         <div class="table-header"><h2>2019-20 SEASON &mdash; TAP TOP 40</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5323,7 +5357,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="2018">
         <div class="table-header"><h2>2018-19 SEASON &mdash; TAP TOP 40</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5373,7 +5407,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="2017">
         <div class="table-header"><h2>2017-18 SEASON &mdash; TAP TOP 40</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5421,7 +5455,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="2016">
         <div class="table-header"><h2>2016-17 SEASON &mdash; TAP TOP 40</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5471,7 +5505,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="2015">
         <div class="table-header"><h2>2015-16 SEASON &mdash; TAP TOP 40</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5519,7 +5553,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="2014">
         <div class="table-header"><h2>2014-15 SEASON &mdash; TAP TOP 40</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5569,7 +5603,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="2013">
         <div class="table-header"><h2>2013-14 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5597,7 +5631,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="2012">
         <div class="table-header"><h2>2012-13 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5627,7 +5661,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="2011">
         <div class="table-header"><h2>2011-12 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5655,7 +5689,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="2010">
         <div class="table-header"><h2>2010-11 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5688,7 +5722,7 @@
   <div class="decade" id="decade-2000s-tap">
     <div class="decade-header"><h3>2000s</h3></div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="2009">
         <div class="table-header"><h2>2009-10 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5716,7 +5750,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="2008">
         <div class="table-header"><h2>2008-09 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5746,7 +5780,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="2007">
         <div class="table-header"><h2>2007-08 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5774,7 +5808,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="2006">
         <div class="table-header"><h2>2006-07 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5804,7 +5838,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="2005">
         <div class="table-header"><h2>2005-06 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5832,7 +5866,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="2004">
         <div class="table-header"><h2>2004-05 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5862,7 +5896,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="2003">
         <div class="table-header"><h2>2003-04 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5890,7 +5924,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="2002">
         <div class="table-header"><h2>2002-03 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5920,7 +5954,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="2001">
         <div class="table-header"><h2>2001-02 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5948,7 +5982,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="2000">
         <div class="table-header"><h2>2000-01 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -5981,7 +6015,7 @@
   <div class="decade" id="decade-1990s-tap">
     <div class="decade-header"><h3>1990s</h3></div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1999">
         <div class="table-header"><h2>1999-00 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6009,7 +6043,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1998">
         <div class="table-header"><h2>1998-99 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6039,7 +6073,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1997">
         <div class="table-header"><h2>1997-98 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6067,7 +6101,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1996">
         <div class="table-header"><h2>1996-97 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6097,7 +6131,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1995">
         <div class="table-header"><h2>1995-96 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6125,7 +6159,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1994">
         <div class="table-header"><h2>1994-95 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6155,7 +6189,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1993">
         <div class="table-header"><h2>1993-94 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6183,7 +6217,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1992">
         <div class="table-header"><h2>1992-93 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6213,7 +6247,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1991">
         <div class="table-header"><h2>1991-92 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6241,7 +6275,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1990">
         <div class="table-header"><h2>1990-91 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6274,7 +6308,7 @@
   <div class="decade" id="decade-1980s-tap">
     <div class="decade-header"><h3>1980s</h3></div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1989">
         <div class="table-header"><h2>1989-90 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6302,7 +6336,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1988">
         <div class="table-header"><h2>1988-89 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6332,7 +6366,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1987">
         <div class="table-header"><h2>1987-88 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6360,7 +6394,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1986">
         <div class="table-header"><h2>1986-87 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6390,7 +6424,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1985">
         <div class="table-header"><h2>1985-86 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6418,7 +6452,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1984">
         <div class="table-header"><h2>1984-85 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6448,7 +6482,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1983">
         <div class="table-header"><h2>1983-84 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6476,7 +6510,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1982">
         <div class="table-header"><h2>1982-83 SEASON &mdash; TAP TOP 20</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6506,7 +6540,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1981">
         <div class="table-header"><h2>1981-82 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6524,7 +6558,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1980">
         <div class="table-header"><h2>1980-81 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6547,7 +6581,7 @@
   <div class="decade" id="decade-1970s-tap">
     <div class="decade-header"><h3>1970s</h3></div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1979">
         <div class="table-header"><h2>1979-80 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6565,7 +6599,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1978">
         <div class="table-header"><h2>1978-79 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6585,7 +6619,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1977">
         <div class="table-header"><h2>1977-78 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6603,7 +6637,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1976">
         <div class="table-header"><h2>1976-77 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6623,7 +6657,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1975">
         <div class="table-header"><h2>1975-76 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6641,7 +6675,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1974">
         <div class="table-header"><h2>1974-75 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6658,7 +6692,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1973">
         <div class="table-header"><h2>1973-74 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6673,7 +6707,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1972">
         <div class="table-header"><h2>1972-73 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6693,7 +6727,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1971">
         <div class="table-header"><h2>1971-72 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6710,7 +6744,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1970">
         <div class="table-header"><h2>1970-71 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6733,7 +6767,7 @@
   <div class="decade" id="decade-1960s-tap">
     <div class="decade-header"><h3>1960s</h3></div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1969">
         <div class="table-header"><h2>1969-70 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6750,7 +6784,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1968">
         <div class="table-header"><h2>1968-69 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6768,7 +6802,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1967">
         <div class="table-header"><h2>1967-68 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6783,7 +6817,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1966">
         <div class="table-header"><h2>1966-67 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6800,7 +6834,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1965">
         <div class="table-header"><h2>1965-66 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6816,7 +6850,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1964">
         <div class="table-header"><h2>1964-65 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6834,7 +6868,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1963">
         <div class="table-header"><h2>1963-64 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6850,7 +6884,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1962">
         <div class="table-header"><h2>1962-63 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6869,7 +6903,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1961">
         <div class="table-header"><h2>1961-62 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6886,7 +6920,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1960">
         <div class="table-header"><h2>1960-61 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6908,7 +6942,7 @@
   <div class="decade" id="decade-1950s-tap">
     <div class="decade-header"><h3>1950s</h3></div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1959">
         <div class="table-header"><h2>1959-60 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6924,7 +6958,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1958">
         <div class="table-header"><h2>1958-59 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6944,7 +6978,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1957">
         <div class="table-header"><h2>1957-58 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6961,7 +6995,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1956">
         <div class="table-header"><h2>1956-57 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6981,7 +7015,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1955">
         <div class="table-header"><h2>1955-56 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -6999,7 +7033,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1954">
         <div class="table-header"><h2>1954-55 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -7019,7 +7053,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1953">
         <div class="table-header"><h2>1953-54 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -7037,7 +7071,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1952">
         <div class="table-header"><h2>1952-53 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -7057,7 +7091,7 @@
       </div>
     </div>
     <div class="year-pair">
-      <div class="year-table">
+      <div class="year-table" data-year="1951">
         <div class="table-header"><h2>1951-52 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -7073,7 +7107,7 @@
           </tbody>
         </table>
       </div>
-      <div class="year-table">
+      <div class="year-table" data-year="1950">
         <div class="table-header"><h2>1950-51 SEASON &mdash; TAP TOP 10</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">TAP</th></tr></thead>
@@ -7097,11 +7131,44 @@
       <div>TED and TAP created by Joel Dechant</div>
     </footer>
   </div>
+  <div class="float-toggle" id="float-toggle">
+    <svg width="64" height="64" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="46" fill="#ee7623" stroke="#000" stroke-width="3"/>
+      <path d="M4 50 C4 50 96 50 96 50" stroke="#000" stroke-width="2.5"/>
+      <path d="M50 4 C50 4 50 96 50 96" stroke="#000" stroke-width="2.5"/>
+      <path d="M10 18 C30 38 30 62 10 82" stroke="#000" stroke-width="2.5" fill="none"/>
+      <path d="M90 18 C70 38 70 62 90 82" stroke="#000" stroke-width="2.5" fill="none"/>
+    </svg>
+    <span class="float-label" id="float-label">TAP</span>
+  </div>
   <script>
   (function() {
     var stat = 'ted';
     var toggleLink = document.getElementById('toggle-link');
+    var floatToggle = document.getElementById('float-toggle');
+    var floatLabel = document.getElementById('float-label');
+
+    function findVisibleYear() {
+      var viewClass = stat === 'ted' ? '.view-ted' : '.view-tap';
+      var tables = document.querySelectorAll(viewClass + ' .year-table[data-year]');
+      var best = null, bestDist = Infinity;
+      for (var i = 0; i < tables.length; i++) {
+        var rect = tables[i].getBoundingClientRect();
+        var dist = Math.abs(rect.top);
+        if (dist < bestDist) { bestDist = dist; best = tables[i].getAttribute('data-year'); }
+      }
+      return best;
+    }
+
+    function scrollToYear(year) {
+      if (!year) return;
+      var viewClass = stat === 'ted' ? '.view-ted' : '.view-tap';
+      var target = document.querySelector(viewClass + ' .year-table[data-year="' + year + '"]');
+      if (target) target.scrollIntoView();
+    }
+
     function doToggle() {
+      var activeYear = findVisibleYear();
       stat = stat === 'ted' ? 'tap' : 'ted';
       document.querySelectorAll('.view-ted').forEach(function(el) {
         el.style.display = stat === 'ted' ? '' : 'none';
@@ -7112,12 +7179,16 @@
       document.querySelector('.desc-ted').style.display = stat === 'ted' ? '' : 'none';
       document.querySelector('.desc-tap').style.display = stat === 'tap' ? '' : 'none';
       toggleLink.textContent = stat === 'ted' ? 'TAP Click Here' : 'TED Click Here';
+      floatLabel.textContent = stat === 'ted' ? 'TAP' : 'TED';
       document.querySelectorAll('[data-ted-text]').forEach(function(el) {
         el.textContent = el.getAttribute('data-' + stat + '-text');
       });
+      scrollToYear(activeYear);
     }
+
     document.querySelector('.basketball').addEventListener('click', doToggle);
     toggleLink.addEventListener('click', doToggle);
+    floatToggle.addEventListener('click', doToggle);
     document.querySelectorAll('.decade-nav a[data-decade]').forEach(function(a) {
       a.addEventListener('click', function(e) {
         e.preventDefault();
