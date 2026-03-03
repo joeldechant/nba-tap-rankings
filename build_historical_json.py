@@ -279,16 +279,18 @@ def build_historical_json():
     for r in results:
         by_year[r['year']].append(r)
 
-    # Build season_stats: league avg and leader per year
+    # Build season_stats: top-10 avg and leader per year
     season_stats = {}
     for year, players in by_year.items():
-        teds = [p['ted'] for p in players]
-        taps = [p['tap'] for p in players]
-        ted_leader = max(players, key=lambda p: p['ted'])
-        tap_leader = max(players, key=lambda p: p['tap'])
+        ted_sorted = sorted(players, key=lambda p: p['ted'], reverse=True)
+        tap_sorted = sorted(players, key=lambda p: p['tap'], reverse=True)
+        top10_teds = [p['ted'] for p in ted_sorted[:10]]
+        top10_taps = [p['tap'] for p in tap_sorted[:10]]
+        ted_leader = ted_sorted[0]
+        tap_leader = tap_sorted[0]
         season_stats[str(year)] = {
-            'avg_ted': round(sum(teds) / len(teds), 1),
-            'avg_tap': round(sum(taps) / len(taps), 1),
+            'top10_ted': round(sum(top10_teds) / len(top10_teds), 1),
+            'top10_tap': round(sum(top10_taps) / len(top10_taps), 1),
             'ldr_ted': ted_leader['player'], 'ldr_ted_val': round(ted_leader['ted'], 1),
             'ldr_tap': tap_leader['player'], 'ldr_tap_val': round(tap_leader['tap'], 1),
         }

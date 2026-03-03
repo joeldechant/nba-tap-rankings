@@ -246,13 +246,15 @@ def build_career_js(historical, season_all):
                 career[name].sort(key=lambda x: x['y'])
 
         # Add current season to season_stats
-        teds = [r['ted'] for r in season_all]
-        taps = [r['tap'] for r in season_all]
-        ted_leader = max(season_all, key=lambda r: r['ted'])
-        tap_leader = max(season_all, key=lambda r: r['tap'])
+        ted_sorted = sorted(season_all, key=lambda r: r['ted'], reverse=True)
+        tap_sorted = sorted(season_all, key=lambda r: r['tap'], reverse=True)
+        top10_teds = [r['ted'] for r in ted_sorted[:10]]
+        top10_taps = [r['tap'] for r in tap_sorted[:10]]
+        ted_leader = ted_sorted[0]
+        tap_leader = tap_sorted[0]
         season_stats[str(current_year)] = {
-            'avg_ted': round(sum(teds) / len(teds), 1),
-            'avg_tap': round(sum(taps) / len(taps), 1),
+            'top10_ted': round(sum(top10_teds) / len(top10_teds), 1),
+            'top10_tap': round(sum(top10_taps) / len(top10_taps), 1),
             'ldr_ted': ted_leader['player'], 'ldr_ted_val': round(ted_leader['ted'], 1),
             'ldr_tap': tap_leader['player'], 'ldr_tap_val': round(tap_leader['tap'], 1),
         }
@@ -932,7 +934,7 @@ def generate_html(weekly, season, updated_at):
             <th class="cp-season">Season</th>
             <th class="cp-team">Team</th>
             <th class="cp-stat" id="career-stat-header">TED</th>
-            <th class="cp-avg">Avg</th>
+            <th class="cp-avg">TOP 10</th>
             <th class="cp-leader">High</th>
           </tr>
         </thead>
@@ -1025,7 +1027,7 @@ def generate_html(weekly, season, updated_at):
         if (ss) {{
           var lv = ss['ldr_' + s + '_val'];
           ldrVal = lv !== undefined ? lv.toFixed(1) : '';
-          var av = ss['avg_' + s];
+          var av = ss['top10_' + s];
           avgVal = av !== undefined ? av.toFixed(1) : '';
         }}
         var ldrCell = ldrVal || '\\u2014';
