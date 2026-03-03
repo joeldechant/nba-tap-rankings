@@ -1,0 +1,859 @@
+"""Static HTML site generator for TED Weekly Rankings.
+
+Reads from the SQLite database, calculates rankings, and generates
+a single docs/index.html for GitHub Pages deployment.
+"""
+
+import os
+import sys
+import json
+from datetime import date, timedelta
+from . import config, database as db
+from .weekly_update import calculate_season_rankings, calculate_weekly_rankings
+
+DOCS_DIR = os.path.join(config.PROJECT_DIR, "docs")
+
+
+def get_rolling_week():
+    """Return (start, end) for the rolling 7-day window ending yesterday.
+
+    Always looks at the 7 most recent days of completed games.
+    Yesterday is the last day (today's games may not be final yet),
+    and 6 days before that is the first day.
+    """
+    today = date.today()
+    end = today - timedelta(days=1)   # yesterday
+    start = end - timedelta(days=6)   # 7-day window
+    return start, end
+
+
+def render_table(rankings, stat_key, title, week_label=None):
+    """Render a single ranking table as HTML."""
+    rows_html = ""
+    if not rankings:
+        rows_html = '<tr><td colspan="4" class="empty">No data available</td></tr>'
+    else:
+        for r in rankings:
+            rank = r.get(f'{stat_key}_rank', 0)
+            name_html = format_player_name(r['player'])
+            rows_html += f"""        <tr>
+          <td class="rank">{rank}</td>
+          <td class="player">{name_html}</td>
+          <td class="team">{r['team']}</td>
+          <td class="num stat">{r[stat_key]:.1f}</td>
+        </tr>
+"""
+
+    subtitle = f'<span class="week-label">{week_label}</span>' if week_label else ''
+
+    return f"""  <div class="table-section">
+    <div class="table-header"><h2>{title}</h2>{subtitle}</div>
+    <table>
+      <thead>
+        <tr>
+          <th class="rank">Rank</th>
+          <th class="player">Player</th>
+          <th class="team">Team</th>
+          <th class="num stat">{stat_key.upper()}</th>
+        </tr>
+      </thead>
+      <tbody>
+{rows_html}      </tbody>
+    </table>
+  </div>
+"""
+
+
+def format_player_name(name):
+    """Format a player name for HTML display with suffix handling and mobile line breaks."""
+    if not name:
+        return ''
+    if 'Gilgeous-Alexander' in name:
+        return '<span class="fname">Shai Gilgeous-</span><span class="lname">Alexander</span>'
+    display = (name.replace(' Jr.', '&nbsp;Jr.')
+                   .replace(' Sr.', '&nbsp;Sr.')
+                   .replace(' III', '&nbsp;III')
+                   .replace(' II', '&nbsp;II')
+                   .replace(' IV', '&nbsp;IV'))
+    parts = display.split(' ', 1)
+    if len(parts) == 2:
+        return f'<span class="fname">{parts[0]}</span> <span class="lname">{parts[1]}</span>'
+    return name
+
+
+def load_historical_rankings():
+    """Load pre-computed historical rankings from JSON."""
+    json_path = os.path.join(config.PHASE2_DIR, "historical_rankings.json")
+    if not os.path.exists(json_path):
+        return None
+    with open(json_path, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+
+def render_historical_section(data, stat_key='ted'):
+    """Generate full HTML for the historical rankings section.
+
+    stat_key: 'ted' or 'tap' — determines sort order and displayed stat.
+    """
+    if not data or 'decades' not in data:
+        return '', ''
+
+    stat_upper = stat_key.upper()
+    decade_order = ['2020s', '2010s', '2000s', '1990s', '1980s', '1970s', '1960s', '1950s']
+
+    suffix = '' if stat_key == 'ted' else f'-{stat_key}'
+
+    # Build decade nav links (only from TED pass — shared nav)
+    nav_links = ''.join(
+        f'<a href="#decade-{d}" data-decade="{d}">{d}</a>' for d in decade_order if d in data['decades']
+    )
+
+    # Build decade sections
+    decades_html = ''
+    for decade_label in decade_order:
+        if decade_label not in data['decades']:
+            continue
+        decade = data['decades'][decade_label]
+
+        year_tables = []
+        for year_data in decade['years']:
+            season_label = year_data['season_label']
+            top_n = year_data['top_n']
+
+            # Re-sort players by the chosen stat and re-rank
+            players_sorted = sorted(
+                [p for p in year_data['players'] if p.get('player')],
+                key=lambda p: p.get(stat_key, 0),
+                reverse=True
+            )
+
+            # Build table rows with fresh ranks
+            rows = ''
+            for rank, p in enumerate(players_sorted, 1):
+                name_html = format_player_name(p['player'])
+                team = p['team'] if p['team'] else '&mdash;'
+                val_str = f'{p[stat_key]:.1f}'
+                rows += f'        <tr><td class="rank">{rank}</td><td class="player">{name_html}</td><td class="team">{team}</td><td class="num stat">{val_str}</td></tr>\n'
+
+            year_tables.append(f"""      <div class="year-table" data-year="{year_data['year']}">
+        <div class="table-header"><h2>{season_label} SEASON &mdash; {stat_upper} TOP {top_n}</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">{stat_upper}</th></tr></thead>
+          <tbody>
+{rows}          </tbody>
+        </table>
+      </div>
+""")
+
+        # Pair year tables side by side (2 per row on desktop)
+        years_html = ''
+        for i in range(0, len(year_tables), 2):
+            if i + 1 < len(year_tables):
+                years_html += f"""    <div class="year-pair">
+{year_tables[i]}{year_tables[i+1]}    </div>
+"""
+            else:
+                years_html += f"""    <div class="year-pair single">
+{year_tables[i]}    </div>
+"""
+
+        decades_html += f"""  <div class="decade" id="decade-{decade_label}{suffix}">
+    <div class="decade-header"><h3>{decade_label}</h3></div>
+{years_html}  </div>
+"""
+
+    return nav_links, f"""  <div class="historical-section">
+    <div class="historical-header"><h2>Historical {stat_upper} Rankings</h2></div>
+{decades_html}  </div>
+"""
+
+
+def get_last_name(name):
+    """Extract last name from a full player name, keeping suffixes attached."""
+    if not name:
+        return ''
+    suffixes = {'Jr.', 'Sr.', 'III', 'II', 'IV'}
+    parts = name.split()
+    if len(parts) <= 1:
+        return name
+    if parts[-1] in suffixes and len(parts) >= 3:
+        return f'{parts[-2]}&nbsp;{parts[-1]}'
+    return parts[-1]
+
+
+def render_all_time_html(data, stat_key='ted'):
+    """Generate HTML for the all-time top 100 as a decade-like block."""
+    if not data or 'all_time_top_100' not in data:
+        return ''
+
+    stat_upper = stat_key.upper()
+    suffix = '' if stat_key == 'ted' else f'-{stat_key}'
+
+    # Re-sort by chosen stat and re-rank
+    players_sorted = sorted(
+        data['all_time_top_100'],
+        key=lambda p: p.get(stat_key, 0),
+        reverse=True
+    )
+
+    rows = ''
+    for rank, p in enumerate(players_sorted, 1):
+        last_name = get_last_name(p['player'])
+        team = p['team'] if p['team'] else '&mdash;'
+        val_str = f'{p[stat_key]:.1f}'
+        rows += f'        <tr><td class="rank">{rank}</td><td class="player">{last_name}</td><td class="team">{team}</td><td class="season">{p["season_label"]}</td><td class="num stat">{val_str}</td></tr>\n'
+
+    return f"""  <div class="decade" id="decade-all-time{suffix}">
+    <div class="decade-header"><h3>OVERALL</h3></div>
+    <div class="year-table">
+      <div class="table-header"><h2>ALL-TIME {stat_upper} TOP 100</h2></div>
+      <table>
+        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="season">Season</th><th class="num stat">{stat_upper}</th></tr></thead>
+        <tbody>
+{rows}        </tbody>
+      </table>
+    </div>
+  </div>
+"""
+
+
+def generate_html(weekly, season, updated_at):
+    """Generate the full HTML page — TED only."""
+    season_label = f"{config.CURRENT_SEASON_YEAR}-{str(config.CURRENT_SEASON_YEAR + 1)[-2:]}"
+
+    weekly_ted_table = render_table(weekly['ted'], 'ted', 'WEEKLY TED TOP 100')
+    season_ted_table = render_table(season['ted'], 'ted', 'SEASON-TO-DATE TED TOP 100')
+    weekly_tap_table = render_table(weekly['tap'], 'tap', 'WEEKLY TAP TOP 100')
+    season_tap_table = render_table(season['tap'], 'tap', 'SEASON-TO-DATE TAP TOP 100')
+
+    historical = load_historical_rankings()
+    if historical:
+        decade_nav_links, historical_ted_html = render_historical_section(historical, 'ted')
+        _, historical_tap_html = render_historical_section(historical, 'tap')
+        decade_nav_html = f'<nav class="decade-nav">{decade_nav_links}</nav>'
+        historical_html = f"""<div class="view-ted">
+{historical_ted_html}</div>
+<div class="view-tap" style="display:none">
+{historical_tap_html}</div>"""
+    else:
+        decade_nav_html = ''
+        historical_html = ''
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NBA TED Rankings &mdash; {season_label} Season</title>
+  <style>
+    * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+
+    body {{
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: 700;
+      background: #000;
+      color: #fff;
+      line-height: 1.4;
+      padding: 20px;
+    }}
+
+    .container {{
+      max-width: 880px;
+      margin: 0 auto;
+      border: 3px solid #fff;
+      padding: 0;
+    }}
+
+    header {{
+      text-align: center;
+      padding: 25px 20px 15px;
+      background: #fff;
+      color: #000;
+    }}
+
+    header h1 {{
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 3em;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }}
+
+    .basketball {{
+      display: block;
+      margin: 8px auto 0;
+      cursor: pointer;
+    }}
+
+    .toggle-link {{
+      display: block;
+      text-align: center;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.75em;
+      color: #ee7623;
+      cursor: pointer;
+      margin-top: 2px;
+      letter-spacing: 0.03em;
+    }}
+    .toggle-link:hover {{
+      text-decoration: underline;
+    }}
+
+    .float-toggle {{
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      width: 40px;
+      height: 40px;
+    }}
+    .float-toggle svg {{
+      width: 40px;
+      height: 40px;
+    }}
+
+    .season-header {{
+      background: #000;
+      padding: 10px 16px;
+      text-align: center;
+    }}
+
+    .season-header h3 {{
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1.1em;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      color: #ee7623;
+      margin: 0;
+    }}
+
+    .description {{
+      display: flex;
+      justify-content: center;
+      padding: 16px 24px;
+      border-bottom: 2px solid #fff;
+    }}
+
+    .stat-desc {{
+      max-width: 620px;
+    }}
+
+    .stat-desc h3 {{
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1em;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 4px;
+      color: #fff;
+      text-align: center;
+    }}
+
+    .stat-desc p {{
+      font-size: 0.85em;
+      color: #fff;
+      line-height: 1.5;
+      text-align: justify;
+    }}
+
+    .tables-grid {{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin-bottom: 0;
+    }}
+
+    .tables-grid > :first-child {{
+      border-right: 2px solid #fff;
+    }}
+
+    .table-section {{
+      overflow: visible;
+    }}
+
+    .table-header {{
+      background: #fff;
+      border: 2px solid #000;
+      padding: 10px 12px;
+      text-align: center;
+    }}
+
+    .table-section h2 {{
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1em;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #000;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      border: none;
+      background: none;
+      display: inline;
+    }}
+
+    .week-label {{
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-style: italic;
+      text-transform: none;
+      letter-spacing: 0;
+      color: #000;
+      font-size: 0.9em;
+      margin-left: 6px;
+    }}
+
+    table {{
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95em;
+    }}
+
+    thead th {{
+      font-family: Georgia, 'Times New Roman', serif;
+      text-align: left;
+      padding: 6px 10px;
+      font-weight: 900;
+      font-size: 0.95em;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #fff;
+      border-bottom: 1px solid #fff;
+      background: #000;
+    }}
+
+    tbody tr {{
+      border-bottom: 1px solid #fff;
+    }}
+
+    tbody tr:last-child {{
+      border-bottom: none;
+    }}
+
+    td {{
+      padding: 5px 10px;
+    }}
+
+    .rank {{
+      width: 32px;
+      text-align: center;
+      font-weight: 700;
+    }}
+
+    .player {{
+      min-width: 130px;
+    }}
+
+    .team {{
+      width: 40px;
+      text-align: center;
+      font-size: 0.9em;
+    }}
+
+    .season {{
+      width: 68px;
+      text-align: center;
+      font-size: 0.85em;
+    }}
+
+    thead th.season {{
+      text-align: center;
+    }}
+
+    .num {{
+      width: 52px;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }}
+
+    .stat {{
+      font-weight: 900;
+      font-size: 1.15em;
+      letter-spacing: -0.5px;
+    }}
+
+    thead th.num {{
+      text-align: right;
+    }}
+
+    thead th.rank {{
+      text-align: center;
+    }}
+
+    thead th.team {{
+      text-align: center;
+    }}
+
+    thead th.stat {{
+      text-align: right;
+    }}
+
+    .empty {{
+      text-align: center;
+      color: #fff;
+      padding: 30px;
+      font-style: italic;
+    }}
+
+    footer {{
+      text-align: center;
+      padding: 14px 0;
+      border-top: 2px solid #fff;
+      font-size: 0.82em;
+      color: #fff;
+      background: #000;
+    }}
+
+    footer .updated {{
+      margin-bottom: 3px;
+    }}
+
+    .historical-section {{
+      border-top: 2px solid #fff;
+    }}
+
+    .historical-header {{
+      background: #fff;
+      color: #000;
+      text-align: center;
+      padding: 16px 12px;
+    }}
+
+    .historical-header h2 {{
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1.2em;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin: 0;
+    }}
+
+    .decade-nav {{
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 22px 16px;
+      border-bottom: 2px solid #fff;
+      flex-wrap: wrap;
+    }}
+
+    .decade-nav a {{
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.95em;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      padding: 4px 12px;
+      border: 1px solid #fff;
+      transition: background 0.2s, color 0.2s;
+    }}
+
+    .decade-nav a:hover {{
+      background: #fff;
+      color: #000;
+    }}
+
+    .decade {{
+      border-top: 2px solid #fff;
+    }}
+
+    .decade-header {{
+      background: #222;
+      padding: 10px 16px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }}
+
+    .decade-header h3 {{
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1.1em;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      color: #ee7623;
+      margin: 0;
+    }}
+
+    .year-pair {{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 1px solid #555;
+    }}
+
+    .year-pair > :first-child {{
+      border-right: 1px solid #555;
+    }}
+
+    .year-table {{
+    }}
+
+    .year-table table {{
+      max-width: 100%;
+      margin: 0 auto;
+    }}
+
+    #decade-all-time .year-table table {{
+      max-width: 780px;
+      table-layout: fixed;
+    }}
+
+    #decade-all-time .rank {{
+      width: 50px;
+    }}
+
+    #decade-all-time .player {{
+      width: auto;
+    }}
+
+    #decade-all-time .team {{
+      width: 50px;
+    }}
+
+    #decade-all-time .season {{
+      width: 80px;
+    }}
+
+    #decade-all-time .num {{
+      width: 58px;
+    }}
+
+    .year-table .table-header {{
+      background: #fff;
+      border: 2px solid #000;
+      padding: 8px 12px;
+      text-align: center;
+    }}
+
+    .year-table .table-header h2 {{
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.9em;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #000;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      border: none;
+      background: none;
+      display: inline;
+    }}
+
+    .empty-row td {{
+      height: 28px;
+    }}
+
+    @media (max-width: 900px) {{
+      .tables-grid {{
+        grid-template-columns: 1fr;
+      }}
+      .tables-grid > :first-child {{
+        border-right: none;
+        border-bottom: 2px solid #fff;
+      }}
+      .table-section h2 {{
+        display: block;
+      }}
+      .week-label {{
+        display: block;
+        margin-left: 0;
+        margin-top: 4px;
+        font-size: 0.8em;
+      }}
+      .player .fname,
+      .player .lname {{
+        display: inline;
+      }}
+      td, thead th {{
+        padding: 4px 6px;
+      }}
+      .player {{
+        min-width: 0;
+        max-width: 140px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }}
+      .stat-desc p {{
+        text-align: center;
+      }}
+      .decade-nav {{
+        gap: 4px;
+        padding: 10px 8px;
+      }}
+      .decade-nav a {{
+        font-size: 0.85em;
+        padding: 4px 8px;
+      }}
+      .year-pair {{
+        grid-template-columns: 1fr;
+      }}
+      .year-pair > :first-child {{
+        border-right: none;
+        border-bottom: 1px solid #555;
+      }}
+      .year-table table {{
+        max-width: 100%;
+      }}
+      .year-table .player .fname,
+      .year-table .player .lname {{
+        display: inline;
+      }}
+    }}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 data-ted-text="NBA TED Rankings" data-tap-text="NBA TAP Rankings">NBA TED Rankings</h1>
+      <svg class="basketball" width="36" height="36" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="46" fill="#ee7623" stroke="#000" stroke-width="3"/>
+        <path d="M4 50 C4 50 96 50 96 50" stroke="#000" stroke-width="2.5"/>
+        <path d="M50 4 C50 4 50 96 50 96" stroke="#000" stroke-width="2.5"/>
+        <path d="M10 18 C30 38 30 62 10 82" stroke="#000" stroke-width="2.5" fill="none"/>
+        <path d="M90 18 C70 38 70 62 90 82" stroke="#000" stroke-width="2.5" fill="none"/>
+      </svg>
+      <div class="toggle-link" id="toggle-link">TAP Click Here</div>
+    </header>
+
+    <div class="description">
+      <div class="stat-desc desc-ted">
+        <h3>TED &mdash; Total Earned Differential</h3>
+        <p>TED estimates total player production per game as a single points-equivalent number. It relies primarily on box score stats, converting all box-score contributions &mdash; points scored, scoring efficiency, rebounds, assists, steals, turnovers, blocks &mdash; along with a defensive adjustment (using DBPM and DWS) into one value. TED is meant to capture a player&rsquo;s full impact on points scored in a game, both directly and indirectly &mdash; his Total Earned Differential. For example, if a player scored 30 points with a TED of 52 in last night&rsquo;s game &mdash; he actually contributed 52 points worth of total offensive/defensive production across all facets of the game, not 30. TED is normalized to per 36 minutes and 71 possessions for cleaner cross-player and cross-era comparisons.</p>
+      </div>
+      <div class="stat-desc desc-tap" style="display:none">
+        <h3>TAP &mdash; Total Adjusted Production</h3>
+        <p>TAP estimates total player production per game as a single points-equivalent number. It builds on TED (Total Earned Differential), which converts all box-score contributions &mdash; points scored, scoring efficiency, rebounds, assists, steals, turnovers, blocks &mdash; plus a defensive adjustment (using DBPM and DWS) into one value. TAP takes this approach one step further, overlaying an additional offensive adjustment (using OBPM and OWS) to capture the residual offensive impact that box-score stats miss &mdash; for example, shooting gravity that warps defenses, or anti-gravity. TAP is normalized to per 36 minutes and 71 possessions for cleaner cross-player and cross-era comparisons.</p>
+      </div>
+    </div>
+
+{decade_nav_html}
+    <div class="season-header"><h3>{season_label} Season</h3></div>
+    <div class="view-ted">
+      <div class="tables-grid">
+{weekly_ted_table}
+{season_ted_table}
+      </div>
+    </div>
+    <div class="view-tap" style="display:none">
+      <div class="tables-grid">
+{weekly_tap_table}
+{season_tap_table}
+      </div>
+    </div>
+
+{historical_html}
+    <footer>
+      <div class="updated">Last updated: {updated_at}</div>
+      <div>TED and TAP created by Joel Dechant</div>
+    </footer>
+  </div>
+  <div class="float-toggle" id="float-toggle">
+    <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="46" fill="#ee7623" stroke="#000" stroke-width="3"/>
+      <path d="M4 50 C4 50 96 50 96 50" stroke="#000" stroke-width="2.5"/>
+      <path d="M50 4 C50 4 50 96 50 96" stroke="#000" stroke-width="2.5"/>
+      <path d="M10 18 C30 38 30 62 10 82" stroke="#000" stroke-width="2.5" fill="none"/>
+      <path d="M90 18 C70 38 70 62 90 82" stroke="#000" stroke-width="2.5" fill="none"/>
+    </svg>
+  </div>
+  <script>
+  (function() {{
+    var stat = 'ted';
+    var toggleLink = document.getElementById('toggle-link');
+    var floatToggle = document.getElementById('float-toggle');
+
+    function findVisibleYear() {{
+      var viewClass = stat === 'ted' ? '.view-ted' : '.view-tap';
+      var tables = document.querySelectorAll(viewClass + ' .year-table[data-year]');
+      var best = null, bestDist = Infinity, bestOffset = 0;
+      for (var i = 0; i < tables.length; i++) {{
+        var rect = tables[i].getBoundingClientRect();
+        var dist = Math.abs(rect.top);
+        if (dist < bestDist) {{ bestDist = dist; best = tables[i].getAttribute('data-year'); bestOffset = rect.top; }}
+      }}
+      return {{year: best, offset: bestOffset}};
+    }}
+
+    function doToggle() {{
+      var info = findVisibleYear();
+      stat = stat === 'ted' ? 'tap' : 'ted';
+      document.querySelectorAll('.view-ted').forEach(function(el) {{
+        el.style.display = stat === 'ted' ? '' : 'none';
+      }});
+      document.querySelectorAll('.view-tap').forEach(function(el) {{
+        el.style.display = stat === 'tap' ? '' : 'none';
+      }});
+      document.querySelector('.desc-ted').style.display = stat === 'ted' ? '' : 'none';
+      document.querySelector('.desc-tap').style.display = stat === 'tap' ? '' : 'none';
+      toggleLink.textContent = stat === 'ted' ? 'TAP Click Here' : 'TED Click Here';
+      document.querySelectorAll('[data-ted-text]').forEach(function(el) {{
+        el.textContent = el.getAttribute('data-' + stat + '-text');
+      }});
+      if (info.year) {{
+        var viewClass = stat === 'ted' ? '.view-ted' : '.view-tap';
+        var target = document.querySelector(viewClass + ' .year-table[data-year="' + info.year + '"]');
+        if (target) {{
+          var targetTop = target.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo(0, targetTop - info.offset);
+        }}
+      }}
+    }}
+
+    document.querySelector('.basketball').addEventListener('click', doToggle);
+    toggleLink.addEventListener('click', doToggle);
+    floatToggle.addEventListener('click', doToggle);
+    document.querySelectorAll('.decade-nav a[data-decade]').forEach(function(a) {{
+      a.addEventListener('click', function(e) {{
+        e.preventDefault();
+        var decade = this.getAttribute('data-decade');
+        var suffix = stat === 'ted' ? '' : '-tap';
+        var target = document.getElementById('decade-' + decade + suffix);
+        if (target) target.scrollIntoView({{behavior: 'smooth'}});
+      }});
+    }});
+  }})();
+  </script>
+</body>
+</html>
+"""
+
+
+def generate_site():
+    """Main entry point: calculate rankings and generate docs/index.html."""
+    print("Generating TED Weekly Rankings site...")
+
+    db.init_db()
+
+    # Calculate rankings
+    week_start, week_end = get_rolling_week()
+    print(f"  Weekly (rolling 7-day): {week_start} to {week_end}")
+
+    weekly = calculate_weekly_rankings(week_start, week_end)
+    print(f"  Weekly TED: {len(weekly['ted'])} players")
+    print(f"  Weekly TAP: {len(weekly['tap'])} players")
+
+    season = calculate_season_rankings()
+    print(f"  Season TED: {len(season['ted'])} players")
+    print(f"  Season TAP: {len(season['tap'])} players")
+
+    # Generate HTML
+    updated_at = date.today().strftime("%B %d, %Y")
+    html = generate_html(weekly, season, updated_at)
+
+    # Write output
+    os.makedirs(DOCS_DIR, exist_ok=True)
+    output_path = os.path.join(DOCS_DIR, "index.html")
+    with open(output_path, 'w', encoding='utf-8') as f:
+        f.write(html)
+
+    print(f"\n  Generated: {output_path}")
+    print(f"  Open in browser to preview.")
+
+
+if __name__ == "__main__":
+    sys.path.insert(0, config.PROJECT_DIR)
+    generate_site()

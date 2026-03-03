@@ -67,30 +67,12 @@
       cursor: pointer;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
-      width: 64px;
-      height: 64px;
+      width: 40px;
+      height: 40px;
     }
     .float-toggle svg {
-      width: 64px;
-      height: 64px;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-    .float-toggle .float-label {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 64px;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: 19px;
-      font-weight: 900;
-      color: #000;
-      letter-spacing: 0.03em;
+      width: 40px;
+      height: 40px;
     }
 
     .season-header {
@@ -7132,43 +7114,34 @@
     </footer>
   </div>
   <div class="float-toggle" id="float-toggle">
-    <svg width="64" height="64" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
       <circle cx="50" cy="50" r="46" fill="#ee7623" stroke="#000" stroke-width="3"/>
       <path d="M4 50 C4 50 96 50 96 50" stroke="#000" stroke-width="2.5"/>
       <path d="M50 4 C50 4 50 96 50 96" stroke="#000" stroke-width="2.5"/>
       <path d="M10 18 C30 38 30 62 10 82" stroke="#000" stroke-width="2.5" fill="none"/>
       <path d="M90 18 C70 38 70 62 90 82" stroke="#000" stroke-width="2.5" fill="none"/>
     </svg>
-    <span class="float-label" id="float-label">TAP</span>
   </div>
   <script>
   (function() {
     var stat = 'ted';
     var toggleLink = document.getElementById('toggle-link');
     var floatToggle = document.getElementById('float-toggle');
-    var floatLabel = document.getElementById('float-label');
 
     function findVisibleYear() {
       var viewClass = stat === 'ted' ? '.view-ted' : '.view-tap';
       var tables = document.querySelectorAll(viewClass + ' .year-table[data-year]');
-      var best = null, bestDist = Infinity;
+      var best = null, bestDist = Infinity, bestOffset = 0;
       for (var i = 0; i < tables.length; i++) {
         var rect = tables[i].getBoundingClientRect();
         var dist = Math.abs(rect.top);
-        if (dist < bestDist) { bestDist = dist; best = tables[i].getAttribute('data-year'); }
+        if (dist < bestDist) { bestDist = dist; best = tables[i].getAttribute('data-year'); bestOffset = rect.top; }
       }
-      return best;
-    }
-
-    function scrollToYear(year) {
-      if (!year) return;
-      var viewClass = stat === 'ted' ? '.view-ted' : '.view-tap';
-      var target = document.querySelector(viewClass + ' .year-table[data-year="' + year + '"]');
-      if (target) target.scrollIntoView();
+      return {year: best, offset: bestOffset};
     }
 
     function doToggle() {
-      var activeYear = findVisibleYear();
+      var info = findVisibleYear();
       stat = stat === 'ted' ? 'tap' : 'ted';
       document.querySelectorAll('.view-ted').forEach(function(el) {
         el.style.display = stat === 'ted' ? '' : 'none';
@@ -7179,11 +7152,17 @@
       document.querySelector('.desc-ted').style.display = stat === 'ted' ? '' : 'none';
       document.querySelector('.desc-tap').style.display = stat === 'tap' ? '' : 'none';
       toggleLink.textContent = stat === 'ted' ? 'TAP Click Here' : 'TED Click Here';
-      floatLabel.textContent = stat === 'ted' ? 'TAP' : 'TED';
       document.querySelectorAll('[data-ted-text]').forEach(function(el) {
         el.textContent = el.getAttribute('data-' + stat + '-text');
       });
-      scrollToYear(activeYear);
+      if (info.year) {
+        var viewClass = stat === 'ted' ? '.view-ted' : '.view-tap';
+        var target = document.querySelector(viewClass + ' .year-table[data-year="' + info.year + '"]');
+        if (target) {
+          var targetTop = target.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo(0, targetTop - info.offset);
+        }
+      }
     }
 
     document.querySelector('.basketball').addEventListener('click', doToggle);
