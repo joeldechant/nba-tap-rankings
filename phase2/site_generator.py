@@ -793,14 +793,13 @@ def generate_html(weekly, season, updated_at):
       color: #fff;
     }}
 
-    .career-popup .cp-season {{ width: 68px; }}
+    .career-popup .cp-season {{ width: 68px; text-align: center; }}
     .career-popup .cp-team {{ width: 40px; text-align: center; }}
-    .career-popup .cp-stat {{ width: 52px; text-align: right; font-weight: 900; }}
-    .career-popup .cp-leader {{ text-align: left; font-size: 0.85em; }}
-    .career-popup .cp-avg {{ width: 48px; text-align: right; }}
+    .career-popup .cp-stat {{ width: 52px; text-align: center; font-weight: 900; }}
+    .career-popup .cp-avg {{ width: 48px; text-align: center; }}
+    .career-popup .cp-leader {{ width: 52px; text-align: center; font-weight: 900; }}
 
-    .career-popup thead th.cp-stat {{ text-align: right; }}
-    .career-popup thead th.cp-avg {{ text-align: right; }}
+    .career-popup thead th {{ text-align: center; }}
 
     .career-popup tr.cp-current td {{
       color: #ee7623;
@@ -933,8 +932,8 @@ def generate_html(weekly, season, updated_at):
             <th class="cp-season">Season</th>
             <th class="cp-team">Team</th>
             <th class="cp-stat" id="career-stat-header">TED</th>
-            <th class="cp-leader">Leader</th>
             <th class="cp-avg">Avg</th>
+            <th class="cp-leader">High</th>
           </tr>
         </thead>
         <tbody id="career-popup-body">
@@ -1015,32 +1014,27 @@ def generate_html(weekly, season, updated_at):
       popupName.textContent = name;
       popupStatHeader.textContent = su;
       var html = '';
-      for (var i = 0; i < career.length; i++) {{
+      for (var i = career.length - 1; i >= 0; i--) {{
         var c = career[i];
         var sl = c.y + '-' + String(c.y + 1).slice(-2);
         var tm = c.tm || '\\u2014';
         var val = c[s] !== null && c[s] !== undefined ? c[s].toFixed(1) : '\\u2014';
         var ss = window.SEASON_STATS[String(c.y)];
-        var ldrName = '', ldrVal = '', avgVal = '';
+        var ldrVal = '', avgVal = '';
         if (ss) {{
-          ldrName = ss['ldr_' + s] || '';
           var lv = ss['ldr_' + s + '_val'];
           ldrVal = lv !== undefined ? lv.toFixed(1) : '';
           var av = ss['avg_' + s];
           avgVal = av !== undefined ? av.toFixed(1) : '';
-          if (ldrName.length > 16) {{
-            var parts = ldrName.split(' ');
-            ldrName = parts[parts.length - 1];
-          }}
         }}
-        var ldrCell = ldrName ? (ldrName + ' ' + ldrVal) : '\\u2014';
+        var ldrCell = ldrVal || '\\u2014';
         var rc = c.y === currentYear ? ' class="cp-current"' : '';
         html += '<tr' + rc + '>'
           + '<td class="cp-season">' + sl + '</td>'
           + '<td class="cp-team">' + tm + '</td>'
           + '<td class="cp-stat">' + val + '</td>'
-          + '<td class="cp-leader">' + ldrCell + '</td>'
           + '<td class="cp-avg">' + (avgVal || '\\u2014') + '</td>'
+          + '<td class="cp-leader">' + ldrCell + '</td>'
           + '</tr>';
       }}
       popupBody.innerHTML = html;
