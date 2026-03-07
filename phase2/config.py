@@ -52,7 +52,7 @@ TOV_WEIGHT = 0.85
 NA_COEFF = 1.6
 
 # Defense (DPS)
-DPS_COEFF = 2.5            # DPS multiplier in final TED/TAP/MAP formulas (history: 1.0 → 2.0 → 2.5 → 3.0 → 2.75 → 2.0 → 2.5)
+DPS_COEFF = 2.0            # DPS multiplier in final TED/TAP/MAP formulas (history: 1.0 → 2.0 → 2.5 → 3.0 → 2.75 → 2.0 → 2.5 → 2.0)
 DWS_BASELINE = 3.8
 WS_DPS_MULTIPLIER = 1.3
 
