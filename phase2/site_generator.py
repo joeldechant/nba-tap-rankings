@@ -268,16 +268,12 @@ def generate_html(weekly, season, daily, updated_at):
     """Generate the full HTML page — TED only."""
     season_label = f"{config.CURRENT_SEASON_YEAR}-{str(config.CURRENT_SEASON_YEAR + 1)[-2:]}"
 
-    # Yesterday's date for daily table subtitle
-    yesterday = date.today() - timedelta(days=1)
-    daily_label = yesterday.strftime("%B %d, %Y").replace(" 0", " ")  # "March 5, 2026" not "March 05"
-
     weekly_ted_table = render_table(weekly['ted'], 'ted', 'WEEKLY TED TOP 100')
     season_ted_table = render_table(season['ted'], 'ted', 'SEASON-TO-DATE TED TOP 100')
     weekly_tap_table = render_table(weekly['tap'], 'tap', 'WEEKLY TAP TOP 100')
     season_tap_table = render_table(season['tap'], 'tap', 'SEASON-TO-DATE TAP TOP 100')
-    daily_ted_table = render_table(daily['ted'], 'ted', 'DAILY TED TOP 20', week_label=daily_label)
-    daily_tap_table = render_table(daily['tap'], 'tap', 'DAILY TAP TOP 20', week_label=daily_label)
+    daily_ted_table = render_table(daily['ted'], 'ted', 'DAILY TED TOP 20')
+    daily_tap_table = render_table(daily['tap'], 'tap', 'DAILY TAP TOP 20')
 
     # Build career popup data
     career_js = build_career_js(
