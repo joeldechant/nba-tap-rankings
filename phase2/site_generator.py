@@ -272,8 +272,8 @@ def generate_html(weekly, season, daily, updated_at):
     season_ted_table = render_table(season['ted'], 'ted', 'SEASON-TO-DATE TED TOP 100')
     weekly_tap_table = render_table(weekly['tap'], 'tap', 'WEEKLY TAP TOP 100')
     season_tap_table = render_table(season['tap'], 'tap', 'SEASON-TO-DATE TAP TOP 100')
-    daily_ted_table = render_table(daily['ted'], 'ted', 'DAILY TED TOP 20')
-    daily_tap_table = render_table(daily['tap'], 'tap', 'DAILY TAP TOP 20')
+    daily_ted_table = render_table(daily['ted'], 'ted', 'DAILY TED TOP 40')
+    daily_tap_table = render_table(daily['tap'], 'tap', 'DAILY TAP TOP 40')
 
     # Build career popup data
     career_js = build_career_js(
@@ -1120,13 +1120,13 @@ def generate_site():
     print(f"  Weekly TED: {len(weekly['ted'])} players")
     print(f"  Weekly TAP: {len(weekly['tap'])} players")
 
-    # Daily rankings = most recent game day (top 20)
+    # Daily rankings = most recent game day (top 40)
     last_game_date = db.get_last_game_date(config.CURRENT_SEASON_YEAR)
     if last_game_date:
         daily_full = calculate_weekly_rankings(last_game_date, last_game_date)
         daily = {
-            'ted': daily_full['ted'][:20],
-            'tap': daily_full['tap'][:20],
+            'ted': daily_full['ted'][:40],
+            'tap': daily_full['tap'][:40],
         }
         print(f"  Daily ({last_game_date}): TED {len(daily['ted'])}, TAP {len(daily['tap'])} players")
     else:
