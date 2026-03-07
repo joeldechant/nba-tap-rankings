@@ -107,7 +107,7 @@ def render_historical_section(data, stat_key='ted'):
 
     # Build decade nav links (only from TED pass — shared nav)
     nav_links = ''.join(
-        f'<a href="#decade-{d}" data-decade="{d}">{d}</a>' for d in decade_order if d in data['decades']
+        f'<a href="#decade-{d}" data-decade="{d}">{d[:-1]}<span class="decade-s">s</span></a>' for d in decade_order if d in data['decades']
     )
 
     # Build decade sections
@@ -161,7 +161,7 @@ def render_historical_section(data, stat_key='ted'):
 """
 
         decades_html += f"""  <div class="decade" id="decade-{decade_label}{suffix}">
-    <div class="decade-header"><h3>{decade_label}</h3></div>
+    <div class="decade-header"><h3>{decade_label[:-1]}<span class="decade-s">s</span></h3></div>
 {years_html}  </div>
 """
 
@@ -639,6 +639,11 @@ def generate_html(weekly, season, daily, updated_at):
       letter-spacing: 0.1em;
       color: #ee7623;
       margin: 0;
+    }}
+
+    .decade-s {{
+      font-size: 0.75em;
+      vertical-align: baseline;
     }}
 
     .year-pair {{

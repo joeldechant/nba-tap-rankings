@@ -10661,7 +10661,7 @@
         {
           "year": 1983,
           "season_label": "1983-84",
-          "top_n": 30,
+          "top_n": 20,
           "players": [
             {
               "rank": 1,
@@ -10802,83 +10802,13 @@
               "team": null,
               "ted": 28.8,
               "tap": 30.7
-            },
-            {
-              "rank": 21,
-              "player": "Bill Laimbeer",
-              "team": null,
-              "ted": 27.6,
-              "tap": 27.8
-            },
-            {
-              "rank": 22,
-              "player": "Dominique Wilkins",
-              "team": null,
-              "ted": 27.0,
-              "tap": 28.8
-            },
-            {
-              "rank": 23,
-              "player": "Robert Parish",
-              "team": null,
-              "ted": 25.9,
-              "tap": 25.9
-            },
-            {
-              "rank": 24,
-              "player": "George Gervin",
-              "team": null,
-              "ted": 25.1,
-              "tap": 27.4
-            },
-            {
-              "rank": 25,
-              "player": "Jim Paxson",
-              "team": null,
-              "ted": 24.3,
-              "tap": 27.2
-            },
-            {
-              "rank": 26,
-              "player": "Terry Cummings",
-              "team": null,
-              "ted": 24.0,
-              "tap": 26.2
-            },
-            {
-              "rank": 27,
-              "player": "Larry Drew",
-              "team": null,
-              "ted": 23.7,
-              "tap": 24.8
-            },
-            {
-              "rank": 28,
-              "player": "Rolando Blackman",
-              "team": null,
-              "ted": 23.7,
-              "tap": 25.7
-            },
-            {
-              "rank": 29,
-              "player": null,
-              "team": null,
-              "ted": null,
-              "tap": null
-            },
-            {
-              "rank": 30,
-              "player": null,
-              "team": null,
-              "ted": null,
-              "tap": null
             }
           ]
         },
         {
           "year": 1982,
           "season_label": "1982-83",
-          "top_n": 30,
+          "top_n": 20,
           "players": [
             {
               "rank": 1,
@@ -11019,76 +10949,6 @@
               "team": null,
               "ted": 25.0,
               "tap": 28.1
-            },
-            {
-              "rank": 21,
-              "player": null,
-              "team": null,
-              "ted": null,
-              "tap": null
-            },
-            {
-              "rank": 22,
-              "player": null,
-              "team": null,
-              "ted": null,
-              "tap": null
-            },
-            {
-              "rank": 23,
-              "player": null,
-              "team": null,
-              "ted": null,
-              "tap": null
-            },
-            {
-              "rank": 24,
-              "player": null,
-              "team": null,
-              "ted": null,
-              "tap": null
-            },
-            {
-              "rank": 25,
-              "player": null,
-              "team": null,
-              "ted": null,
-              "tap": null
-            },
-            {
-              "rank": 26,
-              "player": null,
-              "team": null,
-              "ted": null,
-              "tap": null
-            },
-            {
-              "rank": 27,
-              "player": null,
-              "team": null,
-              "ted": null,
-              "tap": null
-            },
-            {
-              "rank": 28,
-              "player": null,
-              "team": null,
-              "ted": null,
-              "tap": null
-            },
-            {
-              "rank": 29,
-              "player": null,
-              "team": null,
-              "ted": null,
-              "tap": null
-            },
-            {
-              "rank": 30,
-              "player": null,
-              "team": null,
-              "ted": null,
-              "tap": null
             }
           ]
         },

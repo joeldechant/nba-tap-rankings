@@ -311,8 +311,10 @@ def build_historical_json():
 
             if year >= 2013:
                 top_n = 40
-            elif year >= 1982:
+            elif year >= 1984:
                 top_n = 30
+            elif year >= 1982:
+                top_n = 20
             else:
                 top_n = 10
             season_label = f"{year}-{str(year + 1)[-2:]}"
