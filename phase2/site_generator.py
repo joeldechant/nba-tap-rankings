@@ -157,7 +157,8 @@ def render_historical_section(data, stat_key='ted'):
 """
             else:
                 years_html += f"""    <div class="year-pair single">
-{year_tables[i]}    </div>
+{year_tables[i]}      <div class="year-table-placeholder"><div class="table-header">&nbsp;</div></div>
+    </div>
 """
 
         decades_html += f"""  <div class="decade" id="decade-{decade_label}{suffix}">
