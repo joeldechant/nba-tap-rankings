@@ -169,7 +169,9 @@ def render_historical_section(data, stat_key='ted', season_all=None):
     <div class="decade-header"><h3>{decade_label[:-1]}<span class="decade-s">s</span></h3></div>
     <div class="decade-top100" style="display:none">
 {decade_top100_html}    </div>
-{years_html}  </div>
+    <div class="decade-years">
+{years_html}    </div>
+  </div>
 """
 
     return nav_links, f"""  <div class="historical-section">
@@ -1291,37 +1293,47 @@ def generate_html(weekly, season, daily, updated_at):
       header.addEventListener('click', function() {{
         if (allTime.style.display !== 'none') {{
           allTime.style.display = 'none';
-          header.scrollIntoView({{behavior: 'smooth', block: 'start'}});
+          header.scrollIntoView({{block: 'start'}});
         }} else {{
           allTime.style.display = '';
         }}
       }});
-      /* Also collapse via the table's own header */
+      /* Also collapse via the table's own sticky header */
       var tableHeader = allTime.querySelector('.table-header');
       if (tableHeader) tableHeader.addEventListener('click', function() {{
         allTime.style.display = 'none';
-        header.scrollIntoView({{behavior: 'smooth', block: 'start'}});
+        /* header is not sticky, so scrollIntoView works correctly */
+        header.scrollIntoView({{block: 'start'}});
       }});
     }});
 
-    /* Decade top 100 toggle — click decade header to show/hide */
+    /* Scroll helper — scrolls to the .decade parent (not the sticky header).
+       The sticky header reports top:0 even when far from its DOM position,
+       so scrollIntoView on it is a no-op. Use the parent div instead. */
+    function collapseAndScroll(toHide, toShow, scrollTarget) {{
+      toHide.style.display = 'none';
+      toShow.style.display = '';
+      scrollTarget.closest('.decade').scrollIntoView({{block: 'start'}});
+    }}
     document.querySelectorAll('.decade').forEach(function(dec) {{
       var header = dec.querySelector('.decade-header');
       var top100 = dec.querySelector('.decade-top100');
-      if (!header || !top100) return;
+      var years = dec.querySelector('.decade-years');
+      if (!header || !top100 || !years) return;
       header.addEventListener('click', function() {{
         if (top100.style.display !== 'none') {{
-          top100.style.display = 'none';
-          header.scrollIntoView({{behavior: 'smooth', block: 'start'}});
+          /* Collapse: hide top100, show years, scroll to header */
+          collapseAndScroll(top100, years, header);
         }} else {{
+          /* Expand: show top100, hide years */
           top100.style.display = '';
+          years.style.display = 'none';
         }}
       }});
-      /* Also collapse via the table's own header */
+      /* Also collapse via the table's own sticky header */
       var tableHeader = top100.querySelector('.table-header');
       if (tableHeader) tableHeader.addEventListener('click', function() {{
-        top100.style.display = 'none';
-        header.scrollIntoView({{behavior: 'smooth', block: 'start'}});
+        collapseAndScroll(top100, years, header);
       }});
     }});
   }})();
