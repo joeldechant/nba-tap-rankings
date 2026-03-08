@@ -357,12 +357,12 @@ def build_historical_json():
         if years_data:
             decades[decade_label] = {'years': years_data}
 
-    # Build all-time top 100 (best individual seasons by TED across all years)
-    all_time_sorted = sorted(results, key=lambda x: x['ted'], reverse=True)[:100]
-    all_time_top_100 = []
+    # Build all-time top 200 (best individual seasons by TED across all years)
+    all_time_sorted = sorted(results, key=lambda x: x['ted'], reverse=True)[:200]
+    all_time_top_200 = []
     for i, p in enumerate(all_time_sorted, 1):
         season_label = f"{p['year']}-{str(p['year'] + 1)[-2:]}"
-        all_time_top_100.append({
+        all_time_top_200.append({
             'rank': i,
             'player': p['player'],
             'team': p['team'],
@@ -371,12 +371,12 @@ def build_historical_json():
             'ted': round(p['ted'], 1),
             'tap': round(p['tap'], 1),
         })
-    print(f"  All-time top 100: TED range {all_time_top_100[0]['ted']} to {all_time_top_100[-1]['ted']}")
+    print(f"  All-time top 200: TED range {all_time_top_200[0]['ted']} to {all_time_top_200[-1]['ted']}")
 
     # Write JSON
     output = {
         'generated': str(__import__('datetime').date.today()),
-        'all_time_top_100': all_time_top_100,
+        'all_time_top_200': all_time_top_200,
         'decades': decades,
         'career_data': dict(career_data),
         'season_stats': season_stats,

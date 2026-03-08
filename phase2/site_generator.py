@@ -166,9 +166,14 @@ def render_historical_section(data, stat_key='ted'):
 {years_html}  </div>
 """
 
-    return nav_links, f"""  <div class="historical-section">
-    <div class="historical-header"><h2>Historical {stat_upper} Rankings</h2></div>
-{decades_html}  </div>
+    return nav_links, f"""  <div class="historical-section historical-slot">
+    <div class="historical-decades">
+      <div class="historical-header"><h2>Historical {stat_upper} Rankings</h2></div>
+      <nav class="decade-nav">{nav_links}</nav>
+{decades_html}    </div>
+    <div class="all-time-table" style="display:none">
+{render_all_time_html(data, stat_key)}    </div>
+  </div>
 """
 
 
@@ -186,38 +191,35 @@ def get_last_name(name):
 
 
 def render_all_time_html(data, stat_key='ted'):
-    """Generate HTML for the all-time top 100 as a decade-like block."""
-    if not data or 'all_time_top_100' not in data:
+    """Generate HTML for the all-time top 200 table."""
+    if not data or 'all_time_top_200' not in data:
         return ''
 
     stat_upper = stat_key.upper()
-    suffix = '' if stat_key == 'ted' else f'-{stat_key}'
 
     # Re-sort by chosen stat and re-rank
     players_sorted = sorted(
-        data['all_time_top_100'],
+        data['all_time_top_200'],
         key=lambda p: p.get(stat_key, 0),
         reverse=True
     )
 
     rows = ''
     for rank, p in enumerate(players_sorted, 1):
-        last_name = get_last_name(p['player'])
+        name_html = format_player_name(p['player'])
+        player_attr = html_module.escape(p['player'], quote=True)
         team = p['team'] if p['team'] else '&mdash;'
         val_str = f'{p[stat_key]:.1f}'
-        rows += f'        <tr><td class="rank">{rank}</td><td class="player">{last_name}</td><td class="team">{team}</td><td class="season">{p["season_label"]}</td><td class="num stat">{val_str}</td></tr>\n'
+        rows += f'        <tr><td class="rank">{rank}</td><td class="player" data-player="{player_attr}">{name_html}</td><td class="team">{team}</td><td class="season">{p["season_label"]}</td><td class="num stat">{val_str}</td></tr>\n'
 
-    return f"""  <div class="decade" id="decade-all-time{suffix}">
-    <div class="decade-header"><h3>OVERALL</h3></div>
-    <div class="year-table">
-      <div class="table-header"><h2>ALL-TIME {stat_upper} TOP 100</h2></div>
+    return f"""    <div class="year-table">
+      <div class="table-header"><h2>ALL-TIME {stat_upper} TOP 200</h2></div>
       <table>
         <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="season">Season</th><th class="num stat">{stat_upper}</th></tr></thead>
         <tbody>
 {rows}        </tbody>
       </table>
     </div>
-  </div>
 """
 
 
@@ -286,7 +288,7 @@ def generate_html(weekly, season, daily, updated_at):
     if historical:
         decade_nav_links, historical_ted_html = render_historical_section(historical, 'ted')
         _, historical_tap_html = render_historical_section(historical, 'tap')
-        decade_nav_html = f'<nav class="decade-nav">{decade_nav_links}</nav>'
+        decade_nav_html = ''  # now embedded inside historical sections
         historical_html = f"""<div class="view-ted" style="display:none">
 {historical_ted_html}</div>
 <div class="view-tap">
@@ -589,6 +591,19 @@ def generate_html(weekly, season, daily, updated_at):
       color: #000;
       text-align: center;
       padding: 16px 12px;
+      cursor: pointer;
+    }}
+
+    .historical-header:hover {{
+      background: #eee;
+    }}
+
+    .all-time-table .table-header {{
+      cursor: pointer;
+    }}
+
+    .all-time-table .table-header:hover {{
+      background: #eee;
     }}
 
     .historical-header h2 {{
@@ -1124,6 +1139,21 @@ def generate_html(weekly, season, daily, updated_at):
           weekly.style.display = 'none';
           daily.style.display = '';
         }}
+      }});
+    }});
+
+    /* Historical / All-Time toggle — click header to swap */
+    document.querySelectorAll('.historical-slot').forEach(function(slot) {{
+      var decades = slot.querySelector('.historical-decades');
+      var allTime = slot.querySelector('.all-time-table');
+      if (!decades || !allTime) return;
+      decades.querySelector('.historical-header').addEventListener('click', function() {{
+        decades.style.display = 'none';
+        allTime.style.display = '';
+      }});
+      allTime.querySelector('.table-header').addEventListener('click', function() {{
+        allTime.style.display = 'none';
+        decades.style.display = '';
       }});
     }});
   }})();
