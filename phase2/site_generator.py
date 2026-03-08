@@ -255,9 +255,10 @@ def render_all_time_html(data, stat_key='ted', season_all=None):
 
 
 def render_decade_top100_html(decade_label, decade_data, stat_key='ted', season_all=None):
-    """Generate HTML for a decade's top 100 table.
+    """Generate HTML for a decade's top N table.
 
     Merges current season players for the 2020s decade.
+    Top N is 200 for 1980s onwards, 100 for earlier decades.
     """
     if not decade_data or 'decade_top_100' not in decade_data:
         return ''
@@ -266,6 +267,7 @@ def render_decade_top100_html(decade_label, decade_data, stat_key='ted', season_
     current_year = config.CURRENT_SEASON_YEAR
     decade_start = int(decade_label[:4])
     decade_end = decade_start + 9
+    decade_top_n = decade_data.get('decade_top_n', 100)
 
     # Start with historical decade entries
     all_entries = list(decade_data['decade_top_100'])
@@ -284,12 +286,12 @@ def render_decade_top100_html(decade_label, decade_data, stat_key='ted', season_
                     'tap': round(p['tap'], 1),
                 })
 
-    # Sort by chosen stat, take top 100, re-rank
+    # Sort by chosen stat, take top N, re-rank
     players_sorted = sorted(
         all_entries,
         key=lambda p: p.get(stat_key, 0),
         reverse=True
-    )[:100]
+    )[:decade_top_n]
 
     rows = ''
     for rank, p in enumerate(players_sorted, 1):
@@ -300,7 +302,7 @@ def render_decade_top100_html(decade_label, decade_data, stat_key='ted', season_
 
     return f"""    <div class="year-pair single">
       <div class="year-table">
-        <div class="table-header"><h2><span class="decade-label">{decade_label[:-1]}<span class="decade-s">s</span></span> {stat_upper} TOP 100</h2></div>
+        <div class="table-header"><h2><span class="decade-label">{decade_label[:-1]}<span class="decade-s">s</span></span> {stat_upper} TOP {decade_top_n}</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="season">Season</th><th class="num stat">{stat_upper}</th></tr></thead>
           <tbody>
