@@ -317,6 +317,7 @@ def generate_html(weekly, season, daily, updated_at):
       margin: 0 auto;
       border: 3px solid #fff;
       padding: 0;
+      overflow: visible;
     }}
 
     header {{
@@ -434,6 +435,7 @@ def generate_html(weekly, season, daily, updated_at):
       border: 2px solid #000;
       padding: 10px 12px;
       text-align: center;
+      position: -webkit-sticky;
       position: sticky;
       top: 0;
       z-index: 20;
