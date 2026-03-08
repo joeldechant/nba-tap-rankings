@@ -308,7 +308,7 @@ def render_decade_top100_html(decade_label, decade_data, stat_key='ted', season_
         </table>
       </div>
       <div class="year-table">
-        <div class="table-header"><h2>&nbsp;</h2></div>
+        <div class="table-header"><h2><span class="decade-label" style="visibility:hidden">&nbsp;</span></h2></div>
         <table style="visibility:hidden"><thead><tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr></thead></table>
       </div>
     </div>
