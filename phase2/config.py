@@ -52,8 +52,8 @@ TOV_WEIGHT = 0.85
 NA_COEFF = 1.6
 
 # Defense (DPS)
-DPS_COEFF_TED = 1.0        # DPS multiplier for TED (lower due to double-counting of defensive component of rebounds/turnovers)
-DPS_COEFF_TAP = 2.0        # DPS multiplier for TAP (OP residual corrects for double-counting, so higher coefficient is appropriate)
+DPS_COEFF_TED = 1.5        # DPS multiplier for TED (lower due to double-counting of defensive component of rebounds/turnovers)
+DPS_COEFF_TAP = 2.5        # DPS multiplier for TAP (OP residual corrects for double-counting, so higher coefficient is appropriate)
 DPS_COEFF = DPS_COEFF_TAP  # Backward compat alias (used by analysis scripts, MCP)
 DWS_BASELINE = 3.8
 WS_DPS_MULTIPLIER = 1.3
