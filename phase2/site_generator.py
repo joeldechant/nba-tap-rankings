@@ -1288,12 +1288,18 @@ def generate_html(weekly, season, daily, updated_at):
       var allTime = sec.querySelector('.all-time-table');
       if (!header || !allTime) return;
       header.addEventListener('click', function() {{
-        allTime.style.display = allTime.style.display === 'none' ? '' : 'none';
+        if (allTime.style.display !== 'none') {{
+          allTime.style.display = 'none';
+          header.scrollIntoView({{behavior: 'smooth', block: 'start'}});
+        }} else {{
+          allTime.style.display = '';
+        }}
       }});
       /* Also collapse via the table's own header */
       var tableHeader = allTime.querySelector('.table-header');
       if (tableHeader) tableHeader.addEventListener('click', function() {{
         allTime.style.display = 'none';
+        header.scrollIntoView({{behavior: 'smooth', block: 'start'}});
       }});
     }});
 
@@ -1303,12 +1309,18 @@ def generate_html(weekly, season, daily, updated_at):
       var top100 = dec.querySelector('.decade-top100');
       if (!header || !top100) return;
       header.addEventListener('click', function() {{
-        top100.style.display = top100.style.display === 'none' ? '' : 'none';
+        if (top100.style.display !== 'none') {{
+          top100.style.display = 'none';
+          header.scrollIntoView({{behavior: 'smooth', block: 'start'}});
+        }} else {{
+          top100.style.display = '';
+        }}
       }});
       /* Also collapse via the table's own header */
       var tableHeader = top100.querySelector('.table-header');
       if (tableHeader) tableHeader.addEventListener('click', function() {{
         top100.style.display = 'none';
+        header.scrollIntoView({{behavior: 'smooth', block: 'start'}});
       }});
     }});
   }})();
