@@ -162,9 +162,16 @@ def render_historical_section(data, stat_key='ted', season_all=None):
     </div>
 """
 
+        decade_top100_html = render_decade_top100_html(
+            decade_label, decade, stat_key, season_all)
+
         decades_html += f"""  <div class="decade" id="decade-{decade_label}{suffix}">
-    <div class="decade-header"><h3>{decade_label[:-1]}<span class="decade-s">s</span></h3></div>
-{years_html}  </div>
+    <div class="decade-years">
+      <div class="decade-header"><h3>{decade_label[:-1]}<span class="decade-s">s</span></h3></div>
+{years_html}    </div>
+    <div class="decade-top100" style="display:none">
+{decade_top100_html}    </div>
+  </div>
 """
 
     return nav_links, f"""  <div class="historical-section historical-slot">
@@ -237,6 +244,62 @@ def render_all_time_html(data, stat_key='ted', season_all=None):
 
     return f"""    <div class="year-table">
       <div class="table-header"><h2>ALL-TIME {stat_upper} TOP 200</h2></div>
+      <table>
+        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="season">Season</th><th class="num stat">{stat_upper}</th></tr></thead>
+        <tbody>
+{rows}        </tbody>
+      </table>
+    </div>
+"""
+
+
+def render_decade_top100_html(decade_label, decade_data, stat_key='ted', season_all=None):
+    """Generate HTML for a decade's top 100 table.
+
+    Merges current season players for the 2020s decade.
+    """
+    if not decade_data or 'decade_top_100' not in decade_data:
+        return ''
+
+    stat_upper = stat_key.upper()
+    current_year = config.CURRENT_SEASON_YEAR
+    decade_start = int(decade_label[:4])
+    decade_end = decade_start + 9
+
+    # Start with historical decade entries
+    all_entries = list(decade_data['decade_top_100'])
+
+    # Merge current season for the current decade
+    if season_all and decade_start <= current_year <= decade_end:
+        season_label = f"{current_year}-{str(current_year + 1)[-2:]}"
+        for p in season_all:
+            if p.get('ted') is not None and p.get('tap') is not None:
+                all_entries.append({
+                    'player': p['player'],
+                    'team': p.get('team', ''),
+                    'year': current_year,
+                    'season_label': season_label,
+                    'ted': round(p['ted'], 1),
+                    'tap': round(p['tap'], 1),
+                })
+
+    # Sort by chosen stat, take top 100, re-rank
+    players_sorted = sorted(
+        all_entries,
+        key=lambda p: p.get(stat_key, 0),
+        reverse=True
+    )[:100]
+
+    rows = ''
+    for rank, p in enumerate(players_sorted, 1):
+        name_html = format_player_name(p['player'])
+        player_attr = html_module.escape(p['player'], quote=True)
+        team = p['team'] if p['team'] else '&mdash;'
+        val_str = f'{p[stat_key]:.1f}'
+        rows += f'        <tr><td class="rank">{rank}</td><td class="player" data-player="{player_attr}">{name_html}</td><td class="team">{team}</td><td class="season">{p["season_label"]}</td><td class="num stat">{val_str}</td></tr>\n'
+
+    return f"""    <div class="year-table">
+      <div class="table-header"><h2>{decade_label.upper()} {stat_upper} TOP 100</h2></div>
       <table>
         <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="season">Season</th><th class="num stat">{stat_upper}</th></tr></thead>
         <tbody>
@@ -630,6 +693,14 @@ def generate_html(weekly, season, daily, updated_at):
       background: #eee;
     }}
 
+    .decade-top100 .table-header {{
+      cursor: pointer;
+    }}
+
+    .decade-top100 .table-header:hover {{
+      background: #eee;
+    }}
+
     .historical-header h2 {{
       font-family: Georgia, 'Times New Roman', serif;
       font-size: 1.2em;
@@ -675,6 +746,11 @@ def generate_html(weekly, season, daily, updated_at):
       position: sticky;
       top: 0;
       z-index: 10;
+      cursor: pointer;
+    }}
+
+    .decade-header:hover {{
+      background: #333;
     }}
 
     .decade-header h3 {{
@@ -1178,6 +1254,21 @@ def generate_html(weekly, season, daily, updated_at):
       allTime.querySelector('.table-header').addEventListener('click', function() {{
         allTime.style.display = 'none';
         decades.style.display = '';
+      }});
+    }});
+
+    /* Decade top 100 toggle — click decade header to swap */
+    document.querySelectorAll('.decade').forEach(function(dec) {{
+      var years = dec.querySelector('.decade-years');
+      var top100 = dec.querySelector('.decade-top100');
+      if (!years || !top100) return;
+      years.querySelector('.decade-header').addEventListener('click', function() {{
+        years.style.display = 'none';
+        top100.style.display = '';
+      }});
+      top100.querySelector('.table-header').addEventListener('click', function() {{
+        top100.style.display = 'none';
+        years.style.display = '';
       }});
     }});
   }})();

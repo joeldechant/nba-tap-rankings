@@ -355,7 +355,29 @@ def build_historical_json():
                 print(f"    {season_label}: {actual_count}/{top_n} qualifying players")
 
         if years_data:
-            decades[decade_label] = {'years': years_data}
+            # Build decade-level top 100 (best individual seasons in this decade)
+            decade_players = [r for r in results
+                              if decade_start <= r['year'] <= decade_end]
+            decade_sorted = sorted(decade_players, key=lambda x: x['ted'],
+                                   reverse=True)[:100]
+            decade_top_100 = []
+            for i, p in enumerate(decade_sorted, 1):
+                sl = f"{p['year']}-{str(p['year'] + 1)[-2:]}"
+                decade_top_100.append({
+                    'rank': i,
+                    'player': p['player'],
+                    'team': p['team'],
+                    'year': p['year'],
+                    'season_label': sl,
+                    'ted': round(p['ted'], 1),
+                    'tap': round(p['tap'], 1),
+                })
+            print(f"  {decade_label}: {len(decade_top_100)} entries in decade top 100")
+
+            decades[decade_label] = {
+                'years': years_data,
+                'decade_top_100': decade_top_100,
+            }
 
     # Build all-time top 200 (best individual seasons by TED across all years)
     all_time_sorted = sorted(results, key=lambda x: x['ted'], reverse=True)[:200]
