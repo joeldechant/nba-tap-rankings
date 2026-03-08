@@ -300,7 +300,7 @@ def render_decade_top100_html(decade_label, decade_data, stat_key='ted', season_
 
     return f"""    <div class="year-pair single">
       <div class="year-table">
-        <div class="table-header"><h2><span class="decade-label">{decade_label}</span> {stat_upper} TOP 100</h2></div>
+        <div class="table-header"><h2><span class="decade-label">{decade_label[:-1]}<span class="decade-s">s</span></span> {stat_upper} TOP 100</h2></div>
         <table>
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="season">Season</th><th class="num stat">{stat_upper}</th></tr></thead>
           <tbody>
@@ -705,6 +705,16 @@ def generate_html(weekly, season, daily, updated_at):
     .decade-top100 .year-table .table-header h2 .decade-label {{
       font-size: 1.22em;
       font-weight: 700;
+    }}
+
+    .all-time-table table,
+    .decade-top100 table {{
+      width: 100%;
+    }}
+
+    .all-time-table .year-pair > :first-child,
+    .decade-top100 .year-pair > :first-child {{
+      border-right: none;
     }}
 
     .all-time-table .player,
