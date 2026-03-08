@@ -234,17 +234,19 @@ def render_all_time_html(data, stat_key='ted', season_all=None):
     for rank, p in enumerate(players_sorted, 1):
         name_html = format_player_name(p['player'])
         player_attr = html_module.escape(p['player'], quote=True)
-        team = p['team'] if p['team'] else '&mdash;'
         val_str = f'{p[stat_key]:.1f}'
-        rows += f'        <tr><td class="rank">{rank}</td><td class="player" data-player="{player_attr}">{name_html}</td><td class="team">{team}</td><td class="season">{p["season_label"]}</td><td class="num stat">{val_str}</td></tr>\n'
+        rows += f'        <tr><td class="rank">{rank}</td><td class="player" data-player="{player_attr}">{name_html}</td><td class="season">{p["season_label"]}</td><td class="num stat">{val_str}</td></tr>\n'
 
-    return f"""    <div class="year-table">
-      <div class="table-header"><h2>ALL-TIME {stat_upper} TOP 200</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="season">Season</th><th class="num stat">{stat_upper}</th></tr></thead>
-        <tbody>
-{rows}        </tbody>
-      </table>
+    return f"""    <div class="year-pair single">
+      <div class="year-table">
+        <div class="table-header"><h2>ALL-TIME {stat_upper} TOP 200</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="season">Season</th><th class="num stat">{stat_upper}</th></tr></thead>
+          <tbody>
+{rows}          </tbody>
+        </table>
+      </div>
+      <div class="year-table"><div class="table-header"><h2>&nbsp;</h2></div></div>
     </div>
 """
 
@@ -290,17 +292,19 @@ def render_decade_top100_html(decade_label, decade_data, stat_key='ted', season_
     for rank, p in enumerate(players_sorted, 1):
         name_html = format_player_name(p['player'])
         player_attr = html_module.escape(p['player'], quote=True)
-        team = p['team'] if p['team'] else '&mdash;'
         val_str = f'{p[stat_key]:.1f}'
-        rows += f'        <tr><td class="rank">{rank}</td><td class="player" data-player="{player_attr}">{name_html}</td><td class="team">{team}</td><td class="season">{p["season_label"]}</td><td class="num stat">{val_str}</td></tr>\n'
+        rows += f'        <tr><td class="rank">{rank}</td><td class="player" data-player="{player_attr}">{name_html}</td><td class="season">{p["season_label"]}</td><td class="num stat">{val_str}</td></tr>\n'
 
-    return f"""    <div class="year-table">
-      <div class="table-header"><h2>{decade_label.upper()} {stat_upper} TOP 100</h2></div>
-      <table>
-        <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="season">Season</th><th class="num stat">{stat_upper}</th></tr></thead>
-        <tbody>
-{rows}        </tbody>
-      </table>
+    return f"""    <div class="year-pair single">
+      <div class="year-table">
+        <div class="table-header"><h2>{decade_label.upper()} {stat_upper} TOP 100</h2></div>
+        <table>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="season">Season</th><th class="num stat">{stat_upper}</th></tr></thead>
+          <tbody>
+{rows}          </tbody>
+        </table>
+      </div>
+      <div class="year-table"><div class="table-header"><h2>&nbsp;</h2></div></div>
     </div>
 """
 
