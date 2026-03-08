@@ -166,22 +166,18 @@ def render_historical_section(data, stat_key='ted', season_all=None):
             decade_label, decade, stat_key, season_all)
 
         decades_html += f"""  <div class="decade" id="decade-{decade_label}{suffix}">
-    <div class="decade-years">
-      <div class="decade-header"><h3>{decade_label[:-1]}<span class="decade-s">s</span></h3></div>
-{years_html}    </div>
+    <div class="decade-header"><h3>{decade_label[:-1]}<span class="decade-s">s</span></h3></div>
     <div class="decade-top100" style="display:none">
 {decade_top100_html}    </div>
-  </div>
+{years_html}  </div>
 """
 
-    return nav_links, f"""  <div class="historical-section historical-slot">
-    <div class="historical-decades">
-      <div class="historical-header"><h2>Historical {stat_upper} Rankings</h2></div>
-      <nav class="decade-nav">{nav_links}</nav>
-{decades_html}    </div>
+    return nav_links, f"""  <div class="historical-section">
+    <div class="historical-header"><h2>Historical {stat_upper} Rankings</h2></div>
     <div class="all-time-table" style="display:none">
 {render_all_time_html(data, stat_key, season_all)}    </div>
-  </div>
+    <nav class="decade-nav">{nav_links}</nav>
+{decades_html}  </div>
 """
 
 
@@ -685,20 +681,9 @@ def generate_html(weekly, season, daily, updated_at):
       background: #eee;
     }}
 
-    .all-time-table .table-header {{
-      cursor: pointer;
-    }}
-
-    .all-time-table .table-header:hover {{
-      background: #eee;
-    }}
-
+    .all-time-table .table-header,
     .decade-top100 .table-header {{
-      cursor: pointer;
-    }}
-
-    .decade-top100 .table-header:hover {{
-      background: #eee;
+      background: #fff;
     }}
 
     .historical-header h2 {{
@@ -1242,33 +1227,23 @@ def generate_html(weekly, season, daily, updated_at):
       }});
     }});
 
-    /* Historical / All-Time toggle — click header to swap */
-    document.querySelectorAll('.historical-slot').forEach(function(slot) {{
-      var decades = slot.querySelector('.historical-decades');
-      var allTime = slot.querySelector('.all-time-table');
-      if (!decades || !allTime) return;
-      decades.querySelector('.historical-header').addEventListener('click', function() {{
-        decades.style.display = 'none';
-        allTime.style.display = '';
-      }});
-      allTime.querySelector('.table-header').addEventListener('click', function() {{
-        allTime.style.display = 'none';
-        decades.style.display = '';
+    /* Historical / All-Time toggle — click header to show/hide */
+    document.querySelectorAll('.historical-section').forEach(function(sec) {{
+      var header = sec.querySelector('.historical-header');
+      var allTime = sec.querySelector('.all-time-table');
+      if (!header || !allTime) return;
+      header.addEventListener('click', function() {{
+        allTime.style.display = allTime.style.display === 'none' ? '' : 'none';
       }});
     }});
 
-    /* Decade top 100 toggle — click decade header to swap */
+    /* Decade top 100 toggle — click decade header to show/hide */
     document.querySelectorAll('.decade').forEach(function(dec) {{
-      var years = dec.querySelector('.decade-years');
+      var header = dec.querySelector('.decade-header');
       var top100 = dec.querySelector('.decade-top100');
-      if (!years || !top100) return;
-      years.querySelector('.decade-header').addEventListener('click', function() {{
-        years.style.display = 'none';
-        top100.style.display = '';
-      }});
-      top100.querySelector('.table-header').addEventListener('click', function() {{
-        top100.style.display = 'none';
-        years.style.display = '';
+      if (!header || !top100) return;
+      header.addEventListener('click', function() {{
+        top100.style.display = top100.style.display === 'none' ? '' : 'none';
       }});
     }});
   }})();
