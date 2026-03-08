@@ -10710,6 +10710,21 @@
         newSlot.querySelector('.weekly-table').style.display = showingDaily ? 'none' : '';
         newSlot.querySelector('.daily-table').style.display = showingDaily ? '' : 'none';
       }
+      /* Sync all-time and decade top 100 expand/collapse state */
+      var oldSec = document.querySelector(oldView + ' .historical-section');
+      var newSec = document.querySelector(newView + ' .historical-section');
+      if (oldSec && newSec) {
+        var oldAT = oldSec.querySelector('.all-time-table');
+        var newAT = newSec.querySelector('.all-time-table');
+        if (oldAT && newAT) newAT.style.display = oldAT.style.display;
+        var oldDecs = oldSec.querySelectorAll('.decade');
+        var newDecs = newSec.querySelectorAll('.decade');
+        for (var di = 0; di < oldDecs.length && di < newDecs.length; di++) {
+          var oldD100 = oldDecs[di].querySelector('.decade-top100');
+          var newD100 = newDecs[di].querySelector('.decade-top100');
+          if (oldD100 && newD100) newD100.style.display = oldD100.style.display;
+        }
+      }
       document.querySelector('.desc-ted').style.display = stat === 'ted' ? '' : 'none';
       document.querySelector('.desc-tap').style.display = stat === 'tap' ? '' : 'none';
       toggleLink.textContent = stat === 'ted' ? 'TAP Click Here' : 'TED Click Here';
