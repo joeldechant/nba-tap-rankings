@@ -701,8 +701,8 @@ def generate_html(weekly, season, daily, updated_at):
       cursor: pointer;
     }}
 
-    .all-time-table .table-header h2,
-    .decade-top100 .table-header h2 {{
+    .all-time-table .year-table .table-header h2,
+    .decade-top100 .year-table .table-header h2 {{
       color: #ee7623;
     }}
 
