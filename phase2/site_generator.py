@@ -846,7 +846,10 @@ def generate_html(weekly, season, daily, updated_at):
 
     .year-table .table-header {{
       background: #fff;
-      border: 2px solid #000;
+      border-top: 2px solid #000;
+      border-bottom: 2px solid #000;
+      border-left: none;
+      border-right: none;
       padding: 8px 12px;
       text-align: center;
     }}
