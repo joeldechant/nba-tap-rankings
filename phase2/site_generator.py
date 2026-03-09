@@ -522,7 +522,7 @@ def generate_html(weekly, season, daily, updated_at):
       margin-bottom: 0;
     }}
 
-    .tables-grid > :first-child table {{
+    .tables-grid > :first-child {{
       border-right: 2px solid #fff;
     }}
 
@@ -721,8 +721,8 @@ def generate_html(weekly, season, daily, updated_at):
       width: 100%;
     }}
 
-    .all-time-table .year-pair > :first-child table,
-    .decade-top100 .year-pair > :first-child table {{
+    .all-time-table .year-pair > :first-child,
+    .decade-top100 .year-pair > :first-child {{
       border-right: 2px solid #fff;
     }}
 
@@ -806,7 +806,7 @@ def generate_html(weekly, season, daily, updated_at):
       border-top: 1px solid #555;
     }}
 
-    .year-pair > :first-child table {{
+    .year-pair > :first-child {{
       border-right: 2px solid #fff;
     }}
 
@@ -985,7 +985,7 @@ def generate_html(weekly, season, daily, updated_at):
       .tables-grid {{
         grid-template-columns: 1fr;
       }}
-      .tables-grid > :first-child table {{
+      .tables-grid > :first-child {{
         border-right: none;
         border-bottom: 2px solid #fff;
       }}
@@ -1026,7 +1026,7 @@ def generate_html(weekly, season, daily, updated_at):
       .year-pair {{
         grid-template-columns: 1fr;
       }}
-      .year-pair > :first-child table {{
+      .year-pair > :first-child {{
         border-right: none;
         border-bottom: 2px solid #fff;
       }}
