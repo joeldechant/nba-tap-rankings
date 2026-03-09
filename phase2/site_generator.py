@@ -723,7 +723,7 @@ def generate_html(weekly, season, daily, updated_at):
 
     .all-time-table .year-pair > :first-child,
     .decade-top100 .year-pair > :first-child {{
-      border-right: 1px solid #555;
+      border-right: 2px solid #fff;
     }}
 
     .all-time-table .player,
@@ -807,7 +807,7 @@ def generate_html(weekly, season, daily, updated_at):
     }}
 
     .year-pair > :first-child {{
-      border-right: 1px solid #555;
+      border-right: 2px solid #fff;
     }}
 
     .year-table {{
@@ -816,6 +816,7 @@ def generate_html(weekly, season, daily, updated_at):
     .year-table table {{
       max-width: 100%;
       margin: 0 auto;
+      border-bottom: 2px solid #fff;
     }}
 
     #decade-all-time .year-table table {{
@@ -1024,7 +1025,7 @@ def generate_html(weekly, season, daily, updated_at):
       }}
       .year-pair > :first-child {{
         border-right: none;
-        border-bottom: 1px solid #555;
+        border-bottom: 2px solid #fff;
       }}
       .year-table table {{
         max-width: 100%;
