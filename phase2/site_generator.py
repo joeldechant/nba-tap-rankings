@@ -776,9 +776,6 @@ def generate_html(weekly, season, daily, updated_at):
       background: #222;
       padding: 10px 16px;
       text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 10;
       cursor: pointer;
     }}
 
@@ -850,9 +847,6 @@ def generate_html(weekly, season, daily, updated_at):
       text-align: center;
     }}
 
-    .decade .year-table .table-header {{
-      top: 45px;
-    }}
 
     .year-table .table-header h2 {{
       font-family: Georgia, 'Times New Roman', serif;
