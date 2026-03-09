@@ -12130,15 +12130,16 @@
     var toggleLink = document.getElementById('toggle-link');
     var floatToggle = document.getElementById('float-toggle');
 
-    /* Lock description container height to the taller description so
-       toggling TED/TAP never shifts content below */
+    /* Lock both description divs to the same min-height so toggling
+       TED/TAP never shifts content below */
     (function() {
-      var dc = document.querySelector('.description');
       var dt = document.querySelector('.desc-ted');
       var dp = document.querySelector('.desc-tap');
       var ot = dt.style.display, op = dp.style.display;
       dt.style.display = ''; dp.style.display = '';
-      dc.style.minHeight = Math.max(dt.offsetHeight, dp.offsetHeight) + 'px';
+      var h = Math.max(dt.offsetHeight, dp.offsetHeight) + 'px';
+      dt.style.minHeight = h;
+      dp.style.minHeight = h;
       dt.style.display = ot; dp.style.display = op;
     })();
 
