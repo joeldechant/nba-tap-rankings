@@ -12130,6 +12130,18 @@
     var toggleLink = document.getElementById('toggle-link');
     var floatToggle = document.getElementById('float-toggle');
 
+    /* Lock description container height to the taller description so
+       toggling TED/TAP never shifts content below */
+    (function() {
+      var dc = document.querySelector('.description');
+      var dt = document.querySelector('.desc-ted');
+      var dp = document.querySelector('.desc-tap');
+      var ot = dt.style.display, op = dp.style.display;
+      dt.style.display = ''; dp.style.display = '';
+      dc.style.minHeight = Math.max(dt.offsetHeight, dp.offsetHeight) + 'px';
+      dt.style.display = ot; dp.style.display = op;
+    })();
+
     /* Find the nearest visible anchor element for scroll preservation.
        Returns {selector, offset} where selector can find the matching
        element in the other view, and offset is the viewport-top distance. */
