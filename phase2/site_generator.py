@@ -1135,32 +1135,16 @@ def generate_html(weekly, season, daily, updated_at):
       document.querySelectorAll(viewClass + ' .year-table[data-year]').forEach(function(el) {{
         if (el.offsetParent !== null) candidates.push({{el: el, sel: '.year-table[data-year="' + el.getAttribute('data-year') + '"]'}});
       }});
-      /* Decade headers + decade top-100 sticky headers — ID-based matching */
+      /* Decade headers (not sticky — safe anchors with stable DOM positions) */
       document.querySelectorAll(viewClass + ' .decade').forEach(function(dec) {{
         var decId = dec.id;
-        /* Build selector prefix for matching decade in opposite view:
-           TED ids: decade-2020s  →  TAP: #decade-2020s-tap
-           TAP ids: decade-2020s-tap  →  TED: #decade-2020s */
         var otherId = decId.endsWith('-tap') ? decId.slice(0, -4) : decId + '-tap';
         var h = dec.querySelector('.decade-header');
         if (h && h.offsetParent !== null) {{
           candidates.push({{el: h, sel: '#' + otherId + ' .decade-header'}});
         }}
-        /* Decade top-100 sticky table header (visible when list is expanded) */
-        var th = dec.querySelector('.decade-top100 .table-header');
-        if (th && th.offsetParent !== null) {{
-          candidates.push({{el: th, sel: '#' + otherId + ' .decade-top100 .table-header'}});
-        }}
       }});
-      /* Current-season sticky table headers (weekly/daily + season-to-date) */
-      var wt = document.querySelector(viewClass + ' .weekly-daily-slot .table-header');
-      if (wt && wt.offsetParent !== null) candidates.push({{el: wt, sel: '.weekly-daily-slot .table-header'}});
-      var st = document.querySelector(viewClass + ' .table-section .table-header');
-      if (st && st.offsetParent !== null) candidates.push({{el: st, sel: '.table-section .table-header'}});
-      /* All-time table header */
-      var ath = document.querySelector(viewClass + ' .all-time-table .table-header');
-      if (ath && ath.offsetParent !== null) candidates.push({{el: ath, sel: '.all-time-table .table-header'}});
-      /* Historical section header */
+      /* Historical section header (not sticky — safe anchor) */
       var hh = document.querySelector(viewClass + ' .historical-header');
       if (hh && hh.offsetParent !== null) candidates.push({{el: hh, sel: '.historical-header'}});
       var best = null, bestDist = Infinity;
