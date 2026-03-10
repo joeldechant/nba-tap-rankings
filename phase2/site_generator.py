@@ -370,7 +370,7 @@ def render_goat_html(season_stats, stat_key='ted', season_all=None):
         rows += (f'        <tr>'
                  f'<td class="season">{season_label}</td>'
                  f'<td class="player" data-player="{player_attr}">{name_html}</td>'
-                 f'<td class="num goat-stat">{val:.1f}</td>'
+                 f'<td class="num stat">{val:.1f}</td>'
                  f'<td class="num goat-avg">{round(top10)}</td>'
                  f'<td class="num">{diff_str}</td>'
                  f'</tr>\n')
@@ -793,10 +793,6 @@ def generate_html(weekly, season, daily, updated_at):
     .decade-top100 .table-header:hover,
     .goat-table .table-header:hover {{
       background: #eee;
-    }}
-
-    .goat-stat {{
-      font-weight: 900;
     }}
 
     td.num.goat-avg,
