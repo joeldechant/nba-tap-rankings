@@ -12580,7 +12580,8 @@
           goatDiv.style.display = 'none';
         } else {
           goatDiv.style.display = '';
-          goatDiv.scrollIntoView({behavior: 'smooth'});
+          var nav = goatDiv.closest('.historical-section').querySelector('.decade-nav');
+          if (nav) nav.scrollIntoView({behavior: 'smooth'});
         }
       });
     });
