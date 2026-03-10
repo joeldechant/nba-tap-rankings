@@ -308,19 +308,29 @@
     }
 
     .all-time-table .table-header,
-    .decade-top100 .table-header {
+    .decade-top100 .table-header,
+    .goat-table .table-header {
       background: #fff;
       cursor: pointer;
     }
 
     .all-time-table .year-table .table-header h2,
-    .decade-top100 .year-table .table-header h2 {
+    .decade-top100 .year-table .table-header h2,
+    .goat-table .year-table .table-header h2 {
       color: #ee7623;
     }
 
     .all-time-table .table-header:hover,
-    .decade-top100 .table-header:hover {
+    .decade-top100 .table-header:hover,
+    .goat-table .table-header:hover {
       background: #eee;
+    }
+
+    .goat-player {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 180px;
     }
 
     .decade-top100 .year-table .table-header h2 .decade-label {
@@ -329,12 +339,14 @@
     }
 
     .all-time-table table,
-    .decade-top100 table {
+    .decade-top100 table,
+    .goat-table table {
       width: 100%;
     }
 
     .all-time-table .year-pair > :first-child,
-    .decade-top100 .year-pair > :first-child {
+    .decade-top100 .year-pair > :first-child,
+    .goat-table .year-pair > :first-child {
       border-right: 2px solid #fff;
     }
 
@@ -4081,7 +4093,99 @@
       </div>
     </div>
     </div>
-    <nav class="decade-nav"><a href="#decade-2020s" data-decade="2020s">2020<span class="decade-s">s</span></a><a href="#decade-2010s" data-decade="2010s">2010<span class="decade-s">s</span></a><a href="#decade-2000s" data-decade="2000s">2000<span class="decade-s">s</span></a><a href="#decade-1990s" data-decade="1990s">1990<span class="decade-s">s</span></a><a href="#decade-1980s" data-decade="1980s">1980<span class="decade-s">s</span></a><a href="#decade-1970s" data-decade="1970s">1970<span class="decade-s">s</span></a><a href="#decade-1960s" data-decade="1960s">1960<span class="decade-s">s</span></a><a href="#decade-1950s" data-decade="1950s">1950<span class="decade-s">s</span></a></nav>
+    <div class="goat-table" style="display:none">
+    <div class="year-pair single">
+      <div class="year-table">
+        <div class="table-header"><h2>TOP TED BY SEASON</h2></div>
+        <table>
+          <thead><tr><th class="season">Season</th><th class="player">Player</th><th class="num stat">TED</th><th class="num">TOP 10</th><th class="num">DIFF</th></tr></thead>
+          <tbody>
+        <tr><td class="season">2025-26</td><td class="player goat-player" data-player="Nikola Jokić"><span class="fname">Nikola</span> <span class="lname">Jokić</span></td><td class="num stat">59.4</td><td class="num">49.2</td><td class="num">+10.2</td></tr>
+        <tr><td class="season">2024-25</td><td class="player goat-player" data-player="Nikola Jokić"><span class="fname">Nikola</span> <span class="lname">Jokić</span></td><td class="num stat">56.3</td><td class="num">46.6</td><td class="num">+9.7</td></tr>
+        <tr><td class="season">2023-24</td><td class="player goat-player" data-player="Nikola Jokić"><span class="fname">Nikola</span> <span class="lname">Jokić</span></td><td class="num stat">56.7</td><td class="num">47.0</td><td class="num">+9.7</td></tr>
+        <tr><td class="season">2022-23</td><td class="player goat-player" data-player="Nikola Jokić"><span class="fname">Nikola</span> <span class="lname">Jokić</span></td><td class="num stat">56.0</td><td class="num">48.2</td><td class="num">+7.8</td></tr>
+        <tr><td class="season">2021-22</td><td class="player goat-player" data-player="Nikola Jokić"><span class="fname">Nikola</span> <span class="lname">Jokić</span></td><td class="num stat">57.3</td><td class="num">46.4</td><td class="num">+10.9</td></tr>
+        <tr><td class="season">2020-21</td><td class="player goat-player" data-player="Nikola Jokić"><span class="fname">Nikola</span> <span class="lname">Jokić</span></td><td class="num stat">51.7</td><td class="num">46.1</td><td class="num">+5.6</td></tr>
+        <tr><td class="season">2019-20</td><td class="player goat-player" data-player="Giannis Antetokounmpo"><span class="fname">Giannis</span> <span class="lname">Antetokounmpo</span></td><td class="num stat">57.0</td><td class="num">45.4</td><td class="num">+11.6</td></tr>
+        <tr><td class="season">2018-19</td><td class="player goat-player" data-player="Giannis Antetokounmpo"><span class="fname">Giannis</span> <span class="lname">Antetokounmpo</span></td><td class="num stat">53.6</td><td class="num">45.3</td><td class="num">+8.3</td></tr>
+        <tr><td class="season">2017-18</td><td class="player goat-player" data-player="James Harden"><span class="fname">James</span> <span class="lname">Harden</span></td><td class="num stat">50.1</td><td class="num">43.8</td><td class="num">+6.3</td></tr>
+        <tr><td class="season">2016-17</td><td class="player goat-player" data-player="Russell Westbrook"><span class="fname">Russell</span> <span class="lname">Westbrook</span></td><td class="num stat">55.0</td><td class="num">45.4</td><td class="num">+9.6</td></tr>
+        <tr><td class="season">2015-16</td><td class="player goat-player" data-player="Stephen Curry"><span class="fname">Stephen</span> <span class="lname">Curry</span></td><td class="num stat">49.5</td><td class="num">42.3</td><td class="num">+7.2</td></tr>
+        <tr><td class="season">2014-15</td><td class="player goat-player" data-player="Russell Westbrook"><span class="fname">Russell</span> <span class="lname">Westbrook</span></td><td class="num stat">48.9</td><td class="num">41.5</td><td class="num">+7.4</td></tr>
+        <tr><td class="season">2013-14</td><td class="player goat-player" data-player="Kevin Durant"><span class="fname">Kevin</span> <span class="lname">Durant</span></td><td class="num stat">45.5</td><td class="num">41.0</td><td class="num">+4.5</td></tr>
+        <tr><td class="season">2012-13</td><td class="player goat-player" data-player="LeBron James"><span class="fname">LeBron</span> <span class="lname">James</span></td><td class="num stat">49.1</td><td class="num">39.5</td><td class="num">+9.6</td></tr>
+        <tr><td class="season">2011-12</td><td class="player goat-player" data-player="LeBron James"><span class="fname">LeBron</span> <span class="lname">James</span></td><td class="num stat">47.2</td><td class="num">38.1</td><td class="num">+9.1</td></tr>
+        <tr><td class="season">2010-11</td><td class="player goat-player" data-player="LeBron James"><span class="fname">LeBron</span> <span class="lname">James</span></td><td class="num stat">44.2</td><td class="num">39.0</td><td class="num">+5.2</td></tr>
+        <tr><td class="season">2009-10</td><td class="player goat-player" data-player="LeBron James"><span class="fname">LeBron</span> <span class="lname">James</span></td><td class="num stat">51.0</td><td class="num">39.6</td><td class="num">+11.4</td></tr>
+        <tr><td class="season">2008-09</td><td class="player goat-player" data-player="LeBron James"><span class="fname">LeBron</span> <span class="lname">James</span></td><td class="num stat">52.4</td><td class="num">41.9</td><td class="num">+10.5</td></tr>
+        <tr><td class="season">2007-08</td><td class="player goat-player" data-player="LeBron James"><span class="fname">LeBron</span> <span class="lname">James</span></td><td class="num stat">46.3</td><td class="num">41.1</td><td class="num">+5.2</td></tr>
+        <tr><td class="season">2006-07</td><td class="player goat-player" data-player="Dwyane Wade"><span class="fname">Dwyane</span> <span class="lname">Wade</span></td><td class="num stat">45.1</td><td class="num">40.4</td><td class="num">+4.7</td></tr>
+        <tr><td class="season">2005-06</td><td class="player goat-player" data-player="LeBron James"><span class="fname">LeBron</span> <span class="lname">James</span></td><td class="num stat">42.6</td><td class="num">40.0</td><td class="num">+2.6</td></tr>
+        <tr><td class="season">2004-05</td><td class="player goat-player" data-player="Kevin Garnett"><span class="fname">Kevin</span> <span class="lname">Garnett</span></td><td class="num stat">45.5</td><td class="num">40.3</td><td class="num">+5.2</td></tr>
+        <tr><td class="season">2003-04</td><td class="player goat-player" data-player="Kevin Garnett"><span class="fname">Kevin</span> <span class="lname">Garnett</span></td><td class="num stat">47.6</td><td class="num">37.3</td><td class="num">+10.3</td></tr>
+        <tr><td class="season">2002-03</td><td class="player goat-player" data-player="Tim Duncan"><span class="fname">Tim</span> <span class="lname">Duncan</span></td><td class="num stat">42.7</td><td class="num">38.9</td><td class="num">+3.8</td></tr>
+        <tr><td class="season">2001-02</td><td class="player goat-player" data-player="Shaquille O&#x27;Neal"><span class="fname">Shaquille</span> <span class="lname">O'Neal</span></td><td class="num stat">44.1</td><td class="num">37.5</td><td class="num">+6.6</td></tr>
+        <tr><td class="season">2000-01</td><td class="player goat-player" data-player="Shaquille O&#x27;Neal"><span class="fname">Shaquille</span> <span class="lname">O'Neal</span></td><td class="num stat">43.6</td><td class="num">37.5</td><td class="num">+6.1</td></tr>
+        <tr><td class="season">1999-00</td><td class="player goat-player" data-player="Shaquille O&#x27;Neal"><span class="fname">Shaquille</span> <span class="lname">O'Neal</span></td><td class="num stat">47.7</td><td class="num">39.2</td><td class="num">+8.5</td></tr>
+        <tr><td class="season">1998-99</td><td class="player goat-player" data-player="David Robinson"><span class="fname">David</span> <span class="lname">Robinson</span></td><td class="num stat">41.9</td><td class="num">37.9</td><td class="num">+4.0</td></tr>
+        <tr><td class="season">1997-98</td><td class="player goat-player" data-player="David Robinson"><span class="fname">David</span> <span class="lname">Robinson</span></td><td class="num stat">46.0</td><td class="num">38.3</td><td class="num">+7.7</td></tr>
+        <tr><td class="season">1996-97</td><td class="player goat-player" data-player="Karl Malone"><span class="fname">Karl</span> <span class="lname">Malone</span></td><td class="num stat">46.3</td><td class="num">40.4</td><td class="num">+5.9</td></tr>
+        <tr><td class="season">1995-96</td><td class="player goat-player" data-player="David Robinson"><span class="fname">David</span> <span class="lname">Robinson</span></td><td class="num stat">48.4</td><td class="num">41.7</td><td class="num">+6.7</td></tr>
+        <tr><td class="season">1994-95</td><td class="player goat-player" data-player="David Robinson"><span class="fname">David</span> <span class="lname">Robinson</span></td><td class="num stat">47.2</td><td class="num">41.0</td><td class="num">+6.2</td></tr>
+        <tr><td class="season">1993-94</td><td class="player goat-player" data-player="David Robinson"><span class="fname">David</span> <span class="lname">Robinson</span></td><td class="num stat">50.2</td><td class="num">40.8</td><td class="num">+9.4</td></tr>
+        <tr><td class="season">1992-93</td><td class="player goat-player" data-player="Hakeem Olajuwon"><span class="fname">Hakeem</span> <span class="lname">Olajuwon</span></td><td class="num stat">47.6</td><td class="num">40.6</td><td class="num">+7.0</td></tr>
+        <tr><td class="season">1991-92</td><td class="player goat-player" data-player="David Robinson"><span class="fname">David</span> <span class="lname">Robinson</span></td><td class="num stat">47.6</td><td class="num">40.6</td><td class="num">+7.0</td></tr>
+        <tr><td class="season">1990-91</td><td class="player goat-player" data-player="Michael Jordan"><span class="fname">Michael</span> <span class="lname">Jordan</span></td><td class="num stat">49.8</td><td class="num">42.0</td><td class="num">+7.8</td></tr>
+        <tr><td class="season">1989-90</td><td class="player goat-player" data-player="Michael Jordan"><span class="fname">Michael</span> <span class="lname">Jordan</span></td><td class="num stat">47.9</td><td class="num">41.8</td><td class="num">+6.1</td></tr>
+        <tr><td class="season">1988-89</td><td class="player goat-player" data-player="Michael Jordan"><span class="fname">Michael</span> <span class="lname">Jordan</span></td><td class="num stat">49.9</td><td class="num">39.5</td><td class="num">+10.4</td></tr>
+        <tr><td class="season">1987-88</td><td class="player goat-player" data-player="Michael Jordan"><span class="fname">Michael</span> <span class="lname">Jordan</span></td><td class="num stat">50.6</td><td class="num">39.8</td><td class="num">+10.8</td></tr>
+        <tr><td class="season">1986-87</td><td class="player goat-player" data-player="Michael Jordan"><span class="fname">Michael</span> <span class="lname">Jordan</span></td><td class="num stat">46.2</td><td class="num">39.1</td><td class="num">+7.1</td></tr>
+        <tr><td class="season">1985-86</td><td class="player goat-player" data-player="Larry Bird"><span class="fname">Larry</span> <span class="lname">Bird</span></td><td class="num stat">42.3</td><td class="num">35.9</td><td class="num">+6.4</td></tr>
+        <tr><td class="season">1984-85</td><td class="player goat-player" data-player="Larry Bird"><span class="fname">Larry</span> <span class="lname">Bird</span></td><td class="num stat">42.6</td><td class="num">36.5</td><td class="num">+6.1</td></tr>
+        <tr><td class="season">1983-84</td><td class="player goat-player" data-player="Larry Bird"><span class="fname">Larry</span> <span class="lname">Bird</span></td><td class="num stat">39.8</td><td class="num">35.0</td><td class="num">+4.8</td></tr>
+        <tr><td class="season">1982-83</td><td class="player goat-player" data-player="Larry Bird"><span class="fname">Larry</span> <span class="lname">Bird</span></td><td class="num stat">38.0</td><td class="num">34.2</td><td class="num">+3.8</td></tr>
+        <tr><td class="season">1981-82</td><td class="player goat-player" data-player="Julius Erving"><span class="fname">Julius</span> <span class="lname">Erving</span></td><td class="num stat">40.2</td><td class="num">35.8</td><td class="num">+4.4</td></tr>
+        <tr><td class="season">1980-81</td><td class="player goat-player" data-player="Julius Erving"><span class="fname">Julius</span> <span class="lname">Erving</span></td><td class="num stat">40.6</td><td class="num">35.3</td><td class="num">+5.3</td></tr>
+        <tr><td class="season">1979-80</td><td class="player goat-player" data-player="Julius Erving"><span class="fname">Julius</span> <span class="lname">Erving</span></td><td class="num stat">40.0</td><td class="num">34.4</td><td class="num">+5.6</td></tr>
+        <tr><td class="season">1978-79</td><td class="player goat-player" data-player="Kareem Abdul-Jabbar"><span class="fname">Kareem</span> <span class="lname">Abdul-Jabbar</span></td><td class="num stat">40.2</td><td class="num">33.7</td><td class="num">+6.5</td></tr>
+        <tr><td class="season">1977-78</td><td class="player goat-player" data-player="Kareem Abdul-Jabbar"><span class="fname">Kareem</span> <span class="lname">Abdul-Jabbar</span></td><td class="num stat">42.8</td><td class="num">33.7</td><td class="num">+9.1</td></tr>
+        <tr><td class="season">1976-77</td><td class="player goat-player" data-player="Kareem Abdul-Jabbar"><span class="fname">Kareem</span> <span class="lname">Abdul-Jabbar</span></td><td class="num stat">43.1</td><td class="num">33.6</td><td class="num">+9.5</td></tr>
+        <tr><td class="season">1975-76</td><td class="player goat-player" data-player="Kareem Abdul-Jabbar"><span class="fname">Kareem</span> <span class="lname">Abdul-Jabbar</span></td><td class="num stat">42.7</td><td class="num">31.5</td><td class="num">+11.2</td></tr>
+        <tr><td class="season">1974-75</td><td class="player goat-player" data-player="Kareem Abdul-Jabbar"><span class="fname">Kareem</span> <span class="lname">Abdul-Jabbar</span></td><td class="num stat">39.3</td><td class="num">31.9</td><td class="num">+7.4</td></tr>
+        <tr><td class="season">1973-74</td><td class="player goat-player" data-player="Kareem Abdul-Jabbar"><span class="fname">Kareem</span> <span class="lname">Abdul-Jabbar</span></td><td class="num stat">38.7</td><td class="num">31.7</td><td class="num">+7.0</td></tr>
+        <tr><td class="season">1972-73</td><td class="player goat-player" data-player="Kareem Abdul-Jabbar"><span class="fname">Kareem</span> <span class="lname">Abdul-Jabbar</span></td><td class="num stat">43.2</td><td class="num">30.5</td><td class="num">+12.7</td></tr>
+        <tr><td class="season">1971-72</td><td class="player goat-player" data-player="Kareem Abdul-Jabbar"><span class="fname">Kareem</span> <span class="lname">Abdul-Jabbar</span></td><td class="num stat">43.5</td><td class="num">31.3</td><td class="num">+12.2</td></tr>
+        <tr><td class="season">1970-71</td><td class="player goat-player" data-player="Kareem Abdul-Jabbar"><span class="fname">Kareem</span> <span class="lname">Abdul-Jabbar</span></td><td class="num stat">40.8</td><td class="num">30.0</td><td class="num">+10.8</td></tr>
+        <tr><td class="season">1969-70</td><td class="player goat-player" data-player="Jerry West"><span class="fname">Jerry</span> <span class="lname">West</span></td><td class="num stat">33.7</td><td class="num">29.4</td><td class="num">+4.3</td></tr>
+        <tr><td class="season">1968-69</td><td class="player goat-player" data-player="Wilt Chamberlain"><span class="fname">Wilt</span> <span class="lname">Chamberlain</span></td><td class="num stat">32.9</td><td class="num">28.1</td><td class="num">+4.8</td></tr>
+        <tr><td class="season">1967-68</td><td class="player goat-player" data-player="Wilt Chamberlain"><span class="fname">Wilt</span> <span class="lname">Chamberlain</span></td><td class="num stat">40.8</td><td class="num">28.9</td><td class="num">+11.9</td></tr>
+        <tr><td class="season">1966-67</td><td class="player goat-player" data-player="Wilt Chamberlain"><span class="fname">Wilt</span> <span class="lname">Chamberlain</span></td><td class="num stat">38.8</td><td class="num">29.7</td><td class="num">+9.1</td></tr>
+        <tr><td class="season">1965-66</td><td class="player goat-player" data-player="Wilt Chamberlain"><span class="fname">Wilt</span> <span class="lname">Chamberlain</span></td><td class="num stat">40.5</td><td class="num">28.5</td><td class="num">+12.0</td></tr>
+        <tr><td class="season">1964-65</td><td class="player goat-player" data-player="Bill Russell"><span class="fname">Bill</span> <span class="lname">Russell</span></td><td class="num stat">37.0</td><td class="num">30.0</td><td class="num">+7.0</td></tr>
+        <tr><td class="season">1963-64</td><td class="player goat-player" data-player="Wilt Chamberlain"><span class="fname">Wilt</span> <span class="lname">Chamberlain</span></td><td class="num stat">47.2</td><td class="num">31.9</td><td class="num">+15.3</td></tr>
+        <tr><td class="season">1962-63</td><td class="player goat-player" data-player="Wilt Chamberlain"><span class="fname">Wilt</span> <span class="lname">Chamberlain</span></td><td class="num stat">41.4</td><td class="num">31.4</td><td class="num">+10.0</td></tr>
+        <tr><td class="season">1961-62</td><td class="player goat-player" data-player="Wilt Chamberlain"><span class="fname">Wilt</span> <span class="lname">Chamberlain</span></td><td class="num stat">40.1</td><td class="num">31.1</td><td class="num">+9.0</td></tr>
+        <tr><td class="season">1960-61</td><td class="player goat-player" data-player="Elgin Baylor"><span class="fname">Elgin</span> <span class="lname">Baylor</span></td><td class="num stat">35.3</td><td class="num">29.1</td><td class="num">+6.2</td></tr>
+        <tr><td class="season">1959-60</td><td class="player goat-player" data-player="Wilt Chamberlain"><span class="fname">Wilt</span> <span class="lname">Chamberlain</span></td><td class="num stat">36.5</td><td class="num">28.7</td><td class="num">+7.8</td></tr>
+        <tr><td class="season">1958-59</td><td class="player goat-player" data-player="Bob Pettit"><span class="fname">Bob</span> <span class="lname">Pettit</span></td><td class="num stat">30.9</td><td class="num">25.3</td><td class="num">+5.6</td></tr>
+        <tr><td class="season">1957-58</td><td class="player goat-player" data-player="Bill Russell"><span class="fname">Bill</span> <span class="lname">Russell</span></td><td class="num stat">31.0</td><td class="num">26.0</td><td class="num">+5.0</td></tr>
+        <tr><td class="season">1956-57</td><td class="player goat-player" data-player="Bob Pettit"><span class="fname">Bob</span> <span class="lname">Pettit</span></td><td class="num stat">30.1</td><td class="num">25.9</td><td class="num">+4.2</td></tr>
+        <tr><td class="season">1955-56</td><td class="player goat-player" data-player="Maurice Stokes"><span class="fname">Maurice</span> <span class="lname">Stokes</span></td><td class="num stat">33.2</td><td class="num">25.9</td><td class="num">+7.3</td></tr>
+        <tr><td class="season">1954-55</td><td class="player goat-player" data-player="Dolph Schayes"><span class="fname">Dolph</span> <span class="lname">Schayes</span></td><td class="num stat">30.7</td><td class="num">24.9</td><td class="num">+5.8</td></tr>
+        <tr><td class="season">1953-54</td><td class="player goat-player" data-player="George Mikan"><span class="fname">George</span> <span class="lname">Mikan</span></td><td class="num stat">37.9</td><td class="num">25.9</td><td class="num">+12.0</td></tr>
+        <tr><td class="season">1952-53</td><td class="player goat-player" data-player="George Mikan"><span class="fname">George</span> <span class="lname">Mikan</span></td><td class="num stat">38.2</td><td class="num">26.3</td><td class="num">+11.9</td></tr>
+        <tr><td class="season">1951-52</td><td class="player goat-player" data-player="George Mikan"><span class="fname">George</span> <span class="lname">Mikan</span></td><td class="num stat">37.2</td><td class="num">26.5</td><td class="num">+10.7</td></tr>
+        <tr><td class="season">1950-51</td><td class="player goat-player" data-player="George Mikan"><span class="fname">George</span> <span class="lname">Mikan</span></td><td class="num stat">41.3</td><td class="num">27.2</td><td class="num">+14.1</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table">
+        <div class="table-header"><h2>&nbsp;</h2></div>
+        <table style="visibility:hidden"><thead><tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr></thead></table>
+      </div>
+    </div>
+    </div>
+    <nav class="decade-nav"><a href="#decade-2020s" data-decade="2020s">2020<span class="decade-s">s</span></a><a href="#decade-2010s" data-decade="2010s">2010<span class="decade-s">s</span></a><a href="#decade-2000s" data-decade="2000s">2000<span class="decade-s">s</span></a><a href="#decade-1990s" data-decade="1990s">1990<span class="decade-s">s</span></a><a href="#decade-1980s" data-decade="1980s">1980<span class="decade-s">s</span></a><a href="#decade-1970s" data-decade="1970s">1970<span class="decade-s">s</span></a><a href="#decade-1960s" data-decade="1960s">1960<span class="decade-s">s</span></a><a href="#decade-1950s" data-decade="1950s">1950<span class="decade-s">s</span></a><a href="#" data-goat="true">GOAT</a></nav>
   <div class="decade" id="decade-2020s">
     <div class="decade-header"><h3>2020<span class="decade-s">s</span></h3></div>
     <div class="decade-top100" style="display:none">
@@ -8297,7 +8401,99 @@
       </div>
     </div>
     </div>
-    <nav class="decade-nav"><a href="#decade-2020s" data-decade="2020s">2020<span class="decade-s">s</span></a><a href="#decade-2010s" data-decade="2010s">2010<span class="decade-s">s</span></a><a href="#decade-2000s" data-decade="2000s">2000<span class="decade-s">s</span></a><a href="#decade-1990s" data-decade="1990s">1990<span class="decade-s">s</span></a><a href="#decade-1980s" data-decade="1980s">1980<span class="decade-s">s</span></a><a href="#decade-1970s" data-decade="1970s">1970<span class="decade-s">s</span></a><a href="#decade-1960s" data-decade="1960s">1960<span class="decade-s">s</span></a><a href="#decade-1950s" data-decade="1950s">1950<span class="decade-s">s</span></a></nav>
+    <div class="goat-table" style="display:none">
+    <div class="year-pair single">
+      <div class="year-table">
+        <div class="table-header"><h2>TOP TAP BY SEASON</h2></div>
+        <table>
+          <thead><tr><th class="season">Season</th><th class="player">Player</th><th class="num stat">TAP</th><th class="num">TOP 10</th><th class="num">DIFF</th></tr></thead>
+          <tbody>
+        <tr><td class="season">2025-26</td><td class="player goat-player" data-player="Nikola Jokić"><span class="fname">Nikola</span> <span class="lname">Jokić</span></td><td class="num stat">59.7</td><td class="num">50.3</td><td class="num">+9.4</td></tr>
+        <tr><td class="season">2024-25</td><td class="player goat-player" data-player="Shai Gilgeous-Alexander"><span class="fname">Shai Gilgeous-</span><span class="lname">Alexander</span></td><td class="num stat">58.1</td><td class="num">47.5</td><td class="num">+10.6</td></tr>
+        <tr><td class="season">2023-24</td><td class="player goat-player" data-player="Nikola Jokić"><span class="fname">Nikola</span> <span class="lname">Jokić</span></td><td class="num stat">58.3</td><td class="num">47.9</td><td class="num">+10.4</td></tr>
+        <tr><td class="season">2022-23</td><td class="player goat-player" data-player="Nikola Jokić"><span class="fname">Nikola</span> <span class="lname">Jokić</span></td><td class="num stat">55.9</td><td class="num">49.1</td><td class="num">+6.8</td></tr>
+        <tr><td class="season">2021-22</td><td class="player goat-player" data-player="Nikola Jokić"><span class="fname">Nikola</span> <span class="lname">Jokić</span></td><td class="num stat">58.5</td><td class="num">47.8</td><td class="num">+10.7</td></tr>
+        <tr><td class="season">2020-21</td><td class="player goat-player" data-player="Nikola Jokić"><span class="fname">Nikola</span> <span class="lname">Jokić</span></td><td class="num stat">53.5</td><td class="num">47.3</td><td class="num">+6.2</td></tr>
+        <tr><td class="season">2019-20</td><td class="player goat-player" data-player="Giannis Antetokounmpo"><span class="fname">Giannis</span> <span class="lname">Antetokounmpo</span></td><td class="num stat">59.4</td><td class="num">46.7</td><td class="num">+12.7</td></tr>
+        <tr><td class="season">2018-19</td><td class="player goat-player" data-player="Giannis Antetokounmpo"><span class="fname">Giannis</span> <span class="lname">Antetokounmpo</span></td><td class="num stat">54.9</td><td class="num">46.9</td><td class="num">+8.0</td></tr>
+        <tr><td class="season">2017-18</td><td class="player goat-player" data-player="James Harden"><span class="fname">James</span> <span class="lname">Harden</span></td><td class="num stat">52.6</td><td class="num">45.0</td><td class="num">+7.6</td></tr>
+        <tr><td class="season">2016-17</td><td class="player goat-player" data-player="Russell Westbrook"><span class="fname">Russell</span> <span class="lname">Westbrook</span></td><td class="num stat">59.9</td><td class="num">47.2</td><td class="num">+12.7</td></tr>
+        <tr><td class="season">2015-16</td><td class="player goat-player" data-player="Stephen Curry"><span class="fname">Stephen</span> <span class="lname">Curry</span></td><td class="num stat">51.5</td><td class="num">44.0</td><td class="num">+7.5</td></tr>
+        <tr><td class="season">2014-15</td><td class="player goat-player" data-player="Russell Westbrook"><span class="fname">Russell</span> <span class="lname">Westbrook</span></td><td class="num stat">52.6</td><td class="num">43.7</td><td class="num">+8.9</td></tr>
+        <tr><td class="season">2013-14</td><td class="player goat-player" data-player="Kevin Durant"><span class="fname">Kevin</span> <span class="lname">Durant</span></td><td class="num stat">47.5</td><td class="num">42.6</td><td class="num">+4.9</td></tr>
+        <tr><td class="season">2012-13</td><td class="player goat-player" data-player="LeBron James"><span class="fname">LeBron</span> <span class="lname">James</span></td><td class="num stat">51.8</td><td class="num">41.2</td><td class="num">+10.6</td></tr>
+        <tr><td class="season">2011-12</td><td class="player goat-player" data-player="LeBron James"><span class="fname">LeBron</span> <span class="lname">James</span></td><td class="num stat">51.4</td><td class="num">40.6</td><td class="num">+10.8</td></tr>
+        <tr><td class="season">2010-11</td><td class="player goat-player" data-player="LeBron James"><span class="fname">LeBron</span> <span class="lname">James</span></td><td class="num stat">46.9</td><td class="num">41.0</td><td class="num">+5.9</td></tr>
+        <tr><td class="season">2009-10</td><td class="player goat-player" data-player="LeBron James"><span class="fname">LeBron</span> <span class="lname">James</span></td><td class="num stat">54.6</td><td class="num">41.6</td><td class="num">+13.0</td></tr>
+        <tr><td class="season">2008-09</td><td class="player goat-player" data-player="LeBron James"><span class="fname">LeBron</span> <span class="lname">James</span></td><td class="num stat">57.7</td><td class="num">44.3</td><td class="num">+13.4</td></tr>
+        <tr><td class="season">2007-08</td><td class="player goat-player" data-player="LeBron James"><span class="fname">LeBron</span> <span class="lname">James</span></td><td class="num stat">50.3</td><td class="num">43.2</td><td class="num">+7.1</td></tr>
+        <tr><td class="season">2006-07</td><td class="player goat-player" data-player="Dwyane Wade"><span class="fname">Dwyane</span> <span class="lname">Wade</span></td><td class="num stat">47.4</td><td class="num">42.7</td><td class="num">+4.7</td></tr>
+        <tr><td class="season">2005-06</td><td class="player goat-player" data-player="LeBron James"><span class="fname">LeBron</span> <span class="lname">James</span></td><td class="num stat">46.3</td><td class="num">42.9</td><td class="num">+3.4</td></tr>
+        <tr><td class="season">2004-05</td><td class="player goat-player" data-player="Tim Duncan"><span class="fname">Tim</span> <span class="lname">Duncan</span></td><td class="num stat">49.1</td><td class="num">42.9</td><td class="num">+6.2</td></tr>
+        <tr><td class="season">2003-04</td><td class="player goat-player" data-player="Kevin Garnett"><span class="fname">Kevin</span> <span class="lname">Garnett</span></td><td class="num stat">52.7</td><td class="num">40.4</td><td class="num">+12.3</td></tr>
+        <tr><td class="season">2002-03</td><td class="player goat-player" data-player="Tracy McGrady"><span class="fname">Tracy</span> <span class="lname">McGrady</span></td><td class="num stat">46.4</td><td class="num">42.1</td><td class="num">+4.3</td></tr>
+        <tr><td class="season">2001-02</td><td class="player goat-player" data-player="Tim Duncan"><span class="fname">Tim</span> <span class="lname">Duncan</span></td><td class="num stat">46.5</td><td class="num">40.5</td><td class="num">+6.0</td></tr>
+        <tr><td class="season">2000-01</td><td class="player goat-player" data-player="Shaquille O&#x27;Neal"><span class="fname">Shaquille</span> <span class="lname">O'Neal</span></td><td class="num stat">45.4</td><td class="num">40.9</td><td class="num">+4.5</td></tr>
+        <tr><td class="season">1999-00</td><td class="player goat-player" data-player="Shaquille O&#x27;Neal"><span class="fname">Shaquille</span> <span class="lname">O'Neal</span></td><td class="num stat">51.8</td><td class="num">42.0</td><td class="num">+9.8</td></tr>
+        <tr><td class="season">1998-99</td><td class="player goat-player" data-player="David Robinson"><span class="fname">David</span> <span class="lname">Robinson</span></td><td class="num stat">46.6</td><td class="num">40.9</td><td class="num">+5.7</td></tr>
+        <tr><td class="season">1997-98</td><td class="player goat-player" data-player="David Robinson"><span class="fname">David</span> <span class="lname">Robinson</span></td><td class="num stat">49.8</td><td class="num">40.9</td><td class="num">+8.9</td></tr>
+        <tr><td class="season">1996-97</td><td class="player goat-player" data-player="Karl Malone"><span class="fname">Karl</span> <span class="lname">Malone</span></td><td class="num stat">49.0</td><td class="num">42.8</td><td class="num">+6.2</td></tr>
+        <tr><td class="season">1995-96</td><td class="player goat-player" data-player="Michael Jordan"><span class="fname">Michael</span> <span class="lname">Jordan</span></td><td class="num stat">52.1</td><td class="num">43.8</td><td class="num">+8.3</td></tr>
+        <tr><td class="season">1994-95</td><td class="player goat-player" data-player="David Robinson"><span class="fname">David</span> <span class="lname">Robinson</span></td><td class="num stat">50.0</td><td class="num">42.5</td><td class="num">+7.5</td></tr>
+        <tr><td class="season">1993-94</td><td class="player goat-player" data-player="David Robinson"><span class="fname">David</span> <span class="lname">Robinson</span></td><td class="num stat">54.7</td><td class="num">43.0</td><td class="num">+11.7</td></tr>
+        <tr><td class="season">1992-93</td><td class="player goat-player" data-player="Michael Jordan"><span class="fname">Michael</span> <span class="lname">Jordan</span></td><td class="num stat">51.8</td><td class="num">42.4</td><td class="num">+9.4</td></tr>
+        <tr><td class="season">1991-92</td><td class="player goat-player" data-player="David Robinson"><span class="fname">David</span> <span class="lname">Robinson</span></td><td class="num stat">50.8</td><td class="num">42.5</td><td class="num">+8.3</td></tr>
+        <tr><td class="season">1990-91</td><td class="player goat-player" data-player="Michael Jordan"><span class="fname">Michael</span> <span class="lname">Jordan</span></td><td class="num stat">53.8</td><td class="num">43.4</td><td class="num">+10.4</td></tr>
+        <tr><td class="season">1989-90</td><td class="player goat-player" data-player="Michael Jordan"><span class="fname">Michael</span> <span class="lname">Jordan</span></td><td class="num stat">50.7</td><td class="num">43.3</td><td class="num">+7.4</td></tr>
+        <tr><td class="season">1988-89</td><td class="player goat-player" data-player="Michael Jordan"><span class="fname">Michael</span> <span class="lname">Jordan</span></td><td class="num stat">52.9</td><td class="num">41.0</td><td class="num">+11.9</td></tr>
+        <tr><td class="season">1987-88</td><td class="player goat-player" data-player="Michael Jordan"><span class="fname">Michael</span> <span class="lname">Jordan</span></td><td class="num stat">55.0</td><td class="num">40.8</td><td class="num">+14.2</td></tr>
+        <tr><td class="season">1986-87</td><td class="player goat-player" data-player="Michael Jordan"><span class="fname">Michael</span> <span class="lname">Jordan</span></td><td class="num stat">50.7</td><td class="num">40.4</td><td class="num">+10.3</td></tr>
+        <tr><td class="season">1985-86</td><td class="player goat-player" data-player="Larry Bird"><span class="fname">Larry</span> <span class="lname">Bird</span></td><td class="num stat">45.8</td><td class="num">37.1</td><td class="num">+8.7</td></tr>
+        <tr><td class="season">1984-85</td><td class="player goat-player" data-player="Larry Bird"><span class="fname">Larry</span> <span class="lname">Bird</span></td><td class="num stat">44.9</td><td class="num">37.6</td><td class="num">+7.3</td></tr>
+        <tr><td class="season">1983-84</td><td class="player goat-player" data-player="Larry Bird"><span class="fname">Larry</span> <span class="lname">Bird</span></td><td class="num stat">42.9</td><td class="num">35.7</td><td class="num">+7.2</td></tr>
+        <tr><td class="season">1982-83</td><td class="player goat-player" data-player="Larry Bird"><span class="fname">Larry</span> <span class="lname">Bird</span></td><td class="num stat">41.1</td><td class="num">36.1</td><td class="num">+5.0</td></tr>
+        <tr><td class="season">1981-82</td><td class="player goat-player" data-player="Julius Erving"><span class="fname">Julius</span> <span class="lname">Erving</span></td><td class="num stat">42.2</td><td class="num">37.1</td><td class="num">+5.1</td></tr>
+        <tr><td class="season">1980-81</td><td class="player goat-player" data-player="Julius Erving"><span class="fname">Julius</span> <span class="lname">Erving</span></td><td class="num stat">43.8</td><td class="num">36.7</td><td class="num">+7.1</td></tr>
+        <tr><td class="season">1979-80</td><td class="player goat-player" data-player="Julius Erving"><span class="fname">Julius</span> <span class="lname">Erving</span></td><td class="num stat">42.7</td><td class="num">35.5</td><td class="num">+7.2</td></tr>
+        <tr><td class="season">1978-79</td><td class="player goat-player" data-player="Kareem Abdul-Jabbar"><span class="fname">Kareem</span> <span class="lname">Abdul-Jabbar</span></td><td class="num stat">40.6</td><td class="num">34.7</td><td class="num">+5.9</td></tr>
+        <tr><td class="season">1977-78</td><td class="player goat-player" data-player="Kareem Abdul-Jabbar"><span class="fname">Kareem</span> <span class="lname">Abdul-Jabbar</span></td><td class="num stat">45.0</td><td class="num">35.3</td><td class="num">+9.7</td></tr>
+        <tr><td class="season">1976-77</td><td class="player goat-player" data-player="Kareem Abdul-Jabbar"><span class="fname">Kareem</span> <span class="lname">Abdul-Jabbar</span></td><td class="num stat">45.8</td><td class="num">35.6</td><td class="num">+10.2</td></tr>
+        <tr><td class="season">1975-76</td><td class="player goat-player" data-player="Kareem Abdul-Jabbar"><span class="fname">Kareem</span> <span class="lname">Abdul-Jabbar</span></td><td class="num stat">44.4</td><td class="num">33.1</td><td class="num">+11.3</td></tr>
+        <tr><td class="season">1974-75</td><td class="player goat-player" data-player="Kareem Abdul-Jabbar"><span class="fname">Kareem</span> <span class="lname">Abdul-Jabbar</span></td><td class="num stat">41.5</td><td class="num">33.7</td><td class="num">+7.8</td></tr>
+        <tr><td class="season">1973-74</td><td class="player goat-player" data-player="Kareem Abdul-Jabbar"><span class="fname">Kareem</span> <span class="lname">Abdul-Jabbar</span></td><td class="num stat">41.5</td><td class="num">33.1</td><td class="num">+8.4</td></tr>
+        <tr><td class="season">1972-73</td><td class="player goat-player" data-player="Kareem Abdul-Jabbar"><span class="fname">Kareem</span> <span class="lname">Abdul-Jabbar</span></td><td class="num stat">47.2</td><td class="num">31.5</td><td class="num">+15.7</td></tr>
+        <tr><td class="season">1971-72</td><td class="player goat-player" data-player="Kareem Abdul-Jabbar"><span class="fname">Kareem</span> <span class="lname">Abdul-Jabbar</span></td><td class="num stat">46.7</td><td class="num">32.1</td><td class="num">+14.6</td></tr>
+        <tr><td class="season">1970-71</td><td class="player goat-player" data-player="Kareem Abdul-Jabbar"><span class="fname">Kareem</span> <span class="lname">Abdul-Jabbar</span></td><td class="num stat">42.9</td><td class="num">30.7</td><td class="num">+12.2</td></tr>
+        <tr><td class="season">1969-70</td><td class="player goat-player" data-player="Jerry West"><span class="fname">Jerry</span> <span class="lname">West</span></td><td class="num stat">34.6</td><td class="num">29.7</td><td class="num">+4.9</td></tr>
+        <tr><td class="season">1968-69</td><td class="player goat-player" data-player="Wilt Chamberlain"><span class="fname">Wilt</span> <span class="lname">Chamberlain</span></td><td class="num stat">33.0</td><td class="num">28.4</td><td class="num">+4.6</td></tr>
+        <tr><td class="season">1967-68</td><td class="player goat-player" data-player="Wilt Chamberlain"><span class="fname">Wilt</span> <span class="lname">Chamberlain</span></td><td class="num stat">42.4</td><td class="num">28.8</td><td class="num">+13.6</td></tr>
+        <tr><td class="season">1966-67</td><td class="player goat-player" data-player="Wilt Chamberlain"><span class="fname">Wilt</span> <span class="lname">Chamberlain</span></td><td class="num stat">38.0</td><td class="num">29.7</td><td class="num">+8.3</td></tr>
+        <tr><td class="season">1965-66</td><td class="player goat-player" data-player="Wilt Chamberlain"><span class="fname">Wilt</span> <span class="lname">Chamberlain</span></td><td class="num stat">42.5</td><td class="num">29.3</td><td class="num">+13.2</td></tr>
+        <tr><td class="season">1964-65</td><td class="player goat-player" data-player="Bill Russell"><span class="fname">Bill</span> <span class="lname">Russell</span></td><td class="num stat">42.7</td><td class="num">31.5</td><td class="num">+11.2</td></tr>
+        <tr><td class="season">1963-64</td><td class="player goat-player" data-player="Wilt Chamberlain"><span class="fname">Wilt</span> <span class="lname">Chamberlain</span></td><td class="num stat">52.3</td><td class="num">33.7</td><td class="num">+18.6</td></tr>
+        <tr><td class="season">1962-63</td><td class="player goat-player" data-player="Wilt Chamberlain"><span class="fname">Wilt</span> <span class="lname">Chamberlain</span></td><td class="num stat">42.3</td><td class="num">32.2</td><td class="num">+10.1</td></tr>
+        <tr><td class="season">1961-62</td><td class="player goat-player" data-player="Wilt Chamberlain"><span class="fname">Wilt</span> <span class="lname">Chamberlain</span></td><td class="num stat">40.6</td><td class="num">31.2</td><td class="num">+9.4</td></tr>
+        <tr><td class="season">1960-61</td><td class="player goat-player" data-player="Elgin Baylor"><span class="fname">Elgin</span> <span class="lname">Baylor</span></td><td class="num stat">36.7</td><td class="num">29.9</td><td class="num">+6.8</td></tr>
+        <tr><td class="season">1959-60</td><td class="player goat-player" data-player="Wilt Chamberlain"><span class="fname">Wilt</span> <span class="lname">Chamberlain</span></td><td class="num stat">39.2</td><td class="num">29.7</td><td class="num">+9.5</td></tr>
+        <tr><td class="season">1958-59</td><td class="player goat-player" data-player="Bob Pettit"><span class="fname">Bob</span> <span class="lname">Pettit</span></td><td class="num stat">31.7</td><td class="num">25.9</td><td class="num">+5.8</td></tr>
+        <tr><td class="season">1957-58</td><td class="player goat-player" data-player="Bill Russell"><span class="fname">Bill</span> <span class="lname">Russell</span></td><td class="num stat">33.0</td><td class="num">27.2</td><td class="num">+5.8</td></tr>
+        <tr><td class="season">1956-57</td><td class="player goat-player" data-player="Bob Pettit"><span class="fname">Bob</span> <span class="lname">Pettit</span></td><td class="num stat">30.6</td><td class="num">26.1</td><td class="num">+4.5</td></tr>
+        <tr><td class="season">1955-56</td><td class="player goat-player" data-player="Maurice Stokes"><span class="fname">Maurice</span> <span class="lname">Stokes</span></td><td class="num stat">32.8</td><td class="num">25.7</td><td class="num">+7.1</td></tr>
+        <tr><td class="season">1954-55</td><td class="player goat-player" data-player="Dolph Schayes"><span class="fname">Dolph</span> <span class="lname">Schayes</span></td><td class="num stat">33.2</td><td class="num">24.8</td><td class="num">+8.4</td></tr>
+        <tr><td class="season">1953-54</td><td class="player goat-player" data-player="George Mikan"><span class="fname">George</span> <span class="lname">Mikan</span></td><td class="num stat">42.3</td><td class="num">26.7</td><td class="num">+15.6</td></tr>
+        <tr><td class="season">1952-53</td><td class="player goat-player" data-player="George Mikan"><span class="fname">George</span> <span class="lname">Mikan</span></td><td class="num stat">42.8</td><td class="num">27.5</td><td class="num">+15.3</td></tr>
+        <tr><td class="season">1951-52</td><td class="player goat-player" data-player="George Mikan"><span class="fname">George</span> <span class="lname">Mikan</span></td><td class="num stat">43.4</td><td class="num">28.2</td><td class="num">+15.2</td></tr>
+        <tr><td class="season">1950-51</td><td class="player goat-player" data-player="George Mikan"><span class="fname">George</span> <span class="lname">Mikan</span></td><td class="num stat">49.3</td><td class="num">29.3</td><td class="num">+20.0</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="year-table">
+        <div class="table-header"><h2>&nbsp;</h2></div>
+        <table style="visibility:hidden"><thead><tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr></thead></table>
+      </div>
+    </div>
+    </div>
+    <nav class="decade-nav"><a href="#decade-2020s" data-decade="2020s">2020<span class="decade-s">s</span></a><a href="#decade-2010s" data-decade="2010s">2010<span class="decade-s">s</span></a><a href="#decade-2000s" data-decade="2000s">2000<span class="decade-s">s</span></a><a href="#decade-1990s" data-decade="1990s">1990<span class="decade-s">s</span></a><a href="#decade-1980s" data-decade="1980s">1980<span class="decade-s">s</span></a><a href="#decade-1970s" data-decade="1970s">1970<span class="decade-s">s</span></a><a href="#decade-1960s" data-decade="1960s">1960<span class="decade-s">s</span></a><a href="#decade-1950s" data-decade="1950s">1950<span class="decade-s">s</span></a><a href="#" data-goat="true">GOAT</a></nav>
   <div class="decade" id="decade-2020s-tap">
     <div class="decade-header"><h3>2020<span class="decade-s">s</span></h3></div>
     <div class="decade-top100" style="display:none">
@@ -12199,6 +12395,9 @@
         var oldAT = oldSec.querySelector('.all-time-table');
         var newAT = newSec.querySelector('.all-time-table');
         if (oldAT && newAT) newAT.style.display = oldAT.style.display;
+        var oldGoat = oldSec.querySelector('.goat-table');
+        var newGoat = newSec.querySelector('.goat-table');
+        if (oldGoat && newGoat) newGoat.style.display = oldGoat.style.display;
         var oldDecs = oldSec.querySelectorAll('.decade');
         var newDecs = newSec.querySelectorAll('.decade');
         for (var di = 0; di < oldDecs.length && di < newDecs.length; di++) {
@@ -12352,6 +12551,33 @@
         allTime.style.display = 'none';
         if (isStuck) {
           header.scrollIntoView({block: 'start'});
+        }
+      });
+    });
+
+    /* GOAT table toggle — click nav link or sticky header to show/hide */
+    document.querySelectorAll('.decade-nav a[data-goat]').forEach(function(a) {
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        var viewClass = stat === 'ted' ? '.view-ted' : '.view-tap';
+        var goatDiv = document.querySelector(viewClass + ' .goat-table');
+        if (!goatDiv) return;
+        if (goatDiv.style.display !== 'none') {
+          goatDiv.style.display = 'none';
+        } else {
+          goatDiv.style.display = '';
+          goatDiv.scrollIntoView({behavior: 'smooth'});
+        }
+      });
+    });
+    document.querySelectorAll('.goat-table').forEach(function(goat) {
+      var tableHeader = goat.querySelector('.table-header');
+      if (tableHeader) tableHeader.addEventListener('click', function() {
+        var isStuck = tableHeader.getBoundingClientRect().top <= 5;
+        goat.style.display = 'none';
+        if (isStuck) {
+          var nav = goat.closest('.historical-section').querySelector('.decade-nav');
+          if (nav) nav.scrollIntoView({block: 'start'});
         }
       });
     });

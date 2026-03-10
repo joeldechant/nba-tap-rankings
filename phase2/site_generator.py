@@ -110,6 +110,7 @@ def render_historical_section(data, stat_key='ted', season_all=None):
     nav_links = ''.join(
         f'<a href="#decade-{d}" data-decade="{d}">{d[:-1]}<span class="decade-s">s</span></a>' for d in decade_order if d in data['decades']
     )
+    nav_links += '<a href="#" data-goat="true">GOAT</a>'
 
     # Build decade sections
     decades_html = ''
@@ -174,10 +175,15 @@ def render_historical_section(data, stat_key='ted', season_all=None):
   </div>
 """
 
+    # Build GOAT table from season_stats
+    goat_html = render_goat_html(data.get('season_stats', {}), stat_key, season_all)
+
     return nav_links, f"""  <div class="historical-section">
     <div class="historical-header"><h2>Historical {stat_upper} Rankings</h2></div>
     <div class="all-time-table" style="display:none">
 {render_all_time_html(data, stat_key, season_all)}    </div>
+    <div class="goat-table" style="display:none">
+{goat_html}    </div>
     <nav class="decade-nav">{nav_links}</nav>
 {decades_html}  </div>
 """
@@ -314,6 +320,73 @@ def render_decade_top100_html(decade_label, decade_data, stat_key='ted', season_
       <div class="year-table">
         <div class="table-header"><h2><span class="decade-label" style="visibility:hidden">&nbsp;</span></h2></div>
         <table style="visibility:hidden"><thead><tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr></thead></table>
+      </div>
+    </div>
+"""
+
+
+def render_goat_html(season_stats, stat_key='ted', season_all=None):
+    """Generate HTML for the GOAT table — #1 player by season.
+
+    season_stats: dict from historical_rankings.json['season_stats'],
+                  keyed by year string, each with ldr_ted/ldr_tap/top10_ted/etc.
+    season_all:   current season results to merge (adds current year).
+    """
+    stat_upper = stat_key.upper()
+    current_year = config.CURRENT_SEASON_YEAR
+
+    # Copy and merge current season if needed
+    stats = dict(season_stats) if season_stats else {}
+    if season_all and str(current_year) not in stats:
+        ted_sorted = sorted(season_all, key=lambda r: r['ted'], reverse=True)
+        tap_sorted = sorted(season_all, key=lambda r: r['tap'], reverse=True)
+        top10_teds = [r['ted'] for r in ted_sorted[:10]]
+        top10_taps = [r['tap'] for r in tap_sorted[:10]]
+        ted_leader = ted_sorted[0]
+        tap_leader = tap_sorted[0]
+        stats[str(current_year)] = {
+            'top10_ted': round(sum(top10_teds) / len(top10_teds), 1),
+            'top10_tap': round(sum(top10_taps) / len(top10_taps), 1),
+            'ldr_ted': ted_leader['player'], 'ldr_ted_val': round(ted_leader['ted'], 1),
+            'ldr_tap': tap_leader['player'], 'ldr_tap_val': round(tap_leader['tap'], 1),
+        }
+
+    # Sort years descending
+    years_sorted = sorted(stats.keys(), key=lambda y: int(y), reverse=True)
+
+    rows = ''
+    for yr_str in years_sorted:
+        s = stats[yr_str]
+        yr = int(yr_str)
+        season_label = f"{yr}-{str(yr + 1)[-2:]}"
+        player_name = s.get(f'ldr_{stat_key}', '')
+        val = s.get(f'ldr_{stat_key}_val', 0)
+        top10 = s.get(f'top10_{stat_key}', 0)
+        diff = round(val - top10, 1)
+        diff_str = f'+{diff:.1f}' if diff >= 0 else f'{diff:.1f}'
+
+        name_html = format_player_name(player_name)
+        player_attr = html_module.escape(player_name, quote=True)
+        rows += (f'        <tr>'
+                 f'<td class="season">{season_label}</td>'
+                 f'<td class="player goat-player" data-player="{player_attr}">{name_html}</td>'
+                 f'<td class="num stat">{val:.1f}</td>'
+                 f'<td class="num">{top10:.1f}</td>'
+                 f'<td class="num">{diff_str}</td>'
+                 f'</tr>\n')
+
+    return f"""    <div class="year-pair single">
+      <div class="year-table">
+        <div class="table-header"><h2>TOP {stat_upper} BY SEASON</h2></div>
+        <table>
+          <thead><tr><th class="season">Season</th><th class="player">Player</th><th class="num stat">{stat_upper}</th><th class="num">TOP 10</th><th class="num">DIFF</th></tr></thead>
+          <tbody>
+{rows}          </tbody>
+        </table>
+      </div>
+      <div class="year-table">
+        <div class="table-header"><h2>&nbsp;</h2></div>
+        <table style="visibility:hidden"><thead><tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr></thead></table>
       </div>
     </div>
 """
@@ -704,19 +777,29 @@ def generate_html(weekly, season, daily, updated_at):
     }}
 
     .all-time-table .table-header,
-    .decade-top100 .table-header {{
+    .decade-top100 .table-header,
+    .goat-table .table-header {{
       background: #fff;
       cursor: pointer;
     }}
 
     .all-time-table .year-table .table-header h2,
-    .decade-top100 .year-table .table-header h2 {{
+    .decade-top100 .year-table .table-header h2,
+    .goat-table .year-table .table-header h2 {{
       color: #ee7623;
     }}
 
     .all-time-table .table-header:hover,
-    .decade-top100 .table-header:hover {{
+    .decade-top100 .table-header:hover,
+    .goat-table .table-header:hover {{
       background: #eee;
+    }}
+
+    .goat-player {{
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 180px;
     }}
 
     .decade-top100 .year-table .table-header h2 .decade-label {{
@@ -725,12 +808,14 @@ def generate_html(weekly, season, daily, updated_at):
     }}
 
     .all-time-table table,
-    .decade-top100 table {{
+    .decade-top100 table,
+    .goat-table table {{
       width: 100%;
     }}
 
     .all-time-table .year-pair > :first-child,
-    .decade-top100 .year-pair > :first-child {{
+    .decade-top100 .year-pair > :first-child,
+    .goat-table .year-pair > :first-child {{
       border-right: 2px solid #fff;
     }}
 
@@ -1194,6 +1279,9 @@ def generate_html(weekly, season, daily, updated_at):
         var oldAT = oldSec.querySelector('.all-time-table');
         var newAT = newSec.querySelector('.all-time-table');
         if (oldAT && newAT) newAT.style.display = oldAT.style.display;
+        var oldGoat = oldSec.querySelector('.goat-table');
+        var newGoat = newSec.querySelector('.goat-table');
+        if (oldGoat && newGoat) newGoat.style.display = oldGoat.style.display;
         var oldDecs = oldSec.querySelectorAll('.decade');
         var newDecs = newSec.querySelectorAll('.decade');
         for (var di = 0; di < oldDecs.length && di < newDecs.length; di++) {{
@@ -1347,6 +1435,33 @@ def generate_html(weekly, season, daily, updated_at):
         allTime.style.display = 'none';
         if (isStuck) {{
           header.scrollIntoView({{block: 'start'}});
+        }}
+      }});
+    }});
+
+    /* GOAT table toggle — click nav link or sticky header to show/hide */
+    document.querySelectorAll('.decade-nav a[data-goat]').forEach(function(a) {{
+      a.addEventListener('click', function(e) {{
+        e.preventDefault();
+        var viewClass = stat === 'ted' ? '.view-ted' : '.view-tap';
+        var goatDiv = document.querySelector(viewClass + ' .goat-table');
+        if (!goatDiv) return;
+        if (goatDiv.style.display !== 'none') {{
+          goatDiv.style.display = 'none';
+        }} else {{
+          goatDiv.style.display = '';
+          goatDiv.scrollIntoView({{behavior: 'smooth'}});
+        }}
+      }});
+    }});
+    document.querySelectorAll('.goat-table').forEach(function(goat) {{
+      var tableHeader = goat.querySelector('.table-header');
+      if (tableHeader) tableHeader.addEventListener('click', function() {{
+        var isStuck = tableHeader.getBoundingClientRect().top <= 5;
+        goat.style.display = 'none';
+        if (isStuck) {{
+          var nav = goat.closest('.historical-section').querySelector('.decade-nav');
+          if (nav) nav.scrollIntoView({{block: 'start'}});
         }}
       }});
     }});
