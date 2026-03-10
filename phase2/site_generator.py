@@ -358,10 +358,11 @@ def render_goat_html(season_stats, stat_key='ted', season_all=None):
     for yr_str in years_sorted:
         s = stats[yr_str]
         yr = int(yr_str)
-        season_label = f"{yr}-{str(yr + 1)[-2:]}"
+        season_label = f"'{str(yr)[-2:]}-{str(yr + 1)[-2:]}"
         player_name = s.get(f'ldr_{stat_key}', '')
         val = s.get(f'ldr_{stat_key}_val', 0)
         top10 = s.get(f'top10_{stat_key}', 0)
+        top10_rnd = round(top10)
         diff = round(val - top10, 1)
         diff_str = f'+{diff:.1f}' if diff >= 0 else f'{diff:.1f}'
 
@@ -370,8 +371,8 @@ def render_goat_html(season_stats, stat_key='ted', season_all=None):
         rows += (f'        <tr>'
                  f'<td class="season">{season_label}</td>'
                  f'<td class="player goat-player" data-player="{player_attr}">{name_html}</td>'
-                 f'<td class="num stat">{val:.1f}</td>'
-                 f'<td class="num">{top10:.1f}</td>'
+                 f'<td class="num">{val:.1f}</td>'
+                 f'<td class="num goat-avg">{top10_rnd}</td>'
                  f'<td class="num">{diff_str}</td>'
                  f'</tr>\n')
 
@@ -379,7 +380,7 @@ def render_goat_html(season_stats, stat_key='ted', season_all=None):
       <div class="year-table">
         <div class="table-header"><h2>TOP {stat_upper} BY SEASON</h2></div>
         <table>
-          <thead><tr><th class="season">Season</th><th class="player">Player</th><th class="num stat">{stat_upper}</th><th class="num">TOP 10</th><th class="num">DIFF</th></tr></thead>
+          <thead><tr><th class="season">Season</th><th class="player">Player</th><th class="num">{stat_upper}</th><th class="num goat-avg">TOP 10</th><th class="num">DIFF</th></tr></thead>
           <tbody>
 {rows}          </tbody>
         </table>
@@ -800,6 +801,10 @@ def generate_html(weekly, season, daily, updated_at):
       overflow: hidden;
       text-overflow: ellipsis;
       max-width: 180px;
+    }}
+
+    .goat-avg {{
+      text-align: center;
     }}
 
     .decade-top100 .year-table .table-header h2 .decade-label {{
