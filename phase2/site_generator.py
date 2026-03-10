@@ -379,7 +379,7 @@ def render_goat_html(season_stats, stat_key='ted', season_all=None):
       <div class="year-table">
         <div class="table-header"><h2>TOP {stat_upper} BY SEASON</h2></div>
         <table>
-          <thead><tr><th class="season">Yr</th><th class="player">Player</th><th class="num">{stat_upper}</th><th class="num goat-avg">TOP 10</th><th class="num">DIFF</th></tr></thead>
+          <thead><tr><th class="season">Yr</th><th class="player">Player</th><th class="num">{stat_upper}</th><th class="num goat-avg">TOP&nbsp;10</th><th class="num">DIFF</th></tr></thead>
           <tbody>
 {rows}          </tbody>
         </table>
