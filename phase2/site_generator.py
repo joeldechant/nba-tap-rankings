@@ -799,8 +799,8 @@ def generate_html(weekly, season, daily, updated_at):
       font-weight: 900;
     }}
 
-    td.goat-avg,
-    th.goat-avg {{
+    td.num.goat-avg,
+    thead th.num.goat-avg {{
       text-align: center;
     }}
 
