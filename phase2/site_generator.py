@@ -851,14 +851,14 @@ def generate_html(weekly, season, daily, updated_at):
     .year-table .table-header {{
       background: #fff;
       border: 2px solid #000;
-      padding: 8px 12px;
+      padding: 10px 12px;
       text-align: center;
     }}
 
 
     .year-table .table-header h2 {{
       font-family: Georgia, 'Times New Roman', serif;
-      font-size: 0.9em;
+      font-size: 1em;
       font-weight: 700;
       letter-spacing: 0.05em;
       color: #000;
