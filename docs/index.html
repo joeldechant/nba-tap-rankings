@@ -12631,7 +12631,8 @@
         });
       }
       rows.forEach(function(r, i) {
-        r.style.borderTop = (mode === 'diff' && i === 30) ? '2px solid #ee7623' : '';
+        var bdr = (mode === 'diff' && i === 30) ? '2px solid #ee7623' : '';
+        for (var c = 0; c < r.cells.length; c++) r.cells[c].style.borderTop = bdr;
         tbody.appendChild(r);
       });
     }
