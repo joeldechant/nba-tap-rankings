@@ -581,6 +581,7 @@ def generate_html(weekly, season, daily, updated_at):
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.3s ease, padding 0.3s ease;
+      cursor: pointer;
     }}
 
     .season-hint.open {{
@@ -1461,6 +1462,9 @@ def generate_html(weekly, season, daily, updated_at):
     floatToggle.addEventListener('click', doToggle);
     document.getElementById('season-header').addEventListener('click', function() {{
       document.getElementById('season-hint').classList.toggle('open');
+    }});
+    document.getElementById('season-hint').addEventListener('click', function() {{
+      this.classList.remove('open');
     }});
     document.querySelectorAll('.decade-nav a[data-decade]').forEach(function(a) {{
       a.addEventListener('click', function(e) {{
