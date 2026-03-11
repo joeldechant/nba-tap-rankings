@@ -385,7 +385,7 @@ def render_goat_html(season_stats, stat_key='ted', season_all=None):
       <div class="year-table">
         <div class="table-header"><h2>TOP {stat_upper} BY SEASON</h2></div>
         <table>
-          <thead><tr><th class="season goat-sort-yr">Yr</th><th class="player">Player</th><th class="num stat goat-sort-val">{stat_upper}</th><th class="num goat-avg">TOP 9*</th><th class="num goat-sort-diff">DIFF</th></tr></thead>
+          <thead><tr><th class="season goat-sort-yr">Yr</th><th class="player goat-sort-player">Player</th><th class="num stat goat-sort-val">{stat_upper}</th><th class="num goat-avg">TOP 9*</th><th class="num goat-sort-diff">DIFF</th></tr></thead>
           <tbody>
 {rows}          </tbody>
         </table>
@@ -838,13 +838,17 @@ def generate_html(weekly, season, daily, updated_at):
     }}
 
     .goat-sort-val,
-    .goat-sort-yr {{
+    .goat-sort-yr,
+    .goat-sort-player {{
       cursor: pointer;
     }}
 
 
-    .goat-table .year-pair > :first-child {{
-      border-right: none;
+    .goat-table .player {{
+      max-width: 160px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }}
 
     .decade-top100 .year-table .table-header h2 .decade-label {{
@@ -1510,25 +1514,66 @@ def generate_html(weekly, season, daily, updated_at):
       }});
     }});
 
-    /* GOAT table sort — click DIFF to sort by diff desc, click Yr to sort by year desc */
-    var goatSortMode = 'year'; /* persists across TED/TAP toggle */
+    /* GOAT table sort modes:
+       year        — default, sorted by year desc
+       diff        — sorted by DIFF desc, orange line after row 30
+       val         — sorted by TED/TAP value desc
+       player      — sorted by appearance count (full list), tiebreak DIFF
+       diff-player — top 30 DIFF only, sorted by appearance count within
+                     top 30, tiebreak DIFF; rows 31+ hidden, orange line visible */
+    var goatSortMode = 'year';
     function goatSort(table, mode) {{
       var tbody = table.querySelector('tbody');
       if (!tbody) return;
       var rows = Array.from(tbody.querySelectorAll('tr'));
-      if (mode === 'diff') {{
-        rows.sort(function(a, b) {{
-          var ad = parseFloat(a.cells[4].textContent) || 0;
-          var bd = parseFloat(b.cells[4].textContent) || 0;
-          return bd - ad;
+      /* Helper: sort by DIFF desc */
+      function sortByDiff(arr) {{
+        arr.sort(function(a, b) {{
+          return (parseFloat(b.cells[4].textContent) || 0) -
+                 (parseFloat(a.cells[4].textContent) || 0);
         }});
+      }}
+      /* Helper: sort by appearance count desc, tiebreak DIFF desc */
+      function sortByCount(arr, countMap) {{
+        arr.sort(function(a, b) {{
+          var na = a.cells[1].textContent.trim();
+          var nb = b.cells[1].textContent.trim();
+          var ca = countMap[na] || 0, cb = countMap[nb] || 0;
+          if (cb !== ca) return cb - ca;
+          return (parseFloat(b.cells[4].textContent) || 0) -
+                 (parseFloat(a.cells[4].textContent) || 0);
+        }});
+      }}
+      if (mode === 'diff') {{
+        sortByDiff(rows);
       }} else if (mode === 'val') {{
         rows.sort(function(a, b) {{
-          var av = parseFloat(a.cells[2].textContent) || 0;
-          var bv = parseFloat(b.cells[2].textContent) || 0;
-          return bv - av;
+          return (parseFloat(b.cells[2].textContent) || 0) -
+                 (parseFloat(a.cells[2].textContent) || 0);
         }});
+      }} else if (mode === 'player') {{
+        /* Count appearances across ALL rows */
+        var counts = {{}};
+        rows.forEach(function(r) {{
+          var n = r.cells[1].textContent.trim();
+          counts[n] = (counts[n] || 0) + 1;
+        }});
+        sortByCount(rows, counts);
+      }} else if (mode === 'diff-player') {{
+        /* Sort by DIFF first to identify top 30 */
+        sortByDiff(rows);
+        var top30 = rows.slice(0, 30);
+        var rest = rows.slice(30);
+        /* Count appearances within top 30 only */
+        var counts = {{}};
+        top30.forEach(function(r) {{
+          var n = r.cells[1].textContent.trim();
+          counts[n] = (counts[n] || 0) + 1;
+        }});
+        sortByCount(top30, counts);
+        rows = top30.concat(rest);
       }} else {{
+        /* year sort */
         rows.sort(function(a, b) {{
           var ay = parseInt(a.cells[0].textContent.replace("'", '')) || 0;
           var by = parseInt(b.cells[0].textContent.replace("'", '')) || 0;
@@ -1537,7 +1582,18 @@ def generate_html(weekly, season, daily, updated_at):
           return by - ay;
         }});
       }}
-      rows.forEach(function(r) {{ tbody.appendChild(r); }});
+      var showOrange = (mode === 'diff' || mode === 'diff-player');
+      rows.forEach(function(r, i) {{
+        var bdrTop = (showOrange && mode !== 'diff-player' && i === 30) ? '2px solid #ee7623' : '';
+        var bdrBot = (mode === 'diff-player' && i === 29) ? '2px solid #ee7623' : '';
+        var hide = (mode === 'diff-player' && i >= 30);
+        r.style.display = hide ? 'none' : '';
+        for (var c = 0; c < r.cells.length; c++) {{
+          r.cells[c].style.borderTop = bdrTop;
+          r.cells[c].style.borderBottom = bdrBot;
+        }}
+        tbody.appendChild(r);
+      }});
     }}
     function goatApplySort() {{
       document.querySelectorAll('.goat-table table').forEach(function(t) {{
@@ -1563,6 +1619,16 @@ def generate_html(weekly, season, daily, updated_at):
       th.addEventListener('click', function(e) {{
         e.stopPropagation();
         goatSortMode = 'year';
+        goatApplySort();
+      }});
+    }});
+    document.querySelectorAll('.goat-sort-player').forEach(function(th) {{
+      th.addEventListener('click', function(e) {{
+        e.stopPropagation();
+        if (goatSortMode === 'player') goatSortMode = 'year';
+        else if (goatSortMode === 'diff-player') goatSortMode = 'diff';
+        else if (goatSortMode === 'diff') goatSortMode = 'diff-player';
+        else goatSortMode = 'player';
         goatApplySort();
       }});
     }});
