@@ -1069,7 +1069,7 @@ def generate_html(weekly, season, daily, updated_at):
 
 
     .g2-table tr[data-rank="2"] td {{
-      color: #999;
+      color: #bbb;
     }}
 
     .goat-table .player,
