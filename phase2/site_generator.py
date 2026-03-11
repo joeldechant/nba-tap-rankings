@@ -480,10 +480,10 @@ def render_g2_html(season_stats, stat_key='ted', season_all=None):
             name2_html = format_player_name(player2)
             player2_attr = html_module.escape(player2, quote=True)
             rows += (f'        <tr data-rank="2">'
-                     f'<td class="season"></td>'
+                     f'<td class="season">{season_label}</td>'
                      f'<td class="player" data-player="{player2_attr}">{name2_html}</td>'
                      f'<td class="num stat">{val2:.1f}</td>'
-                     f'<td class="num g2-avg"></td>'
+                     f'<td class="num g2-avg">{round(top9)}</td>'
                      f'<td class="num">{diff2_str}</td>'
                      f'</tr>\n')
 
