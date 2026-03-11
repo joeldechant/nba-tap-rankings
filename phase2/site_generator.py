@@ -390,7 +390,6 @@ def render_goat_html(season_stats, stat_key='ted', season_all=None):
 {rows}          </tbody>
         </table>
         <div class="goat-cutoff-msg" style="display:none"><p>Click <span class="orange">PLAYER</span> above to sort the top 30 DIFF seasons and see the GOAT candidates!</p></div>
-        <div class="table-footer"></div>
       </div>
       <div class="year-table">
         <div class="table-header"><h2>&nbsp;</h2></div>
@@ -888,7 +887,6 @@ def generate_html(weekly, season, daily, updated_at):
       background: #000;
       text-align: center;
       padding: 12px 16px;
-      border-right: 2px solid #fff;
       cursor: pointer;
     }}
 
@@ -1075,11 +1073,6 @@ def generate_html(weekly, season, daily, updated_at):
       text-align: center;
     }}
 
-    .table-footer {{
-      background: #fff;
-      border: 2px solid #000;
-      padding: 6px 12px;
-    }}
 
     .year-table .table-header h2 {{
       font-family: Georgia, 'Times New Roman', serif;
