@@ -1820,6 +1820,8 @@ def generate_html(weekly, season, daily, updated_at):
     document.querySelectorAll('.decade-nav a[data-decade]').forEach(function(a) {{
       a.addEventListener('click', function(e) {{
         e.preventDefault();
+        var tip = document.getElementById('goat-avg-tooltip');
+        if (tip && tip.classList.contains('active')) return;
         var decade = this.getAttribute('data-decade');
         var suffix = stat === 'ted' ? '' : '-tap';
         var target = document.getElementById('decade-' + decade + suffix);
@@ -1882,6 +1884,11 @@ def generate_html(weekly, season, daily, updated_at):
         closeCareer();
         return;
       }}
+      var tip = document.getElementById('goat-avg-tooltip');
+      if (tip && tip.classList.contains('active')) {{
+        tip.classList.remove('active');
+        return;
+      }}
       var td = e.target.closest('td.player[data-player]');
       if (td) {{
         e.stopPropagation();
@@ -1922,6 +1929,8 @@ def generate_html(weekly, season, daily, updated_at):
       var allTime = sec.querySelector('.all-time-table');
       if (!header || !allTime) return;
       header.addEventListener('click', function() {{
+        var tip = document.getElementById('goat-avg-tooltip');
+        if (tip && tip.classList.contains('active')) return;
         if (allTime.style.display !== 'none') {{
           allTime.style.display = 'none';
           /* Only scroll back if header is near viewport top (scrolled past it) */
@@ -1948,6 +1957,8 @@ def generate_html(weekly, season, daily, updated_at):
     document.querySelectorAll('.decade-nav a[data-goat]').forEach(function(a) {{
       a.addEventListener('click', function(e) {{
         e.preventDefault();
+        var tip = document.getElementById('goat-avg-tooltip');
+        if (tip && tip.classList.contains('active')) return;
         var viewClass = stat === 'ted' ? '.view-ted' : '.view-tap';
         var goatDiv = document.querySelector(viewClass + ' .goat-table');
         var g2Div = document.querySelector(viewClass + ' .g2-table');
@@ -2171,14 +2182,19 @@ def generate_html(weekly, season, daily, updated_at):
         avgTooltip.classList.add('active');
       }});
     }});
-    document.addEventListener('click', function() {{
-      avgTooltip.classList.remove('active');
-    }});
+    document.addEventListener('click', function(e) {{
+      if (avgTooltip.classList.contains('active')) {{
+        avgTooltip.classList.remove('active');
+        e.stopImmediatePropagation();
+      }}
+    }}, true);
 
     /* === G2 table toggle — click nav link or sticky header to show/hide === */
     document.querySelectorAll('.decade-nav a[data-g2]').forEach(function(a) {{
       a.addEventListener('click', function(e) {{
         e.preventDefault();
+        var tip = document.getElementById('goat-avg-tooltip');
+        if (tip && tip.classList.contains('active')) return;
         var viewClass = stat === 'ted' ? '.view-ted' : '.view-tap';
         var g2Div = document.querySelector(viewClass + ' .g2-table');
         var goatDiv = document.querySelector(viewClass + ' .goat-table');
@@ -2411,6 +2427,8 @@ def generate_html(weekly, season, daily, updated_at):
     document.querySelectorAll('.decade-nav a[data-g3]').forEach(function(a) {{
       a.addEventListener('click', function(e) {{
         e.preventDefault();
+        var tip = document.getElementById('goat-avg-tooltip');
+        if (tip && tip.classList.contains('active')) return;
         var viewClass = stat === 'ted' ? '.view-ted' : '.view-tap';
         var g3Div = document.querySelector(viewClass + ' .g3-table');
         var goatDiv = document.querySelector(viewClass + ' .goat-table');
