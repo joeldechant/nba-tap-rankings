@@ -254,6 +254,10 @@ def render_all_time_html(data, stat_key='ted', season_all=None):
 {rows}          </tbody>
         </table>
       </div>
+      <div class="year-table">
+        <div class="table-header"><h2>&nbsp;</h2></div>
+        <table style="visibility:hidden"><thead><tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr></thead></table>
+      </div>
     </div>
 """
 
@@ -312,6 +316,10 @@ def render_decade_top100_html(decade_label, decade_data, stat_key='ted', season_
           <tbody>
 {rows}          </tbody>
         </table>
+      </div>
+      <div class="year-table">
+        <div class="table-header"><h2><span class="decade-label" style="visibility:hidden">&nbsp;</span></h2></div>
+        <table style="visibility:hidden"><thead><tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr></thead></table>
       </div>
     </div>
 """
@@ -382,6 +390,7 @@ def render_goat_html(season_stats, stat_key='ted', season_all=None):
 {rows}          </tbody>
         </table>
         <div class="goat-cutoff-msg" style="display:none"><p>Click <span class="orange">PLAYER</span> above to sort the top 30 DIFF seasons and see the GOAT candidates!</p></div>
+        <div class="table-footer"></div>
       </div>
       <div class="year-table">
         <div class="table-header"><h2>&nbsp;</h2></div>
@@ -943,15 +952,6 @@ def generate_html(weekly, season, daily, updated_at):
       width: 100%;
     }}
 
-    .all-time-table .year-pair,
-    .decade-top100 .year-pair {{
-      grid-template-columns: 1fr;
-    }}
-    .all-time-table .year-pair > :first-child,
-    .decade-top100 .year-pair > :first-child {{
-      border-right: none;
-    }}
-
     .all-time-table .player,
     .decade-top100 .player {{
       max-width: 160px;
@@ -1035,6 +1035,7 @@ def generate_html(weekly, season, daily, updated_at):
     }}
 
     .year-table {{
+      min-width: 0;
     }}
 
     .year-table table {{
@@ -1072,9 +1073,13 @@ def generate_html(weekly, season, daily, updated_at):
       border: 2px solid #000;
       padding: 10px 12px;
       text-align: center;
-      box-sizing: border-box;
     }}
 
+    .table-footer {{
+      background: #fff;
+      border: 2px solid #000;
+      padding: 6px 12px;
+    }}
 
     .year-table .table-header h2 {{
       font-family: Georgia, 'Times New Roman', serif;
@@ -1253,8 +1258,25 @@ def generate_html(weekly, season, daily, updated_at):
         border-bottom: 2px solid #fff;
       }}
       .all-time-table .year-pair > :first-child,
-      .decade-top100 .year-pair > :first-child {{
+      .decade-top100 .year-pair > :first-child,
+      .goat-table .year-pair > :first-child {{
         border-bottom: none;
+      }}
+      .all-time-table .year-pair > :last-child,
+      .decade-top100 .year-pair > :last-child,
+      .goat-table .year-pair > :last-child {{
+        display: none;
+      }}
+      .all-time-table .player,
+      .decade-top100 .player {{
+        max-width: 120px;
+      }}
+      .all-time-table td,
+      .all-time-table th,
+      .decade-top100 td,
+      .decade-top100 th {{
+        padding-left: 6px;
+        padding-right: 6px;
       }}
       .year-table table {{
         max-width: 100%;
@@ -1786,8 +1808,6 @@ def generate_html(weekly, season, daily, updated_at):
       msg.addEventListener('click', function() {{
         goatSortMode = 'diff';
         goatApplySort();
-        var hdr = msg.closest('.goat-table').querySelector('.table-header');
-        if (hdr && hdr.getBoundingClientRect().top <= 5) msg.closest('.goat-table').scrollIntoView({{block: 'start'}});
       }});
     }});
 

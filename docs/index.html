@@ -601,7 +601,7 @@
     .table-footer {
       background: #fff;
       border: 2px solid #000;
-      height: 8px;
+      padding: 6px 12px;
     }
 
     .year-table .table-header h2 {
@@ -12900,8 +12900,6 @@
       msg.addEventListener('click', function() {
         goatSortMode = 'diff';
         goatApplySort();
-        var hdr = msg.closest('.goat-table').querySelector('.table-header');
-        if (hdr && hdr.getBoundingClientRect().top <= 5) msg.closest('.goat-table').scrollIntoView({block: 'start'});
       });
     });
 
