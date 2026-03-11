@@ -2045,13 +2045,12 @@ def generate_html(weekly, season, daily, updated_at):
       if (oldTextRow) oldTextRow.remove();
       var truncate = (mode === 'diff-player');
       rows.forEach(function(r, i) {{
-        var bdrBot = (truncate && !goatTextOpen && i === 29) ? '3px solid #ee7623' : '';
         var hide = (truncate && i >= 30);
         r.style.display = hide ? 'none' : '';
         for (var c = 0; c < r.cells.length; c++) {{
           r.cells[c].style.borderTop = '';
-          r.cells[c].style.borderBottom = bdrBot;
-          r.cells[c].style.paddingBottom = (truncate && !goatTextOpen && i === 29) ? '8px' : '';
+          r.cells[c].style.borderBottom = '';
+          r.cells[c].style.paddingBottom = '';
         }}
         tbody.appendChild(r);
       }});
@@ -2299,13 +2298,12 @@ def generate_html(weekly, season, daily, updated_at):
       if (oldTextRow) oldTextRow.remove();
       var truncate = (mode === 'diff-player');
       rows.forEach(function(r, i) {{
-        var bdrBot = (truncate && !g2TextOpen && i === 39) ? '3px solid #ee7623' : '';
         var hide = (truncate && i >= 40);
         r.style.display = hide ? 'none' : '';
         for (var c = 0; c < r.cells.length; c++) {{
           r.cells[c].style.borderTop = '';
-          r.cells[c].style.borderBottom = bdrBot;
-          r.cells[c].style.paddingBottom = (truncate && !g2TextOpen && i === 39) ? '8px' : '';
+          r.cells[c].style.borderBottom = '';
+          r.cells[c].style.paddingBottom = '';
         }}
         tbody.appendChild(r);
       }});
@@ -2539,13 +2537,12 @@ def generate_html(weekly, season, daily, updated_at):
       if (oldTextRow) oldTextRow.remove();
       var truncate = (mode === 'diff-player');
       rows.forEach(function(r, i) {{
-        var bdrBot = (truncate && !g3TextOpen && i === 49) ? '3px solid #ee7623' : '';
         var hide = (truncate && i >= 50);
         r.style.display = hide ? 'none' : '';
         for (var c = 0; c < r.cells.length; c++) {{
           r.cells[c].style.borderTop = '';
-          r.cells[c].style.borderBottom = bdrBot;
-          r.cells[c].style.paddingBottom = (truncate && !g3TextOpen && i === 49) ? '8px' : '';
+          r.cells[c].style.borderBottom = '';
+          r.cells[c].style.paddingBottom = '';
         }}
         tbody.appendChild(r);
       }});
