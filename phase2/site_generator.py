@@ -1169,6 +1169,7 @@ def generate_html(weekly, season, daily, updated_at):
       background: #ee7623;
       cursor: pointer;
       border: none;
+      border-top: 1px solid #fff;
       overflow: hidden;
     }}
 
