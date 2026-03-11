@@ -1072,6 +1072,7 @@ def generate_html(weekly, season, daily, updated_at):
       border: 2px solid #000;
       padding: 10px 12px;
       text-align: center;
+      box-sizing: border-box;
     }}
 
 
