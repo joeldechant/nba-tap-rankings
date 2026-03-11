@@ -2094,7 +2094,7 @@ def generate_html(weekly, season, daily, updated_at):
         }});
       }}
       /* Show cutoff message */
-      if (showCutoff && msgDiv) msgDiv.style.display = '';
+      if ((showCutoff || mode === 'diff-player') && msgDiv) msgDiv.style.display = '';
     }}
     function goatApplySort() {{
       document.querySelectorAll('.goat-table table').forEach(function(t) {{
@@ -2334,7 +2334,7 @@ def generate_html(weekly, season, daily, updated_at):
           g2ApplySort();
         }});
       }}
-      if (showCutoff && msgDiv) msgDiv.style.display = '';
+      if ((showCutoff || mode === 'diff-player') && msgDiv) msgDiv.style.display = '';
     }}
     function g2ApplySort() {{
       document.querySelectorAll('.g2-table table').forEach(function(t) {{
@@ -2560,7 +2560,7 @@ def generate_html(weekly, season, daily, updated_at):
           g3ApplySort();
         }});
       }}
-      if (showCutoff && msgDiv) msgDiv.style.display = '';
+      if ((showCutoff || mode === 'diff-player') && msgDiv) msgDiv.style.display = '';
     }}
     function g3ApplySort() {{
       document.querySelectorAll('.g3-table table').forEach(function(t) {{
