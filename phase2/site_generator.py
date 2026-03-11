@@ -2012,6 +2012,11 @@ def generate_html(weekly, season, daily, updated_at):
       var tbody = table.querySelector('tbody');
       if (!tbody) return;
       var rows = Array.from(tbody.querySelectorAll('tr:not(.g2-orange-sep)'));
+      /* Helper: get clean player name from data-player attribute */
+      function getName(row) {{
+        var td = row.cells[1];
+        return td ? (td.getAttribute('data-player') || td.textContent.trim()) : '';
+      }}
       function sortByDiff(arr) {{
         arr.sort(function(a, b) {{
           return (parseFloat(b.cells[4].textContent) || 0) -
@@ -2021,13 +2026,13 @@ def generate_html(weekly, season, daily, updated_at):
       function sortByCount(arr, countMap, intraCol) {{
         var bestDiff = {{}};
         arr.forEach(function(r) {{
-          var n = r.cells[1].textContent.trim();
+          var n = getName(r);
           var d = parseFloat(r.cells[4].textContent) || 0;
           if (bestDiff[n] === undefined || d > bestDiff[n]) bestDiff[n] = d;
         }});
         arr.sort(function(a, b) {{
-          var na = a.cells[1].textContent.trim();
-          var nb = b.cells[1].textContent.trim();
+          var na = getName(a);
+          var nb = getName(b);
           var ca = countMap[na] || 0, cb = countMap[nb] || 0;
           if (cb !== ca) return cb - ca;
           if (na !== nb) return (bestDiff[nb] || 0) - (bestDiff[na] || 0);
@@ -2045,7 +2050,7 @@ def generate_html(weekly, season, daily, updated_at):
       }} else if (mode === 'player') {{
         var counts = {{}};
         rows.forEach(function(r) {{
-          var n = r.cells[1].textContent.trim();
+          var n = getName(r);
           counts[n] = (counts[n] || 0) + 1;
         }});
         sortByCount(rows, counts, 2);
@@ -2055,7 +2060,7 @@ def generate_html(weekly, season, daily, updated_at):
         var rest = rows.slice(40);
         var counts = {{}};
         top40.forEach(function(r) {{
-          var n = r.cells[1].textContent.trim();
+          var n = getName(r);
           counts[n] = (counts[n] || 0) + 1;
         }});
         sortByCount(top40, counts, 4);
