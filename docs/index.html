@@ -13326,15 +13326,15 @@
         var oldGoat = oldSec.querySelector('.goat-table');
         var newGoat = newSec.querySelector('.goat-table');
         if (oldGoat && newGoat) newGoat.style.display = oldGoat.style.display;
-        if (typeof goatApplySort === 'function') goatApplySort();
+        if (newGoat && newGoat.style.display !== 'none' && typeof goatApplySort === 'function') goatApplySort();
         var oldG2 = oldSec.querySelector('.g2-table');
         var newG2 = newSec.querySelector('.g2-table');
         if (oldG2 && newG2) newG2.style.display = oldG2.style.display;
-        if (typeof g2ApplySort === 'function') g2ApplySort();
+        if (newG2 && newG2.style.display !== 'none' && typeof g2ApplySort === 'function') g2ApplySort();
         var oldG3 = oldSec.querySelector('.g3-table');
         var newG3 = newSec.querySelector('.g3-table');
         if (oldG3 && newG3) newG3.style.display = oldG3.style.display;
-        if (typeof g3ApplySort === 'function') g3ApplySort();
+        if (newG3 && newG3.style.display !== 'none' && typeof g3ApplySort === 'function') g3ApplySort();
         var oldDecs = oldSec.querySelectorAll('.decade');
         var newDecs = newSec.querySelectorAll('.decade');
         for (var di = 0; di < oldDecs.length && di < newDecs.length; di++) {
