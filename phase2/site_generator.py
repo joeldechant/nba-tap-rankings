@@ -2186,6 +2186,7 @@ def generate_html(weekly, season, daily, updated_at):
       if (avgTooltip.classList.contains('active')) {{
         avgTooltip.classList.remove('active');
         e.stopImmediatePropagation();
+        e.preventDefault();
       }}
     }}, true);
 
