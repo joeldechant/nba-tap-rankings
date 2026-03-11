@@ -688,6 +688,12 @@
     .career-overlay.active {
       display: flex;
     }
+    body.career-open .container {
+      pointer-events: none;
+    }
+    body.career-open .career-overlay {
+      pointer-events: auto;
+    }
 
     .career-popup {
       background: #111;
@@ -13428,10 +13434,12 @@
       }
       popupBody.innerHTML = html;
       overlay.classList.add('active');
+      document.body.classList.add('career-open');
     }
 
     function closeCareer() {
       overlay.classList.remove('active');
+      document.body.classList.remove('career-open');
       popupBody.innerHTML = '';
     }
 
@@ -13447,7 +13455,7 @@
 
     document.getElementById('career-popup-close').addEventListener('click', closeCareer);
     overlay.addEventListener('click', function(e) {
-      if (e.target === overlay) closeCareer();
+      closeCareer();
     });
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') closeCareer();

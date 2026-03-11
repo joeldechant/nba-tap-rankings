@@ -1417,6 +1417,12 @@ def generate_html(weekly, season, daily, updated_at):
     .career-overlay.active {{
       display: flex;
     }}
+    body.career-open .container {{
+      pointer-events: none;
+    }}
+    body.career-open .career-overlay {{
+      pointer-events: auto;
+    }}
 
     .career-popup {{
       background: #111;
@@ -1862,10 +1868,12 @@ def generate_html(weekly, season, daily, updated_at):
       }}
       popupBody.innerHTML = html;
       overlay.classList.add('active');
+      document.body.classList.add('career-open');
     }}
 
     function closeCareer() {{
       overlay.classList.remove('active');
+      document.body.classList.remove('career-open');
       popupBody.innerHTML = '';
     }}
 
@@ -1881,7 +1889,7 @@ def generate_html(weekly, season, daily, updated_at):
 
     document.getElementById('career-popup-close').addEventListener('click', closeCareer);
     overlay.addEventListener('click', function(e) {{
-      if (e.target === overlay) closeCareer();
+      closeCareer();
     }});
     document.addEventListener('keydown', function(e) {{
       if (e.key === 'Escape') closeCareer();
