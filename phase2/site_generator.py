@@ -852,6 +852,14 @@ def generate_html(weekly, season, daily, updated_at):
       padding-right: 0;
     }}
 
+    .goat-table thead th {{
+      border-bottom: 2px solid #fff;
+    }}
+
+    .goat-table thead th:last-child {{
+      border-right: 2px solid #fff;
+    }}
+
     .goat-table td.num:last-child,
     .goat-table thead th.num:last-child {{
       padding-left: 2px;
@@ -1254,6 +1262,9 @@ def generate_html(weekly, season, daily, updated_at):
       .decade-top100 .year-pair > :first-child,
       .goat-table .year-pair > :first-child {{
         border-bottom: none;
+      }}
+      .goat-table thead th:last-child {{
+        border-right: none;
       }}
       .all-time-table .year-pair > :last-child,
       .decade-top100 .year-pair > :last-child,
