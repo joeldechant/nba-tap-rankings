@@ -2035,7 +2035,14 @@ def generate_html(weekly, season, daily, updated_at):
           var nb = getName(b);
           var ca = countMap[na] || 0, cb = countMap[nb] || 0;
           if (cb !== ca) return cb - ca;
-          if (na !== nb) return (bestDiff[nb] || 0) - (bestDiff[na] || 0);
+          /* Same count: group by player (higher best-DIFF first).
+             When best-DIFF is also tied, group by name to prevent interleaving. */
+          if (na !== nb) {{
+            var dd = (bestDiff[nb] || 0) - (bestDiff[na] || 0);
+            if (dd !== 0) return dd;
+            return na < nb ? -1 : 1;
+          }}
+          /* Same player: sort by intraCol desc */
           return (parseFloat(b.cells[intraCol].textContent) || 0) -
                  (parseFloat(a.cells[intraCol].textContent) || 0);
         }});
