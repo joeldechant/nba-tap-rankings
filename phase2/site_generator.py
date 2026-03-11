@@ -718,8 +718,11 @@ def generate_html(weekly, season, daily, updated_at):
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: #fff;
-      border-bottom: 1px solid #fff;
       background: #000;
+    }}
+
+    thead tr {{
+      border-bottom: 1px solid #fff;
     }}
 
     tbody tr {{
