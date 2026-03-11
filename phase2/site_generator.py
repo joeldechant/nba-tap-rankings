@@ -1883,9 +1883,13 @@ def generate_html(weekly, season, daily, updated_at):
     overlay.addEventListener('click', function(e) {{
       closeCareer();
     }});
-    document.addEventListener('click', function() {{
-      if (overlay.classList.contains('active')) closeCareer();
-    }});
+    document.addEventListener('click', function(e) {{
+      if (overlay.classList.contains('active')) {{
+        closeCareer();
+        e.stopImmediatePropagation();
+        e.preventDefault();
+      }}
+    }}, true);
     document.addEventListener('keydown', function(e) {{
       if (e.key === 'Escape') closeCareer();
     }});
