@@ -1666,27 +1666,6 @@ def generate_html(weekly, season, daily, updated_at):
     </svg>
   </div>
   <div class="goat-avg-tooltip" id="goat-avg-tooltip"></div>
-  <div class="career-overlay" id="career-overlay">
-    <div class="career-popup" id="career-popup">
-      <div class="career-popup-header">
-        <span id="career-popup-name"></span>
-        <button class="career-popup-close" id="career-popup-close">&times;</button>
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th class="cp-season">Season</th>
-            <th class="cp-team">Team</th>
-            <th class="cp-stat" id="career-stat-header">TED</th>
-            <th class="cp-avg">TOP 10</th>
-            <th class="cp-leader">High</th>
-          </tr>
-        </thead>
-        <tbody id="career-popup-body">
-        </tbody>
-      </table>
-    </div>
-  </div>
 {career_js}
   <script>
   (function() {{
@@ -1814,7 +1793,7 @@ def generate_html(weekly, season, daily, updated_at):
     document.querySelectorAll('.decade-nav a[data-decade]').forEach(function(a) {{
       a.addEventListener('click', function(e) {{
         e.preventDefault();
-        if (careerJustClosed()) return;
+
         var decade = this.getAttribute('data-decade');
         var suffix = stat === 'ted' ? '' : '-tap';
         var target = document.getElementById('decade-' + decade + suffix);
@@ -1865,42 +1844,23 @@ def generate_html(weekly, season, daily, updated_at):
       overlay.classList.add('active');
     }}
 
-    var _careerClosedAt = 0;
     function closeCareer() {{
       overlay.classList.remove('active');
       popupBody.innerHTML = '';
-      _careerClosedAt = Date.now();
-    }}
-    function careerJustClosed() {{
-      return Date.now() - _careerClosedAt < 400;
     }}
 
     document.querySelector('.container').addEventListener('click', function(e) {{
       var td = e.target.closest('td.player[data-player]');
       if (td) {{
-        if (overlay.classList.contains('active') || careerJustClosed()) return;
         var yearDiv = td.closest('.year-table[data-year]');
         var ctxYear = yearDiv ? parseInt(yearDiv.getAttribute('data-year')) : currentYear;
         showCareer(td.getAttribute('data-player'), ctxYear);
       }}
     }});
 
-    document.getElementById('career-popup-close').addEventListener('click', closeCareer);
-    overlay.addEventListener('click', function(e) {{
+    overlay.addEventListener('click', function() {{
       closeCareer();
     }});
-    document.addEventListener('click', function(e) {{
-      if (overlay.classList.contains('active')) {{
-        closeCareer();
-        e.stopImmediatePropagation();
-        e.preventDefault();
-        return;
-      }}
-      if (careerJustClosed()) {{
-        e.stopImmediatePropagation();
-        e.preventDefault();
-      }}
-    }}, true);
     document.addEventListener('keydown', function(e) {{
       if (e.key === 'Escape') closeCareer();
     }});
@@ -1908,7 +1868,7 @@ def generate_html(weekly, season, daily, updated_at):
     /* Weekly / Daily toggle — click header to swap */
     document.querySelectorAll('.weekly-daily-slot').forEach(function(slot) {{
       slot.addEventListener('click', function(e) {{
-        if (careerJustClosed()) return;
+
         var header = e.target.closest('.table-header');
         if (!header) return;
         var weekly = slot.querySelector('.weekly-table');
@@ -1955,7 +1915,7 @@ def generate_html(weekly, season, daily, updated_at):
     document.querySelectorAll('.decade-nav a[data-goat]').forEach(function(a) {{
       a.addEventListener('click', function(e) {{
         e.preventDefault();
-        if (careerJustClosed()) return;
+
         var viewClass = stat === 'ted' ? '.view-ted' : '.view-tap';
         var goatDiv = document.querySelector(viewClass + ' .goat-table');
         var g2Div = document.querySelector(viewClass + ' .g2-table');
@@ -2187,7 +2147,7 @@ def generate_html(weekly, season, daily, updated_at):
     document.querySelectorAll('.decade-nav a[data-g2]').forEach(function(a) {{
       a.addEventListener('click', function(e) {{
         e.preventDefault();
-        if (careerJustClosed()) return;
+
         var viewClass = stat === 'ted' ? '.view-ted' : '.view-tap';
         var g2Div = document.querySelector(viewClass + ' .g2-table');
         var goatDiv = document.querySelector(viewClass + ' .goat-table');
@@ -2420,7 +2380,7 @@ def generate_html(weekly, season, daily, updated_at):
     document.querySelectorAll('.decade-nav a[data-g3]').forEach(function(a) {{
       a.addEventListener('click', function(e) {{
         e.preventDefault();
-        if (careerJustClosed()) return;
+
         var viewClass = stat === 'ted' ? '.view-ted' : '.view-tap';
         var g3Div = document.querySelector(viewClass + ' .g3-table');
         var goatDiv = document.querySelector(viewClass + ' .goat-table');
@@ -2677,6 +2637,27 @@ def generate_html(weekly, season, daily, updated_at):
     }});
   }})();
   </script>
+<div class="career-overlay" id="career-overlay">
+  <div class="career-popup" id="career-popup">
+    <div class="career-popup-header">
+      <span id="career-popup-name"></span>
+      <button class="career-popup-close" id="career-popup-close">&times;</button>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th class="cp-season">Season</th>
+          <th class="cp-team">Team</th>
+          <th class="cp-stat" id="career-stat-header">TED</th>
+          <th class="cp-avg">TOP 10</th>
+          <th class="cp-leader">High</th>
+        </tr>
+      </thead>
+      <tbody id="career-popup-body">
+      </tbody>
+    </table>
+  </div>
+</div>
 </body>
 </html>
 """
