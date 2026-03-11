@@ -953,7 +953,7 @@ def generate_html(weekly, season, daily, updated_at):
 
     .all-time-table .year-pair > :first-child,
     .decade-top100 .year-pair > :first-child {{
-      border-right: none;
+      border-right: 2px solid #000;
     }}
 
     .all-time-table .player,
@@ -1735,11 +1735,14 @@ def generate_html(weekly, season, daily, updated_at):
       }});
     }}
     /* Scroll to top of GOAT table only when the sticky header is floating
-       (user is deep in the list). If header is in natural position, stay put. */
+       (user is deep in the list). If header is in natural position, stay put.
+       Uses the non-sticky .goat-table container as scroll target because
+       scrollIntoView() on sticky elements is unreliable (browser considers
+       them "already visible" when stuck). */
     function goatScrollIfStuck(el) {{
       var hdr = el.closest('.year-table').querySelector('.table-header');
       if (hdr && hdr.getBoundingClientRect().top <= 5) {{
-        hdr.scrollIntoView({{block: 'start'}});
+        el.closest('.goat-table').scrollIntoView({{block: 'start'}});
       }}
     }}
     document.querySelectorAll('.goat-sort-diff').forEach(function(th) {{
@@ -1783,7 +1786,7 @@ def generate_html(weekly, season, daily, updated_at):
         goatSortMode = 'diff';
         goatApplySort();
         var hdr = msg.closest('.goat-table').querySelector('.table-header');
-        if (hdr && hdr.getBoundingClientRect().top <= 5) hdr.scrollIntoView({{block: 'start'}});
+        if (hdr && hdr.getBoundingClientRect().top <= 5) msg.closest('.goat-table').scrollIntoView({{block: 'start'}});
       }});
     }});
 
