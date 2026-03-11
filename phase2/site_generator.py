@@ -110,7 +110,7 @@ def render_historical_section(data, stat_key='ted', season_all=None):
     nav_links = ''.join(
         f'<a href="#decade-{d}" data-decade="{d}">{d[:-1]}<span class="decade-s">s</span></a>' for d in decade_order if d in data['decades']
     )
-    nav_links += '<a href="#" data-goat="true">GOAT</a>'
+    nav_links += '<a href="#" data-goat="true" style="color:#ee7623;border-color:#ee7623">GOAT</a>'
 
     # Build decade sections
     decades_html = ''
@@ -674,7 +674,7 @@ def generate_html(weekly, season, daily, updated_at):
       font-size: 1em;
       font-weight: 700;
       letter-spacing: 0.05em;
-      color: #000;
+      color: #ee7623;
       text-align: center;
       margin: 0;
       padding: 0;
@@ -866,9 +866,13 @@ def generate_html(weekly, season, daily, updated_at):
     }}
 
     .goat-sort-val,
-    .goat-sort-yr,
+    .goat-sort-yr {{
+      cursor: pointer;
+    }}
+
     .goat-sort-player {{
       cursor: pointer;
+      color: #ee7623;
     }}
 
 
@@ -909,6 +913,7 @@ def generate_html(weekly, season, daily, updated_at):
       font-weight: 900;
       letter-spacing: 0.08em;
       text-transform: uppercase;
+      color: #ee7623;
       margin: 0;
     }}
 
@@ -1230,7 +1235,7 @@ def generate_html(weekly, season, daily, updated_at):
 
 {decade_nav_html}
     <div class="season-header" id="season-header"><h3>{season_label} Season <span class="season-click-hint">Click here</span></h3></div>
-    <div class="season-hint" id="season-hint"><p>Everything you see in <span class="orange">orange</span> is <span class="orange">clickable</span> for added functionality&mdash;only NBA heads need apply!</p></div>
+    <div class="season-hint" id="season-hint"><p>Everything you see in <span class="orange">orange</span> is <b>clickable</b> for added functionality&mdash;only NBA heads need apply!</p></div>
     <div class="view-ted" style="display:none">
       <div class="tables-grid">
         <div class="weekly-daily-slot">
