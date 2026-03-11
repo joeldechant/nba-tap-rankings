@@ -12723,12 +12723,13 @@
       var showOrange = (mode === 'diff' || mode === 'diff-player');
       rows.forEach(function(r, i) {
         var bdrTop = (showOrange && mode !== 'diff-player' && i === 30) ? '2px solid #ee7623' : '';
-        var bdrBot = (mode === 'diff-player' && i === 29) ? '2px solid #ee7623' : '';
+        var bdrBot = (mode === 'diff-player' && i === 29) ? '3px solid #ee7623' : '';
         var hide = (mode === 'diff-player' && i >= 30);
         r.style.display = hide ? 'none' : '';
         for (var c = 0; c < r.cells.length; c++) {
           r.cells[c].style.borderTop = bdrTop;
           r.cells[c].style.borderBottom = bdrBot;
+          r.cells[c].style.paddingBottom = (mode === 'diff-player' && i === 29) ? '8px' : '';
         }
         tbody.appendChild(r);
       });
