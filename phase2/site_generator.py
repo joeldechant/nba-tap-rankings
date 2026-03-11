@@ -719,6 +719,7 @@ def generate_html(weekly, season, daily, updated_at):
       letter-spacing: 0.05em;
       color: #fff;
       background: #000;
+      overflow: hidden;
     }}
 
     thead tr {{
