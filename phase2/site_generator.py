@@ -852,12 +852,8 @@ def generate_html(weekly, season, daily, updated_at):
       padding-right: 0;
     }}
 
-    .goat-table thead th {{
-      border-bottom: none;
-    }}
-
     .goat-table thead {{
-      box-shadow: 3px 0 0 #fff, 0 2px 0 #fff;
+      box-shadow: 3px 0 0 #fff;
     }}
 
     .goat-table td.num:last-child,
@@ -869,7 +865,7 @@ def generate_html(weekly, season, daily, updated_at):
       white-space: nowrap;
       font-size: 0.78em;
       cursor: pointer;
-      text-indent: 4px;
+      text-indent: 7px;
     }}
 
     .goat-avg-tooltip {{
