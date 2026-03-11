@@ -1873,6 +1873,10 @@ def generate_html(weekly, season, daily, updated_at):
       var td = e.target.closest('td.player[data-player]');
       if (td) {{
         e.stopPropagation();
+        if (overlay.classList.contains('active')) {{
+          closeCareer();
+          return;
+        }}
         var yearDiv = td.closest('.year-table[data-year]');
         var ctxYear = yearDiv ? parseInt(yearDiv.getAttribute('data-year')) : currentYear;
         showCareer(td.getAttribute('data-player'), ctxYear);
@@ -1881,7 +1885,7 @@ def generate_html(weekly, season, daily, updated_at):
 
     document.getElementById('career-popup-close').addEventListener('click', closeCareer);
     overlay.addEventListener('click', function(e) {{
-      if (e.target === overlay) closeCareer();
+      if (!e.target.closest('.career-popup')) closeCareer();
     }});
     document.addEventListener('keydown', function(e) {{
       if (e.key === 'Escape') closeCareer();
