@@ -416,7 +416,6 @@ def render_goat_html(season_stats, stat_key='ted', season_all=None):
           <tbody>
 {rows}          </tbody>
         </table>
-        <div class="goat-cutoff-msg" style="display:none"><p>Click <span class="orange">PLAYER</span> above to sort the top 30 DIFF seasons and see the GOAT candidates!</p></div>
       </div>
       <div class="year-table">
         <div class="table-header"><h2>&nbsp;</h2></div>
@@ -517,7 +516,6 @@ def render_g2_html(season_stats, stat_key='ted', season_all=None):
           <tbody>
 {rows}          </tbody>
         </table>
-        <div class="g2-cutoff-msg" style="display:none"><p>Click <span class="orange">PLAYER</span> above to sort the top 40 DIFF seasons and see the GOAT candidates!</p></div>
       </div>
       <div class="year-table">
         <div class="table-header"><h2>&nbsp;</h2></div>
@@ -630,7 +628,6 @@ def render_g3_html(season_stats, stat_key='ted', season_all=None):
           <tbody>
 {rows}          </tbody>
         </table>
-        <div class="g3-cutoff-msg" style="display:none"><p>Click <span class="orange">PLAYER</span> above to sort the top 50 DIFF seasons and see the GOAT candidates!</p></div>
       </div>
       <div class="year-table">
         <div class="table-header"><h2>&nbsp;</h2></div>
@@ -1159,33 +1156,6 @@ def generate_html(weekly, season, daily, updated_at):
     }}
     .goat-avg-tooltip.active {{
       display: block;
-    }}
-
-    .goat-cutoff-msg,
-    .g2-cutoff-msg,
-    .g3-cutoff-msg {{
-      background: #000;
-      text-align: center;
-      padding: 12px 16px;
-      cursor: pointer;
-    }}
-
-    .goat-cutoff-msg p,
-    .g2-cutoff-msg p,
-    .g3-cutoff-msg p {{
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: 0.85em;
-      font-style: italic;
-      color: #ee7623;
-      margin: 0;
-    }}
-
-    .goat-cutoff-msg .orange,
-    .g2-cutoff-msg .orange,
-    .g3-cutoff-msg .orange {{
-      color: #ee7623;
-      font-weight: 700;
-      font-style: normal;
     }}
 
     tr.goat-orange-sep td,
@@ -2177,13 +2147,6 @@ def generate_html(weekly, season, daily, updated_at):
         goatScrollIfStuck(th);
       }});
     }});
-    document.querySelectorAll('.goat-cutoff-msg').forEach(function(msg) {{
-      msg.addEventListener('click', function() {{
-        goatTextOpen = false;
-        goatApplySort();
-      }});
-    }});
-
     /* TOP 9* tooltip */
     var avgTooltip = document.getElementById('goat-avg-tooltip');
     var statLabel = document.querySelector('.view-ted') &&
@@ -2429,13 +2392,6 @@ def generate_html(weekly, season, daily, updated_at):
         g2ScrollIfStuck(th);
       }});
     }});
-    document.querySelectorAll('.g2-cutoff-msg').forEach(function(msg) {{
-      msg.addEventListener('click', function() {{
-        g2TextOpen = false;
-        g2ApplySort();
-      }});
-    }});
-
     /* G2 TOP 9* tooltip — reuse same tooltip element */
     document.querySelectorAll('thead th.g2-avg').forEach(function(th) {{
       th.addEventListener('click', function(e) {{
@@ -2676,13 +2632,6 @@ def generate_html(weekly, season, daily, updated_at):
         g3ScrollIfStuck(th);
       }});
     }});
-    document.querySelectorAll('.g3-cutoff-msg').forEach(function(msg) {{
-      msg.addEventListener('click', function() {{
-        g3TextOpen = false;
-        g3ApplySort();
-      }});
-    }});
-
     /* G3 TOP 9* tooltip — reuse same tooltip element */
     document.querySelectorAll('thead th.g3-avg').forEach(function(th) {{
       th.addEventListener('click', function(e) {{

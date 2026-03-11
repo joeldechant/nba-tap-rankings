@@ -432,33 +432,6 @@
       display: block;
     }
 
-    .goat-cutoff-msg,
-    .g2-cutoff-msg,
-    .g3-cutoff-msg {
-      background: #000;
-      text-align: center;
-      padding: 12px 16px;
-      cursor: pointer;
-    }
-
-    .goat-cutoff-msg p,
-    .g2-cutoff-msg p,
-    .g3-cutoff-msg p {
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: 0.85em;
-      font-style: italic;
-      color: #ee7623;
-      margin: 0;
-    }
-
-    .goat-cutoff-msg .orange,
-    .g2-cutoff-msg .orange,
-    .g3-cutoff-msg .orange {
-      color: #ee7623;
-      font-weight: 700;
-      font-style: normal;
-    }
-
     tr.goat-orange-sep td,
     tr.g2-orange-sep td,
     tr.g3-orange-sep td {
@@ -4392,7 +4365,6 @@
         <tr><td class="season">'61</td><td class="player" data-player="Elgin Baylor"><span class="fname">Elgin</span> <span class="lname">Baylor</span></td><td class="num stat">35.3</td><td class="num goat-avg">28</td><td class="num">+6.9</td></tr>
           </tbody>
         </table>
-        <div class="goat-cutoff-msg" style="display:none"><p>Click <span class="orange">PLAYER</span> above to sort the top 30 DIFF seasons and see the GOAT candidates!</p></div>
       </div>
       <div class="year-table">
         <div class="table-header"><h2>&nbsp;</h2></div>
@@ -4541,7 +4513,6 @@
         <tr data-rank="2"><td class="season">'61</td><td class="player" data-player="Wilt Chamberlain"><span class="fname">Wilt</span> <span class="lname">Chamberlain</span></td><td class="num stat">34.1</td><td class="num g2-avg">28</td><td class="num">+5.7</td></tr>
           </tbody>
         </table>
-        <div class="g2-cutoff-msg" style="display:none"><p>Click <span class="orange">PLAYER</span> above to sort the top 40 DIFF seasons and see the GOAT candidates!</p></div>
       </div>
       <div class="year-table">
         <div class="table-header"><h2>&nbsp;</h2></div>
@@ -4756,7 +4727,6 @@
         <tr data-rank="3"><td class="season">'61</td><td class="player" data-player="Bob Pettit"><span class="fname">Bob</span> <span class="lname">Pettit</span></td><td class="num stat">30.6</td><td class="num g3-avg">28</td><td class="num">+2.2</td></tr>
           </tbody>
         </table>
-        <div class="g3-cutoff-msg" style="display:none"><p>Click <span class="orange">PLAYER</span> above to sort the top 50 DIFF seasons and see the GOAT candidates!</p></div>
       </div>
       <div class="year-table">
         <div class="table-header"><h2>&nbsp;</h2></div>
@@ -9055,7 +9025,6 @@
         <tr><td class="season">'61</td><td class="player" data-player="Elgin Baylor"><span class="fname">Elgin</span> <span class="lname">Baylor</span></td><td class="num stat">36.7</td><td class="num goat-avg">29</td><td class="num">+7.6</td></tr>
           </tbody>
         </table>
-        <div class="goat-cutoff-msg" style="display:none"><p>Click <span class="orange">PLAYER</span> above to sort the top 30 DIFF seasons and see the GOAT candidates!</p></div>
       </div>
       <div class="year-table">
         <div class="table-header"><h2>&nbsp;</h2></div>
@@ -9204,7 +9173,6 @@
         <tr data-rank="2"><td class="season">'61</td><td class="player" data-player="Wilt Chamberlain"><span class="fname">Wilt</span> <span class="lname">Chamberlain</span></td><td class="num stat">34.7</td><td class="num g2-avg">29</td><td class="num">+5.6</td></tr>
           </tbody>
         </table>
-        <div class="g2-cutoff-msg" style="display:none"><p>Click <span class="orange">PLAYER</span> above to sort the top 40 DIFF seasons and see the GOAT candidates!</p></div>
       </div>
       <div class="year-table">
         <div class="table-header"><h2>&nbsp;</h2></div>
@@ -9419,7 +9387,6 @@
         <tr data-rank="3"><td class="season">'61</td><td class="player" data-player="Bill Russell"><span class="fname">Bill</span> <span class="lname">Russell</span></td><td class="num stat">33.1</td><td class="num g3-avg">29</td><td class="num">+4.0</td></tr>
           </tbody>
         </table>
-        <div class="g3-cutoff-msg" style="display:none"><p>Click <span class="orange">PLAYER</span> above to sort the top 50 DIFF seasons and see the GOAT candidates!</p></div>
       </div>
       <div class="year-table">
         <div class="table-header"><h2>&nbsp;</h2></div>
@@ -13743,13 +13710,6 @@
         goatScrollIfStuck(th);
       });
     });
-    document.querySelectorAll('.goat-cutoff-msg').forEach(function(msg) {
-      msg.addEventListener('click', function() {
-        goatTextOpen = false;
-        goatApplySort();
-      });
-    });
-
     /* TOP 9* tooltip */
     var avgTooltip = document.getElementById('goat-avg-tooltip');
     var statLabel = document.querySelector('.view-ted') &&
@@ -13995,13 +13955,6 @@
         g2ScrollIfStuck(th);
       });
     });
-    document.querySelectorAll('.g2-cutoff-msg').forEach(function(msg) {
-      msg.addEventListener('click', function() {
-        g2TextOpen = false;
-        g2ApplySort();
-      });
-    });
-
     /* G2 TOP 9* tooltip — reuse same tooltip element */
     document.querySelectorAll('thead th.g2-avg').forEach(function(th) {
       th.addEventListener('click', function(e) {
@@ -14242,13 +14195,6 @@
         g3ScrollIfStuck(th);
       });
     });
-    document.querySelectorAll('.g3-cutoff-msg').forEach(function(msg) {
-      msg.addEventListener('click', function() {
-        g3TextOpen = false;
-        g3ApplySort();
-      });
-    });
-
     /* G3 TOP 9* tooltip — reuse same tooltip element */
     document.querySelectorAll('thead th.g3-avg').forEach(function(th) {
       th.addEventListener('click', function(e) {
