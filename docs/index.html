@@ -380,8 +380,8 @@
       border-bottom: 2px solid #fff;
     }
 
-    .goat-table thead th:last-child {
-      border-right: 2px solid #fff;
+    .goat-table thead {
+      box-shadow: 3px 0 0 #fff;
     }
 
     .goat-table td.num:last-child,
@@ -791,6 +791,11 @@
       .decade-top100 .year-pair > :last-child,
       .goat-table .year-pair > :last-child {
         display: none;
+      }
+      .goat-table td,
+      .goat-table thead th {
+        padding-left: 3px;
+        padding-right: 3px;
       }
       .all-time-table .player,
       .decade-top100 .player {
