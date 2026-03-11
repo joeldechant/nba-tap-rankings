@@ -1991,8 +1991,11 @@ def generate_html(weekly, season, daily, updated_at):
        val         — sorted by TED/TAP value desc
        player      — sorted by appearance count (full list), tiebreak DIFF
        diff-player — top 30 DIFF only, sorted by appearance count within
-                     top 30, tiebreak DIFF; rows 31+ hidden, orange line visible */
+                     top 30, tiebreak DIFF; rows 31+ hidden
+       goatTextOpen — independent boolean: when true, shows cutoff message
+                      text instead of orange separator line */
     var goatSortMode = 'year';
+    var goatTextOpen = false;
     function goatSort(table, mode) {{
       var tbody = table.querySelector('tbody');
       if (!tbody) return;
@@ -2026,7 +2029,7 @@ def generate_html(weekly, season, daily, updated_at):
                  (parseFloat(a.cells[intraCol].textContent) || 0);
         }});
       }}
-      if (mode === 'diff' || mode === 'diff-cutoff') {{
+      if (mode === 'diff') {{
         sortByDiff(rows);
       }} else if (mode === 'val') {{
         rows.sort(function(a, b) {{
@@ -2070,31 +2073,35 @@ def generate_html(weekly, season, daily, updated_at):
       /* Hide cutoff message */
       var msgDiv = table.closest('.year-table').querySelector('.goat-cutoff-msg');
       if (msgDiv) msgDiv.style.display = 'none';
-      var showCutoff = (mode === 'diff-cutoff');
+      var truncate = (mode === 'diff-player');
       rows.forEach(function(r, i) {{
-        var bdrBot = ((mode === 'diff-player' || showCutoff) && i === 29) ? '3px solid #ee7623' : '';
-        var hide = ((mode === 'diff-player' || showCutoff) && i >= 30);
+        var bdrBot = (truncate && !goatTextOpen && i === 29) ? '3px solid #ee7623' : '';
+        var hide = (truncate && i >= 30);
         r.style.display = hide ? 'none' : '';
         for (var c = 0; c < r.cells.length; c++) {{
           r.cells[c].style.borderTop = '';
           r.cells[c].style.borderBottom = bdrBot;
-          r.cells[c].style.paddingBottom = ((mode === 'diff-player' || showCutoff) && i === 29) ? '8px' : '';
+          r.cells[c].style.paddingBottom = (truncate && !goatTextOpen && i === 29) ? '8px' : '';
         }}
         tbody.appendChild(r);
       }});
-      /* Insert clickable orange separator in diff mode */
-      if (mode === 'diff') {{
+      /* Insert clickable orange separator in diff/diff-player when text is closed */
+      if ((mode === 'diff' || mode === 'diff-player') && !goatTextOpen) {{
         var sep = document.createElement('tr');
         sep.className = 'goat-orange-sep';
         sep.innerHTML = '<td colspan="5">\\u00a0</td>';
-        tbody.insertBefore(sep, tbody.children[30]);
+        if (mode === 'diff') {{
+          tbody.insertBefore(sep, tbody.children[30]);
+        }} else {{
+          tbody.appendChild(sep);
+        }}
         sep.addEventListener('click', function() {{
-          goatSortMode = 'diff-cutoff';
+          goatTextOpen = true;
           goatApplySort();
         }});
       }}
-      /* Show cutoff message */
-      if (showCutoff && msgDiv) msgDiv.style.display = '';
+      /* Show cutoff message when text is open */
+      if ((mode === 'diff' || mode === 'diff-player') && goatTextOpen && msgDiv) msgDiv.style.display = '';
     }}
     function goatApplySort() {{
       document.querySelectorAll('.goat-table table').forEach(function(t) {{
@@ -2102,7 +2109,7 @@ def generate_html(weekly, season, daily, updated_at):
         goatSort(t, goatSortMode);
       }});
       /* Hide/show placeholder year-table when rows are truncated */
-      var hidePlaceholder = (goatSortMode === 'diff-player' || goatSortMode === 'diff-cutoff');
+      var hidePlaceholder = (goatSortMode === 'diff-player');
       document.querySelectorAll('.goat-table table[style*="visibility:hidden"]').forEach(function(t) {{
         t.closest('.year-table').style.display = hidePlaceholder ? 'none' : '';
       }});
@@ -2121,7 +2128,7 @@ def generate_html(weekly, season, daily, updated_at):
     document.querySelectorAll('.goat-sort-diff').forEach(function(th) {{
       th.addEventListener('click', function(e) {{
         e.stopPropagation();
-        if (goatSortMode === 'diff' || goatSortMode === 'diff-cutoff') goatSortMode = 'year';
+        if (goatSortMode === 'diff' || goatSortMode === 'diff-player') {{ goatSortMode = 'year'; goatTextOpen = false; }}
         else goatSortMode = 'diff';
         goatApplySort();
         goatScrollIfStuck(th);
@@ -2131,6 +2138,7 @@ def generate_html(weekly, season, daily, updated_at):
       th.addEventListener('click', function(e) {{
         e.stopPropagation();
         goatSortMode = goatSortMode === 'val' ? 'year' : 'val';
+        goatTextOpen = false;
         goatApplySort();
         goatScrollIfStuck(th);
       }});
@@ -2139,6 +2147,7 @@ def generate_html(weekly, season, daily, updated_at):
       th.addEventListener('click', function(e) {{
         e.stopPropagation();
         goatSortMode = 'year';
+        goatTextOpen = false;
         goatApplySort();
         goatScrollIfStuck(th);
       }});
@@ -2148,7 +2157,7 @@ def generate_html(weekly, season, daily, updated_at):
         e.stopPropagation();
         if (goatSortMode === 'player') goatSortMode = 'year';
         else if (goatSortMode === 'diff-player') goatSortMode = 'diff';
-        else if (goatSortMode === 'diff' || goatSortMode === 'diff-cutoff') goatSortMode = 'diff-player';
+        else if (goatSortMode === 'diff') goatSortMode = 'diff-player';
         else goatSortMode = 'player';
         goatApplySort();
         goatScrollIfStuck(th);
@@ -2156,7 +2165,7 @@ def generate_html(weekly, season, daily, updated_at):
     }});
     document.querySelectorAll('.goat-cutoff-msg').forEach(function(msg) {{
       msg.addEventListener('click', function() {{
-        goatSortMode = 'diff';
+        goatTextOpen = false;
         goatApplySort();
       }});
     }});
@@ -2222,8 +2231,9 @@ def generate_html(weekly, season, daily, updated_at):
       }});
     }});
 
-    /* G2 table sort modes — same 6 modes as GOAT but independent state */
+    /* G2 table sort modes — same as GOAT but independent state */
     var g2SortMode = 'year';
+    var g2TextOpen = false;
     function g2Sort(table, mode) {{
       var tbody = table.querySelector('tbody');
       if (!tbody) return;
@@ -2263,7 +2273,7 @@ def generate_html(weekly, season, daily, updated_at):
                  (parseFloat(a.cells[intraCol].textContent) || 0);
         }});
       }}
-      if (mode === 'diff' || mode === 'diff-cutoff') {{
+      if (mode === 'diff') {{
         sortByDiff(rows);
       }} else if (mode === 'val') {{
         rows.sort(function(a, b) {{
@@ -2293,16 +2303,13 @@ def generate_html(weekly, season, daily, updated_at):
         rows.sort(function(a, b) {{
           var ayr = a.cells[0].textContent.replace("'", '').trim();
           var byr = b.cells[0].textContent.replace("'", '').trim();
-          /* Row 2 has empty year cell — use previous row's year */
           var ay = ayr ? parseInt(ayr) : -1;
           var by = byr ? parseInt(byr) : -1;
-          /* Inherit year from data-rank attribute context */
           if (ay === -1) ay = parseInt(a.getAttribute('data-sort-year') || '0');
           if (by === -1) by = parseInt(b.getAttribute('data-sort-year') || '0');
           ay = ay >= 60 ? 1900 + ay : 2000 + ay;
           by = by >= 60 ? 1900 + by : 2000 + by;
           if (by !== ay) return by - ay;
-          /* Same year: rank 1 before rank 2 */
           var ra = parseInt(a.getAttribute('data-rank') || '1');
           var rb = parseInt(b.getAttribute('data-rank') || '1');
           return ra - rb;
@@ -2312,36 +2319,40 @@ def generate_html(weekly, season, daily, updated_at):
       if (oldSep) oldSep.remove();
       var msgDiv = table.closest('.year-table').querySelector('.g2-cutoff-msg');
       if (msgDiv) msgDiv.style.display = 'none';
-      var showCutoff = (mode === 'diff-cutoff');
+      var truncate = (mode === 'diff-player');
       rows.forEach(function(r, i) {{
-        var bdrBot = ((mode === 'diff-player' || showCutoff) && i === 39) ? '3px solid #ee7623' : '';
-        var hide = ((mode === 'diff-player' || showCutoff) && i >= 40);
+        var bdrBot = (truncate && !g2TextOpen && i === 39) ? '3px solid #ee7623' : '';
+        var hide = (truncate && i >= 40);
         r.style.display = hide ? 'none' : '';
         for (var c = 0; c < r.cells.length; c++) {{
           r.cells[c].style.borderTop = '';
           r.cells[c].style.borderBottom = bdrBot;
-          r.cells[c].style.paddingBottom = ((mode === 'diff-player' || showCutoff) && i === 39) ? '8px' : '';
+          r.cells[c].style.paddingBottom = (truncate && !g2TextOpen && i === 39) ? '8px' : '';
         }}
         tbody.appendChild(r);
       }});
-      if (mode === 'diff') {{
+      if ((mode === 'diff' || mode === 'diff-player') && !g2TextOpen) {{
         var sep = document.createElement('tr');
         sep.className = 'g2-orange-sep';
         sep.innerHTML = '<td colspan="5">\\u00a0</td>';
-        tbody.insertBefore(sep, tbody.children[40]);
+        if (mode === 'diff') {{
+          tbody.insertBefore(sep, tbody.children[40]);
+        }} else {{
+          tbody.appendChild(sep);
+        }}
         sep.addEventListener('click', function() {{
-          g2SortMode = 'diff-cutoff';
+          g2TextOpen = true;
           g2ApplySort();
         }});
       }}
-      if (showCutoff && msgDiv) msgDiv.style.display = '';
+      if ((mode === 'diff' || mode === 'diff-player') && g2TextOpen && msgDiv) msgDiv.style.display = '';
     }}
     function g2ApplySort() {{
       document.querySelectorAll('.g2-table table').forEach(function(t) {{
         if (t.style.visibility === 'hidden') return;
         g2Sort(t, g2SortMode);
       }});
-      var hidePlaceholder = (g2SortMode === 'diff-player' || g2SortMode === 'diff-cutoff');
+      var hidePlaceholder = (g2SortMode === 'diff-player');
       document.querySelectorAll('.g2-table table[style*="visibility:hidden"]').forEach(function(t) {{
         t.closest('.year-table').style.display = hidePlaceholder ? 'none' : '';
       }});
@@ -2355,7 +2366,7 @@ def generate_html(weekly, season, daily, updated_at):
     document.querySelectorAll('.g2-sort-diff').forEach(function(th) {{
       th.addEventListener('click', function(e) {{
         e.stopPropagation();
-        if (g2SortMode === 'diff' || g2SortMode === 'diff-cutoff') g2SortMode = 'year';
+        if (g2SortMode === 'diff' || g2SortMode === 'diff-player') {{ g2SortMode = 'year'; g2TextOpen = false; }}
         else g2SortMode = 'diff';
         g2ApplySort();
         g2ScrollIfStuck(th);
@@ -2365,6 +2376,7 @@ def generate_html(weekly, season, daily, updated_at):
       th.addEventListener('click', function(e) {{
         e.stopPropagation();
         g2SortMode = g2SortMode === 'val' ? 'year' : 'val';
+        g2TextOpen = false;
         g2ApplySort();
         g2ScrollIfStuck(th);
       }});
@@ -2373,6 +2385,7 @@ def generate_html(weekly, season, daily, updated_at):
       th.addEventListener('click', function(e) {{
         e.stopPropagation();
         g2SortMode = 'year';
+        g2TextOpen = false;
         g2ApplySort();
         g2ScrollIfStuck(th);
       }});
@@ -2382,7 +2395,7 @@ def generate_html(weekly, season, daily, updated_at):
         e.stopPropagation();
         if (g2SortMode === 'player') g2SortMode = 'year';
         else if (g2SortMode === 'diff-player') g2SortMode = 'diff';
-        else if (g2SortMode === 'diff' || g2SortMode === 'diff-cutoff') g2SortMode = 'diff-player';
+        else if (g2SortMode === 'diff') g2SortMode = 'diff-player';
         else g2SortMode = 'player';
         g2ApplySort();
         g2ScrollIfStuck(th);
@@ -2390,7 +2403,7 @@ def generate_html(weekly, season, daily, updated_at):
     }});
     document.querySelectorAll('.g2-cutoff-msg').forEach(function(msg) {{
       msg.addEventListener('click', function() {{
-        g2SortMode = 'diff';
+        g2TextOpen = false;
         g2ApplySort();
       }});
     }});
@@ -2456,8 +2469,9 @@ def generate_html(weekly, season, daily, updated_at):
       }});
     }});
 
-    /* G3 table sort modes — same 6 modes as G2 but independent state */
+    /* G3 table sort modes — same as G2 but independent state */
     var g3SortMode = 'year';
+    var g3TextOpen = false;
     function g3Sort(table, mode) {{
       var tbody = table.querySelector('tbody');
       if (!tbody) return;
@@ -2493,7 +2507,7 @@ def generate_html(weekly, season, daily, updated_at):
                  (parseFloat(a.cells[intraCol].textContent) || 0);
         }});
       }}
-      if (mode === 'diff' || mode === 'diff-cutoff') {{
+      if (mode === 'diff') {{
         sortByDiff(rows);
       }} else if (mode === 'val') {{
         rows.sort(function(a, b) {{
@@ -2538,36 +2552,40 @@ def generate_html(weekly, season, daily, updated_at):
       if (oldSep) oldSep.remove();
       var msgDiv = table.closest('.year-table').querySelector('.g3-cutoff-msg');
       if (msgDiv) msgDiv.style.display = 'none';
-      var showCutoff = (mode === 'diff-cutoff');
+      var truncate = (mode === 'diff-player');
       rows.forEach(function(r, i) {{
-        var bdrBot = ((mode === 'diff-player' || showCutoff) && i === 49) ? '3px solid #ee7623' : '';
-        var hide = ((mode === 'diff-player' || showCutoff) && i >= 50);
+        var bdrBot = (truncate && !g3TextOpen && i === 49) ? '3px solid #ee7623' : '';
+        var hide = (truncate && i >= 50);
         r.style.display = hide ? 'none' : '';
         for (var c = 0; c < r.cells.length; c++) {{
           r.cells[c].style.borderTop = '';
           r.cells[c].style.borderBottom = bdrBot;
-          r.cells[c].style.paddingBottom = ((mode === 'diff-player' || showCutoff) && i === 49) ? '8px' : '';
+          r.cells[c].style.paddingBottom = (truncate && !g3TextOpen && i === 49) ? '8px' : '';
         }}
         tbody.appendChild(r);
       }});
-      if (mode === 'diff') {{
+      if ((mode === 'diff' || mode === 'diff-player') && !g3TextOpen) {{
         var sep = document.createElement('tr');
         sep.className = 'g3-orange-sep';
         sep.innerHTML = '<td colspan="5">\\u00a0</td>';
-        tbody.insertBefore(sep, tbody.children[50]);
+        if (mode === 'diff') {{
+          tbody.insertBefore(sep, tbody.children[50]);
+        }} else {{
+          tbody.appendChild(sep);
+        }}
         sep.addEventListener('click', function() {{
-          g3SortMode = 'diff-cutoff';
+          g3TextOpen = true;
           g3ApplySort();
         }});
       }}
-      if (showCutoff && msgDiv) msgDiv.style.display = '';
+      if ((mode === 'diff' || mode === 'diff-player') && g3TextOpen && msgDiv) msgDiv.style.display = '';
     }}
     function g3ApplySort() {{
       document.querySelectorAll('.g3-table table').forEach(function(t) {{
         if (t.style.visibility === 'hidden') return;
         g3Sort(t, g3SortMode);
       }});
-      var hidePlaceholder = (g3SortMode === 'diff-player' || g3SortMode === 'diff-cutoff');
+      var hidePlaceholder = (g3SortMode === 'diff-player');
       document.querySelectorAll('.g3-table table[style*="visibility:hidden"]').forEach(function(t) {{
         t.closest('.year-table').style.display = hidePlaceholder ? 'none' : '';
       }});
@@ -2581,7 +2599,7 @@ def generate_html(weekly, season, daily, updated_at):
     document.querySelectorAll('.g3-sort-diff').forEach(function(th) {{
       th.addEventListener('click', function(e) {{
         e.stopPropagation();
-        if (g3SortMode === 'diff' || g3SortMode === 'diff-cutoff') g3SortMode = 'year';
+        if (g3SortMode === 'diff' || g3SortMode === 'diff-player') {{ g3SortMode = 'year'; g3TextOpen = false; }}
         else g3SortMode = 'diff';
         g3ApplySort();
         g3ScrollIfStuck(th);
@@ -2591,6 +2609,7 @@ def generate_html(weekly, season, daily, updated_at):
       th.addEventListener('click', function(e) {{
         e.stopPropagation();
         g3SortMode = g3SortMode === 'val' ? 'year' : 'val';
+        g3TextOpen = false;
         g3ApplySort();
         g3ScrollIfStuck(th);
       }});
@@ -2599,6 +2618,7 @@ def generate_html(weekly, season, daily, updated_at):
       th.addEventListener('click', function(e) {{
         e.stopPropagation();
         g3SortMode = 'year';
+        g3TextOpen = false;
         g3ApplySort();
         g3ScrollIfStuck(th);
       }});
@@ -2608,7 +2628,7 @@ def generate_html(weekly, season, daily, updated_at):
         e.stopPropagation();
         if (g3SortMode === 'player') g3SortMode = 'year';
         else if (g3SortMode === 'diff-player') g3SortMode = 'diff';
-        else if (g3SortMode === 'diff' || g3SortMode === 'diff-cutoff') g3SortMode = 'diff-player';
+        else if (g3SortMode === 'diff') g3SortMode = 'diff-player';
         else g3SortMode = 'player';
         g3ApplySort();
         g3ScrollIfStuck(th);
@@ -2616,7 +2636,7 @@ def generate_html(weekly, season, daily, updated_at):
     }});
     document.querySelectorAll('.g3-cutoff-msg').forEach(function(msg) {{
       msg.addEventListener('click', function() {{
-        g3SortMode = 'diff';
+        g3TextOpen = false;
         g3ApplySort();
       }});
     }});
