@@ -953,7 +953,7 @@ def generate_html(weekly, season, daily, updated_at):
 
     .all-time-table .year-pair > :first-child,
     .decade-top100 .year-pair > :first-child {{
-      border-right: 2px solid #fff;
+      border-right: none;
     }}
 
     .all-time-table .player,
