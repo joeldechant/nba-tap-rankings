@@ -1648,6 +1648,10 @@ def generate_html(weekly, season, daily, updated_at):
         if (t.style.visibility === 'hidden') return;
         goatSort(t, goatSortMode);
       }});
+      /* Hide/show placeholder year-table in diff-player mode */
+      document.querySelectorAll('.goat-table table[style*="visibility:hidden"]').forEach(function(t) {{
+        t.closest('.year-table').style.display = goatSortMode === 'diff-player' ? 'none' : '';
+      }});
     }}
     document.querySelectorAll('.goat-sort-diff').forEach(function(th) {{
       th.addEventListener('click', function(e) {{
