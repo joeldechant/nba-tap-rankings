@@ -1760,11 +1760,13 @@ def generate_html(weekly, season, daily, updated_at):
         e.preventDefault();
         var viewClass = stat === 'ted' ? '.view-ted' : '.view-tap';
         var goatDiv = document.querySelector(viewClass + ' .goat-table');
+        var g2Div = document.querySelector(viewClass + ' .g2-table');
         if (!goatDiv) return;
         if (goatDiv.style.display !== 'none') {{
           goatDiv.style.display = 'none';
         }} else {{
           goatDiv.style.display = '';
+          if (g2Div) g2Div.style.display = 'none';
         }}
       }});
     }});
@@ -1987,11 +1989,13 @@ def generate_html(weekly, season, daily, updated_at):
         e.preventDefault();
         var viewClass = stat === 'ted' ? '.view-ted' : '.view-tap';
         var g2Div = document.querySelector(viewClass + ' .g2-table');
+        var goatDiv = document.querySelector(viewClass + ' .goat-table');
         if (!g2Div) return;
         if (g2Div.style.display !== 'none') {{
           g2Div.style.display = 'none';
         }} else {{
           g2Div.style.display = '';
+          if (goatDiv) goatDiv.style.display = 'none';
         }}
       }});
     }});
