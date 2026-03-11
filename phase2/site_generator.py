@@ -630,7 +630,7 @@ def render_g3_html(season_stats, stat_key='ted', season_all=None):
           <tbody>
 {rows}          </tbody>
         </table>
-        <div class="g3-cutoff-msg" style="display:none"><p>Click <span class="orange">PLAYER</span> above to sort the top 60 DIFF seasons and see the GOAT candidates!</p></div>
+        <div class="g3-cutoff-msg" style="display:none"><p>Click <span class="orange">PLAYER</span> above to sort the top 50 DIFF seasons and see the GOAT candidates!</p></div>
       </div>
       <div class="year-table">
         <div class="table-header"><h2>&nbsp;</h2></div>
@@ -2478,15 +2478,15 @@ def generate_html(weekly, season, daily, updated_at):
         sortByCount(rows, counts, 2);
       }} else if (mode === 'diff-player') {{
         sortByDiff(rows);
-        var top60 = rows.slice(0, 60);
-        var rest = rows.slice(60);
+        var top50 = rows.slice(0, 50);
+        var rest = rows.slice(50);
         var counts = {{}};
-        top60.forEach(function(r) {{
+        top50.forEach(function(r) {{
           var n = getName(r);
           counts[n] = (counts[n] || 0) + 1;
         }});
-        sortByCount(top60, counts, 4);
-        rows = top60.concat(rest);
+        sortByCount(top50, counts, 4);
+        rows = top50.concat(rest);
       }} else {{
         rows.sort(function(a, b) {{
           var ayr = a.cells[0].textContent.replace("'", '').trim();
@@ -2509,13 +2509,13 @@ def generate_html(weekly, season, daily, updated_at):
       if (msgDiv) msgDiv.style.display = 'none';
       var showCutoff = (mode === 'diff-cutoff');
       rows.forEach(function(r, i) {{
-        var bdrBot = ((mode === 'diff-player' || showCutoff) && i === 59) ? '3px solid #ee7623' : '';
-        var hide = ((mode === 'diff-player' || showCutoff) && i >= 60);
+        var bdrBot = ((mode === 'diff-player' || showCutoff) && i === 49) ? '3px solid #ee7623' : '';
+        var hide = ((mode === 'diff-player' || showCutoff) && i >= 50);
         r.style.display = hide ? 'none' : '';
         for (var c = 0; c < r.cells.length; c++) {{
           r.cells[c].style.borderTop = '';
           r.cells[c].style.borderBottom = bdrBot;
-          r.cells[c].style.paddingBottom = ((mode === 'diff-player' || showCutoff) && i === 59) ? '8px' : '';
+          r.cells[c].style.paddingBottom = ((mode === 'diff-player' || showCutoff) && i === 49) ? '8px' : '';
         }}
         tbody.appendChild(r);
       }});
@@ -2523,7 +2523,7 @@ def generate_html(weekly, season, daily, updated_at):
         var sep = document.createElement('tr');
         sep.className = 'g3-orange-sep';
         sep.innerHTML = '<td colspan="5">\\u00a0</td>';
-        tbody.insertBefore(sep, tbody.children[60]);
+        tbody.insertBefore(sep, tbody.children[50]);
         sep.addEventListener('click', function() {{
           g3SortMode = 'diff-cutoff';
           g3ApplySort();
