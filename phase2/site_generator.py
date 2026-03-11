@@ -107,9 +107,13 @@ def render_historical_section(data, stat_key='ted', season_all=None):
     suffix = '' if stat_key == 'ted' else f'-{stat_key}'
 
     # Build decade nav links (only from TED pass — shared nav)
-    nav_links = ''.join(
-        f'<a href="#decade-{d}" data-decade="{d}">{d[:-1]}<span class="decade-s">s</span></a>' for d in decade_order if d in data['decades']
-    )
+    # Insert break after 4th decade so mobile shows 4 per row
+    available_decades = [d for d in decade_order if d in data['decades']]
+    nav_links = ''
+    for i, d in enumerate(available_decades):
+        nav_links += f'<a href="#decade-{d}" data-decade="{d}">{d[:-1]}<span class="decade-s">s</span></a>'
+        if i == 3:
+            nav_links += '<div class="nav-break"></div>'
     nav_links += '<div class="nav-break"></div>'
     nav_links += '<a href="#" data-goat="true" style="color:#ee7623">GOAT</a>'
     nav_links += '<a href="#" data-g2="true" style="color:#ee7623">G2</a>'
@@ -1272,6 +1276,10 @@ def generate_html(weekly, season, daily, updated_at):
       flex-wrap: wrap;
     }}
 
+    .decade-nav .nav-break {{
+      display: none;
+    }}
+
     .decade-nav a {{
       font-family: Georgia, 'Times New Roman', serif;
       font-size: 0.95em;
@@ -1539,6 +1547,7 @@ def generate_html(weekly, season, daily, updated_at):
         padding: 4px 8px;
       }}
       .decade-nav .nav-break {{
+        display: block;
         width: 100%;
         height: 0;
       }}
