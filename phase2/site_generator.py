@@ -667,6 +667,15 @@ def generate_html(weekly, season, daily, updated_at):
       font-size: 0.95em;
     }}
 
+    thead {{
+      position: -webkit-sticky;
+      position: sticky;
+      top: 44px;
+      z-index: 19;
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+    }}
+
     thead th {{
       font-family: Georgia, 'Times New Roman', serif;
       text-align: left;
@@ -816,20 +825,6 @@ def generate_html(weekly, season, daily, updated_at):
     thead th.num.goat-avg {{
       white-space: nowrap;
       font-size: 0.78em;
-    }}
-
-    .goat-table thead {{
-      position: -webkit-sticky;
-      position: sticky;
-      top: 44px;
-      z-index: 19;
-      -webkit-transform: translateZ(0);
-      transform: translateZ(0);
-    }}
-
-    .goat-table thead th {{
-      background: #000;
-      border-bottom: 1px solid #fff;
     }}
 
     .goat-sort-diff {{
