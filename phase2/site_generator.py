@@ -1999,7 +1999,7 @@ def generate_html(weekly, season, daily, updated_at):
     function goatSort(table, mode) {{
       var tbody = table.querySelector('tbody');
       if (!tbody) return;
-      var rows = Array.from(tbody.querySelectorAll('tr:not(.goat-orange-sep)'));
+      var rows = Array.from(tbody.querySelectorAll('tr:not(.goat-orange-sep):not(.goat-text-row)'));
       /* Helper: sort by DIFF desc */
       function sortByDiff(arr) {{
         arr.sort(function(a, b) {{
@@ -2067,12 +2067,11 @@ def generate_html(weekly, season, daily, updated_at):
           return by - ay;
         }});
       }}
-      /* Remove any previously inserted orange separator */
+      /* Remove any previously inserted orange separator or text row */
       var oldSep = tbody.querySelector('.goat-orange-sep');
       if (oldSep) oldSep.remove();
-      /* Hide cutoff message */
-      var msgDiv = table.closest('.year-table').querySelector('.goat-cutoff-msg');
-      if (msgDiv) msgDiv.style.display = 'none';
+      var oldTextRow = tbody.querySelector('.goat-text-row');
+      if (oldTextRow) oldTextRow.remove();
       var truncate = (mode === 'diff-player');
       rows.forEach(function(r, i) {{
         var bdrBot = (truncate && !goatTextOpen && i === 29) ? '3px solid #ee7623' : '';
@@ -2085,23 +2084,38 @@ def generate_html(weekly, season, daily, updated_at):
         }}
         tbody.appendChild(r);
       }});
-      /* Insert clickable orange separator in diff/diff-player when text is closed */
-      if ((mode === 'diff' || mode === 'diff-player') && !goatTextOpen) {{
-        var sep = document.createElement('tr');
-        sep.className = 'goat-orange-sep';
-        sep.innerHTML = '<td colspan="5">\\u00a0</td>';
-        if (mode === 'diff') {{
-          tbody.insertBefore(sep, tbody.children[30]);
+      /* Insert inline element at cutoff position in diff modes */
+      if (mode === 'diff' || mode === 'diff-player') {{
+        if (goatTextOpen) {{
+          /* Insert text row inline at the cutoff position */
+          var textRow = document.createElement('tr');
+          textRow.className = 'goat-text-row';
+          textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 30 DIFF seasons and see the GOAT candidates!</p></td>';
+          if (mode === 'diff') {{
+            tbody.insertBefore(textRow, tbody.children[30]);
+          }} else {{
+            tbody.appendChild(textRow);
+          }}
+          textRow.addEventListener('click', function() {{
+            goatTextOpen = false;
+            goatApplySort();
+          }});
         }} else {{
-          tbody.appendChild(sep);
+          /* Insert clickable orange separator line */
+          var sep = document.createElement('tr');
+          sep.className = 'goat-orange-sep';
+          sep.innerHTML = '<td colspan="5">\\u00a0</td>';
+          if (mode === 'diff') {{
+            tbody.insertBefore(sep, tbody.children[30]);
+          }} else {{
+            tbody.appendChild(sep);
+          }}
+          sep.addEventListener('click', function() {{
+            goatTextOpen = true;
+            goatApplySort();
+          }});
         }}
-        sep.addEventListener('click', function() {{
-          goatTextOpen = true;
-          goatApplySort();
-        }});
       }}
-      /* Show cutoff message when text is open */
-      if ((mode === 'diff' || mode === 'diff-player') && goatTextOpen && msgDiv) msgDiv.style.display = '';
     }}
     function goatApplySort() {{
       document.querySelectorAll('.goat-table table').forEach(function(t) {{
@@ -2237,7 +2251,7 @@ def generate_html(weekly, season, daily, updated_at):
     function g2Sort(table, mode) {{
       var tbody = table.querySelector('tbody');
       if (!tbody) return;
-      var rows = Array.from(tbody.querySelectorAll('tr:not(.g2-orange-sep)'));
+      var rows = Array.from(tbody.querySelectorAll('tr:not(.g2-orange-sep):not(.g2-text-row)'));
       /* Helper: get clean player name from data-player attribute */
       function getName(row) {{
         var td = row.cells[1];
@@ -2317,8 +2331,8 @@ def generate_html(weekly, season, daily, updated_at):
       }}
       var oldSep = tbody.querySelector('.g2-orange-sep');
       if (oldSep) oldSep.remove();
-      var msgDiv = table.closest('.year-table').querySelector('.g2-cutoff-msg');
-      if (msgDiv) msgDiv.style.display = 'none';
+      var oldTextRow = tbody.querySelector('.g2-text-row');
+      if (oldTextRow) oldTextRow.remove();
       var truncate = (mode === 'diff-player');
       rows.forEach(function(r, i) {{
         var bdrBot = (truncate && !g2TextOpen && i === 39) ? '3px solid #ee7623' : '';
@@ -2331,21 +2345,35 @@ def generate_html(weekly, season, daily, updated_at):
         }}
         tbody.appendChild(r);
       }});
-      if ((mode === 'diff' || mode === 'diff-player') && !g2TextOpen) {{
-        var sep = document.createElement('tr');
-        sep.className = 'g2-orange-sep';
-        sep.innerHTML = '<td colspan="5">\\u00a0</td>';
-        if (mode === 'diff') {{
-          tbody.insertBefore(sep, tbody.children[40]);
+      if (mode === 'diff' || mode === 'diff-player') {{
+        if (g2TextOpen) {{
+          var textRow = document.createElement('tr');
+          textRow.className = 'g2-text-row';
+          textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 40 DIFF seasons and see the GOAT candidates!</p></td>';
+          if (mode === 'diff') {{
+            tbody.insertBefore(textRow, tbody.children[40]);
+          }} else {{
+            tbody.appendChild(textRow);
+          }}
+          textRow.addEventListener('click', function() {{
+            g2TextOpen = false;
+            g2ApplySort();
+          }});
         }} else {{
-          tbody.appendChild(sep);
+          var sep = document.createElement('tr');
+          sep.className = 'g2-orange-sep';
+          sep.innerHTML = '<td colspan="5">\\u00a0</td>';
+          if (mode === 'diff') {{
+            tbody.insertBefore(sep, tbody.children[40]);
+          }} else {{
+            tbody.appendChild(sep);
+          }}
+          sep.addEventListener('click', function() {{
+            g2TextOpen = true;
+            g2ApplySort();
+          }});
         }}
-        sep.addEventListener('click', function() {{
-          g2TextOpen = true;
-          g2ApplySort();
-        }});
       }}
-      if ((mode === 'diff' || mode === 'diff-player') && g2TextOpen && msgDiv) msgDiv.style.display = '';
     }}
     function g2ApplySort() {{
       document.querySelectorAll('.g2-table table').forEach(function(t) {{
@@ -2475,7 +2503,7 @@ def generate_html(weekly, season, daily, updated_at):
     function g3Sort(table, mode) {{
       var tbody = table.querySelector('tbody');
       if (!tbody) return;
-      var rows = Array.from(tbody.querySelectorAll('tr:not(.g3-orange-sep)'));
+      var rows = Array.from(tbody.querySelectorAll('tr:not(.g3-orange-sep):not(.g3-text-row)'));
       function getName(row) {{
         var td = row.cells[1];
         return td ? (td.getAttribute('data-player') || td.textContent.trim()) : '';
@@ -2550,8 +2578,8 @@ def generate_html(weekly, season, daily, updated_at):
       }}
       var oldSep = tbody.querySelector('.g3-orange-sep');
       if (oldSep) oldSep.remove();
-      var msgDiv = table.closest('.year-table').querySelector('.g3-cutoff-msg');
-      if (msgDiv) msgDiv.style.display = 'none';
+      var oldTextRow = tbody.querySelector('.g3-text-row');
+      if (oldTextRow) oldTextRow.remove();
       var truncate = (mode === 'diff-player');
       rows.forEach(function(r, i) {{
         var bdrBot = (truncate && !g3TextOpen && i === 49) ? '3px solid #ee7623' : '';
@@ -2564,21 +2592,35 @@ def generate_html(weekly, season, daily, updated_at):
         }}
         tbody.appendChild(r);
       }});
-      if ((mode === 'diff' || mode === 'diff-player') && !g3TextOpen) {{
-        var sep = document.createElement('tr');
-        sep.className = 'g3-orange-sep';
-        sep.innerHTML = '<td colspan="5">\\u00a0</td>';
-        if (mode === 'diff') {{
-          tbody.insertBefore(sep, tbody.children[50]);
+      if (mode === 'diff' || mode === 'diff-player') {{
+        if (g3TextOpen) {{
+          var textRow = document.createElement('tr');
+          textRow.className = 'g3-text-row';
+          textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 50 DIFF seasons and see the GOAT candidates!</p></td>';
+          if (mode === 'diff') {{
+            tbody.insertBefore(textRow, tbody.children[50]);
+          }} else {{
+            tbody.appendChild(textRow);
+          }}
+          textRow.addEventListener('click', function() {{
+            g3TextOpen = false;
+            g3ApplySort();
+          }});
         }} else {{
-          tbody.appendChild(sep);
+          var sep = document.createElement('tr');
+          sep.className = 'g3-orange-sep';
+          sep.innerHTML = '<td colspan="5">\\u00a0</td>';
+          if (mode === 'diff') {{
+            tbody.insertBefore(sep, tbody.children[50]);
+          }} else {{
+            tbody.appendChild(sep);
+          }}
+          sep.addEventListener('click', function() {{
+            g3TextOpen = true;
+            g3ApplySort();
+          }});
         }}
-        sep.addEventListener('click', function() {{
-          g3TextOpen = true;
-          g3ApplySort();
-        }});
       }}
-      if ((mode === 'diff' || mode === 'diff-player') && g3TextOpen && msgDiv) msgDiv.style.display = '';
     }}
     function g3ApplySort() {{
       document.querySelectorAll('.g3-table table').forEach(function(t) {{
