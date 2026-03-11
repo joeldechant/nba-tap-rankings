@@ -1533,9 +1533,9 @@ def generate_html(weekly, season, daily, updated_at):
                  (parseFloat(a.cells[4].textContent) || 0);
         }});
       }}
-      /* Helper: sort by appearance count desc, group by player,
-         tiebreak between players by highest DIFF, within player by DIFF desc */
-      function sortByCount(arr, countMap) {{
+      /* Helper: sort by appearance count desc, group by player.
+         intraCol = column index for within-player sort (2=TED/TAP, 4=DIFF) */
+      function sortByCount(arr, countMap, intraCol) {{
         /* Find each player's best DIFF for inter-player ordering */
         var bestDiff = {{}};
         arr.forEach(function(r) {{
@@ -1550,9 +1550,9 @@ def generate_html(weekly, season, daily, updated_at):
           if (cb !== ca) return cb - ca;
           /* Same count: group by player (higher best-DIFF player first) */
           if (na !== nb) return (bestDiff[nb] || 0) - (bestDiff[na] || 0);
-          /* Same player: sort by DIFF desc */
-          return (parseFloat(b.cells[4].textContent) || 0) -
-                 (parseFloat(a.cells[4].textContent) || 0);
+          /* Same player: sort by intraCol desc */
+          return (parseFloat(b.cells[intraCol].textContent) || 0) -
+                 (parseFloat(a.cells[intraCol].textContent) || 0);
         }});
       }}
       if (mode === 'diff') {{
@@ -1569,7 +1569,7 @@ def generate_html(weekly, season, daily, updated_at):
           var n = r.cells[1].textContent.trim();
           counts[n] = (counts[n] || 0) + 1;
         }});
-        sortByCount(rows, counts);
+        sortByCount(rows, counts, 2); /* within player: sort by TED/TAP value */
       }} else if (mode === 'diff-player') {{
         /* Sort by DIFF first to identify top 30 */
         sortByDiff(rows);
@@ -1581,7 +1581,7 @@ def generate_html(weekly, season, daily, updated_at):
           var n = r.cells[1].textContent.trim();
           counts[n] = (counts[n] || 0) + 1;
         }});
-        sortByCount(top30, counts);
+        sortByCount(top30, counts, 4); /* within player: sort by DIFF */
         rows = top30.concat(rest);
       }} else {{
         /* year sort */
