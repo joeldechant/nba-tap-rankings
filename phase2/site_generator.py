@@ -1153,7 +1153,7 @@ def generate_html(weekly, season, daily, updated_at):
       font-family: Georgia, 'Times New Roman', serif;
       font-size: 0.82em;
       font-style: italic;
-      max-width: 280px;
+      max-width: 250px;
       text-align: center;
       box-shadow: 0 2px 8px rgba(0,0,0,0.5);
     }}
