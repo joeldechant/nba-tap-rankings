@@ -975,6 +975,10 @@
       .year-table .player .lname {
         display: inline;
       }
+      .potm-popup-header {
+        font-size: 0.85em;
+        padding: 10px 12px;
+      }
     }
   </style>
 </head>
@@ -14841,7 +14845,7 @@
       if (!winners || winners.length === 0) return;
       var s = stat;
       var su = s.toUpperCase();
-      potmTitle.textContent = 'PLAYER OF THE MONTH';
+      potmTitle.textContent = 'PLAYER OF THE MONTH ' + su;
       potmStatHeader.textContent = su;
       var html = '';
       for (var i = winners.length - 1; i >= 0; i--) {
