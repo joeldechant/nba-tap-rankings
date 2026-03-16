@@ -1838,10 +1838,6 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         font-size: 1.05em;
         padding: 10px 14px;
       }}
-      .tapd-year-table thead th.stat,
-      .tapd-table thead th.stat {{
-        padding-right: inherit;
-      }}
     }}
   </style>
 </head>
