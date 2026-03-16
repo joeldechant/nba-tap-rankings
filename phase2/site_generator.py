@@ -824,8 +824,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     season_tapd_table = render_table(season.get('tapd', []), 'tapd', 'SEASON-TO-DATE TAPD TOP 100')
     daily_ted_table = render_table(daily['ted'], 'ted', 'DAILY TED TOP 40')
     daily_tap_table = render_table(daily['tap'], 'tap', 'DAILY TAP TOP 40')
-    monthly_ted_table = render_table(monthly['ted'], 'ted', 'PLAYER OF THE MONTH TED')
-    monthly_tap_table = render_table(monthly['tap'], 'tap', 'PLAYER OF THE MONTH TAP')
+    monthly_ted_table = render_table(monthly['ted'], 'ted', 'PLAYER OF THE MONTH - TED')
+    monthly_tap_table = render_table(monthly['tap'], 'tap', 'PLAYER OF THE MONTH - TAP')
 
     # Build career popup data
     career_js = build_career_js(
@@ -2226,7 +2226,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       if (!winners || winners.length === 0) return;
       var s = stat;
       var su = s.toUpperCase();
-      potmTitle.textContent = 'PLAYER OF THE MONTH ' + su;
+      potmTitle.textContent = 'PLAYER OF THE MONTH - ' + su;
       potmStatHeader.textContent = su;
       var html = '';
       for (var i = winners.length - 1; i >= 0; i--) {{
