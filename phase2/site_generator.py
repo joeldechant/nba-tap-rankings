@@ -182,20 +182,20 @@ def render_historical_section(data, stat_key='ted', season_all=None):
 
             tapd_table_html = ''
             if tapd_eligible:
-                # Build TAPD version of this year's table
-                tapd_sorted = sorted(
-                    [p for p in year_data['players'] if p.get('player')],
-                    key=lambda p: p.get('tapd', 0) or 0,
-                    reverse=True
-                )
+                # Only populate rows if this year actually has TAPD values in the data
+                tapd_players = [p for p in year_data['players']
+                                if p.get('player') and p.get('tapd') is not None]
                 tapd_rows = ''
-                for rank, p in enumerate(tapd_sorted, 1):
-                    name_html = format_player_name(p['player'])
-                    player_attr = html_module.escape(p['player'], quote=True)
-                    team = p['team'] if p['team'] else '&mdash;'
-                    val = p.get('tapd', 0) or 0
-                    val_str = f'{val:.1f}'
-                    tapd_rows += f'        <tr><td class="rank">{rank}</td><td class="player" data-player="{player_attr}">{name_html}</td><td class="team">{team}</td><td class="num stat">{val_str}</td></tr>\n'
+                if tapd_players:
+                    tapd_sorted = sorted(tapd_players,
+                        key=lambda p: p.get('tapd', 0) or 0,
+                        reverse=True)
+                    for rank, p in enumerate(tapd_sorted, 1):
+                        name_html = format_player_name(p['player'])
+                        player_attr = html_module.escape(p['player'], quote=True)
+                        team = p['team'] if p['team'] else '&mdash;'
+                        val_str = f'{p["tapd"]:.1f}'
+                        tapd_rows += f'        <tr><td class="rank">{rank}</td><td class="player" data-player="{player_attr}">{name_html}</td><td class="team">{team}</td><td class="num stat">{val_str}</td></tr>\n'
                 tapd_table_html = f"""
         <table class="tapd-year-table" style="display:none">
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat stat-toggle">TAPD</th></tr></thead>
