@@ -1292,6 +1292,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     thead th.stat {{
       text-align: right;
       min-width: 62px;
+      padding-right: 14px;
     }}
 
     .empty {{
