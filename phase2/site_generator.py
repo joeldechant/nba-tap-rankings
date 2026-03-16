@@ -1296,7 +1296,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     .tapd-year-table thead th.stat,
     .tapd-table thead th.stat {{
-      padding-right: 16px;
+      transform: translateX(-4px);
     }}
 
     .empty {{
