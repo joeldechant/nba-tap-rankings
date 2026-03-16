@@ -3185,7 +3185,14 @@ def generate_site():
     if last_game_date:
         month_start = last_game_date.replace(day=1)
         monthly_full = calculate_weekly_rankings(month_start, last_game_date)
-        # No min games filter for current month — filter only applied to completed months (in winners loop)
+        # Min 3 games for monthly inclusion after the 15th (except October)
+        past_midmonth = last_game_date.day >= 15
+        min_monthly_games = 3 if (past_midmonth and month_start.month != 10) else 0
+        if min_monthly_games:
+            monthly_full['ted'] = [r for r in monthly_full['ted'] if r.get('g', 0) >= min_monthly_games]
+            monthly_full['tap'] = [r for r in monthly_full['tap'] if r.get('g', 0) >= min_monthly_games]
+            if 'tapd' in monthly_full:
+                monthly_full['tapd'] = [r for r in monthly_full['tapd'] if r.get('g', 0) >= min_monthly_games]
         monthly_tapd = monthly_full.get('tapd', [])
         if monthly_tapd:
             monthly_tap = _remap_tapd(monthly_tapd)[:100]
