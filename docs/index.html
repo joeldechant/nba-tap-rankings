@@ -170,10 +170,6 @@
       overflow: visible;
     }
 
-    .table-section table {
-      table-layout: fixed;
-    }
-
     .table-header {
       background: #fff;
       border: 2px solid #000;
@@ -246,16 +242,16 @@
       color: #ee7623;
       opacity: 1;
     }
-    /* Historical TAP/TAPD toggle: orange clickable sub-header in TAP view */
-    .view-tap .hist-tap-view th.stat,
-    .view-tap .hist-tapd-view th.stat {
+    /* Historical TAP/TAPD toggle: orange clickable sub-header only for years with TAPD data */
+    .view-tap .hist-tap-view th.stat-toggle,
+    .view-tap .hist-tapd-view th.stat-toggle {
       color: #ee7623;
       cursor: pointer;
     }
-    .view-tap .hist-tap-view th.stat:hover,
-    .view-tap .hist-tap-view th.stat:active,
-    .view-tap .hist-tapd-view th.stat:hover,
-    .view-tap .hist-tapd-view th.stat:active {
+    .view-tap .hist-tap-view th.stat-toggle:hover,
+    .view-tap .hist-tap-view th.stat-toggle:active,
+    .view-tap .hist-tapd-view th.stat-toggle:hover,
+    .view-tap .hist-tapd-view th.stat-toggle:active {
       color: #ee7623;
       opacity: 1;
     }
@@ -421,7 +417,7 @@
     }
 
     .rank {
-      width: 52px;
+      width: 32px;
       text-align: center;
       font-weight: 700;
     }
@@ -431,7 +427,7 @@
     }
 
     .team {
-      width: 50px;
+      width: 40px;
       text-align: center;
       font-size: 0.9em;
     }
@@ -20277,7 +20273,7 @@
       /* Attach click handler to the TAP view parent to catch all th.stat clicks */
       var tapParent = tapView.parentElement;
       tapParent.addEventListener('click', function(e) {
-        var th = e.target.closest('th.stat');
+        var th = e.target.closest('th.stat-toggle');
         if (!th) return;
         /* Must be inside either hist-tap-view or hist-tapd-view */
         var inTap = !!th.closest('.hist-tap-view');

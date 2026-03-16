@@ -176,10 +176,13 @@ def render_historical_section(data, stat_key='ted', season_all=None):
                 val_str = f'{val:.1f}'
                 rows += f'        <tr><td class="rank">{rank}</td><td class="player" data-player="{player_attr}">{name_html}</td><td class="team">{team}</td><td class="num stat">{val_str}</td></tr>\n'
 
+            # Add stat-toggle class only for years with TAPD data (2000+)
+            has_tapd_data = any(p.get('tapd') is not None for p in year_data['players'] if p.get('player'))
+            stat_cls = 'num stat stat-toggle' if has_tapd_data else 'num stat'
             year_tables.append(f"""      <div class="year-table" data-year="{year_data['year']}">
         <div class="table-header"><h2>{season_label} SEASON &mdash; {effective_upper} TOP {top_n}</h2></div>
         <table>
-          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">{effective_upper}</th></tr></thead>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="{stat_cls}">{effective_upper}</th></tr></thead>
           <tbody>
 {rows}          </tbody>
         </table>
@@ -965,10 +968,6 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       overflow: visible;
     }}
 
-    .table-section table {{
-      table-layout: fixed;
-    }}
-
     .table-header {{
       background: #fff;
       border: 2px solid #000;
@@ -1041,16 +1040,16 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       color: #ee7623;
       opacity: 1;
     }}
-    /* Historical TAP/TAPD toggle: orange clickable sub-header in TAP view */
-    .view-tap .hist-tap-view th.stat,
-    .view-tap .hist-tapd-view th.stat {{
+    /* Historical TAP/TAPD toggle: orange clickable sub-header only for years with TAPD data */
+    .view-tap .hist-tap-view th.stat-toggle,
+    .view-tap .hist-tapd-view th.stat-toggle {{
       color: #ee7623;
       cursor: pointer;
     }}
-    .view-tap .hist-tap-view th.stat:hover,
-    .view-tap .hist-tap-view th.stat:active,
-    .view-tap .hist-tapd-view th.stat:hover,
-    .view-tap .hist-tapd-view th.stat:active {{
+    .view-tap .hist-tap-view th.stat-toggle:hover,
+    .view-tap .hist-tap-view th.stat-toggle:active,
+    .view-tap .hist-tapd-view th.stat-toggle:hover,
+    .view-tap .hist-tapd-view th.stat-toggle:active {{
       color: #ee7623;
       opacity: 1;
     }}
@@ -1216,7 +1215,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
 
     .rank {{
-      width: 52px;
+      width: 32px;
       text-align: center;
       font-weight: 700;
     }}
@@ -1226,7 +1225,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
 
     .team {{
-      width: 50px;
+      width: 40px;
       text-align: center;
       font-size: 0.9em;
     }}
@@ -2278,7 +2277,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       /* Attach click handler to the TAP view parent to catch all th.stat clicks */
       var tapParent = tapView.parentElement;
       tapParent.addEventListener('click', function(e) {{
-        var th = e.target.closest('th.stat');
+        var th = e.target.closest('th.stat-toggle');
         if (!th) return;
         /* Must be inside either hist-tap-view or hist-tapd-view */
         var inTap = !!th.closest('.hist-tap-view');
