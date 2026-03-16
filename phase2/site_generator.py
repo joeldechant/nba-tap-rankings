@@ -1304,15 +1304,6 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       font-weight: 900;
       font-size: 1.15em;
       letter-spacing: -0.5px;
-    }}
-    /* Lock stat column width only in tables that toggle TAP/TAPD (not GOAT/G2/G3) */
-    .decade-years .year-table .stat,
-    .decade-top100 .year-table .stat,
-    .all-time-table .year-table .stat,
-    .season-table .stat,
-    .tapd-table .stat,
-    .monthly-table .stat,
-    .tables-grid .year-table .stat {{
       width: 62px;
       min-width: 62px;
       max-width: 62px;
