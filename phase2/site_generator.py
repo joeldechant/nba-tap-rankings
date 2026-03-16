@@ -965,6 +965,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       overflow: visible;
     }}
 
+    .table-section table {{
+      table-layout: fixed;
+    }}
+
     .table-header {{
       background: #fff;
       border: 2px solid #000;
@@ -1030,11 +1034,25 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       color: #ee7623;
       cursor: pointer;
     }}
+    .view-tap .season-monthly-slot .season-table th.stat:hover,
+    .view-tap .season-monthly-slot .season-table th.stat:active,
+    .view-tap .season-monthly-slot .tapd-table th.stat:hover,
+    .view-tap .season-monthly-slot .tapd-table th.stat:active {{
+      color: #ee7623;
+      opacity: 1;
+    }}
     /* Historical TAP/TAPD toggle: orange clickable sub-header in TAP view */
     .view-tap .hist-tap-view th.stat,
     .view-tap .hist-tapd-view th.stat {{
       color: #ee7623;
       cursor: pointer;
+    }}
+    .view-tap .hist-tap-view th.stat:hover,
+    .view-tap .hist-tap-view th.stat:active,
+    .view-tap .hist-tapd-view th.stat:hover,
+    .view-tap .hist-tapd-view th.stat:active {{
+      color: #ee7623;
+      opacity: 1;
     }}
 
     .potm-overlay {{
@@ -1198,7 +1216,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
 
     .rank {{
-      width: 32px;
+      width: 52px;
       text-align: center;
       font-weight: 700;
     }}
@@ -1208,7 +1226,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
 
     .team {{
-      width: 40px;
+      width: 50px;
       text-align: center;
       font-size: 0.9em;
     }}
@@ -1233,6 +1251,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       font-weight: 900;
       font-size: 1.15em;
       letter-spacing: -0.5px;
+      width: 62px;
       min-width: 62px;
     }}
 
@@ -1250,6 +1269,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     thead th.stat {{
       text-align: right;
+      min-width: 62px;
     }}
 
     .empty {{
