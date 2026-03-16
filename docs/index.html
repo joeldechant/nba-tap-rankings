@@ -15295,25 +15295,15 @@
         newSlot.querySelector('.weekly-table').style.display = showingDaily ? 'none' : '';
         newSlot.querySelector('.daily-table').style.display = showingDaily ? '' : 'none';
       }
-      /* Sync season/monthly/tapd state to new view.
-         When switching TED→TAP: monthly maps to monthly, season maps to season.
-         When switching TAP→TED: TAPD state maps to season (TED has no TAPD). */
+      /* Sync season state to new view.
+         TED view uses season/monthly. TAP view uses season/tapd.
+         When switching, reset to season-table visible in both. */
       var newSeasonSlot = document.querySelector(newView + ' .season-monthly-slot');
       if (newSeasonSlot) {
+        newSeasonSlot.querySelector('.season-table').style.display = '';
+        newSeasonSlot.querySelector('.monthly-table').style.display = 'none';
         var newTapdDiv = newSeasonSlot.querySelector('.tapd-table');
-        if (showingMonthly) {
-          newSeasonSlot.querySelector('.season-table').style.display = 'none';
-          if (newTapdDiv) newTapdDiv.style.display = 'none';
-          newSeasonSlot.querySelector('.monthly-table').style.display = '';
-        } else if (showingTapd && newTapdDiv) {
-          newSeasonSlot.querySelector('.season-table').style.display = 'none';
-          newTapdDiv.style.display = '';
-          newSeasonSlot.querySelector('.monthly-table').style.display = 'none';
-        } else {
-          newSeasonSlot.querySelector('.season-table').style.display = '';
-          if (newTapdDiv) newTapdDiv.style.display = 'none';
-          newSeasonSlot.querySelector('.monthly-table').style.display = 'none';
-        }
+        if (newTapdDiv) newTapdDiv.style.display = 'none';
       }
       /* Sync all-time and decade top 100 expand/collapse state */
       var oldSec = document.querySelector(oldView + ' .historical-section');
@@ -15531,9 +15521,7 @@
       });
     });
 
-    /* Season / TAPD / Monthly toggle — click header to swap.
-       TED view: Season ↔ Monthly (2-way).
-       TAP view: Season TAP → TAPD → Monthly → Season TAP (3-way cycle). */
+    /* Season / Monthly toggle (TED view), Season TAP ↔ TAPD toggle (TAP view). */
     document.querySelectorAll('.season-monthly-slot').forEach(function(slot) {
       slot.addEventListener('click', function(e) {
         var header = e.target.closest('.table-header');
@@ -15543,32 +15531,16 @@
         var tapdDiv = slot.querySelector('.tapd-table');
         var isInTapView = !!slot.closest('.view-tap');
 
-        var seasonVisible = seasonDiv && seasonDiv.style.display !== 'none';
-        var tapdVisible = tapdDiv && tapdDiv.style.display !== 'none';
-        var monthlyVisible = monthlyDiv && monthlyDiv.style.display !== 'none';
-
-        function hideAll() {
-          seasonDiv.style.display = 'none';
-          monthlyDiv.style.display = 'none';
-          if (tapdDiv) tapdDiv.style.display = 'none';
-        }
-
         if (isInTapView && tapdDiv) {
-          /* TAP view: 3-way cycle: Season → TAPD → Monthly → Season */
-          if (seasonVisible) {
-            hideAll(); tapdDiv.style.display = '';
-          } else if (tapdVisible) {
-            hideAll(); monthlyDiv.style.display = '';
-          } else {
-            hideAll(); seasonDiv.style.display = '';
-          }
+          /* TAP view: 2-way toggle: Season TAP ↔ TAPD */
+          var seasonVisible = seasonDiv.style.display !== 'none';
+          seasonDiv.style.display = seasonVisible ? 'none' : '';
+          tapdDiv.style.display = seasonVisible ? '' : 'none';
         } else {
           /* TED view: 2-way toggle: Season ↔ Monthly */
-          if (seasonVisible) {
-            hideAll(); monthlyDiv.style.display = '';
-          } else {
-            hideAll(); seasonDiv.style.display = '';
-          }
+          var seasonVisible = seasonDiv.style.display !== 'none';
+          seasonDiv.style.display = seasonVisible ? 'none' : '';
+          monthlyDiv.style.display = seasonVisible ? '' : 'none';
         }
       });
     });
