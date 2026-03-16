@@ -1030,20 +1030,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       color: #ee7623;
       cursor: pointer;
     }}
-    .view-tap .season-monthly-slot .season-table th.stat:hover,
-    .view-tap .season-monthly-slot .tapd-table th.stat:hover {{
-      opacity: 0.7;
-    }}
-
     /* Historical TAP/TAPD toggle: orange clickable sub-header in TAP view */
     .view-tap .hist-tap-view th.stat,
     .view-tap .hist-tapd-view th.stat {{
       color: #ee7623;
       cursor: pointer;
-    }}
-    .view-tap .hist-tap-view th.stat:hover,
-    .view-tap .hist-tapd-view th.stat:hover {{
-      opacity: 0.7;
     }}
 
     .potm-overlay {{
