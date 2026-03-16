@@ -203,9 +203,71 @@ def _refresh_season_data(session, br_year):
     print(f"      Stored {len(pace_rows)} team paces")
 
 
+def _compute_season_op_lookup(season_avgs_list, adv_stats, pace_lookup):
+    """Pre-compute season-to-date OP for each player.
+
+    Runs the full calculator on season averages (box score + OBPM/OWS at the
+    same time scale) so OP is internally consistent. Returns {player: op_value}.
+    Used by weekly/daily rankings so that per-game TAP doesn't suffer from
+    the inverse relationship where better box score games get more negative OP.
+    """
+    op_lookup = {}
+    for row in season_avgs_list:
+        row = dict(row) if not isinstance(row, dict) else row
+        player = row['player']
+        team = row.get('team', '')
+        mp = row.get('mp')
+        g = row.get('g')
+
+        if not mp or mp < 1:
+            continue
+
+        pace = pace_lookup.get(team)
+        if pace is None:
+            if pace_lookup:
+                pace = sum(pace_lookup.values()) / len(pace_lookup)
+            else:
+                continue
+
+        player_data = {
+            'player': player, 'team': team,
+            'pts': row.get('pts', 0), 'mp': mp,
+            'fg': row.get('fg', 0), 'fga': row.get('fga', 0),
+            'three_p': row.get('three_p', 0),
+            'ft': row.get('ft', 0), 'fta': row.get('fta', 0),
+            'rb': row.get('rb', 0), 'ast': row.get('ast', 0),
+            'stl': row.get('stl', 0), 'blk': row.get('blk', 0),
+            'tov': row.get('tov', 0),
+            'g': g,
+            'season_year': config.CURRENT_SEASON_YEAR,
+        }
+
+        adv = adv_stats.get(player)
+        if not adv:
+            op_lookup[player] = 0
+            continue
+
+        advanced = {
+            'dbpm': adv.get('dbpm'),
+            'dws': adv.get('dws'),
+            'obpm': adv.get('obpm'),
+            'ows': adv.get('ows'),
+        }
+
+        result = calculator.calculate_stats(
+            player_data, pace, advanced=advanced,
+            season_g=g, season_mp=mp
+        )
+        if result:
+            op_lookup[player] = result['op']
+
+    return op_lookup
+
+
 def calculate_weekly_rankings(week_start, week_end):
     """Calculate TED and TAP rankings for a specific week.
-    Uses weekly game averages for box score stats, season-to-date for advanced stats."""
+    Uses weekly game averages for box score stats, season-to-date for advanced stats.
+    TAP OP mode controlled by config.USE_SEASON_OP_FOR_WEEKLY."""
     weekly_stats = db.get_weekly_game_stats(
         week_start.isoformat(), week_end.isoformat()
     )
@@ -218,6 +280,12 @@ def calculate_weekly_rankings(week_start, week_end):
         for row in db.get_season_averages(config.CURRENT_SEASON_YEAR)
     }
     pace_lookup = db.get_team_pace(config.CURRENT_SEASON_YEAR)
+
+    # Pre-compute season-to-date OP (only used if USE_SEASON_OP_FOR_WEEKLY is True)
+    season_op = {}
+    if config.USE_SEASON_OP_FOR_WEEKLY:
+        season_avgs_list = db.get_season_averages(config.CURRENT_SEASON_YEAR)
+        season_op = _compute_season_op_lookup(season_avgs_list, adv_stats, pace_lookup)
 
     results = []
     for row in weekly_stats:
@@ -265,9 +333,17 @@ def calculate_weekly_rankings(week_start, week_end):
         season_g = season_data['g'] if season_data else None
         season_mp = season_data['mp'] if season_data else None
 
+        # Season OP override (only if enabled in config)
+        player_season_op = season_op.get(player) if config.USE_SEASON_OP_FOR_WEEKLY else None
+
+        # Game PM for alternative OP (None if not available in DB)
+        game_pm = row['plus_minus'] if 'plus_minus' in row.keys() and row['plus_minus'] is not None else None
+
         result = calculator.calculate_stats(
             player_data, pace, advanced=advanced,
-            season_g=season_g, season_mp=season_mp
+            season_g=season_g, season_mp=season_mp,
+            override_op=player_season_op,
+            game_plus_minus=game_pm
         )
         if result:
             results.append(result)
@@ -276,23 +352,50 @@ def calculate_weekly_rankings(week_start, week_end):
     ted_ranked = sorted(results, key=lambda x: x['ted'], reverse=True)[:100]
     tap_ranked = sorted(results, key=lambda x: x['tap'], reverse=True)[:100]
 
+    # TAPD ranking (DOPM-based OP) — only if PM data is available
+    tapd_results = [r for r in results if r.get('tapd') is not None]
+    tapd_ranked = sorted(tapd_results, key=lambda x: x['tapd'], reverse=True)[:100]
+
     for i, r in enumerate(ted_ranked):
         r['ted_rank'] = i + 1
     for i, r in enumerate(tap_ranked):
         r['tap_rank'] = i + 1
+    for i, r in enumerate(tapd_ranked):
+        r['tapd_rank'] = i + 1
 
-    return {'ted': ted_ranked, 'tap': tap_ranked}
+    return {'ted': ted_ranked, 'tap': tap_ranked, 'tapd': tapd_ranked}
+
+
+def _compute_avg_pm_lookup():
+    """Compute average game PM per player from all box scores this season.
+
+    Returns dict: {player_name: avg_plus_minus}.
+    Only includes players with at least one game with PM data.
+    """
+    conn = db.get_connection()
+    rows = conn.execute(
+        """SELECT player, AVG(plus_minus) as avg_pm
+           FROM game_box_scores
+           WHERE season_year = ? AND plus_minus IS NOT NULL
+           GROUP BY player""",
+        (config.CURRENT_SEASON_YEAR,)
+    ).fetchall()
+    return {row['player']: row['avg_pm'] for row in rows}
 
 
 def calculate_season_rankings():
-    """Calculate season-to-date TED and TAP rankings.
-    Uses re-scraped season averages + advanced stats."""
+    """Calculate season-to-date TED, TAP, and TAPD rankings.
+    Uses re-scraped season averages + advanced stats.
+    TAPD uses average game PM from box scores for the DOPM path."""
     season_avgs = db.get_season_averages(config.CURRENT_SEASON_YEAR)
     adv_stats = {
         row['player']: dict(row)
         for row in db.get_advanced_stats(config.CURRENT_SEASON_YEAR)
     }
     pace_lookup = db.get_team_pace(config.CURRENT_SEASON_YEAR)
+
+    # Build average PM lookup from game box scores for TAPD
+    avg_pm_lookup = _compute_avg_pm_lookup()
 
     today = date.today()
 
@@ -354,9 +457,13 @@ def calculate_season_rankings():
                 'ows': adv.get('ows'),
             }
 
+        # Pass average PM for TAPD calculation
+        avg_pm = avg_pm_lookup.get(player)
+
         result = calculator.calculate_stats(
             player_data, pace, advanced=advanced,
-            season_g=g, season_mp=mp
+            season_g=g, season_mp=mp,
+            game_plus_minus=avg_pm
         )
         if result:
             results.append(result)
@@ -365,12 +472,18 @@ def calculate_season_rankings():
     ted_ranked = sorted(results, key=lambda x: x['ted'], reverse=True)[:100]
     tap_ranked = sorted(results, key=lambda x: x['tap'], reverse=True)[:100]
 
+    # TAPD ranking (uses average game PM for DOPM-derived OP)
+    tapd_results = [r for r in results if r.get('tapd') is not None]
+    tapd_ranked = sorted(tapd_results, key=lambda x: x['tapd'], reverse=True)[:100]
+
     for i, r in enumerate(ted_ranked):
         r['ted_rank'] = i + 1
     for i, r in enumerate(tap_ranked):
         r['tap_rank'] = i + 1
+    for i, r in enumerate(tapd_ranked):
+        r['tapd_rank'] = i + 1
 
-    return {'ted': ted_ranked, 'tap': tap_ranked, 'all': results}
+    return {'ted': ted_ranked, 'tap': tap_ranked, 'tapd': tapd_ranked, 'all': results}
 
 
 # ============================================================

@@ -23,12 +23,12 @@ MIN_MP_SEASON = 20          # minimum average MPG for season-to-date
 # Temporary player exclusions — (player_name, end_date)
 # Player is excluded until end_date (inclusive). After that date, they reappear automatically.
 EXCLUDED_PLAYERS = [
-    ("Kristaps Porzingis", date(2026, 4, 10)),
 ]
 
 # Tiered minimum games for season-to-date rankings
 # (date_threshold, min_games) — checked in order, first match wins
 SEASON_GAMES_TIERS = [
+    (date(2026, 3, 1), 30),    # Mar 1+ → 30 games min (~55 team games played)
     (date(2026, 1, 15), 20),   # Jan 15+ → 20 games min (~40 team games played)
     (date(2025, 12, 15), 10),  # Dec 15+ → 10 games min (~26 team games played)
     (date(2025, 11, 15), 5),   # Nov 15+ → 5 games min (~12 team games played)
@@ -78,7 +78,7 @@ OP_MULTIPLIER = 1.0
 #   values on a daily/weekly basis, losing diagnostic value of their divergence.
 # When False (default): OP is derived per-game from OBPM/OWS against that game's
 #   box score. Preserves meaningful TED-TAP gap that reveals player archetype.
-USE_SEASON_OP_FOR_WEEKLY = True
+USE_SEASON_OP_FOR_WEEKLY = False
 
 # Era-varying P/Shot OP baselines (for OP extraction, not EP36)
 ERA_PSHOT_BASELINES = [

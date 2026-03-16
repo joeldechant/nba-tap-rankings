@@ -15,17 +15,17 @@ from .weekly_update import calculate_season_rankings, calculate_weekly_rankings
 DOCS_DIR = os.path.join(config.PROJECT_DIR, "docs")
 
 
-def _remap_tap_dopm(tap_dopm_ranked):
-    """Remap tap_dopm results so they look like standard tap results.
+def _remap_tapd(tapd_ranked):
+    """Remap TAPD results so they look like standard tap results.
 
-    Copies each result dict, sets 'tap' = 'tap_dopm' and re-numbers 'tap_rank'.
-    This lets render_table() display TAP_DOPM values using the existing 'tap'
+    Copies each result dict, sets 'tap' = 'tapd' and re-numbers 'tap_rank'.
+    This lets render_table() display TAPD values using the existing 'tap'
     stat_key (column header stays "TAP", no code changes needed downstream).
     """
     remapped = []
-    for i, r in enumerate(tap_dopm_ranked):
+    for i, r in enumerate(tapd_ranked):
         rc = dict(r)
-        rc['tap'] = rc['tap_dopm']
+        rc['tap'] = rc['tapd']
         rc['tap_rank'] = i + 1
         remapped.append(rc)
     return remapped
@@ -111,8 +111,11 @@ def load_historical_rankings():
 def render_historical_section(data, stat_key='ted', season_all=None):
     """Generate full HTML for the historical rankings section.
 
-    stat_key: 'ted' or 'tap' — determines sort order and displayed stat.
+    stat_key: 'ted', 'tap', or 'tapd' — determines sort order and displayed stat.
     season_all: current season results to merge into all-time top 200.
+
+    For 'tapd': falls back to 'tap' for players/years without TAPD data.
+    Column header shows 'TAPD' for years with data, 'TAP' for pre-PM years.
     """
     if not data or 'decades' not in data:
         return '', ''
@@ -147,10 +150,19 @@ def render_historical_section(data, stat_key='ted', season_all=None):
             season_label = year_data['season_label']
             top_n = year_data['top_n']
 
+            # For TAPD: check if this year has TAPD data; fall back to TAP if not
+            effective_key = stat_key
+            if stat_key == 'tapd':
+                has_tapd = any(p.get('tapd') is not None
+                              for p in year_data['players'] if p.get('player'))
+                if not has_tapd:
+                    effective_key = 'tap'
+            effective_upper = effective_key.upper()
+
             # Re-sort players by the chosen stat and re-rank
             players_sorted = sorted(
                 [p for p in year_data['players'] if p.get('player')],
-                key=lambda p: p.get(stat_key, 0),
+                key=lambda p: p.get(effective_key, 0),
                 reverse=True
             )
 
@@ -160,13 +172,14 @@ def render_historical_section(data, stat_key='ted', season_all=None):
                 name_html = format_player_name(p['player'])
                 player_attr = html_module.escape(p['player'], quote=True)
                 team = p['team'] if p['team'] else '&mdash;'
-                val_str = f'{p[stat_key]:.1f}'
+                val = p.get(effective_key, 0) or 0
+                val_str = f'{val:.1f}'
                 rows += f'        <tr><td class="rank">{rank}</td><td class="player" data-player="{player_attr}">{name_html}</td><td class="team">{team}</td><td class="num stat">{val_str}</td></tr>\n'
 
             year_tables.append(f"""      <div class="year-table" data-year="{year_data['year']}">
-        <div class="table-header"><h2>{season_label} SEASON &mdash; {stat_upper} TOP {top_n}</h2></div>
+        <div class="table-header"><h2>{season_label} SEASON &mdash; {effective_upper} TOP {top_n}</h2></div>
         <table>
-          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">{stat_upper}</th></tr></thead>
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat">{effective_upper}</th></tr></thead>
           <tbody>
 {rows}          </tbody>
         </table>
@@ -262,6 +275,14 @@ def render_all_time_html(data, stat_key='ted', season_all=None):
                     'tap': round(p['tap'], 1),
                 })
 
+    # For TAPD: fall back to TAP for entries without TAPD data
+    effective_key = stat_key
+    if stat_key == 'tapd':
+        for e in all_entries:
+            if e.get('tapd') is None:
+                e['tapd'] = e.get('tap', 0)
+    effective_upper = stat_upper
+
     # Re-sort by chosen stat, take top 400, and re-rank
     players_sorted = sorted(
         all_entries,
@@ -273,7 +294,8 @@ def render_all_time_html(data, stat_key='ted', season_all=None):
     for rank, p in enumerate(players_sorted, 1):
         name_html = format_player_name(p['player'])
         player_attr = html_module.escape(p['player'], quote=True)
-        val_str = f'{p[stat_key]:.1f}'
+        val = p.get(stat_key, 0) or 0
+        val_str = f'{val:.1f}'
         rows += f'        <tr><td class="rank">{rank}</td><td class="player" data-player="{player_attr}">{name_html}</td><td class="season">{p["season_label"]}</td><td class="num stat">{val_str}</td></tr>\n'
 
     return f"""    <div class="year-pair single">
@@ -325,6 +347,12 @@ def render_decade_top100_html(decade_label, decade_data, stat_key='ted', season_
                     'tap': round(p['tap'], 1),
                 })
 
+    # For TAPD: fall back to TAP for entries without TAPD data
+    if stat_key == 'tapd':
+        for e in all_entries:
+            if e.get('tapd') is None:
+                e['tapd'] = e.get('tap', 0)
+
     # Sort by chosen stat, take top N, re-rank
     players_sorted = sorted(
         all_entries,
@@ -336,7 +364,8 @@ def render_decade_top100_html(decade_label, decade_data, stat_key='ted', season_
     for rank, p in enumerate(players_sorted, 1):
         name_html = format_player_name(p['player'])
         player_attr = html_module.escape(p['player'], quote=True)
-        val_str = f'{p[stat_key]:.1f}'
+        val = p.get(stat_key, 0) or 0
+        val_str = f'{val:.1f}'
         rows += f'        <tr><td class="rank">{rank}</td><td class="player" data-player="{player_attr}">{name_html}</td><td class="season">{p["season_label"]}</td><td class="num stat">{val_str}</td></tr>\n'
 
     return f"""    <div class="year-pair single">
@@ -404,9 +433,13 @@ def render_goat_html(season_stats, stat_key='ted', season_all=None):
         s = stats[yr_str]
         yr = int(yr_str)
         season_label = f"'{str(yr + 1)[-2:]}"
-        player_name = s.get(f'ldr_{stat_key}', '')
-        val = s.get(f'ldr_{stat_key}_val', 0)
-        top10 = s.get(f'top10_{stat_key}', 0)
+        # For TAPD: fall back to TAP if TAPD leader data not available for this year
+        eff_key = stat_key
+        if stat_key == 'tapd' and f'ldr_tapd' not in s:
+            eff_key = 'tap'
+        player_name = s.get(f'ldr_{eff_key}', '')
+        val = s.get(f'ldr_{eff_key}_val', 0)
+        top10 = s.get(f'top10_{eff_key}', 0)
         # GOAT table uses "top 9" avg: standard top 10 minus the #1 player,
         # divided by 9. This isolates how far above the field the leader is,
         # without the leader inflating the comparison baseline.
@@ -490,13 +523,17 @@ def render_g2_html(season_stats, stat_key='ted', season_all=None):
         s = stats[yr_str]
         yr = int(yr_str)
         season_label = f"'{str(yr + 1)[-2:]}"
+        # For TAPD: fall back to TAP if TAPD data not available for this year
+        eff_key = stat_key
+        if stat_key == 'tapd' and f'ldr_tapd' not in s:
+            eff_key = 'tap'
         # #1 player
-        player1 = s.get(f'ldr_{stat_key}', '')
-        val1 = s.get(f'ldr_{stat_key}_val', 0)
+        player1 = s.get(f'ldr_{eff_key}', '')
+        val1 = s.get(f'ldr_{eff_key}_val', 0)
         # #2 player
-        player2 = s.get(f'g2_{stat_key}', '')
-        val2 = s.get(f'g2_{stat_key}_val', 0)
-        top10 = s.get(f'top10_{stat_key}', 0)
+        player2 = s.get(f'g2_{eff_key}', '')
+        val2 = s.get(f'g2_{eff_key}_val', 0)
+        top10 = s.get(f'top10_{eff_key}', 0)
         # TOP 9* = (top10 * 10 - #1 value) / 9 — same as GOAT
         top9 = round((top10 * 10 - val1) / 9, 1) if top10 else 0
         diff1 = round(val1 - top9, 1)
@@ -587,16 +624,20 @@ def render_g3_html(season_stats, stat_key='ted', season_all=None):
         s = stats[yr_str]
         yr = int(yr_str)
         season_label = f"'{str(yr + 1)[-2:]}"
+        # For TAPD: fall back to TAP if TAPD data not available for this year
+        eff_key = stat_key
+        if stat_key == 'tapd' and f'ldr_tapd' not in s:
+            eff_key = 'tap'
         # #1 player
-        player1 = s.get(f'ldr_{stat_key}', '')
-        val1 = s.get(f'ldr_{stat_key}_val', 0)
+        player1 = s.get(f'ldr_{eff_key}', '')
+        val1 = s.get(f'ldr_{eff_key}_val', 0)
         # #2 player
-        player2 = s.get(f'g2_{stat_key}', '')
-        val2 = s.get(f'g2_{stat_key}_val', 0)
+        player2 = s.get(f'g2_{eff_key}', '')
+        val2 = s.get(f'g2_{eff_key}_val', 0)
         # #3 player
-        player3 = s.get(f'g3_{stat_key}', '')
-        val3 = s.get(f'g3_{stat_key}_val', 0)
-        top10 = s.get(f'top10_{stat_key}', 0)
+        player3 = s.get(f'g3_{eff_key}', '')
+        val3 = s.get(f'g3_{eff_key}_val', 0)
+        top10 = s.get(f'top10_{eff_key}', 0)
         # TOP 9* = (top10 * 10 - #1 value) / 9 — same as GOAT
         top9 = round((top10 * 10 - val1) / 9, 1) if top10 else 0
         diff1 = round(val1 - top9, 1)
@@ -671,6 +712,8 @@ def build_career_js(historical, season_all):
         for r in season_all:
             name = r['player']
             entry = {'y': current_year, 'tm': r['team'], 'ted': round(r['ted'], 1), 'tap': round(r['tap'], 1)}
+            if r.get('tapd') is not None:
+                entry['tapd'] = round(r['tapd'], 1)
             if name not in career:
                 career[name] = []
             # Avoid duplicate if already present for this year
@@ -709,7 +752,7 @@ def build_career_js(historical, season_all):
     return f'<script>window.CAREER={career_json};window.SEASON_STATS={stats_json};</script>'
 
 
-def generate_html(weekly, season, daily, updated_at):
+def generate_html(weekly, season, daily, monthly, month_label, month_winners, updated_at):
     """Generate the full HTML page — TED only."""
     season_label = f"{config.CURRENT_SEASON_YEAR}-{str(config.CURRENT_SEASON_YEAR + 1)[-2:]}"
 
@@ -717,8 +760,11 @@ def generate_html(weekly, season, daily, updated_at):
     season_ted_table = render_table(season['ted'], 'ted', 'SEASON-TO-DATE TED TOP 100')
     weekly_tap_table = render_table(weekly['tap'], 'tap', 'WEEKLY TAP TOP 100')
     season_tap_table = render_table(season['tap'], 'tap', 'SEASON-TO-DATE TAP TOP 100')
+    season_tapd_table = render_table(season.get('tapd', []), 'tapd', 'SEASON-TO-DATE TAPD TOP 100')
     daily_ted_table = render_table(daily['ted'], 'ted', 'DAILY TED TOP 40')
     daily_tap_table = render_table(daily['tap'], 'tap', 'DAILY TAP TOP 40')
+    monthly_ted_table = render_table(monthly['ted'], 'ted', 'PLAYER OF THE MONTH TED')
+    monthly_tap_table = render_table(monthly['tap'], 'tap', 'PLAYER OF THE MONTH TAP')
 
     # Build career popup data
     career_js = build_career_js(
@@ -726,16 +772,23 @@ def generate_html(weekly, season, daily, updated_at):
         season.get('all', [])
     )
 
+    # Embed month winners for POTM popup
+    month_winners_json = json.dumps(month_winners, ensure_ascii=False, separators=(',', ':'))
+    potm_js = f'<script>window.MONTH_WINNERS={month_winners_json};</script>'
+
     historical = load_historical_rankings()
     season_all = season.get('all', [])
     if historical:
         decade_nav_links, historical_ted_html = render_historical_section(historical, 'ted', season_all)
         _, historical_tap_html = render_historical_section(historical, 'tap', season_all)
+        _, historical_tapd_html = render_historical_section(historical, 'tapd', season_all)
         decade_nav_html = ''  # now embedded inside historical sections
         historical_html = f"""<div class="view-ted" style="display:none">
 {historical_ted_html}</div>
 <div class="view-tap">
-{historical_tap_html}</div>"""
+<div class="hist-tap-view">{historical_tap_html}</div>
+<div class="hist-tapd-view" style="display:none">{historical_tapd_html}</div>
+</div>"""
     else:
         decade_nav_html = ''
         historical_html = ''
@@ -951,6 +1004,152 @@ def generate_html(weekly, season, daily, updated_at):
       color: #ee7623;
     }}
 
+    .season-monthly-slot .table-header {{
+      cursor: pointer;
+    }}
+
+    .season-monthly-slot .table-header:hover {{
+      background: #eee;
+    }}
+
+    .season-monthly-slot .table-section h2 {{
+      color: #ee7623;
+    }}
+
+    .monthly-table th.rank {{
+      color: #ee7623;
+      cursor: pointer;
+    }}
+
+    /* TAP sub-header in season-to-date TAP and TAPD tables: orange + clickable */
+    .view-tap .season-monthly-slot .season-table th.stat,
+    .view-tap .season-monthly-slot .tapd-table th.stat {{
+      color: #ee7623;
+      cursor: pointer;
+    }}
+    .view-tap .season-monthly-slot .season-table th.stat:hover,
+    .view-tap .season-monthly-slot .tapd-table th.stat:hover {{
+      opacity: 0.7;
+    }}
+
+    /* Historical TAP/TAPD toggle: orange clickable sub-header in TAP view */
+    .view-tap .hist-tap-view th.stat,
+    .view-tap .hist-tapd-view th.stat {{
+      color: #ee7623;
+      cursor: pointer;
+    }}
+    .view-tap .hist-tap-view th.stat:hover,
+    .view-tap .hist-tapd-view th.stat:hover {{
+      opacity: 0.7;
+    }}
+
+    .potm-overlay {{
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }}
+    .potm-overlay.active {{
+      display: flex;
+    }}
+    body.potm-open .container {{
+      pointer-events: none;
+    }}
+    body.potm-open .potm-overlay {{
+      pointer-events: auto;
+    }}
+
+    .potm-popup {{
+      background: #111;
+      border: 2px solid #fff;
+      max-width: 500px;
+      width: 92%;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 0;
+      position: relative;
+    }}
+
+    .potm-popup-header {{
+      background: #fff;
+      color: #000;
+      padding: 12px 16px;
+      text-align: center;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1.1em;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }}
+
+    .potm-popup-close {{
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      cursor: pointer;
+      font-size: 1.4em;
+      font-weight: 900;
+      color: #000;
+      background: none;
+      border: none;
+      font-family: 'Courier New', monospace;
+      line-height: 1;
+    }}
+
+    .potm-popup table {{
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88em;
+    }}
+
+    .potm-popup thead {{
+      position: sticky;
+      top: 42px;
+      z-index: 1;
+    }}
+
+    .potm-popup thead th {{
+      font-family: Georgia, 'Times New Roman', serif;
+      text-align: center;
+      padding: 6px 8px;
+      font-weight: 900;
+      font-size: 0.85em;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #fff;
+      border-bottom: 1px solid #fff;
+      background: #111;
+    }}
+
+    .potm-popup tbody tr {{
+      border-bottom: 1px solid #333;
+    }}
+
+    .potm-popup td {{
+      padding: 12px 8px;
+      color: #fff;
+      text-align: center;
+      vertical-align: middle;
+      height: 2.8em;
+    }}
+
+    .potm-popup .pm-month {{ width: 120px; }}
+    .potm-popup .pm-player {{ width: 160px; }}
+    .potm-popup .pm-stat {{ width: 52px; font-weight: 900; }}
+
+    .potm-popup tbody tr:first-child td {{
+      color: #ee7623;
+      font-weight: 900;
+    }}
+
     .week-label {{
       font-family: Georgia, 'Times New Roman', serif;
       font-weight: 400;
@@ -1040,6 +1239,7 @@ def generate_html(weekly, season, daily, updated_at):
       font-weight: 900;
       font-size: 1.15em;
       letter-spacing: -0.5px;
+      min-width: 55px;
     }}
 
     thead th.num {{
@@ -1593,6 +1793,10 @@ def generate_html(weekly, season, daily, updated_at):
       .year-table .player .lname {{
         display: inline;
       }}
+      .potm-popup-header {{
+        font-size: 1.05em;
+        padding: 10px 14px;
+      }}
     }}
   </style>
 </head>
@@ -1630,7 +1834,10 @@ def generate_html(weekly, season, daily, updated_at):
           <div class="weekly-table">{weekly_ted_table}</div>
           <div class="daily-table" style="display:none">{daily_ted_table}</div>
         </div>
-{season_ted_table}
+        <div class="season-monthly-slot">
+          <div class="season-table">{season_ted_table}</div>
+          <div class="monthly-table" style="display:none">{monthly_ted_table}</div>
+        </div>
       </div>
     </div>
     <div class="view-tap">
@@ -1639,7 +1846,11 @@ def generate_html(weekly, season, daily, updated_at):
           <div class="weekly-table">{weekly_tap_table}</div>
           <div class="daily-table" style="display:none">{daily_tap_table}</div>
         </div>
-{season_tap_table}
+        <div class="season-monthly-slot">
+          <div class="season-table">{season_tap_table}</div>
+          <div class="tapd-table" style="display:none">{season_tapd_table}</div>
+          <div class="monthly-table" style="display:none">{monthly_tap_table}</div>
+        </div>
       </div>
     </div>
 
@@ -1680,6 +1891,26 @@ def generate_html(weekly, season, daily, updated_at):
       </table>
     </div>
   </div>
+  <div class="potm-overlay" id="potm-overlay">
+    <div class="potm-popup" id="potm-popup">
+      <div class="potm-popup-header">
+        <span id="potm-popup-title">PLAYER OF THE MONTH</span>
+        <button class="potm-popup-close" id="potm-popup-close">&times;</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th class="pm-month">Month</th>
+            <th class="pm-player">Player</th>
+            <th class="pm-stat" id="potm-stat-header">TED</th>
+          </tr>
+        </thead>
+        <tbody id="potm-popup-body">
+        </tbody>
+      </table>
+    </div>
+  </div>
+{potm_js}
 {career_js}
   <script>
   (function() {{
@@ -1723,12 +1954,17 @@ def generate_html(weekly, season, daily, updated_at):
 
     function doToggle() {{
       closeCareer();
+      closePotm();
       var anchor = findScrollAnchor();
       var savedScroll = window.scrollY;
-      /* Capture weekly/daily state from old view before switching */
+      /* Capture weekly/daily and season/monthly state from old view before switching */
       var oldView = stat === 'ted' ? '.view-ted' : '.view-tap';
       var oldSlot = document.querySelector(oldView + ' .weekly-daily-slot');
       var showingDaily = oldSlot && oldSlot.querySelector('.daily-table').style.display !== 'none';
+      var oldSeasonSlot = document.querySelector(oldView + ' .season-monthly-slot');
+      var showingMonthly = oldSeasonSlot && oldSeasonSlot.querySelector('.monthly-table').style.display !== 'none';
+      var oldTapdDiv = oldSeasonSlot && oldSeasonSlot.querySelector('.tapd-table');
+      var showingTapd = oldTapdDiv && oldTapdDiv.style.display !== 'none';
       stat = stat === 'ted' ? 'tap' : 'ted';
       document.querySelectorAll('.view-ted').forEach(function(el) {{
         el.style.display = stat === 'ted' ? '' : 'none';
@@ -1743,6 +1979,21 @@ def generate_html(weekly, season, daily, updated_at):
         newSlot.querySelector('.weekly-table').style.display = showingDaily ? 'none' : '';
         newSlot.querySelector('.daily-table').style.display = showingDaily ? '' : 'none';
       }}
+      /* Sync season state to new view.
+         TED view uses season/monthly. TAP view uses season/tapd.
+         When switching, reset to season-table visible in both. */
+      var newSeasonSlot = document.querySelector(newView + ' .season-monthly-slot');
+      if (newSeasonSlot) {{
+        newSeasonSlot.querySelector('.season-table').style.display = '';
+        newSeasonSlot.querySelector('.monthly-table').style.display = 'none';
+        var newTapdDiv = newSeasonSlot.querySelector('.tapd-table');
+        if (newTapdDiv) newTapdDiv.style.display = 'none';
+      }}
+      /* Reset historical TAP/TAPD toggle to TAP view on switch */
+      var histTap = document.querySelector('.view-tap .hist-tap-view');
+      var histTapd = document.querySelector('.view-tap .hist-tapd-view');
+      if (histTap) histTap.style.display = '';
+      if (histTapd) histTapd.style.display = 'none';
       /* Sync all-time and decade top 100 expand/collapse state */
       var oldSec = document.querySelector(oldView + ' .historical-section');
       var newSec = document.querySelector(newView + ' .historical-section');
@@ -1811,6 +2062,11 @@ def generate_html(weekly, season, daily, updated_at):
         if (tip && tip.classList.contains('active')) return;
         var decade = this.getAttribute('data-decade');
         var suffix = stat === 'ted' ? '' : '-tap';
+        /* In TAP view, check if TAPD is active */
+        if (stat === 'tap') {{
+          var tapdView = document.querySelector('.hist-tapd-view');
+          if (tapdView && tapdView.style.display !== 'none') suffix = '-tapd';
+        }}
         var target = document.getElementById('decade-' + decade + suffix);
         if (target) target.scrollIntoView({{behavior: 'smooth'}});
       }});
@@ -1891,6 +2147,55 @@ def generate_html(weekly, season, daily, updated_at):
     }});
     document.addEventListener('keydown', function(e) {{
       if (e.key === 'Escape') closeCareer();
+      if (e.key === 'Escape') closePotm();
+    }});
+
+    /* POTM (Player of the Month) popup — click RANK header in monthly table */
+    var potmOverlay = document.getElementById('potm-overlay');
+    var potmBody = document.getElementById('potm-popup-body');
+    var potmTitle = document.getElementById('potm-popup-title');
+    var potmStatHeader = document.getElementById('potm-stat-header');
+
+    function showPotm() {{
+      var winners = window.MONTH_WINNERS;
+      if (!winners || winners.length === 0) return;
+      var s = stat;
+      var su = s.toUpperCase();
+      potmTitle.textContent = 'PLAYER OF THE MONTH ' + su;
+      potmStatHeader.textContent = su;
+      var html = '';
+      for (var i = winners.length - 1; i >= 0; i--) {{
+        var w = winners[i];
+        var player = s === 'ted' ? w.ted_player : w.tap_player;
+        var val = s === 'ted' ? w.ted_val : w.tap_val;
+        html += '<tr>'
+          + '<td class="pm-month">' + w.month + '</td>'
+          + '<td class="pm-player">' + player + '</td>'
+          + '<td class="pm-stat">' + val.toFixed(1) + '</td>'
+          + '</tr>';
+      }}
+      potmBody.innerHTML = html;
+      potmOverlay.classList.add('active');
+      document.body.classList.add('potm-open');
+    }}
+
+    function closePotm() {{
+      potmOverlay.classList.remove('active');
+      document.body.classList.remove('potm-open');
+      potmBody.innerHTML = '';
+    }}
+
+    /* Click RANK header in monthly tables to open POTM popup */
+    document.querySelectorAll('.monthly-table th.rank').forEach(function(th) {{
+      th.addEventListener('click', function(e) {{
+        e.stopPropagation();
+        showPotm();
+      }});
+    }});
+
+    document.getElementById('potm-popup-close').addEventListener('click', closePotm);
+    potmOverlay.addEventListener('click', function(e) {{
+      closePotm();
     }});
 
     /* Weekly / Daily toggle — click header to swap */
@@ -1909,6 +2214,67 @@ def generate_html(weekly, season, daily, updated_at):
         }}
       }});
     }});
+
+    /* Season ↔ Monthly toggle via title bar click (both TED and TAP views). */
+    document.querySelectorAll('.season-monthly-slot').forEach(function(slot) {{
+      slot.addEventListener('click', function(e) {{
+        var header = e.target.closest('.table-header');
+        if (!header) return;
+        /* Only toggle for season-table or monthly-table title bars */
+        var inSeason = !!header.closest('.season-table');
+        var inMonthly = !!header.closest('.monthly-table');
+        if (!inSeason && !inMonthly) return;
+        var seasonDiv = slot.querySelector('.season-table');
+        var monthlyDiv = slot.querySelector('.monthly-table');
+        /* Also hide TAPD table when toggling to monthly */
+        var tapdDiv = slot.querySelector('.tapd-table');
+        var seasonVisible = seasonDiv.style.display !== 'none';
+        seasonDiv.style.display = seasonVisible ? 'none' : '';
+        monthlyDiv.style.display = seasonVisible ? '' : 'none';
+        if (tapdDiv) tapdDiv.style.display = 'none';
+      }});
+    }});
+
+    /* TAP view: clicking the "TAP"/"TAPD" column sub-header toggles TAP ↔ TAPD */
+    document.querySelectorAll('.view-tap .season-monthly-slot').forEach(function(slot) {{
+      var seasonDiv = slot.querySelector('.season-table');
+      var tapdDiv = slot.querySelector('.tapd-table');
+      var monthlyDiv = slot.querySelector('.monthly-table');
+      if (!seasonDiv || !tapdDiv) return;
+      slot.addEventListener('click', function(e) {{
+        var th = e.target.closest('th.stat');
+        if (!th) return;
+        /* Only respond to stat column header clicks inside season or tapd tables */
+        var inSeason = !!th.closest('.season-table');
+        var inTapd = !!th.closest('.tapd-table');
+        if (!inSeason && !inTapd) return;
+        var seasonVisible = seasonDiv.style.display !== 'none';
+        seasonDiv.style.display = seasonVisible ? 'none' : '';
+        tapdDiv.style.display = seasonVisible ? '' : 'none';
+        /* Hide monthly when entering TAPD mode */
+        if (monthlyDiv) monthlyDiv.style.display = 'none';
+      }});
+    }});
+
+    /* Historical TAP/TAPD toggle: clicking th.stat in TAP historical view toggles TAP ↔ TAPD */
+    (function() {{
+      var tapView = document.querySelector('.view-tap .hist-tap-view');
+      var tapdView = document.querySelector('.view-tap .hist-tapd-view');
+      if (!tapView || !tapdView) return;
+      /* Attach click handler to the TAP view parent to catch all th.stat clicks */
+      var tapParent = tapView.parentElement;
+      tapParent.addEventListener('click', function(e) {{
+        var th = e.target.closest('th.stat');
+        if (!th) return;
+        /* Must be inside either hist-tap-view or hist-tapd-view */
+        var inTap = !!th.closest('.hist-tap-view');
+        var inTapd = !!th.closest('.hist-tapd-view');
+        if (!inTap && !inTapd) return;
+        var tapVisible = tapView.style.display !== 'none';
+        tapView.style.display = tapVisible ? 'none' : '';
+        tapdView.style.display = tapVisible ? '' : 'none';
+      }});
+    }})();
 
     /* Historical / All-Time toggle — click header to show/hide */
     document.querySelectorAll('.historical-section').forEach(function(sec) {{
@@ -2079,7 +2445,7 @@ def generate_html(weekly, season, daily, updated_at):
           if (mode === 'diff-player') {{
             textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;min-height:2.4em;display:flex;align-items:center;justify-content:center">Watch out for the herd of GOATs above!</p></td>';
           }} else {{
-            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;max-width:20em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 30 DIFF seasons and see the GOAT candidates!</p></td>';
+            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;max-width:23em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 30 DIFF seasons and see your GOAT candidates!</p></td>';
           }}
           if (mode === 'diff') {{
             tbody.insertBefore(textRow, tbody.children[30]);
@@ -2334,7 +2700,7 @@ def generate_html(weekly, season, daily, updated_at):
           if (mode === 'diff-player') {{
             textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;min-height:2.4em;display:flex;align-items:center;justify-content:center">Watch out for the herd of GOATs above!</p></td>';
           }} else {{
-            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;max-width:20em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 40 DIFF seasons and see the GOAT candidates!</p></td>';
+            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;max-width:23em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 40 DIFF seasons and see your GOAT candidates!</p></td>';
           }}
           if (mode === 'diff') {{
             tbody.insertBefore(textRow, tbody.children[40]);
@@ -2577,7 +2943,7 @@ def generate_html(weekly, season, daily, updated_at):
           if (mode === 'diff-player') {{
             textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;min-height:2.4em;display:flex;align-items:center;justify-content:center">Watch out for the herd of GOATs above!</p></td>';
           }} else {{
-            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;max-width:20em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 50 DIFF seasons and see the GOAT candidates!</p></td>';
+            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;max-width:23em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 50 DIFF seasons and see your GOAT candidates!</p></td>';
           }}
           if (mode === 'diff') {{
             tbody.insertBefore(textRow, tbody.children[50]);
@@ -2742,14 +3108,14 @@ def generate_site():
     print(f"  Weekly TED: {len(weekly['ted'])} players")
     print(f"  Weekly TAP: {len(weekly['tap'])} players")
 
-    # For daily/weekly TAP view, use TAP_DOPM (game-level PM-derived OP) instead of
-    # standard TAP (season-level OBPM/OWS-derived OP). Remap tap_dopm → tap so the
+    # For daily/weekly TAP view, use TAPD (game-level PM-derived OP) instead of
+    # standard TAP (season-level OBPM/OWS-derived OP). Remap tapd → tap so the
     # existing render_table code works unchanged (column header stays "TAP").
-    # Falls back to standard TAP if no DOPM data available.
-    weekly_tap_dopm = weekly.get('tap_dopm', [])
-    if weekly_tap_dopm:
-        weekly['tap'] = _remap_tap_dopm(weekly_tap_dopm)
-        print(f"  Weekly TAP using DOPM: {len(weekly['tap'])} players")
+    # Falls back to standard TAP if no TAPD data available.
+    weekly_tapd = weekly.get('tapd', [])
+    if weekly_tapd:
+        weekly['tap'] = _remap_tapd(weekly_tapd)
+        print(f"  Weekly TAP using TAPD: {len(weekly['tap'])} players")
     else:
         print(f"  Weekly TAP using standard OP (no PM data)")
 
@@ -2757,9 +3123,9 @@ def generate_site():
     last_game_date = db.get_last_game_date(config.CURRENT_SEASON_YEAR)
     if last_game_date:
         daily_full = calculate_weekly_rankings(last_game_date, last_game_date)
-        daily_tap_dopm = daily_full.get('tap_dopm', [])
-        if daily_tap_dopm:
-            daily_tap = _remap_tap_dopm(daily_tap_dopm)[:40]
+        daily_tapd = daily_full.get('tapd', [])
+        if daily_tapd:
+            daily_tap = _remap_tapd(daily_tapd)[:40]
         else:
             daily_tap = daily_full['tap'][:40]
         daily = {
@@ -2771,13 +3137,101 @@ def generate_site():
         daily = {'ted': [], 'tap': []}
         print(f"  Daily: no games in DB")
 
+    # Monthly rankings = current calendar month (top 100 by avg TED/TAP_DOPM)
+    # Min games filter: October = 3 games, all other months = 8 games
+    def _monthly_min_games(month_num):
+        return 3 if month_num == 10 else 8
+
+    def _filter_min_games(rankings, min_g):
+        return [r for r in rankings if r.get('g', 0) >= min_g]
+
+    if last_game_date:
+        month_start = last_game_date.replace(day=1)
+        monthly_full = calculate_weekly_rankings(month_start, last_game_date)
+        # No min games filter for current month — filter only applied to completed months (in winners loop)
+        monthly_tapd = monthly_full.get('tapd', [])
+        if monthly_tapd:
+            monthly_tap = _remap_tapd(monthly_tapd)[:100]
+        else:
+            monthly_tap = monthly_full['tap'][:100]
+        monthly = {
+            'ted': monthly_full['ted'][:100],
+            'tap': monthly_tap,
+        }
+        month_label = last_game_date.strftime("%B %Y").upper()
+        print(f"  Monthly ({month_start} to {last_game_date}): TED {len(monthly['ted'])}, TAP {len(monthly['tap'])} players")
+    else:
+        monthly = {'ted': [], 'tap': []}
+        month_label = ""
+        print(f"  Monthly: no games in DB")
+
     season = calculate_season_rankings()
     print(f"  Season TED: {len(season['ted'])} players")
     print(f"  Season TAP: {len(season['tap'])} players")
 
+    # Compute month-by-month leaders for POTM popup
+    month_winners = []
+    if last_game_date:
+        # Season starts in October of CURRENT_SEASON_YEAR
+        season_start_month = 10  # October
+        season_start_year = config.CURRENT_SEASON_YEAR
+        # Build list of (year, month) pairs from Oct through current month
+        ym_pairs = []
+        y, m = season_start_year, season_start_month
+        while (y, m) <= (last_game_date.year, last_game_date.month):
+            ym_pairs.append((y, m))
+            m += 1
+            if m > 12:
+                m = 1
+                y += 1
+        import calendar
+        for y, m in ym_pairs:
+            m_start = date(y, m, 1)
+            if y == last_game_date.year and m == last_game_date.month:
+                m_end = last_game_date
+            else:
+                m_end = date(y, m, calendar.monthrange(y, m)[1])
+            try:
+                m_rankings = calculate_weekly_rankings(m_start, m_end)
+            except Exception:
+                continue
+            month_name = m_start.strftime("%B %Y").upper()
+            # Apply min games filter only to completed months, not the current month
+            is_current_month = (y == last_game_date.year and m == last_game_date.month)
+            min_g = _monthly_min_games(m)
+            if is_current_month:
+                ted_filtered = m_rankings['ted']
+            else:
+                ted_filtered = _filter_min_games(m_rankings['ted'], min_g)
+            ted_leader = ted_filtered[0] if ted_filtered else None
+            # Use TAPD if available, else standard TAP
+            tapd_list = m_rankings.get('tapd', [])
+            if tapd_list:
+                tap_filtered = tapd_list if is_current_month else _filter_min_games(tapd_list, min_g)
+                tap_leader_data = tap_filtered[0] if tap_filtered else None
+                tap_val = round(tap_leader_data.get('tapd', tap_leader_data.get('tap', 0)), 1) if tap_leader_data else 0
+                tap_leader_name = tap_leader_data['player'] if tap_leader_data else ''
+            elif m_rankings['tap']:
+                tap_filtered = m_rankings['tap'] if is_current_month else _filter_min_games(m_rankings['tap'], min_g)
+                tap_leader_data = tap_filtered[0] if tap_filtered else None
+                tap_val = round(tap_leader_data['tap'], 1) if tap_leader_data else 0
+                tap_leader_name = tap_leader_data['player'] if tap_leader_data else ''
+            else:
+                tap_val = 0
+                tap_leader_name = ''
+            winner = {
+                'month': month_name,
+                'ted_player': ted_leader['player'] if ted_leader else '',
+                'ted_val': round(ted_leader['ted'], 1) if ted_leader else 0,
+                'tap_player': tap_leader_name,
+                'tap_val': tap_val,
+            }
+            month_winners.append(winner)
+        print(f"  Month winners computed: {len(month_winners)} months")
+
     # Generate HTML
     updated_at = date.today().strftime("%B %d, %Y")
-    html = generate_html(weekly, season, daily, updated_at)
+    html = generate_html(weekly, season, daily, monthly, month_label, month_winners, updated_at)
 
     # Write output
     os.makedirs(DOCS_DIR, exist_ok=True)

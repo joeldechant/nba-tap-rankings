@@ -162,9 +162,17 @@ def load_scraped_data():
     return players
 
 
-def calculate_tap_for_players(players):
-    """Run calculator on each player, return list with TAP values added."""
+def calculate_tap_for_players(players, pm_lookup=None):
+    """Run calculator on each player, return list with TAP values added.
+
+    Args:
+        players: list of player dicts with raw stats
+        pm_lookup: optional dict of {(player_name, season_year): {'avg_pm': float, ...}}
+            from historical_pm table. When available, calculator produces TAPD values.
+    """
+    pm_lookup = pm_lookup or {}
     results = []
+    tapd_count = 0
     for p in players:
         player_data = {
             'player': p['player'],
@@ -195,22 +203,51 @@ def calculate_tap_for_players(players):
         if p['ows'] is not None:
             advanced['ows'] = p['ows']
 
+        # Look up average PM for this player-season (for TAPD calculation)
+        pm_info = pm_lookup.get((p['player'], p['year']))
+        game_pm = pm_info['avg_pm'] if pm_info else None
+
         result = calculate_stats(
             player_data, p['pace'],
             advanced=advanced if advanced else None,
-            season_g=p['g'], season_mp=p['mp']
+            season_g=p['g'], season_mp=p['mp'],
+            game_plus_minus=game_pm
         )
 
         if result and result.get('tap') is not None:
-            results.append({
+            entry = {
                 'player': p['player'],
                 'team': p['team'],
                 'year': p['year'],
                 'tap': result['tap'],
                 'ted': result.get('ted', result['tap']),
-            })
+            }
+            # Add TAPD if calculator produced it (PM data was available)
+            if result.get('tapd') is not None:
+                entry['tapd'] = result['tapd']
+                tapd_count += 1
+            results.append(entry)
 
+    if tapd_count:
+        print(f"    TAPD calculated for {tapd_count} player-seasons (PM data available)")
     return results
+
+
+def load_historical_pm():
+    """Load average PM per player per season from historical_pm table.
+    Returns dict of {(player_name, season_year): {'avg_pm': float, ...}},
+    or empty dict if no data available."""
+    try:
+        from phase2 import database as db
+        db.init_db()
+        pm_data = db.get_historical_avg_pm()
+        if pm_data:
+            seasons = len(set(sy for _, sy in pm_data.keys()))
+            print(f"  Historical PM: {len(pm_data)} player-seasons across {seasons} seasons")
+        return pm_data
+    except Exception as e:
+        print(f"  Historical PM: not available ({e})")
+        return {}
 
 
 def build_historical_json():
@@ -224,10 +261,13 @@ def build_historical_json():
 
     print(f"  Total qualifying players: {len(all_players)}")
 
-    # Calculate TAP
-    print("  Calculating TAP for all players...")
-    results = calculate_tap_for_players(all_players)
-    print(f"  Calculated TAP for {len(results)} players")
+    # Load historical PM data for TAPD calculation (seasons 2000+)
+    pm_lookup = load_historical_pm()
+
+    # Calculate TAP (and TAPD where PM data available)
+    print("  Calculating TED/TAP for all players...")
+    results = calculate_tap_for_players(all_players, pm_lookup=pm_lookup)
+    print(f"  Calculated TED/TAP for {len(results)} players")
 
     # Safety net dedup by (player, year). The v9 CSV was cleaned (Mar 2026)
     # to remove all duplicate rows, but this guard remains in case any slip
@@ -266,10 +306,13 @@ def build_historical_json():
     # Build career_data: all player-seasons grouped by player name
     career_data = defaultdict(list)
     for r in results:
-        career_data[r['player']].append({
+        entry = {
             'y': r['year'], 'tm': r['team'] or '',
             'ted': round(r['ted'], 1), 'tap': round(r['tap'], 1)
-        })
+        }
+        if 'tapd' in r:
+            entry['tapd'] = round(r['tapd'], 1)
+        career_data[r['player']].append(entry)
     for name in career_data:
         career_data[name].sort(key=lambda x: x['y'])
     print(f"  Career data: {len(career_data)} unique players")
@@ -292,7 +335,7 @@ def build_historical_json():
         tap_second = tap_sorted[1] if len(tap_sorted) > 1 else None
         ted_third = ted_sorted[2] if len(ted_sorted) > 2 else None
         tap_third = tap_sorted[2] if len(tap_sorted) > 2 else None
-        season_stats[str(year)] = {
+        stats_entry = {
             'top10_ted': round(sum(top10_teds) / len(top10_teds), 1),
             'top10_tap': round(sum(top10_taps) / len(top10_taps), 1),
             'ldr_ted': ted_leader['player'], 'ldr_ted_val': round(ted_leader['ted'], 1),
@@ -306,6 +349,24 @@ def build_historical_json():
             'g3_tap': tap_third['player'] if tap_third else '',
             'g3_tap_val': round(tap_third['tap'], 1) if tap_third else 0,
         }
+
+        # TAPD stats (only for years with PM data, typically 2000+)
+        tapd_players = [p for p in players if 'tapd' in p]
+        if tapd_players:
+            tapd_sorted = sorted(tapd_players, key=lambda p: p['tapd'], reverse=True)
+            top10_tapds = [p['tapd'] for p in tapd_sorted[:10]]
+            stats_entry['top10_tapd'] = round(sum(top10_tapds) / len(top10_tapds), 1)
+            tapd_leader = tapd_sorted[0]
+            stats_entry['ldr_tapd'] = tapd_leader['player']
+            stats_entry['ldr_tapd_val'] = round(tapd_leader['tapd'], 1)
+            if len(tapd_sorted) > 1:
+                stats_entry['g2_tapd'] = tapd_sorted[1]['player']
+                stats_entry['g2_tapd_val'] = round(tapd_sorted[1]['tapd'], 1)
+            if len(tapd_sorted) > 2:
+                stats_entry['g3_tapd'] = tapd_sorted[2]['player']
+                stats_entry['g3_tapd_val'] = round(tapd_sorted[2]['tapd'], 1)
+
+        season_stats[str(year)] = stats_entry
     print(f"  Season stats: {len(season_stats)} years")
 
     # Sort each year by TAP descending, take top N
@@ -337,13 +398,16 @@ def build_historical_json():
             # Build player entries with rank
             player_entries = []
             for i, p in enumerate(top_players, 1):
-                player_entries.append({
+                entry = {
                     'rank': i,
                     'player': p['player'],
                     'team': p['team'],
                     'ted': round(p['ted'], 1),
                     'tap': round(p['tap'], 1),
-                })
+                }
+                if 'tapd' in p:
+                    entry['tapd'] = round(p['tapd'], 1)
+                player_entries.append(entry)
 
             # Pad with empty entries if fewer than top_n
             while len(player_entries) < top_n:
@@ -377,7 +441,7 @@ def build_historical_json():
             decade_top_entries = []
             for i, p in enumerate(decade_sorted, 1):
                 sl = f"{p['year']}-{str(p['year'] + 1)[-2:]}"
-                decade_top_entries.append({
+                entry = {
                     'rank': i,
                     'player': p['player'],
                     'team': p['team'],
@@ -385,7 +449,10 @@ def build_historical_json():
                     'season_label': sl,
                     'ted': round(p['ted'], 1),
                     'tap': round(p['tap'], 1),
-                })
+                }
+                if 'tapd' in p:
+                    entry['tapd'] = round(p['tapd'], 1)
+                decade_top_entries.append(entry)
             print(f"  {decade_label}: {len(decade_top_entries)} entries in decade top {decade_top_n}")
 
             decades[decade_label] = {
@@ -399,7 +466,7 @@ def build_historical_json():
     all_time_top = []
     for i, p in enumerate(all_time_sorted, 1):
         season_label = f"{p['year']}-{str(p['year'] + 1)[-2:]}"
-        all_time_top.append({
+        entry = {
             'rank': i,
             'player': p['player'],
             'team': p['team'],
@@ -407,7 +474,10 @@ def build_historical_json():
             'season_label': season_label,
             'ted': round(p['ted'], 1),
             'tap': round(p['tap'], 1),
-        })
+        }
+        if 'tapd' in p:
+            entry['tapd'] = round(p['tapd'], 1)
+        all_time_top.append(entry)
     print(f"  All-time top 400: TED range {all_time_top[0]['ted']} to {all_time_top[-1]['ted']}")
 
     # Write JSON

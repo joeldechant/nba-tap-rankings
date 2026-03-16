@@ -7,7 +7,8 @@ See memory/v10-formulas.md for complete formula reference.
 from . import config
 
 
-def calculate_stats(player_data, pace, advanced=None, season_g=None, season_mp=None):
+def calculate_stats(player_data, pace, advanced=None, season_g=None, season_mp=None,
+                    override_op=None, game_plus_minus=None):
     """Calculate TED, TAP, and MAP for a single player.
 
     Args:
@@ -21,6 +22,17 @@ def calculate_stats(player_data, pace, advanced=None, season_g=None, season_mp=N
             If None, uses player_data['g'].
         season_mp: season-to-date MPG (for DWS/OWS normalization).
             If None, uses player_data['mp'].
+        override_op: if provided, use this value for OP instead of deriving
+            from OBPM/OWS. Used for weekly/daily TAP where season-to-date OP
+            is more appropriate than per-game derivation (avoids the inverse
+            relationship where better box score games get more negative OP).
+        game_plus_minus: raw game PM (Daily Plus Minus, i.e. box score +/-),
+            or average PM over a window. When provided, derives DOPM by:
+            1. PM → PM36 (per-36) → PM36p (pace-adjusted)
+            2. Subtracting DPS36p (season defense) to isolate offense → DOPM
+            3. Running the same OP stripping (P/Shot, RB, NA) → OPD
+            The result appears as 'dopm', 'opd', and 'tapd' in output.
+            Does NOT affect the standard 'op' or 'tap' values.
 
     Returns:
         dict with all intermediate and final values, or None if mp == 0.
@@ -30,7 +42,7 @@ def calculate_stats(player_data, pace, advanced=None, season_g=None, season_mp=N
     mp = float(player_data.get('mp', 0) or 0)
     fga = float(player_data.get('fga', 0) or 0)
     fta = float(player_data.get('fta', 0) or 0)
-    rb = float(player_data.get('rb', 0) or 0)
+    rb = float(player_data.get('rb', 0) or player_data.get('trb', 0) or 0)
     ast = float(player_data.get('ast', 0) or 0)
     stl = float(player_data.get('stl', 0) or 0)
     blk = float(player_data.get('blk', 0) or 0)
@@ -173,6 +185,42 @@ def calculate_stats(player_data, pace, advanced=None, season_g=None, season_mp=N
 
         op = (pm_other - rb_na_adj) * config.OP_MULTIPLIER
 
+    # Override OP if provided (weekly/daily mode — use season-to-date OP)
+    if override_op is not None:
+        op = override_op
+
+    # === DOPM (Daily Offensive Plus Minus) — alternative OP from game PM ===
+    # When game_plus_minus is provided, derive OP from raw PM instead of OBPM/OWS.
+    # Flow: PM → PM36 → PM36p → subtract DPS36p → DOPM → strip box-score effects → OPD
+    dopm = None       # Daily Offensive Plus Minus (PM36p minus defense)
+    opd = None        # OPD = OP Daily (OP residual derived from DOPM)
+    pm36 = None
+    pm36p = None
+    tapd = None       # TAPD = TAP Daily (TAP using OPD instead of standard OP)
+    if game_plus_minus is not None:
+        pm36 = float(game_plus_minus) / mp * 36
+        pm36p = pm36 * pace_factor
+        dopm = pm36p - dps36p  # subtract defense to isolate offense = DOPM
+
+        # Same OP stripping as standard path
+        era_baseline = config.get_era_pshot_baseline(season_year)
+        pshot_diff_pm = p_shot - era_baseline
+        pmse_p_pm = shots36p * pshot_diff_pm
+        pm_other_pm = dopm - pmse_p_pm
+
+        rb_diff_pm = (rb36p - config.RB_AVG_BASELINE) * config.RB_COEFF_TAP
+        na_diff_pm = (na36p - config.NA_AVG_BASELINE) * config.NA_COEFF
+        rb_na_adj_pm = rb_diff_pm * config.RB_DIFF_WEIGHT + na_diff_pm * config.NA_DIFF_WEIGHT
+
+        opd = (pm_other_pm - rb_na_adj_pm) * config.OP_MULTIPLIER
+
+        # TAPD: TAP using OPD (DOPM-derived OP)
+        ep36pop_dopm = ep36p + opd
+        tapd = (ep36pop_dopm
+                + rb36p * config.RB_COEFF_TAP
+                + na36p * config.NA_COEFF
+                + dps36p * config.DPS_COEFF_TAP)
+
     # === Final Stats ===
     ep36pop = ep36p + op
 
@@ -186,8 +234,10 @@ def calculate_stats(player_data, pace, advanced=None, season_g=None, season_mp=N
 
     # TAP (with OP, RB * 0.5967)
     tap = ep36pop + rb36p * config.RB_COEFF_TAP + na36p * config.NA_COEFF + dps36p * dps_coeff_tap
-    tapd = ep36p + rb36p * config.RB_COEFF_TAP + na36p * config.NA_COEFF + dps36p * dps_coeff_tap
-    rtapd = ep36 + rb36 * config.RB_COEFF_TAP + na36 * config.NA_COEFF + dps36 * dps_coeff_tap
+    # TAPd / rTAPd = "TAP deflated" — TAP without OP (pure box-score calculation).
+    # Legacy concept from v10 Excel (cols AV-AW). NOT the same as TAPD (TAP Daily).
+    tap_deflated = ep36p + rb36p * config.RB_COEFF_TAP + na36p * config.NA_COEFF + dps36p * dps_coeff_tap
+    rtap_deflated = ep36 + rb36 * config.RB_COEFF_TAP + na36 * config.NA_COEFF + dps36 * dps_coeff_tap
 
     # MAP (conceptual decomposition: PMSEp + RB_Diff*0.45 + NA_Diff*0.3 + DPS36p*coeff + OP)
     rb_diff_val = (rb36p - config.RB_AVG_BASELINE) * config.RB_COEFF_TAP
@@ -221,9 +271,13 @@ def calculate_stats(player_data, pace, advanced=None, season_g=None, season_mp=N
         'dps36': dps36, 'dps36p': dps36p,
         'ops36p': ops36p,
         'pmse_p': pmse_p,
-        'op': op, 'ep36pop': ep36pop,
+        'op': op, 'ep36pop': ep36pop, 'override_op': override_op,
+        # DOPM — Daily Offensive Plus Minus (None if game_plus_minus not provided)
+        'pm36': pm36, 'pm36p': pm36p, 'dopm': dopm,
+        'opd': opd, 'tapd': tapd,
+        'game_plus_minus': game_plus_minus,
         # Final stats
         'ted': ted, 'rted': rted,
-        'tap': tap, 'tapd': tapd, 'rtapd': rtapd,
+        'tap': tap, 'tap_deflated': tap_deflated, 'rtap_deflated': rtap_deflated,
         'map': map_val, 'rmap': rmap,
     }
