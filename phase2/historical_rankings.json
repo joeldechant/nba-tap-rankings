@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-15",
+  "generated": "2026-03-16",
   "all_time_top_200": [
     {
       "rank": 1,
@@ -26,7 +26,8 @@
       "year": 2023,
       "season_label": "2023-24",
       "ted": 56.7,
-      "tap": 58.3
+      "tap": 58.3,
+      "tapd": 57.9
     },
     {
       "rank": 4,
@@ -35,7 +36,8 @@
       "year": 2024,
       "season_label": "2024-25",
       "ted": 56.3,
-      "tap": 57.0
+      "tap": 57.0,
+      "tapd": 55.3
     },
     {
       "rank": 5,
@@ -80,7 +82,8 @@
       "year": 2024,
       "season_label": "2024-25",
       "ted": 54.4,
-      "tap": 58.1
+      "tap": 58.1,
+      "tapd": 60.6
     },
     {
       "rank": 10,
@@ -107,7 +110,8 @@
       "year": 2024,
       "season_label": "2024-25",
       "ted": 53.5,
-      "tap": 54.2
+      "tap": 54.2,
+      "tapd": 52.8
     },
     {
       "rank": 13,
@@ -125,7 +129,8 @@
       "year": 2023,
       "season_label": "2023-24",
       "ted": 52.6,
-      "tap": 53.5
+      "tap": 53.5,
+      "tapd": 50.9
     },
     {
       "rank": 15,
@@ -143,7 +148,8 @@
       "year": 2023,
       "season_label": "2023-24",
       "ted": 51.8,
-      "tap": 51.8
+      "tap": 51.8,
+      "tapd": 50.8
     },
     {
       "rank": 17,
@@ -170,7 +176,8 @@
       "year": 2023,
       "season_label": "2023-24",
       "ted": 51.6,
-      "tap": 53.6
+      "tap": 53.6,
+      "tapd": 55.4
     },
     {
       "rank": 20,
@@ -530,7 +537,8 @@
       "year": 2024,
       "season_label": "2024-25",
       "ted": 45.9,
-      "tap": 45.7
+      "tap": 45.7,
+      "tapd": 45.2
     },
     {
       "rank": 60,
@@ -557,7 +565,8 @@
       "year": 2024,
       "season_label": "2024-25",
       "ted": 45.7,
-      "tap": 46.4
+      "tap": 46.4,
+      "tapd": 48.9
     },
     {
       "rank": 63,
@@ -638,7 +647,8 @@
       "year": 2023,
       "season_label": "2023-24",
       "ted": 45.4,
-      "tap": 45.3
+      "tap": 45.3,
+      "tapd": 41.1
     },
     {
       "rank": 72,
@@ -764,7 +774,8 @@
       "year": 2024,
       "season_label": "2024-25",
       "ted": 44.5,
-      "tap": 45.4
+      "tap": 45.4,
+      "tapd": 42.1
     },
     {
       "rank": 86,
@@ -1124,7 +1135,8 @@
       "year": 2023,
       "season_label": "2023-24",
       "ted": 43.3,
-      "tap": 43.4
+      "tap": 43.4,
+      "tapd": 40.4
     },
     {
       "rank": 126,
@@ -1223,7 +1235,8 @@
       "year": 2023,
       "season_label": "2023-24",
       "ted": 42.9,
-      "tap": 42.1
+      "tap": 42.1,
+      "tapd": 41.1
     },
     {
       "rank": 137,
@@ -1403,7 +1416,8 @@
       "year": 2024,
       "season_label": "2024-25",
       "ted": 42.4,
-      "tap": 44.1
+      "tap": 44.1,
+      "tapd": 48.3
     },
     {
       "rank": 157,
@@ -1421,7 +1435,8 @@
       "year": 2023,
       "season_label": "2023-24",
       "ted": 42.3,
-      "tap": 43.8
+      "tap": 43.8,
+      "tapd": 47.7
     },
     {
       "rank": 159,
@@ -1493,7 +1508,8 @@
       "year": 2024,
       "season_label": "2024-25",
       "ted": 42.0,
-      "tap": 41.6
+      "tap": 41.6,
+      "tapd": 37.9
     },
     {
       "rank": 167,
@@ -1565,7 +1581,8 @@
       "year": 2023,
       "season_label": "2023-24",
       "ted": 41.8,
-      "tap": 43.2
+      "tap": 43.2,
+      "tapd": 48.9
     },
     {
       "rank": 175,
@@ -1673,7 +1690,8 @@
       "year": 2023,
       "season_label": "2023-24",
       "ted": 41.5,
-      "tap": 40.5
+      "tap": 40.5,
+      "tapd": 37.1
     },
     {
       "rank": 187,
@@ -1682,7 +1700,8 @@
       "year": 2023,
       "season_label": "2023-24",
       "ted": 41.5,
-      "tap": 43.7
+      "tap": 43.7,
+      "tapd": 45.7
     },
     {
       "rank": 188,
@@ -1736,7 +1755,8 @@
       "year": 2023,
       "season_label": "2023-24",
       "ted": 41.3,
-      "tap": 40.8
+      "tap": 40.8,
+      "tapd": 41.4
     },
     {
       "rank": 194,
@@ -1970,7 +1990,8 @@
       "year": 2023,
       "season_label": "2023-24",
       "ted": 40.7,
-      "tap": 41.8
+      "tap": 41.8,
+      "tapd": 47.1
     },
     {
       "rank": 220,
@@ -1979,7 +2000,8 @@
       "year": 2024,
       "season_label": "2024-25",
       "ted": 40.7,
-      "tap": 41.1
+      "tap": 41.1,
+      "tapd": 42.2
     },
     {
       "rank": 221,
@@ -2123,7 +2145,8 @@
       "year": 2024,
       "season_label": "2024-25",
       "ted": 40.4,
-      "tap": 41.5
+      "tap": 41.5,
+      "tapd": 42.9
     },
     {
       "rank": 237,
@@ -2204,7 +2227,8 @@
       "year": 2024,
       "season_label": "2024-25",
       "ted": 40.2,
-      "tap": 39.9
+      "tap": 39.9,
+      "tapd": 41.4
     },
     {
       "rank": 246,
@@ -2285,7 +2309,8 @@
       "year": 2023,
       "season_label": "2023-24",
       "ted": 40.0,
-      "tap": 40.0
+      "tap": 40.0,
+      "tapd": 40.3
     },
     {
       "rank": 255,
@@ -2294,7 +2319,8 @@
       "year": 2024,
       "season_label": "2024-25",
       "ted": 40.0,
-      "tap": 40.4
+      "tap": 40.4,
+      "tapd": 42.0
     },
     {
       "rank": 256,
@@ -2447,7 +2473,8 @@
       "year": 2024,
       "season_label": "2024-25",
       "ted": 39.7,
-      "tap": 41.3
+      "tap": 41.3,
+      "tapd": 41.7
     },
     {
       "rank": 273,
@@ -2735,7 +2762,8 @@
       "year": 2023,
       "season_label": "2023-24",
       "ted": 39.1,
-      "tap": 40.0
+      "tap": 40.0,
+      "tapd": 38.1
     },
     {
       "rank": 305,
@@ -2807,7 +2835,8 @@
       "year": 2023,
       "season_label": "2023-24",
       "ted": 39.0,
-      "tap": 38.8
+      "tap": 38.8,
+      "tapd": 41.3
     },
     {
       "rank": 313,
@@ -2969,7 +2998,8 @@
       "year": 2023,
       "season_label": "2023-24",
       "ted": 38.7,
-      "tap": 39.2
+      "tap": 39.2,
+      "tapd": 42.4
     },
     {
       "rank": 331,
@@ -2978,7 +3008,8 @@
       "year": 2023,
       "season_label": "2023-24",
       "ted": 38.7,
-      "tap": 40.4
+      "tap": 40.4,
+      "tapd": 45.4
     },
     {
       "rank": 332,
@@ -3005,7 +3036,8 @@
       "year": 2024,
       "season_label": "2024-25",
       "ted": 38.6,
-      "tap": 39.1
+      "tap": 39.1,
+      "tapd": 43.5
     },
     {
       "rank": 335,
@@ -3050,7 +3082,8 @@
       "year": 2024,
       "season_label": "2024-25",
       "ted": 38.6,
-      "tap": 40.4
+      "tap": 40.4,
+      "tapd": 38.4
     },
     {
       "rank": 340,
@@ -3149,7 +3182,8 @@
       "year": 2024,
       "season_label": "2024-25",
       "ted": 38.5,
-      "tap": 40.7
+      "tap": 40.7,
+      "tapd": 44.1
     },
     {
       "rank": 351,
@@ -3167,7 +3201,8 @@
       "year": 2023,
       "season_label": "2023-24",
       "ted": 38.4,
-      "tap": 39.3
+      "tap": 39.3,
+      "tapd": 42.5
     },
     {
       "rank": 353,
@@ -3203,7 +3238,8 @@
       "year": 2024,
       "season_label": "2024-25",
       "ted": 38.4,
-      "tap": 40.2
+      "tap": 40.2,
+      "tapd": 45.9
     },
     {
       "rank": 357,
@@ -3221,7 +3257,8 @@
       "year": 2023,
       "season_label": "2023-24",
       "ted": 38.3,
-      "tap": 38.7
+      "tap": 38.7,
+      "tapd": 38.4
     },
     {
       "rank": 359,
@@ -3284,7 +3321,8 @@
       "year": 2023,
       "season_label": "2023-24",
       "ted": 38.2,
-      "tap": 37.8
+      "tap": 37.8,
+      "tapd": 39.1
     },
     {
       "rank": 366,
@@ -3293,7 +3331,8 @@
       "year": 2024,
       "season_label": "2024-25",
       "ted": 38.2,
-      "tap": 38.8
+      "tap": 38.8,
+      "tapd": 36.3
     },
     {
       "rank": 367,
@@ -3320,7 +3359,8 @@
       "year": 2024,
       "season_label": "2024-25",
       "ted": 38.2,
-      "tap": 36.7
+      "tap": 36.7,
+      "tapd": 35.1
     },
     {
       "rank": 370,
@@ -3329,7 +3369,8 @@
       "year": 2024,
       "season_label": "2024-25",
       "ted": 38.2,
-      "tap": 38.2
+      "tap": 38.2,
+      "tapd": 38.6
     },
     {
       "rank": 371,
@@ -3356,7 +3397,8 @@
       "year": 2024,
       "season_label": "2024-25",
       "ted": 38.1,
-      "tap": 36.6
+      "tap": 36.6,
+      "tapd": 24.9
     },
     {
       "rank": 374,
@@ -3446,7 +3488,8 @@
       "year": 2024,
       "season_label": "2024-25",
       "ted": 38.0,
-      "tap": 40.0
+      "tap": 40.0,
+      "tapd": 43.0
     },
     {
       "rank": 384,
@@ -3455,7 +3498,8 @@
       "year": 2024,
       "season_label": "2024-25",
       "ted": 38.0,
-      "tap": 40.2
+      "tap": 40.2,
+      "tapd": 42.0
     },
     {
       "rank": 385,
@@ -3491,7 +3535,8 @@
       "year": 2023,
       "season_label": "2023-24",
       "ted": 37.9,
-      "tap": 38.7
+      "tap": 38.7,
+      "tapd": 39.5
     },
     {
       "rank": 389,
@@ -3536,7 +3581,8 @@
       "year": 2024,
       "season_label": "2024-25",
       "ted": 37.8,
-      "tap": 39.3
+      "tap": 39.3,
+      "tapd": 40.6
     },
     {
       "rank": 394,
@@ -3545,7 +3591,8 @@
       "year": 2023,
       "season_label": "2023-24",
       "ted": 37.7,
-      "tap": 38.6
+      "tap": 38.6,
+      "tapd": 40.5
     },
     {
       "rank": 395,
@@ -3615,280 +3662,320 @@
               "player": "Nikola Jokić",
               "team": "DEN",
               "ted": 56.3,
-              "tap": 57.0
+              "tap": 57.0,
+              "tapd": 55.3
             },
             {
               "rank": 2,
               "player": "Shai Gilgeous-Alexander",
               "team": "OKC",
               "ted": 54.4,
-              "tap": 58.1
+              "tap": 58.1,
+              "tapd": 60.6
             },
             {
               "rank": 3,
               "player": "Giannis Antetokounmpo",
               "team": "MIL",
               "ted": 53.5,
-              "tap": 54.2
+              "tap": 54.2,
+              "tapd": 52.8
             },
             {
               "rank": 4,
               "player": "Victor Wembanyama",
               "team": "SAS",
               "ted": 45.9,
-              "tap": 45.7
+              "tap": 45.7,
+              "tapd": 45.2
             },
             {
               "rank": 5,
               "player": "Luka Dončić",
               "team": "TOT",
               "ted": 45.7,
-              "tap": 46.4
+              "tap": 46.4,
+              "tapd": 48.9
             },
             {
               "rank": 6,
               "player": "Anthony Davis",
               "team": "TOT",
               "ted": 44.5,
-              "tap": 45.4
+              "tap": 45.4,
+              "tapd": 42.1
             },
             {
               "rank": 7,
               "player": "Jayson Tatum",
               "team": "BOS",
               "ted": 42.4,
-              "tap": 44.1
+              "tap": 44.1,
+              "tapd": 48.3
             },
             {
               "rank": 8,
               "player": "LeBron James",
               "team": "LAL",
               "ted": 42.0,
-              "tap": 41.6
+              "tap": 41.6,
+              "tapd": 37.9
             },
             {
               "rank": 9,
               "player": "Cade Cunningham",
               "team": "DET",
               "ted": 40.7,
-              "tap": 41.1
+              "tap": 41.1,
+              "tapd": 42.2
             },
             {
               "rank": 10,
               "player": "Stephen Curry",
               "team": "GSW",
               "ted": 40.4,
-              "tap": 41.5
+              "tap": 41.5,
+              "tapd": 42.9
             },
             {
               "rank": 11,
               "player": "Karl-Anthony Towns",
               "team": "NYK",
               "ted": 40.2,
-              "tap": 39.9
+              "tap": 39.9,
+              "tapd": 41.4
             },
             {
               "rank": 12,
               "player": "James Harden",
               "team": "LAC",
               "ted": 40.0,
-              "tap": 40.4
+              "tap": 40.4,
+              "tapd": 42.0
             },
             {
               "rank": 13,
               "player": "Kristaps Porziņģis",
               "team": "BOS",
               "ted": 39.7,
-              "tap": 41.3
+              "tap": 41.3,
+              "tapd": 41.7
             },
             {
               "rank": 14,
               "player": "Evan Mobley",
               "team": "CLE",
               "ted": 38.6,
-              "tap": 39.1
+              "tap": 39.1,
+              "tapd": 43.5
             },
             {
               "rank": 15,
               "player": "Paolo Banchero",
               "team": "ORL",
               "ted": 38.6,
-              "tap": 40.4
+              "tap": 40.4,
+              "tapd": 38.4
             },
             {
               "rank": 16,
               "player": "Jalen Williams",
               "team": "OKC",
               "ted": 38.5,
-              "tap": 40.7
+              "tap": 40.7,
+              "tapd": 44.1
             },
             {
               "rank": 17,
               "player": "Donovan Mitchell",
               "team": "CLE",
               "ted": 38.4,
-              "tap": 40.2
+              "tap": 40.2,
+              "tapd": 45.9
             },
             {
               "rank": 18,
               "player": "LaMelo Ball",
               "team": "CHO",
               "ted": 38.2,
-              "tap": 38.8
+              "tap": 38.8,
+              "tapd": 36.3
             },
             {
               "rank": 19,
               "player": "Domantas Sabonis",
               "team": "SAC",
               "ted": 38.2,
-              "tap": 36.7
+              "tap": 36.7,
+              "tapd": 35.1
             },
             {
               "rank": 20,
               "player": "Tyrese Haliburton",
               "team": "IND",
               "ted": 38.2,
-              "tap": 38.2
+              "tap": 38.2,
+              "tapd": 38.6
             },
             {
               "rank": 21,
               "player": "Mark Williams",
               "team": "CHO",
               "ted": 38.1,
-              "tap": 36.6
+              "tap": 36.6,
+              "tapd": 24.9
             },
             {
               "rank": 22,
               "player": "Alperen Şengün",
               "team": "HOU",
               "ted": 38.0,
-              "tap": 40.0
+              "tap": 40.0,
+              "tapd": 43.0
             },
             {
               "rank": 23,
               "player": "Franz Wagner",
               "team": "ORL",
               "ted": 38.0,
-              "tap": 40.2
+              "tap": 40.2,
+              "tapd": 42.0
             },
             {
               "rank": 24,
               "player": "Anthony Edwards",
               "team": "MIN",
               "ted": 37.8,
-              "tap": 39.3
+              "tap": 39.3,
+              "tapd": 40.6
             },
             {
               "rank": 25,
               "player": "Jalen Brunson",
               "team": "NYK",
               "ted": 37.5,
-              "tap": 37.6
+              "tap": 37.6,
+              "tapd": 37.8
             },
             {
               "rank": 26,
               "player": "Daniel Gafford",
               "team": "DAL",
               "ted": 37.4,
-              "tap": 35.7
+              "tap": 35.7,
+              "tapd": 33.7
             },
             {
               "rank": 27,
               "player": "Damian Lillard",
               "team": "MIL",
               "ted": 37.4,
-              "tap": 37.3
+              "tap": 37.3,
+              "tapd": 36.4
             },
             {
               "rank": 28,
               "player": "Ja Morant",
               "team": "MEM",
               "ted": 37.2,
-              "tap": 37.4
+              "tap": 37.4,
+              "tapd": 41.4
             },
             {
               "rank": 29,
               "player": "Darius Garland",
               "team": "CLE",
               "ted": 36.0,
-              "tap": 36.5
+              "tap": 36.5,
+              "tapd": 41.5
             },
             {
               "rank": 30,
               "player": "Jaren Jackson Jr.",
               "team": "MEM",
               "ted": 35.9,
-              "tap": 36.9
+              "tap": 36.9,
+              "tapd": 39.5
             },
             {
               "rank": 31,
               "player": "Kevin Durant",
               "team": "PHO",
               "ted": 35.8,
-              "tap": 33.7
+              "tap": 33.7,
+              "tapd": 32.7
             },
             {
               "rank": 32,
               "player": "Jimmy Butler",
               "team": "TOT",
               "ted": 35.6,
-              "tap": 36.7
+              "tap": 36.7,
+              "tapd": 35.9
             },
             {
               "rank": 33,
               "player": "Ivica Zubac",
               "team": "LAC",
               "ted": 35.6,
-              "tap": 35.6
+              "tap": 35.6,
+              "tapd": 38.3
             },
             {
               "rank": 34,
               "player": "Tyler Herro",
               "team": "MIA",
               "ted": 35.2,
-              "tap": 35.2
+              "tap": 35.2,
+              "tapd": 34.6
             },
             {
               "rank": 35,
               "player": "Jalen Duren",
               "team": "DET",
               "ted": 35.0,
-              "tap": 33.5
+              "tap": 33.5,
+              "tapd": 30.2
             },
             {
               "rank": 36,
               "player": "Isaiah Hartenstein",
               "team": "OKC",
               "ted": 34.8,
-              "tap": 35.5
+              "tap": 35.5,
+              "tapd": 38.5
             },
             {
               "rank": 37,
               "player": "Trae Young",
               "team": "ATL",
               "ted": 34.7,
-              "tap": 32.8
+              "tap": 32.8,
+              "tapd": 33.8
             },
             {
               "rank": 38,
               "player": "Jarrett Allen",
               "team": "CLE",
               "ted": 34.6,
-              "tap": 34.2
+              "tap": 34.2,
+              "tapd": 37.8
             },
             {
               "rank": 39,
               "player": "Scottie Barnes",
               "team": "TOR",
               "ted": 34.2,
-              "tap": 34.8
+              "tap": 34.8,
+              "tapd": 32.6
             },
             {
               "rank": 40,
               "player": "Nikola Vučević",
               "team": "CHI",
               "ted": 33.9,
-              "tap": 33.0
+              "tap": 33.0,
+              "tapd": 30.0
             }
           ]
         },
@@ -3902,280 +3989,320 @@
               "player": "Nikola Jokić",
               "team": "DEN",
               "ted": 56.7,
-              "tap": 58.3
+              "tap": 58.3,
+              "tapd": 57.9
             },
             {
               "rank": 2,
               "player": "Luka Dončić",
               "team": "DAL",
               "ted": 52.6,
-              "tap": 53.5
+              "tap": 53.5,
+              "tapd": 50.9
             },
             {
               "rank": 3,
               "player": "Giannis Antetokounmpo",
               "team": "MIL",
               "ted": 51.8,
-              "tap": 51.8
+              "tap": 51.8,
+              "tapd": 50.8
             },
             {
               "rank": 4,
               "player": "Shai Gilgeous-Alexander",
               "team": "OKC",
               "ted": 51.6,
-              "tap": 53.6
+              "tap": 53.6,
+              "tapd": 55.4
             },
             {
               "rank": 5,
               "player": "Victor Wembanyama",
               "team": "SAS",
               "ted": 45.4,
-              "tap": 45.3
+              "tap": 45.3,
+              "tapd": 41.1
             },
             {
               "rank": 6,
               "player": "Anthony Davis",
               "team": "LAL",
               "ted": 43.3,
-              "tap": 43.4
+              "tap": 43.4,
+              "tapd": 40.4
             },
             {
               "rank": 7,
               "player": "LeBron James",
               "team": "LAL",
               "ted": 42.9,
-              "tap": 42.1
+              "tap": 42.1,
+              "tapd": 41.1
             },
             {
               "rank": 8,
               "player": "Donovan Mitchell",
               "team": "CLE",
               "ted": 42.3,
-              "tap": 43.8
+              "tap": 43.8,
+              "tapd": 47.7
             },
             {
               "rank": 9,
               "player": "Jayson Tatum",
               "team": "BOS",
               "ted": 41.8,
-              "tap": 43.2
+              "tap": 43.2,
+              "tapd": 48.9
             },
             {
               "rank": 10,
               "player": "Domantas Sabonis",
               "team": "SAC",
               "ted": 41.5,
-              "tap": 40.5
+              "tap": 40.5,
+              "tapd": 37.1
             },
             {
               "rank": 11,
               "player": "Jalen Brunson",
               "team": "NYK",
               "ted": 41.5,
-              "tap": 43.7
+              "tap": 43.7,
+              "tapd": 45.7
             },
             {
               "rank": 12,
               "player": "Tyrese Haliburton",
               "team": "IND",
               "ted": 41.3,
-              "tap": 40.8
+              "tap": 40.8,
+              "tapd": 41.4
             },
             {
               "rank": 13,
               "player": "Kristaps Porziņģis",
               "team": "BOS",
               "ted": 40.7,
-              "tap": 41.8
+              "tap": 41.8,
+              "tapd": 47.1
             },
             {
               "rank": 14,
               "player": "Zion Williamson",
               "team": "NOP",
               "ted": 40.0,
-              "tap": 40.0
+              "tap": 40.0,
+              "tapd": 40.3
             },
             {
               "rank": 15,
               "player": "Alperen Şengün",
               "team": "HOU",
               "ted": 39.1,
-              "tap": 40.0
+              "tap": 40.0,
+              "tapd": 38.1
             },
             {
               "rank": 16,
               "player": "Devin Booker",
               "team": "PHO",
               "ted": 39.0,
-              "tap": 38.8
+              "tap": 38.8,
+              "tapd": 41.3
             },
             {
               "rank": 17,
               "player": "Jamal Murray",
               "team": "DEN",
               "ted": 38.7,
-              "tap": 39.2
+              "tap": 39.2,
+              "tapd": 42.4
             },
             {
               "rank": 18,
               "player": "Anthony Edwards",
               "team": "MIN",
               "ted": 38.7,
-              "tap": 40.4
+              "tap": 40.4,
+              "tapd": 45.4
             },
             {
               "rank": 19,
               "player": "Kawhi Leonard",
               "team": "LAC",
               "ted": 38.4,
-              "tap": 39.3
+              "tap": 39.3,
+              "tapd": 42.5
             },
             {
               "rank": 20,
               "player": "Stephen Curry",
               "team": "GSW",
               "ted": 38.3,
-              "tap": 38.7
+              "tap": 38.7,
+              "tapd": 38.4
             },
             {
               "rank": 21,
               "player": "Kevin Durant",
               "team": "PHO",
               "ted": 38.2,
-              "tap": 37.8
+              "tap": 37.8,
+              "tapd": 39.1
             },
             {
               "rank": 22,
               "player": "Kyrie Irving",
               "team": "DAL",
               "ted": 37.9,
-              "tap": 38.7
+              "tap": 38.7,
+              "tapd": 39.5
             },
             {
               "rank": 23,
               "player": "De'Aaron Fox",
               "team": "SAC",
               "ted": 37.7,
-              "tap": 38.6
+              "tap": 38.6,
+              "tapd": 40.5
             },
             {
               "rank": 24,
               "player": "Jimmy Butler",
               "team": "MIA",
               "ted": 37.0,
-              "tap": 38.0
+              "tap": 38.0,
+              "tapd": 37.1
             },
             {
               "rank": 25,
               "player": "Karl-Anthony Towns",
               "team": "MIN",
               "ted": 36.9,
-              "tap": 37.0
+              "tap": 37.0,
+              "tapd": 41.3
             },
             {
               "rank": 26,
               "player": "Trae Young",
               "team": "ATL",
               "ted": 36.7,
-              "tap": 35.0
+              "tap": 35.0,
+              "tapd": 33.0
             },
             {
               "rank": 27,
               "player": "Bam Adebayo",
               "team": "MIA",
               "ted": 36.5,
-              "tap": 36.9
+              "tap": 36.9,
+              "tapd": 34.5
             },
             {
               "rank": 28,
               "player": "Chet Holmgren",
               "team": "OKC",
               "ted": 36.3,
-              "tap": 36.5
+              "tap": 36.5,
+              "tapd": 39.9
             },
             {
               "rank": 29,
               "player": "Evan Mobley",
               "team": "CLE",
               "ted": 36.1,
-              "tap": 35.7
+              "tap": 35.7,
+              "tapd": 34.4
             },
             {
               "rank": 30,
               "player": "Jarrett Allen",
               "team": "CLE",
               "ted": 35.3,
-              "tap": 34.7
+              "tap": 34.7,
+              "tapd": 35.2
             },
             {
               "rank": 31,
               "player": "Julius Randle",
               "team": "NYK",
               "ted": 35.1,
-              "tap": 35.4
+              "tap": 35.4,
+              "tapd": 39.8
             },
             {
               "rank": 32,
               "player": "Damian Lillard",
               "team": "MIL",
               "ted": 35.0,
-              "tap": 34.6
+              "tap": 34.6,
+              "tapd": 39.6
             },
             {
               "rank": 33,
               "player": "Daniel Gafford",
               "team": "TOT",
               "ted": 34.9,
-              "tap": 32.6
+              "tap": 32.6,
+              "tapd": 26.6
             },
             {
               "rank": 34,
               "player": "Paul George",
               "team": "LAC",
               "ted": 34.8,
-              "tap": 35.0
+              "tap": 35.0,
+              "tapd": 41.0
             },
             {
               "rank": 35,
               "player": "Tyrese Maxey",
               "team": "PHI",
               "ted": 34.7,
-              "tap": 35.9
+              "tap": 35.9,
+              "tapd": 38.2
             },
             {
               "rank": 36,
               "player": "James Harden",
               "team": "LAC",
               "ted": 34.7,
-              "tap": 33.8
+              "tap": 33.8,
+              "tapd": 37.1
             },
             {
               "rank": 37,
               "player": "Scottie Barnes",
               "team": "TOR",
               "ted": 34.5,
-              "tap": 33.8
+              "tap": 33.8,
+              "tapd": 30.9
             },
             {
               "rank": 38,
               "player": "Desmond Bane",
               "team": "MEM",
               "ted": 34.5,
-              "tap": 34.5
+              "tap": 34.5,
+              "tapd": 29.9
             },
             {
               "rank": 39,
               "player": "Jaylen Brown",
               "team": "BOS",
               "ted": 34.5,
-              "tap": 35.0
+              "tap": 35.0,
+              "tapd": 41.9
             },
             {
               "rank": 40,
               "player": "Brandon Ingram",
               "team": "NOP",
               "ted": 34.3,
-              "tap": 34.0
+              "tap": 34.0,
+              "tapd": 37.2
             }
           ]
         },
@@ -5058,7 +5185,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 56.7,
-          "tap": 58.3
+          "tap": 58.3,
+          "tapd": 57.9
         },
         {
           "rank": 3,
@@ -5067,7 +5195,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 56.3,
-          "tap": 57.0
+          "tap": 57.0,
+          "tapd": 55.3
         },
         {
           "rank": 4,
@@ -5103,7 +5232,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 54.4,
-          "tap": 58.1
+          "tap": 58.1,
+          "tapd": 60.6
         },
         {
           "rank": 8,
@@ -5121,7 +5251,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 53.5,
-          "tap": 54.2
+          "tap": 54.2,
+          "tapd": 52.8
         },
         {
           "rank": 10,
@@ -5139,7 +5270,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 52.6,
-          "tap": 53.5
+          "tap": 53.5,
+          "tapd": 50.9
         },
         {
           "rank": 12,
@@ -5148,7 +5280,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 51.8,
-          "tap": 51.8
+          "tap": 51.8,
+          "tapd": 50.8
         },
         {
           "rank": 13,
@@ -5166,7 +5299,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 51.6,
-          "tap": 53.6
+          "tap": 53.6,
+          "tapd": 55.4
         },
         {
           "rank": 15,
@@ -5229,7 +5363,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 45.9,
-          "tap": 45.7
+          "tap": 45.7,
+          "tapd": 45.2
         },
         {
           "rank": 22,
@@ -5256,7 +5391,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 45.7,
-          "tap": 46.4
+          "tap": 46.4,
+          "tapd": 48.9
         },
         {
           "rank": 25,
@@ -5265,7 +5401,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 45.4,
-          "tap": 45.3
+          "tap": 45.3,
+          "tapd": 41.1
         },
         {
           "rank": 26,
@@ -5283,7 +5420,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 44.5,
-          "tap": 45.4
+          "tap": 45.4,
+          "tapd": 42.1
         },
         {
           "rank": 28,
@@ -5364,7 +5502,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 43.3,
-          "tap": 43.4
+          "tap": 43.4,
+          "tapd": 40.4
         },
         {
           "rank": 37,
@@ -5391,7 +5530,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 42.9,
-          "tap": 42.1
+          "tap": 42.1,
+          "tapd": 41.1
         },
         {
           "rank": 40,
@@ -5418,7 +5558,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 42.4,
-          "tap": 44.1
+          "tap": 44.1,
+          "tapd": 48.3
         },
         {
           "rank": 43,
@@ -5427,7 +5568,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 42.3,
-          "tap": 43.8
+          "tap": 43.8,
+          "tapd": 47.7
         },
         {
           "rank": 44,
@@ -5436,7 +5578,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 42.0,
-          "tap": 41.6
+          "tap": 41.6,
+          "tapd": 37.9
         },
         {
           "rank": 45,
@@ -5445,7 +5588,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 41.8,
-          "tap": 43.2
+          "tap": 43.2,
+          "tapd": 48.9
         },
         {
           "rank": 46,
@@ -5463,7 +5607,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 41.5,
-          "tap": 40.5
+          "tap": 40.5,
+          "tapd": 37.1
         },
         {
           "rank": 48,
@@ -5472,7 +5617,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 41.5,
-          "tap": 43.7
+          "tap": 43.7,
+          "tapd": 45.7
         },
         {
           "rank": 49,
@@ -5490,7 +5636,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 41.3,
-          "tap": 40.8
+          "tap": 40.8,
+          "tapd": 41.4
         },
         {
           "rank": 51,
@@ -5508,7 +5655,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 40.7,
-          "tap": 41.8
+          "tap": 41.8,
+          "tapd": 47.1
         },
         {
           "rank": 53,
@@ -5517,7 +5665,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 40.7,
-          "tap": 41.1
+          "tap": 41.1,
+          "tapd": 42.2
         },
         {
           "rank": 54,
@@ -5544,7 +5693,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 40.4,
-          "tap": 41.5
+          "tap": 41.5,
+          "tapd": 42.9
         },
         {
           "rank": 57,
@@ -5562,7 +5712,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 40.2,
-          "tap": 39.9
+          "tap": 39.9,
+          "tapd": 41.4
         },
         {
           "rank": 59,
@@ -5598,7 +5749,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 40.0,
-          "tap": 40.0
+          "tap": 40.0,
+          "tapd": 40.3
         },
         {
           "rank": 63,
@@ -5607,7 +5759,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 40.0,
-          "tap": 40.4
+          "tap": 40.4,
+          "tapd": 42.0
         },
         {
           "rank": 64,
@@ -5625,7 +5778,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 39.7,
-          "tap": 41.3
+          "tap": 41.3,
+          "tapd": 41.7
         },
         {
           "rank": 66,
@@ -5706,7 +5860,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 39.1,
-          "tap": 40.0
+          "tap": 40.0,
+          "tapd": 38.1
         },
         {
           "rank": 75,
@@ -5724,7 +5879,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 39.0,
-          "tap": 38.8
+          "tap": 38.8,
+          "tapd": 41.3
         },
         {
           "rank": 77,
@@ -5751,7 +5907,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 38.7,
-          "tap": 39.2
+          "tap": 39.2,
+          "tapd": 42.4
         },
         {
           "rank": 80,
@@ -5760,7 +5917,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 38.7,
-          "tap": 40.4
+          "tap": 40.4,
+          "tapd": 45.4
         },
         {
           "rank": 81,
@@ -5778,7 +5936,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 38.6,
-          "tap": 39.1
+          "tap": 39.1,
+          "tapd": 43.5
         },
         {
           "rank": 83,
@@ -5796,7 +5955,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 38.6,
-          "tap": 40.4
+          "tap": 40.4,
+          "tapd": 38.4
         },
         {
           "rank": 85,
@@ -5832,7 +5992,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 38.5,
-          "tap": 40.7
+          "tap": 40.7,
+          "tapd": 44.1
         },
         {
           "rank": 89,
@@ -5841,7 +6002,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 38.4,
-          "tap": 39.3
+          "tap": 39.3,
+          "tapd": 42.5
         },
         {
           "rank": 90,
@@ -5850,7 +6012,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 38.4,
-          "tap": 40.2
+          "tap": 40.2,
+          "tapd": 45.9
         },
         {
           "rank": 91,
@@ -5868,7 +6031,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 38.3,
-          "tap": 38.7
+          "tap": 38.7,
+          "tapd": 38.4
         },
         {
           "rank": 93,
@@ -5877,7 +6041,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 38.2,
-          "tap": 37.8
+          "tap": 37.8,
+          "tapd": 39.1
         },
         {
           "rank": 94,
@@ -5886,7 +6051,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 38.2,
-          "tap": 38.8
+          "tap": 38.8,
+          "tapd": 36.3
         },
         {
           "rank": 95,
@@ -5895,7 +6061,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 38.2,
-          "tap": 36.7
+          "tap": 36.7,
+          "tapd": 35.1
         },
         {
           "rank": 96,
@@ -5904,7 +6071,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 38.2,
-          "tap": 38.2
+          "tap": 38.2,
+          "tapd": 38.6
         },
         {
           "rank": 97,
@@ -5922,7 +6090,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 38.1,
-          "tap": 36.6
+          "tap": 36.6,
+          "tapd": 24.9
         },
         {
           "rank": 99,
@@ -5958,7 +6127,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 38.0,
-          "tap": 40.0
+          "tap": 40.0,
+          "tapd": 43.0
         },
         {
           "rank": 103,
@@ -5967,7 +6137,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 38.0,
-          "tap": 40.2
+          "tap": 40.2,
+          "tapd": 42.0
         },
         {
           "rank": 104,
@@ -5985,7 +6156,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 37.9,
-          "tap": 38.7
+          "tap": 38.7,
+          "tapd": 39.5
         },
         {
           "rank": 106,
@@ -6003,7 +6175,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 37.8,
-          "tap": 39.3
+          "tap": 39.3,
+          "tapd": 40.6
         },
         {
           "rank": 108,
@@ -6012,7 +6185,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 37.7,
-          "tap": 38.6
+          "tap": 38.6,
+          "tapd": 40.5
         },
         {
           "rank": 109,
@@ -6030,7 +6204,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 37.5,
-          "tap": 37.6
+          "tap": 37.6,
+          "tapd": 37.8
         },
         {
           "rank": 111,
@@ -6057,7 +6232,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 37.4,
-          "tap": 35.7
+          "tap": 35.7,
+          "tapd": 33.7
         },
         {
           "rank": 114,
@@ -6066,7 +6242,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 37.4,
-          "tap": 37.3
+          "tap": 37.3,
+          "tapd": 36.4
         },
         {
           "rank": 115,
@@ -6075,7 +6252,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 37.2,
-          "tap": 37.4
+          "tap": 37.4,
+          "tapd": 41.4
         },
         {
           "rank": 116,
@@ -6120,7 +6298,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 37.0,
-          "tap": 38.0
+          "tap": 38.0,
+          "tapd": 37.1
         },
         {
           "rank": 121,
@@ -6129,7 +6308,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 36.9,
-          "tap": 37.0
+          "tap": 37.0,
+          "tapd": 41.3
         },
         {
           "rank": 122,
@@ -6138,7 +6318,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 36.7,
-          "tap": 35.0
+          "tap": 35.0,
+          "tapd": 33.0
         },
         {
           "rank": 123,
@@ -6156,7 +6337,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 36.5,
-          "tap": 36.9
+          "tap": 36.9,
+          "tapd": 34.5
         },
         {
           "rank": 125,
@@ -6192,7 +6374,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 36.3,
-          "tap": 36.5
+          "tap": 36.5,
+          "tapd": 39.9
         },
         {
           "rank": 129,
@@ -6201,7 +6384,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 36.1,
-          "tap": 35.7
+          "tap": 35.7,
+          "tapd": 34.4
         },
         {
           "rank": 130,
@@ -6246,7 +6430,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 36.0,
-          "tap": 36.5
+          "tap": 36.5,
+          "tapd": 41.5
         },
         {
           "rank": 135,
@@ -6264,7 +6449,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 35.9,
-          "tap": 36.9
+          "tap": 36.9,
+          "tapd": 39.5
         },
         {
           "rank": 137,
@@ -6273,7 +6459,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 35.8,
-          "tap": 33.7
+          "tap": 33.7,
+          "tapd": 32.7
         },
         {
           "rank": 138,
@@ -6291,7 +6478,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 35.6,
-          "tap": 36.7
+          "tap": 36.7,
+          "tapd": 35.9
         },
         {
           "rank": 140,
@@ -6300,7 +6488,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 35.6,
-          "tap": 35.6
+          "tap": 35.6,
+          "tapd": 38.3
         },
         {
           "rank": 141,
@@ -6354,7 +6543,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 35.3,
-          "tap": 34.7
+          "tap": 34.7,
+          "tapd": 35.2
         },
         {
           "rank": 147,
@@ -6363,7 +6553,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 35.2,
-          "tap": 35.2
+          "tap": 35.2,
+          "tapd": 34.6
         },
         {
           "rank": 148,
@@ -6372,7 +6563,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 35.1,
-          "tap": 35.4
+          "tap": 35.4,
+          "tapd": 39.8
         },
         {
           "rank": 149,
@@ -6381,7 +6573,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 35.0,
-          "tap": 34.6
+          "tap": 34.6,
+          "tapd": 39.6
         },
         {
           "rank": 150,
@@ -6390,7 +6583,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 35.0,
-          "tap": 33.5
+          "tap": 33.5,
+          "tapd": 30.2
         },
         {
           "rank": 151,
@@ -6426,7 +6620,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 34.9,
-          "tap": 32.6
+          "tap": 32.6,
+          "tapd": 26.6
         },
         {
           "rank": 155,
@@ -6453,7 +6648,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 34.8,
-          "tap": 35.0
+          "tap": 35.0,
+          "tapd": 41.0
         },
         {
           "rank": 158,
@@ -6471,7 +6667,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 34.8,
-          "tap": 35.5
+          "tap": 35.5,
+          "tapd": 38.5
         },
         {
           "rank": 160,
@@ -6498,7 +6695,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 34.7,
-          "tap": 32.8
+          "tap": 32.8,
+          "tapd": 33.8
         },
         {
           "rank": 163,
@@ -6516,7 +6714,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 34.7,
-          "tap": 35.9
+          "tap": 35.9,
+          "tapd": 38.2
         },
         {
           "rank": 165,
@@ -6525,7 +6724,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 34.7,
-          "tap": 33.8
+          "tap": 33.8,
+          "tapd": 37.1
         },
         {
           "rank": 166,
@@ -6570,7 +6770,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 34.6,
-          "tap": 34.2
+          "tap": 34.2,
+          "tapd": 37.8
         },
         {
           "rank": 171,
@@ -6597,7 +6798,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 34.5,
-          "tap": 33.8
+          "tap": 33.8,
+          "tapd": 30.9
         },
         {
           "rank": 174,
@@ -6606,7 +6808,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 34.5,
-          "tap": 34.5
+          "tap": 34.5,
+          "tapd": 29.9
         },
         {
           "rank": 175,
@@ -6615,7 +6818,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 34.5,
-          "tap": 35.0
+          "tap": 35.0,
+          "tapd": 41.9
         },
         {
           "rank": 176,
@@ -6642,7 +6846,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 34.3,
-          "tap": 34.0
+          "tap": 34.0,
+          "tapd": 37.2
         },
         {
           "rank": 179,
@@ -6651,7 +6856,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 34.2,
-          "tap": 35.0
+          "tap": 35.0,
+          "tapd": 35.3
         },
         {
           "rank": 180,
@@ -6660,7 +6866,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 34.2,
-          "tap": 34.8
+          "tap": 34.8,
+          "tapd": 32.6
         },
         {
           "rank": 181,
@@ -6687,7 +6894,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 34.0,
-          "tap": 33.9
+          "tap": 33.9,
+          "tapd": 38.5
         },
         {
           "rank": 184,
@@ -6705,7 +6913,8 @@
           "year": 2023,
           "season_label": "2023-24",
           "ted": 34.0,
-          "tap": 33.1
+          "tap": 33.1,
+          "tapd": 35.2
         },
         {
           "rank": 186,
@@ -6732,7 +6941,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 33.9,
-          "tap": 33.0
+          "tap": 33.0,
+          "tapd": 30.0
         },
         {
           "rank": 189,
@@ -6777,7 +6987,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 33.6,
-          "tap": 32.5
+          "tap": 32.5,
+          "tapd": 30.3
         },
         {
           "rank": 194,
@@ -6813,7 +7024,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 33.5,
-          "tap": 33.9
+          "tap": 33.9,
+          "tapd": 32.4
         },
         {
           "rank": 198,
@@ -6831,7 +7043,8 @@
           "year": 2024,
           "season_label": "2024-25",
           "ted": 33.5,
-          "tap": 33.3
+          "tap": 33.3,
+          "tapd": 31.9
         },
         {
           "rank": 200,
@@ -27690,13 +27903,15 @@
         "y": 2023,
         "tm": "LAC",
         "ted": 34.7,
-        "tap": 33.8
+        "tap": 33.8,
+        "tapd": 37.1
       },
       {
         "y": 2024,
         "tm": "LAC",
         "ted": 40.0,
-        "tap": 40.4
+        "tap": 40.4,
+        "tapd": 42.0
       }
     ],
     "Stephen Curry": [
@@ -27770,13 +27985,15 @@
         "y": 2023,
         "tm": "GSW",
         "ted": 38.3,
-        "tap": 38.7
+        "tap": 38.7,
+        "tapd": 38.4
       },
       {
         "y": 2024,
         "tm": "GSW",
         "ted": 40.4,
-        "tap": 41.5
+        "tap": 41.5,
+        "tapd": 42.9
       }
     ],
     "LeBron James": [
@@ -27904,13 +28121,15 @@
         "y": 2023,
         "tm": "LAL",
         "ted": 42.9,
-        "tap": 42.1
+        "tap": 42.1,
+        "tapd": 41.1
       },
       {
         "y": 2024,
         "tm": "LAL",
         "ted": 42.0,
-        "tap": 41.6
+        "tap": 41.6,
+        "tapd": 37.9
       }
     ],
     "Giannis Antetokounmpo": [
@@ -27966,13 +28185,15 @@
         "y": 2023,
         "tm": "MIL",
         "ted": 51.8,
-        "tap": 51.8
+        "tap": 51.8,
+        "tapd": 50.8
       },
       {
         "y": 2024,
         "tm": "MIL",
         "ted": 53.5,
-        "tap": 54.2
+        "tap": 54.2,
+        "tapd": 52.8
       }
     ],
     "Russell Westbrook": [
@@ -28058,13 +28279,15 @@
         "y": 2023,
         "tm": "LAC",
         "ted": 31.0,
-        "tap": 30.8
+        "tap": 30.8,
+        "tapd": 33.4
       },
       {
         "y": 2024,
         "tm": "DEN",
         "ted": 28.6,
-        "tap": 26.8
+        "tap": 26.8,
+        "tapd": 27.3
       }
     ],
     "Kevin Durant": [
@@ -28144,13 +28367,15 @@
         "y": 2023,
         "tm": "PHO",
         "ted": 38.2,
-        "tap": 37.8
+        "tap": 37.8,
+        "tapd": 39.1
       },
       {
         "y": 2024,
         "tm": "PHO",
         "ted": 35.8,
-        "tap": 33.7
+        "tap": 33.7,
+        "tapd": 32.7
       }
     ],
     "Kyrie Irving": [
@@ -28218,13 +28443,15 @@
         "y": 2023,
         "tm": "DAL",
         "ted": 37.9,
-        "tap": 38.7
+        "tap": 38.7,
+        "tapd": 39.5
       },
       {
         "y": 2024,
         "tm": "DAL",
         "ted": 33.1,
-        "tap": 33.5
+        "tap": 33.5,
+        "tapd": 35.1
       }
     ],
     "Anthony Davis": [
@@ -28292,13 +28519,15 @@
         "y": 2023,
         "tm": "LAL",
         "ted": 43.3,
-        "tap": 43.4
+        "tap": 43.4,
+        "tapd": 40.4
       },
       {
         "y": 2024,
         "tm": "TOT",
         "ted": 44.5,
-        "tap": 45.4
+        "tap": 45.4,
+        "tapd": 42.1
       }
     ],
     "Chris Paul": [
@@ -28414,13 +28643,15 @@
         "y": 2023,
         "tm": "GSW",
         "ted": 29.3,
-        "tap": 28.6
+        "tap": 28.6,
+        "tapd": 29.9
       },
       {
         "y": 2024,
         "tm": "SAS",
         "ted": 27.3,
-        "tap": 25.1
+        "tap": 25.1,
+        "tapd": 25.6
       }
     ],
     "Joel Embiid": [
@@ -28584,13 +28815,15 @@
         "y": 2023,
         "tm": "CHI",
         "ted": 33.0,
-        "tap": 33.2
+        "tap": 33.2,
+        "tapd": 31.3
       },
       {
         "y": 2024,
         "tm": "SAC",
         "ted": 28.7,
-        "tap": 28.7
+        "tap": 28.7,
+        "tapd": 30.6
       }
     ],
     "Damian Lillard": [
@@ -28652,13 +28885,15 @@
         "y": 2023,
         "tm": "MIL",
         "ted": 35.0,
-        "tap": 34.6
+        "tap": 34.6,
+        "tapd": 39.6
       },
       {
         "y": 2024,
         "tm": "MIL",
         "ted": 37.4,
-        "tap": 37.3
+        "tap": 37.3,
+        "tapd": 36.4
       }
     ],
     "Tyreke Evans": [
@@ -28802,13 +29037,15 @@
         "y": 2023,
         "tm": "BOS",
         "ted": 41.8,
-        "tap": 43.2
+        "tap": 43.2,
+        "tapd": 48.9
       },
       {
         "y": 2024,
         "tm": "BOS",
         "ted": 42.4,
-        "tap": 44.1
+        "tap": 44.1,
+        "tapd": 48.3
       }
     ],
     "Lou Williams": [
@@ -28928,13 +29165,15 @@
         "y": 2023,
         "tm": "DEN",
         "ted": 56.7,
-        "tap": 58.3
+        "tap": 58.3,
+        "tapd": 57.9
       },
       {
         "y": 2024,
         "tm": "DEN",
         "ted": 56.3,
-        "tap": 57.0
+        "tap": 57.0,
+        "tapd": 55.3
       }
     ],
     "D'Angelo Russell": [
@@ -28978,13 +29217,15 @@
         "y": 2023,
         "tm": "LAL",
         "ted": 29.5,
-        "tap": 28.4
+        "tap": 28.4,
+        "tapd": 30.9
       },
       {
         "y": 2024,
         "tm": "TOT",
         "ted": 27.5,
-        "tap": 27.2
+        "tap": 27.2,
+        "tapd": 28.8
       }
     ],
     "Clint Capela": [
@@ -29028,13 +29269,15 @@
         "y": 2023,
         "tm": "ATL",
         "ted": 28.2,
-        "tap": 26.6
+        "tap": 26.6,
+        "tapd": 24.7
       },
       {
         "y": 2024,
         "tm": "ATL",
         "ted": 26.3,
-        "tap": 25.1
+        "tap": 25.1,
+        "tapd": 23.1
       }
     ],
     "Kevin Love": [
@@ -29146,13 +29389,15 @@
         "y": 2023,
         "tm": "MIN",
         "ted": 36.9,
-        "tap": 37.0
+        "tap": 37.0,
+        "tapd": 41.3
       },
       {
         "y": 2024,
         "tm": "NYK",
         "ted": 40.2,
-        "tap": 39.9
+        "tap": 39.9,
+        "tapd": 41.4
       }
     ],
     "Jimmy Butler": [
@@ -29214,13 +29459,15 @@
         "y": 2023,
         "tm": "MIA",
         "ted": 37.0,
-        "tap": 38.0
+        "tap": 38.0,
+        "tapd": 37.1
       },
       {
         "y": 2024,
         "tm": "TOT",
         "ted": 35.6,
-        "tap": 36.7
+        "tap": 36.7,
+        "tapd": 35.9
       }
     ],
     "Blake Griffin": [
@@ -29420,13 +29667,15 @@
         "y": 2023,
         "tm": "BOS",
         "ted": 40.7,
-        "tap": 41.8
+        "tap": 41.8,
+        "tapd": 47.1
       },
       {
         "y": 2024,
         "tm": "BOS",
         "ted": 39.7,
-        "tap": 41.3
+        "tap": 41.3,
+        "tapd": 41.7
       }
     ],
     "Andre Drummond": [
@@ -29544,7 +29793,8 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 21.4,
-        "tap": 20.4
+        "tap": 20.4,
+        "tapd": 20.5
       }
     ],
     "Enes Kanter": [
@@ -29632,13 +29882,15 @@
         "y": 2023,
         "tm": "CHI",
         "ted": 29.3,
-        "tap": 29.2
+        "tap": 29.2,
+        "tapd": 27.6
       },
       {
         "y": 2024,
         "tm": "CHI",
         "ted": 33.9,
-        "tap": 33.0
+        "tap": 33.0,
+        "tapd": 30.0
       }
     ],
     "Hassan Whiteside": [
@@ -29746,13 +29998,15 @@
         "y": 2023,
         "tm": "PHO",
         "ted": 39.0,
-        "tap": 38.8
+        "tap": 38.8,
+        "tapd": 41.3
       },
       {
         "y": 2024,
         "tm": "PHO",
         "ted": 32.4,
-        "tap": 30.5
+        "tap": 30.5,
+        "tapd": 29.3
       }
     ],
     "Al Horford": [
@@ -29826,13 +30080,15 @@
         "y": 2023,
         "tm": "BOS",
         "ted": 27.0,
-        "tap": 27.6
+        "tap": 27.6,
+        "tapd": 33.7
       },
       {
         "y": 2024,
         "tm": "BOS",
         "ted": 23.4,
-        "tap": 24.2
+        "tap": 24.2,
+        "tapd": 30.9
       }
     ],
     "Paul George": [
@@ -29888,13 +30144,15 @@
         "y": 2023,
         "tm": "LAC",
         "ted": 34.8,
-        "tap": 35.0
+        "tap": 35.0,
+        "tapd": 41.0
       },
       {
         "y": 2024,
         "tm": "PHI",
         "ted": 26.8,
-        "tap": 25.8
+        "tap": 25.8,
+        "tapd": 25.7
       }
     ],
     "Pau Gasol": [
@@ -30080,13 +30338,15 @@
         "y": 2023,
         "tm": "MIL",
         "ted": 29.4,
-        "tap": 28.7
+        "tap": 28.7,
+        "tapd": 29.1
       },
       {
         "y": 2024,
         "tm": "MIL",
         "ted": 30.6,
-        "tap": 31.0
+        "tap": 31.0,
+        "tapd": 33.9
       }
     ],
     "Ben Simmons": [
@@ -30124,7 +30384,8 @@
         "y": 2024,
         "tm": "TOT",
         "ted": 25.1,
-        "tap": 22.6
+        "tap": 22.6,
+        "tapd": 22.3
       }
     ],
     "Marc Gasol": [
@@ -30224,13 +30485,15 @@
         "y": 2023,
         "tm": "CLE",
         "ted": 42.3,
-        "tap": 43.8
+        "tap": 43.8,
+        "tapd": 47.7
       },
       {
         "y": 2024,
         "tm": "CLE",
         "ted": 38.4,
-        "tap": 40.2
+        "tap": 40.2,
+        "tapd": 45.9
       }
     ],
     "Klay Thompson": [
@@ -30274,13 +30537,15 @@
         "y": 2023,
         "tm": "GSW",
         "ted": 25.6,
-        "tap": 25.5
+        "tap": 25.5,
+        "tapd": 25.9
       },
       {
         "y": 2024,
         "tm": "DAL",
         "ted": 21.5,
-        "tap": 21.1
+        "tap": 21.1,
+        "tapd": 22.8
       }
     ],
     "Jonas Valančiūnas": [
@@ -30342,7 +30607,8 @@
         "y": 2023,
         "tm": "NOP",
         "ted": 34.0,
-        "tap": 33.1
+        "tap": 33.1,
+        "tapd": 35.2
       }
     ],
     "Draymond Green": [
@@ -30404,13 +30670,15 @@
         "y": 2023,
         "tm": "GSW",
         "ted": 30.5,
-        "tap": 29.1
+        "tap": 29.1,
+        "tapd": 31.4
       },
       {
         "y": 2024,
         "tm": "GSW",
         "ted": 28.0,
-        "tap": 27.3
+        "tap": 27.3,
+        "tapd": 31.2
       }
     ],
     "John Collins": [
@@ -30454,13 +30722,15 @@
         "y": 2023,
         "tm": "UTA",
         "ted": 27.0,
-        "tap": 24.7
+        "tap": 24.7,
+        "tapd": 20.5
       },
       {
         "y": 2024,
         "tm": "UTA",
         "ted": 30.6,
-        "tap": 28.3
+        "tap": 28.3,
+        "tapd": 28.5
       }
     ],
     "Zach Randolph": [
@@ -30548,13 +30818,15 @@
         "y": 2023,
         "tm": "DEN",
         "ted": 27.6,
-        "tap": 27.3
+        "tap": 27.3,
+        "tapd": 32.8
       },
       {
         "y": 2024,
         "tm": "DEN",
         "ted": 26.5,
-        "tap": 24.9
+        "tap": 24.9,
+        "tapd": 30.8
       }
     ],
     "Rudy Gay": [
@@ -30668,13 +30940,15 @@
         "y": 2023,
         "tm": "SAC",
         "ted": 41.5,
-        "tap": 40.5
+        "tap": 40.5,
+        "tapd": 37.1
       },
       {
         "y": 2024,
         "tm": "SAC",
         "ted": 38.2,
-        "tap": 36.7
+        "tap": 36.7,
+        "tapd": 35.1
       }
     ],
     "Khris Middleton": [
@@ -30712,7 +30986,8 @@
         "y": 2023,
         "tm": "MIL",
         "ted": 32.3,
-        "tap": 30.8
+        "tap": 30.8,
+        "tapd": 35.6
       }
     ],
     "Rudy Gobert": [
@@ -30774,13 +31049,15 @@
         "y": 2023,
         "tm": "MIN",
         "ted": 33.0,
-        "tap": 32.8
+        "tap": 32.8,
+        "tapd": 35.7
       },
       {
         "y": 2024,
         "tm": "MIN",
         "ted": 28.7,
-        "tap": 28.3
+        "tap": 28.3,
+        "tapd": 30.2
       }
     ],
     "Dwyane Wade": [
@@ -30910,13 +31187,15 @@
         "y": 2023,
         "tm": "IND",
         "ted": 33.1,
-        "tap": 31.5
+        "tap": 31.5,
+        "tapd": 34.3
       },
       {
         "y": 2024,
         "tm": "IND",
         "ted": 28.9,
-        "tap": 27.9
+        "tap": 27.9,
+        "tapd": 31.1
       }
     ],
     "Jamal Murray": [
@@ -30954,13 +31233,15 @@
         "y": 2023,
         "tm": "DEN",
         "ted": 38.7,
-        "tap": 39.2
+        "tap": 39.2,
+        "tapd": 42.4
       },
       {
         "y": 2024,
         "tm": "DEN",
         "ted": 30.6,
-        "tap": 29.9
+        "tap": 29.9,
+        "tapd": 34.7
       }
     ],
     "DeAndre Jordan": [
@@ -31042,7 +31323,8 @@
         "y": 2023,
         "tm": "PHO",
         "ted": 18.8,
-        "tap": 18.2
+        "tap": 18.2,
+        "tapd": 22.7
       }
     ],
     "Serge Ibaka": [
@@ -31136,13 +31418,15 @@
         "y": 2023,
         "tm": "BOS",
         "ted": 26.8,
-        "tap": 27.1
+        "tap": 27.1,
+        "tapd": 33.3
       },
       {
         "y": 2024,
         "tm": "BOS",
         "ted": 24.8,
-        "tap": 25.4
+        "tap": 25.4,
+        "tapd": 30.7
       }
     ],
     "JJ Redick": [
@@ -31392,7 +31676,8 @@
         "y": 2023,
         "tm": "MIN",
         "ted": 26.5,
-        "tap": 27.3
+        "tap": 27.3,
+        "tapd": 29.9
       }
     ],
     "Lauri Markkanen": [
@@ -31436,13 +31721,15 @@
         "y": 2023,
         "tm": "UTA",
         "ted": 33.0,
-        "tap": 32.4
+        "tap": 32.4,
+        "tapd": 31.6
       },
       {
         "y": 2024,
         "tm": "UTA",
         "ted": 23.7,
-        "tap": 22.9
+        "tap": 22.9,
+        "tapd": 20.7
       }
     ],
     "Robert Covington": [
@@ -31512,13 +31799,15 @@
         "y": 2023,
         "tm": "WAS",
         "ted": 28.6,
-        "tap": 26.8
+        "tap": 26.8,
+        "tapd": 21.9
       },
       {
         "y": 2024,
         "tm": "TOT",
         "ted": 19.7,
-        "tap": 17.7
+        "tap": 17.7,
+        "tapd": 15.2
       }
     ],
     "Jaylen Brown": [
@@ -31562,13 +31851,15 @@
         "y": 2023,
         "tm": "BOS",
         "ted": 34.5,
-        "tap": 35.0
+        "tap": 35.0,
+        "tapd": 41.9
       },
       {
         "y": 2024,
         "tm": "BOS",
         "ted": 33.3,
-        "tap": 34.1
+        "tap": 34.1,
+        "tapd": 40.6
       }
     ],
     "Dennis Smith Jr.": [
@@ -31792,13 +32083,15 @@
         "y": 2023,
         "tm": "GSW",
         "ted": 21.9,
-        "tap": 21.6
+        "tap": 21.6,
+        "tapd": 21.9
       },
       {
         "y": 2024,
         "tm": "TOT",
         "ted": 28.5,
-        "tap": 29.4
+        "tap": 29.4,
+        "tapd": 27.0
       }
     ],
     "Brandon Ingram": [
@@ -31842,7 +32135,8 @@
         "y": 2023,
         "tm": "NOP",
         "ted": 34.3,
-        "tap": 34.0
+        "tap": 34.0,
+        "tapd": 37.2
       }
     ],
     "Jarrett Allen": [
@@ -31886,13 +32180,15 @@
         "y": 2023,
         "tm": "CLE",
         "ted": 35.3,
-        "tap": 34.7
+        "tap": 34.7,
+        "tapd": 35.2
       },
       {
         "y": 2024,
         "tm": "CLE",
         "ted": 34.6,
-        "tap": 34.2
+        "tap": 34.2,
+        "tapd": 37.8
       }
     ],
     "Danny Green": [
@@ -31970,7 +32266,8 @@
         "y": 2024,
         "tm": "MEM",
         "ted": 23.7,
-        "tap": 23.0
+        "tap": 23.0,
+        "tapd": 24.8
       }
     ],
     "Marquese Chriss": [
@@ -32028,13 +32325,15 @@
         "y": 2023,
         "tm": "SAC",
         "ted": 37.7,
-        "tap": 38.6
+        "tap": 38.6,
+        "tapd": 40.5
       },
       {
         "y": 2024,
         "tm": "TOT",
         "ted": 32.5,
-        "tap": 31.9
+        "tap": 31.9,
+        "tapd": 32.1
       }
     ],
     "OG Anunoby": [
@@ -32078,13 +32377,15 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 22.2,
-        "tap": 21.4
+        "tap": 21.4,
+        "tapd": 30.6
       },
       {
         "y": 2024,
         "tm": "NYK",
         "ted": 25.6,
-        "tap": 26.1
+        "tap": 26.1,
+        "tapd": 28.9
       }
     ],
     "Frank Ntilikina": [
@@ -32176,7 +32477,8 @@
         "y": 2023,
         "tm": "MIL",
         "ted": 14.9,
-        "tap": 14.3
+        "tap": 14.3,
+        "tapd": 14.7
       }
     ],
     "J.R. Smith": [
@@ -32434,13 +32736,15 @@
         "y": 2023,
         "tm": "POR",
         "ted": 26.4,
-        "tap": 26.0
+        "tap": 26.0,
+        "tapd": 20.9
       },
       {
         "y": 2024,
         "tm": "POR",
         "ted": 19.9,
-        "tap": 20.4
+        "tap": 20.4,
+        "tapd": 18.2
       }
     ],
     "Goran Dragić": [
@@ -32510,7 +32814,8 @@
         "y": 2023,
         "tm": "MIA",
         "ted": 21.6,
-        "tap": 21.4
+        "tap": 21.4,
+        "tapd": 19.2
       }
     ],
     "Tyler Johnson": [
@@ -32576,13 +32881,15 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 31.5,
-        "tap": 28.4
+        "tap": 28.4,
+        "tapd": 23.0
       },
       {
         "y": 2024,
         "tm": "TOT",
         "ted": 26.8,
-        "tap": 24.1
+        "tap": 24.1,
+        "tapd": 22.7
       }
     ],
     "James Johnson": [
@@ -32768,13 +33075,15 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 30.5,
-        "tap": 30.6
+        "tap": 30.6,
+        "tapd": 24.4
       },
       {
         "y": 2024,
         "tm": "MIA",
         "ted": 19.6,
-        "tap": 19.2
+        "tap": 19.2,
+        "tapd": 19.6
       }
     ],
     "T.J. McConnell": [
@@ -32884,7 +33193,8 @@
         "y": 2023,
         "tm": "LAC",
         "ted": 38.4,
-        "tap": 39.3
+        "tap": 39.3,
+        "tapd": 42.5
       }
     ],
     "Isaiah Thomas": [
@@ -32984,13 +33294,15 @@
         "y": 2023,
         "tm": "MIN",
         "ted": 30.8,
-        "tap": 31.5
+        "tap": 31.5,
+        "tapd": 34.2
       },
       {
         "y": 2024,
         "tm": "MIN",
         "ted": 25.7,
-        "tap": 26.1
+        "tap": 26.1,
+        "tapd": 30.3
       }
     ],
     "Gordon Hayward": [
@@ -33046,7 +33358,8 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 21.9,
-        "tap": 20.4
+        "tap": 20.4,
+        "tapd": 18.2
       }
     ],
     "Bradley Beal": [
@@ -33090,13 +33403,15 @@
         "y": 2023,
         "tm": "PHO",
         "ted": 29.1,
-        "tap": 27.9
+        "tap": 27.9,
+        "tapd": 30.1
       },
       {
         "y": 2024,
         "tm": "PHO",
         "ted": 25.4,
-        "tap": 23.3
+        "tap": 23.3,
+        "tapd": 19.6
       }
     ],
     "Brook Lopez": [
@@ -33164,13 +33479,15 @@
         "y": 2023,
         "tm": "MIL",
         "ted": 24.8,
-        "tap": 24.6
+        "tap": 24.6,
+        "tapd": 29.5
       },
       {
         "y": 2024,
         "tm": "MIL",
         "ted": 24.1,
-        "tap": 23.8
+        "tap": 23.8,
+        "tapd": 25.3
       }
     ],
     "Paul Millsap": [
@@ -33404,7 +33721,8 @@
         "y": 2023,
         "tm": "DEN",
         "ted": 23.7,
-        "tap": 22.7
+        "tap": 22.7,
+        "tapd": 27.4
       }
     ],
     "Chris Bosh": [
@@ -43000,7 +43318,8 @@
         "y": 2024,
         "tm": "TOT",
         "ted": 30.2,
-        "tap": 28.1
+        "tap": 28.1,
+        "tapd": 27.8
       }
     ],
     "Julius Randle": [
@@ -43038,13 +43357,15 @@
         "y": 2023,
         "tm": "NYK",
         "ted": 35.1,
-        "tap": 35.4
+        "tap": 35.4,
+        "tapd": 39.8
       },
       {
         "y": 2024,
         "tm": "MIN",
         "ted": 31.8,
-        "tap": 31.5
+        "tap": 31.5,
+        "tapd": 33.5
       }
     ],
     "Luka Dončić": [
@@ -43082,13 +43403,15 @@
         "y": 2023,
         "tm": "DAL",
         "ted": 52.6,
-        "tap": 53.5
+        "tap": 53.5,
+        "tapd": 50.9
       },
       {
         "y": 2024,
         "tm": "TOT",
         "ted": 45.7,
-        "tap": 46.4
+        "tap": 46.4,
+        "tapd": 48.9
       }
     ],
     "CJ McCollum": [
@@ -43126,13 +43449,15 @@
         "y": 2023,
         "tm": "NOP",
         "ted": 32.7,
-        "tap": 33.4
+        "tap": 33.4,
+        "tapd": 36.0
       },
       {
         "y": 2024,
         "tm": "NOP",
         "ted": 26.1,
-        "tap": 24.8
+        "tap": 24.8,
+        "tapd": 22.7
       }
     ],
     "Buddy Hield": [
@@ -43170,13 +43495,15 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 24.3,
-        "tap": 23.6
+        "tap": 23.6,
+        "tapd": 25.3
       },
       {
         "y": 2024,
         "tm": "GSW",
         "ted": 23.7,
-        "tap": 24.0
+        "tap": 24.0,
+        "tapd": 27.9
       }
     ],
     "Trae Young": [
@@ -43214,13 +43541,15 @@
         "y": 2023,
         "tm": "ATL",
         "ted": 36.7,
-        "tap": 35.0
+        "tap": 35.0,
+        "tapd": 33.0
       },
       {
         "y": 2024,
         "tm": "ATL",
         "ted": 34.7,
-        "tap": 32.8
+        "tap": 32.8,
+        "tapd": 33.8
       }
     ],
     "Bojan Bogdanović": [
@@ -43258,7 +43587,8 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 21.8,
-        "tap": 20.1
+        "tap": 20.1,
+        "tapd": 14.0
       }
     ],
     "T.J. Warren": [
@@ -43310,13 +43640,15 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 33.2,
-        "tap": 32.0
+        "tap": 32.0,
+        "tapd": 32.9
       },
       {
         "y": 2024,
         "tm": "IND",
         "ted": 32.0,
-        "tap": 31.8
+        "tap": 31.8,
+        "tapd": 35.4
       }
     ],
     "Jordan Clarkson": [
@@ -43354,7 +43686,8 @@
         "y": 2023,
         "tm": "UTA",
         "ted": 21.6,
-        "tap": 19.4
+        "tap": 19.4,
+        "tapd": 20.6
       }
     ],
     "Spencer Dinwiddie": [
@@ -43386,13 +43719,15 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 21.7,
-        "tap": 20.3
+        "tap": 20.3,
+        "tapd": 23.2
       },
       {
         "y": 2024,
         "tm": "DAL",
         "ted": 22.6,
-        "tap": 21.2
+        "tap": 21.2,
+        "tapd": 19.7
       }
     ],
     "Collin Sexton": [
@@ -43424,13 +43759,15 @@
         "y": 2023,
         "tm": "UTA",
         "ted": 33.0,
-        "tap": 31.5
+        "tap": 31.5,
+        "tapd": 30.7
       },
       {
         "y": 2024,
         "tm": "UTA",
         "ted": 27.0,
-        "tap": 24.8
+        "tap": 24.8,
+        "tapd": 21.8
       }
     ],
     "Montrezl Harrell": [
@@ -43488,13 +43825,15 @@
         "y": 2023,
         "tm": "POR",
         "ted": 29.0,
-        "tap": 28.0
+        "tap": 28.0,
+        "tapd": 22.9
       },
       {
         "y": 2024,
         "tm": "POR",
         "ted": 27.5,
-        "tap": 26.5
+        "tap": 26.5,
+        "tapd": 22.3
       }
     ],
     "Jusuf Nurkić": [
@@ -43520,13 +43859,15 @@
         "y": 2023,
         "tm": "PHO",
         "ted": 33.4,
-        "tap": 32.3
+        "tap": 32.3,
+        "tapd": 37.4
       },
       {
         "y": 2024,
         "tm": "TOT",
         "ted": 29.1,
-        "tap": 26.7
+        "tap": 26.7,
+        "tapd": 22.0
       }
     ],
     "Dennis Schröder": [
@@ -43564,13 +43905,15 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 24.2,
-        "tap": 22.2
+        "tap": 22.2,
+        "tapd": 22.5
       },
       {
         "y": 2024,
         "tm": "TOT",
         "ted": 25.3,
-        "tap": 24.3
+        "tap": 24.3,
+        "tapd": 25.2
       }
     ],
     "Jeremy Lamb": [
@@ -43674,7 +44017,8 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 28.3,
-        "tap": 25.9
+        "tap": 25.9,
+        "tapd": 21.2
       }
     ],
     "Emmanuel Mudiay": [
@@ -43720,13 +44064,15 @@
         "y": 2023,
         "tm": "ATL",
         "ted": 25.3,
-        "tap": 25.0
+        "tap": 25.0,
+        "tapd": 28.6
       },
       {
         "y": 2024,
         "tm": "TOT",
         "ted": 21.8,
-        "tap": 21.1
+        "tap": 21.1,
+        "tapd": 26.1
       }
     ],
     "Marcus Morris": [
@@ -43790,13 +44136,15 @@
         "y": 2023,
         "tm": "MEM",
         "ted": 33.4,
-        "tap": 33.9
+        "tap": 33.9,
+        "tapd": 30.1
       },
       {
         "y": 2024,
         "tm": "MEM",
         "ted": 35.9,
-        "tap": 36.9
+        "tap": 36.9,
+        "tapd": 39.5
       }
     ],
     "Joe Harris": [
@@ -43860,13 +44208,15 @@
         "y": 2023,
         "tm": "CLE",
         "ted": 29.8,
-        "tap": 30.3
+        "tap": 30.3,
+        "tapd": 33.5
       },
       {
         "y": 2024,
         "tm": "TOT",
         "ted": 27.8,
-        "tap": 27.7
+        "tap": 27.7,
+        "tapd": 32.6
       }
     ],
     "Taurean Prince": [
@@ -43898,13 +44248,15 @@
         "y": 2023,
         "tm": "LAL",
         "ted": 15.9,
-        "tap": 14.7
+        "tap": 14.7,
+        "tapd": 15.0
       },
       {
         "y": 2024,
         "tm": "MIL",
         "ted": 17.9,
-        "tap": 16.8
+        "tap": 16.8,
+        "tapd": 18.1
       }
     ],
     "Cedi Osman": [
@@ -43968,7 +44320,8 @@
         "y": 2023,
         "tm": "ORL",
         "ted": 17.6,
-        "tap": 17.9
+        "tap": 17.9,
+        "tapd": 21.3
       }
     ],
     "Kevin Knox": [
@@ -44176,13 +44529,15 @@
         "y": 2023,
         "tm": "DEN",
         "ted": 19.5,
-        "tap": 19.0
+        "tap": 19.0,
+        "tapd": 28.3
       },
       {
         "y": 2024,
         "tm": "ORL",
         "ted": 18.5,
-        "tap": 19.2
+        "tap": 19.2,
+        "tapd": 19.6
       }
     ],
     "Malik Beasley": [
@@ -44214,13 +44569,15 @@
         "y": 2023,
         "tm": "MIL",
         "ted": 17.6,
-        "tap": 16.5
+        "tap": 16.5,
+        "tapd": 24.4
       },
       {
         "y": 2024,
         "tm": "DET",
         "ted": 24.8,
-        "tap": 25.6
+        "tap": 25.6,
+        "tapd": 28.6
       }
     ],
     "Kris Dunn": [
@@ -44240,7 +44597,8 @@
         "y": 2024,
         "tm": "LAC",
         "ted": 23.9,
-        "tap": 24.9
+        "tap": 24.9,
+        "tapd": 29.0
       }
     ],
     "Darren Collison": [
@@ -44302,13 +44660,15 @@
         "y": 2023,
         "tm": "HOU",
         "ted": 32.1,
-        "tap": 32.7
+        "tap": 32.7,
+        "tapd": 33.6
       },
       {
         "y": 2024,
         "tm": "HOU",
         "ted": 25.6,
-        "tap": 27.3
+        "tap": 27.3,
+        "tapd": 31.2
       }
     ],
     "Tristan Thompson": [
@@ -44376,13 +44736,15 @@
         "y": 2023,
         "tm": "OKC",
         "ted": 51.6,
-        "tap": 53.6
+        "tap": 53.6,
+        "tapd": 55.4
       },
       {
         "y": 2024,
         "tm": "OKC",
         "ted": 54.4,
-        "tap": 58.1
+        "tap": 58.1,
+        "tapd": 60.6
       }
     ],
     "Damyean Dotson": [
@@ -44522,13 +44884,15 @@
         "y": 2023,
         "tm": "ORL",
         "ted": 27.3,
-        "tap": 27.0
+        "tap": 27.0,
+        "tapd": 27.6
       },
       {
         "y": 2024,
         "tm": "ORL",
         "ted": 25.2,
-        "tap": 25.3
+        "tap": 25.3,
+        "tapd": 24.4
       }
     ],
     "Marvin Williams": [
@@ -44588,13 +44952,15 @@
         "y": 2023,
         "tm": "BOS",
         "ted": 32.0,
-        "tap": 32.9
+        "tap": 32.9,
+        "tapd": 40.6
       },
       {
         "y": 2024,
         "tm": "BOS",
         "ted": 30.9,
-        "tap": 31.9
+        "tap": 31.9,
+        "tapd": 36.7
       }
     ],
     "Kevin Huerter": [
@@ -44632,13 +44998,15 @@
         "y": 2023,
         "tm": "SAC",
         "ted": 23.0,
-        "tap": 22.5
+        "tap": 22.5,
+        "tapd": 25.5
       },
       {
         "y": 2024,
         "tm": "TOT",
         "ted": 20.9,
-        "tap": 20.1
+        "tap": 20.1,
+        "tapd": 24.3
       }
     ],
     "Allen Crabbe": [
@@ -44720,7 +45088,8 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 16.7,
-        "tap": 16.2
+        "tap": 16.2,
+        "tapd": 20.7
       }
     ],
     "Jalen Brunson": [
@@ -44752,13 +45121,15 @@
         "y": 2023,
         "tm": "NYK",
         "ted": 41.5,
-        "tap": 43.7
+        "tap": 43.7,
+        "tapd": 45.7
       },
       {
         "y": 2024,
         "tm": "NYK",
         "ted": 37.5,
-        "tap": 37.6
+        "tap": 37.6,
+        "tapd": 37.8
       }
     ],
     "Gerald Green": [
@@ -44804,13 +45175,15 @@
         "y": 2023,
         "tm": "MIA",
         "ted": 36.5,
-        "tap": 36.9
+        "tap": 36.9,
+        "tapd": 34.5
       },
       {
         "y": 2024,
         "tm": "MIA",
         "ted": 33.5,
-        "tap": 33.9
+        "tap": 33.9,
+        "tapd": 32.4
       }
     ],
     "Rondae Hollis-Jefferson": [
@@ -44948,13 +45321,15 @@
         "y": 2023,
         "tm": "BRK",
         "ted": 26.2,
-        "tap": 26.0
+        "tap": 26.0,
+        "tapd": 25.4
       },
       {
         "y": 2024,
         "tm": "NYK",
         "ted": 22.9,
-        "tap": 22.5
+        "tap": 22.5,
+        "tapd": 26.4
       }
     ],
     "Dāvis Bertāns": [
@@ -45012,13 +45387,15 @@
         "y": 2023,
         "tm": "NYK",
         "ted": 22.5,
-        "tap": 22.5
+        "tap": 22.5,
+        "tapd": 26.0
       },
       {
         "y": 2024,
         "tm": "NYK",
         "ted": 29.3,
-        "tap": 28.8
+        "tap": 28.8,
+        "tapd": 29.2
       }
     ],
     "Mason Plumlee": [
@@ -45110,7 +45487,8 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 22.0,
-        "tap": 21.1
+        "tap": 21.1,
+        "tapd": 20.2
       }
     ],
     "Rodney McGruder": [
@@ -45150,13 +45528,15 @@
         "y": 2023,
         "tm": "CHO",
         "ted": 25.7,
-        "tap": 24.2
+        "tap": 24.2,
+        "tapd": 18.4
       },
       {
         "y": 2024,
         "tm": "CHO",
         "ted": 31.8,
-        "tap": 32.1
+        "tap": 32.1,
+        "tapd": 28.3
       }
     ],
     "Dorian Finney-Smith": [
@@ -45194,13 +45574,15 @@
         "y": 2023,
         "tm": "BRK",
         "ted": 16.7,
-        "tap": 16.0
+        "tap": 16.0,
+        "tapd": 16.7
       },
       {
         "y": 2024,
         "tm": "TOT",
         "ted": 16.2,
-        "tap": 15.4
+        "tap": 15.4,
+        "tapd": 22.4
       }
     ],
     "Mitchell Robinson": [
@@ -45258,7 +45640,8 @@
         "y": 2023,
         "tm": "MIL",
         "ted": 15.9,
-        "tap": 14.9
+        "tap": 14.9,
+        "tapd": 16.8
       }
     ],
     "Terrance Ferguson": [
@@ -45298,13 +45681,15 @@
         "y": 2023,
         "tm": "WAS",
         "ted": 27.2,
-        "tap": 25.0
+        "tap": 25.0,
+        "tapd": 17.2
       },
       {
         "y": 2024,
         "tm": "PHO",
         "ted": 23.2,
-        "tap": 21.0
+        "tap": 21.0,
+        "tapd": 21.0
       }
     ],
     "Maxi Kleber": [
@@ -45336,7 +45721,8 @@
         "y": 2023,
         "tm": "DAL",
         "ted": 15.8,
-        "tap": 14.8
+        "tap": 14.8,
+        "tapd": 19.5
       }
     ],
     "Evan Turner": [
@@ -45470,13 +45856,15 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 22.0,
-        "tap": 21.3
+        "tap": 21.3,
+        "tapd": 23.8
       },
       {
         "y": 2024,
         "tm": "PHO",
         "ted": 22.2,
-        "tap": 20.6
+        "tap": 20.6,
+        "tapd": 18.9
       }
     ],
     "Jared Dudley": [
@@ -45536,13 +45924,15 @@
         "y": 2023,
         "tm": "PHI",
         "ted": 28.2,
-        "tap": 28.4
+        "tap": 28.4,
+        "tapd": 31.3
       },
       {
         "y": 2024,
         "tm": "DET",
         "ted": 24.3,
-        "tap": 24.7
+        "tap": 24.7,
+        "tapd": 27.1
       }
     ],
     "Tim Hardaway Jr.": [
@@ -45580,13 +45970,15 @@
         "y": 2023,
         "tm": "DAL",
         "ted": 21.0,
-        "tap": 20.8
+        "tap": 20.8,
+        "tapd": 24.2
       },
       {
         "y": 2024,
         "tm": "DET",
         "ted": 16.8,
-        "tap": 16.7
+        "tap": 16.7,
+        "tapd": 19.2
       }
     ],
     "Harrison Barnes": [
@@ -45624,13 +46016,15 @@
         "y": 2023,
         "tm": "SAC",
         "ted": 18.4,
-        "tap": 17.6
+        "tap": 17.6,
+        "tapd": 17.3
       },
       {
         "y": 2024,
         "tm": "SAS",
         "ted": 21.0,
-        "tap": 19.2
+        "tap": 19.2,
+        "tapd": 20.0
       }
     ],
     "Kelly Oubre Jr.": [
@@ -45668,13 +46062,15 @@
         "y": 2023,
         "tm": "PHI",
         "ted": 24.0,
-        "tap": 24.4
+        "tap": 24.4,
+        "tapd": 24.5
       },
       {
         "y": 2024,
         "tm": "PHI",
         "ted": 21.1,
-        "tap": 20.0
+        "tap": 20.0,
+        "tapd": 18.2
       }
     ],
     "Otto Porter Jr.": [
@@ -46032,7 +46428,8 @@
         "y": 2024,
         "tm": "MEM",
         "ted": 37.2,
-        "tap": 37.4
+        "tap": 37.4,
+        "tapd": 41.4
       }
     ],
     "Dillon Brooks": [
@@ -46058,13 +46455,15 @@
         "y": 2023,
         "tm": "HOU",
         "ted": 18.2,
-        "tap": 17.9
+        "tap": 17.9,
+        "tapd": 20.6
       },
       {
         "y": 2024,
         "tm": "HOU",
         "ted": 20.3,
-        "tap": 21.5
+        "tap": 21.5,
+        "tapd": 25.4
       }
     ],
     "Norman Powell": [
@@ -46096,13 +46495,15 @@
         "y": 2023,
         "tm": "LAC",
         "ted": 23.2,
-        "tap": 22.3
+        "tap": 22.3,
+        "tapd": 26.9
       },
       {
         "y": 2024,
         "tm": "LAC",
         "ted": 30.9,
-        "tap": 31.7
+        "tap": 31.7,
+        "tapd": 36.3
       }
     ],
     "Kendrick Nunn": [
@@ -46148,13 +46549,15 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 28.5,
-        "tap": 27.2
+        "tap": 27.2,
+        "tapd": 26.5
       },
       {
         "y": 2024,
         "tm": "TOR",
         "ted": 32.1,
-        "tap": 31.5
+        "tap": 31.5,
+        "tapd": 30.3
       }
     ],
     "Eric Paschall": [
@@ -46194,13 +46597,15 @@
         "y": 2023,
         "tm": "LAL",
         "ted": 23.9,
-        "tap": 22.8
+        "tap": 22.8,
+        "tapd": 25.6
       },
       {
         "y": 2024,
         "tm": "LAL",
         "ted": 20.9,
-        "tap": 20.3
+        "tap": 20.3,
+        "tapd": 22.9
       }
     ],
     "Tyler Herro": [
@@ -46232,13 +46637,15 @@
         "y": 2023,
         "tm": "MIA",
         "ted": 30.8,
-        "tap": 31.1
+        "tap": 31.1,
+        "tapd": 31.2
       },
       {
         "y": 2024,
         "tm": "MIA",
         "ted": 35.2,
-        "tap": 35.2
+        "tap": 35.2,
+        "tapd": 34.6
       }
     ],
     "Duncan Robinson": [
@@ -46264,13 +46671,15 @@
         "y": 2023,
         "tm": "MIA",
         "ted": 24.1,
-        "tap": 23.3
+        "tap": 23.3,
+        "tapd": 25.7
       },
       {
         "y": 2024,
         "tm": "MIA",
         "ted": 21.9,
-        "tap": 20.9
+        "tap": 20.9,
+        "tapd": 23.6
       }
     ],
     "Coby White": [
@@ -46302,13 +46711,15 @@
         "y": 2023,
         "tm": "CHI",
         "ted": 25.7,
-        "tap": 24.6
+        "tap": 24.6,
+        "tapd": 26.1
       },
       {
         "y": 2024,
         "tm": "CHI",
         "ted": 27.8,
-        "tap": 26.1
+        "tap": 26.1,
+        "tapd": 25.6
       }
     ],
     "Christian Wood": [
@@ -46400,13 +46811,15 @@
         "y": 2023,
         "tm": "CLE",
         "ted": 28.3,
-        "tap": 27.7
+        "tap": 27.7,
+        "tapd": 31.8
       },
       {
         "y": 2024,
         "tm": "CLE",
         "ted": 36.0,
-        "tap": 36.5
+        "tap": 36.5,
+        "tapd": 41.5
       }
     ],
     "Richaun Holmes": [
@@ -46452,13 +46865,15 @@
         "y": 2023,
         "tm": "ATL",
         "ted": 21.1,
-        "tap": 19.4
+        "tap": 19.4,
+        "tapd": 21.1
       },
       {
         "y": 2024,
         "tm": "TOT",
         "ted": 28.1,
-        "tap": 27.6
+        "tap": 27.6,
+        "tapd": 30.5
       }
     ],
     "P.J. Washington": [
@@ -46490,13 +46905,15 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 21.3,
-        "tap": 20.2
+        "tap": 20.2,
+        "tapd": 19.0
       },
       {
         "y": 2024,
         "tm": "DAL",
         "ted": 25.0,
-        "tap": 24.0
+        "tap": 24.0,
+        "tapd": 26.8
       }
     ],
     "Brandon Clarke": [
@@ -46530,7 +46947,8 @@
         "y": 2023,
         "tm": "ORL",
         "ted": 23.4,
-        "tap": 24.3
+        "tap": 24.3,
+        "tapd": 27.3
       }
     ],
     "Aron Baynes": [
@@ -46570,7 +46988,8 @@
         "y": 2023,
         "tm": "ATL",
         "ted": 31.3,
-        "tap": 31.1
+        "tap": 31.1,
+        "tapd": 29.7
       }
     ],
     "Danuel House Jr.": [
@@ -46604,7 +47023,8 @@
         "y": 2023,
         "tm": "LAL",
         "ted": 13.9,
-        "tap": 13.4
+        "tap": 13.4,
+        "tapd": 16.5
       }
     ],
     "Troy Brown Jr.": [
@@ -46650,13 +47070,15 @@
         "y": 2023,
         "tm": "SAC",
         "ted": 30.9,
-        "tap": 30.3
+        "tap": 30.3,
+        "tapd": 31.9
       },
       {
         "y": 2024,
         "tm": "SAC",
         "ted": 28.0,
-        "tap": 26.8
+        "tap": 26.8,
+        "tapd": 30.7
       }
     ],
     "Ben McLemore": [
@@ -46778,13 +47200,15 @@
         "y": 2023,
         "tm": "NYK",
         "ted": 29.7,
-        "tap": 31.3
+        "tap": 31.3,
+        "tapd": 31.3
       },
       {
         "y": 2024,
         "tm": "MIN",
         "ted": 28.3,
-        "tap": 28.8
+        "tap": 28.8,
+        "tapd": 30.1
       }
     ],
     "Daniel Theis": [
@@ -46850,13 +47274,15 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 20.0,
-        "tap": 17.7
+        "tap": 17.7,
+        "tapd": 18.4
       },
       {
         "y": 2024,
         "tm": "TOT",
         "ted": 18.4,
-        "tap": 17.0
+        "tap": 17.0,
+        "tapd": 12.3
       }
     ],
     "Gary Trent Jr.": [
@@ -46888,13 +47314,15 @@
         "y": 2023,
         "tm": "TOR",
         "ted": 19.8,
-        "tap": 19.1
+        "tap": 19.1,
+        "tapd": 19.4
       },
       {
         "y": 2024,
         "tm": "MIL",
         "ted": 20.1,
-        "tap": 19.9
+        "tap": 19.9,
+        "tapd": 22.7
       }
     ],
     "Cameron Johnson": [
@@ -46926,13 +47354,15 @@
         "y": 2023,
         "tm": "BRK",
         "ted": 25.0,
-        "tap": 24.7
+        "tap": 24.7,
+        "tapd": 24.2
       },
       {
         "y": 2024,
         "tm": "BRK",
         "ted": 30.8,
-        "tap": 30.3
+        "tap": 30.3,
+        "tapd": 25.5
       }
     ],
     "Jordan Poole": [
@@ -46958,13 +47388,15 @@
         "y": 2023,
         "tm": "WAS",
         "ted": 23.3,
-        "tap": 21.1
+        "tap": 21.1,
+        "tapd": 17.9
       },
       {
         "y": 2024,
         "tm": "WAS",
         "ted": 30.8,
-        "tap": 28.7
+        "tap": 28.7,
+        "tapd": 21.3
       }
     ],
     "Derrick Jones Jr.": [
@@ -46984,13 +47416,15 @@
         "y": 2023,
         "tm": "DAL",
         "ted": 18.5,
-        "tap": 17.8
+        "tap": 17.8,
+        "tapd": 19.7
       },
       {
         "y": 2024,
         "tm": "LAC",
         "ted": 22.6,
-        "tap": 23.2
+        "tap": 23.2,
+        "tapd": 27.4
       }
     ],
     "Anfernee Simons": [
@@ -47016,13 +47450,15 @@
         "y": 2023,
         "tm": "POR",
         "ted": 28.3,
-        "tap": 27.5
+        "tap": 27.5,
+        "tapd": 22.1
       },
       {
         "y": 2024,
         "tm": "POR",
         "ted": 26.4,
-        "tap": 26.5
+        "tap": 26.5,
+        "tapd": 24.7
       }
     ],
     "Ky Bowman": [
@@ -47050,7 +47486,8 @@
         "y": 2023,
         "tm": "SAC",
         "ted": 19.7,
-        "tap": 18.6
+        "tap": 18.6,
+        "tapd": 24.0
       }
     ],
     "Meyers Leonard": [
@@ -47088,7 +47525,8 @@
         "y": 2023,
         "tm": "NOP",
         "ted": 40.0,
-        "tap": 40.0
+        "tap": 40.0,
+        "tapd": 40.3
       }
     ],
     "Anthony Edwards": [
@@ -47114,13 +47552,15 @@
         "y": 2023,
         "tm": "MIN",
         "ted": 38.7,
-        "tap": 40.4
+        "tap": 40.4,
+        "tapd": 45.4
       },
       {
         "y": 2024,
         "tm": "MIN",
         "ted": 37.8,
-        "tap": 39.3
+        "tap": 39.3,
+        "tapd": 40.6
       }
     ],
     "Michael Porter Jr.": [
@@ -47140,13 +47580,15 @@
         "y": 2023,
         "tm": "DEN",
         "ted": 26.9,
-        "tap": 26.8
+        "tap": 26.8,
+        "tapd": 33.4
       },
       {
         "y": 2024,
         "tm": "DEN",
         "ted": 25.5,
-        "tap": 24.4
+        "tap": 24.4,
+        "tapd": 28.1
       }
     ],
     "LaMelo Ball": [
@@ -47166,7 +47608,8 @@
         "y": 2024,
         "tm": "CHO",
         "ted": 38.2,
-        "tap": 38.8
+        "tap": 38.8,
+        "tapd": 36.3
       }
     ],
     "Luguentz Dort": [
@@ -47192,13 +47635,15 @@
         "y": 2023,
         "tm": "OKC",
         "ted": 20.0,
-        "tap": 19.7
+        "tap": 19.7,
+        "tapd": 26.9
       },
       {
         "y": 2024,
         "tm": "OKC",
         "ted": 21.0,
-        "tap": 22.4
+        "tap": 22.4,
+        "tapd": 29.3
       }
     ],
     "Darius Bazley": [
@@ -47278,13 +47723,15 @@
         "y": 2023,
         "tm": "IND",
         "ted": 41.3,
-        "tap": 40.8
+        "tap": 40.8,
+        "tapd": 41.4
       },
       {
         "y": 2024,
         "tm": "IND",
         "ted": 38.2,
-        "tap": 38.2
+        "tap": 38.2,
+        "tapd": 38.6
       }
     ],
     "Cole Anthony": [
@@ -47310,7 +47757,8 @@
         "y": 2023,
         "tm": "ORL",
         "ted": 29.7,
-        "tap": 30.3
+        "tap": 30.3,
+        "tapd": 32.5
       }
     ],
     "Keldon Johnson": [
@@ -47336,13 +47784,15 @@
         "y": 2023,
         "tm": "SAS",
         "ted": 24.8,
-        "tap": 23.6
+        "tap": 23.6,
+        "tapd": 19.4
       },
       {
         "y": 2024,
         "tm": "SAS",
         "ted": 24.0,
-        "tap": 22.8
+        "tap": 22.8,
+        "tapd": 20.9
       }
     ],
     "Saddiq Bey": [
@@ -47368,7 +47818,8 @@
         "y": 2023,
         "tm": "ATL",
         "ted": 17.6,
-        "tap": 16.9
+        "tap": 16.9,
+        "tapd": 18.9
       }
     ],
     "Jae'Sean Tate": [
@@ -47422,13 +47873,15 @@
         "y": 2023,
         "tm": "MIN",
         "ted": 22.5,
-        "tap": 23.3
+        "tap": 23.3,
+        "tapd": 28.4
       },
       {
         "y": 2024,
         "tm": "MIN",
         "ted": 21.9,
-        "tap": 21.8
+        "tap": 21.8,
+        "tapd": 26.1
       }
     ],
     "Dwayne Bacon": [
@@ -47462,13 +47915,15 @@
         "y": 2023,
         "tm": "PHO",
         "ted": 23.4,
-        "tap": 22.5
+        "tap": 22.5,
+        "tapd": 25.2
       },
       {
         "y": 2024,
         "tm": "PHO",
         "ted": 22.0,
-        "tap": 19.9
+        "tap": 19.9,
+        "tapd": 19.7
       }
     ],
     "Théo Maledon": [
@@ -47502,7 +47957,8 @@
         "y": 2023,
         "tm": "CLE",
         "ted": 20.1,
-        "tap": 19.9
+        "tap": 19.9,
+        "tapd": 22.0
       }
     ],
     "KJ Martin": [
@@ -47528,7 +47984,8 @@
         "y": 2024,
         "tm": "TOT",
         "ted": 15.0,
-        "tap": 12.3
+        "tap": 12.3,
+        "tapd": 9.8
       }
     ],
     "Desmond Bane": [
@@ -47554,13 +48011,15 @@
         "y": 2023,
         "tm": "MEM",
         "ted": 34.5,
-        "tap": 34.5
+        "tap": 34.5,
+        "tapd": 29.9
       },
       {
         "y": 2024,
         "tm": "MEM",
         "ted": 33.1,
-        "tap": 33.4
+        "tap": 33.4,
+        "tapd": 33.2
       }
     ],
     "Patrick Williams": [
@@ -47580,13 +48039,15 @@
         "y": 2023,
         "tm": "CHI",
         "ted": 18.9,
-        "tap": 17.8
+        "tap": 17.8,
+        "tapd": 20.0
       },
       {
         "y": 2024,
         "tm": "CHI",
         "ted": 16.7,
-        "tap": 15.5
+        "tap": 15.5,
+        "tapd": 15.3
       }
     ],
     "De'Anthony Melton": [
@@ -47652,13 +48113,15 @@
         "y": 2023,
         "tm": "LAC",
         "ted": 29.6,
-        "tap": 27.9
+        "tap": 27.9,
+        "tapd": 30.7
       },
       {
         "y": 2024,
         "tm": "LAC",
         "ted": 35.6,
-        "tap": 35.6
+        "tap": 35.6,
+        "tapd": 38.3
       }
     ],
     "Raul Neto": [
@@ -47714,13 +48177,15 @@
         "y": 2023,
         "tm": "TOR",
         "ted": 30.0,
-        "tap": 27.3
+        "tap": 27.3,
+        "tapd": 26.5
       },
       {
         "y": 2024,
         "tm": "TOR",
         "ted": 33.3,
-        "tap": 31.9
+        "tap": 31.9,
+        "tapd": 29.6
       }
     ],
     "Sterling Brown": [
@@ -47768,7 +48233,8 @@
         "y": 2023,
         "tm": "DET",
         "ted": 17.8,
-        "tap": 15.5
+        "tap": 15.5,
+        "tapd": 15.0
       }
     ],
     "Chuma Okeke": [
@@ -47816,13 +48282,15 @@
         "y": 2023,
         "tm": "MIN",
         "ted": 19.6,
-        "tap": 19.8
+        "tap": 19.8,
+        "tapd": 24.6
       },
       {
         "y": 2024,
         "tm": "MIN",
         "ted": 23.9,
-        "tap": 24.8
+        "tap": 24.8,
+        "tapd": 27.5
       }
     ],
     "Chasson Randle": [
@@ -47856,7 +48324,8 @@
         "y": 2023,
         "tm": "CHI",
         "ted": 27.1,
-        "tap": 26.7
+        "tap": 26.7,
+        "tapd": 26.2
       }
     ],
     "Deni Avdija": [
@@ -47882,13 +48351,15 @@
         "y": 2023,
         "tm": "WAS",
         "ted": 26.4,
-        "tap": 23.6
+        "tap": 23.6,
+        "tapd": 19.9
       },
       {
         "y": 2024,
         "tm": "POR",
         "ted": 32.0,
-        "tap": 31.3
+        "tap": 31.3,
+        "tapd": 29.3
       }
     ],
     "Facundo Campazzo": [
@@ -47932,7 +48403,8 @@
         "y": 2023,
         "tm": "POR",
         "ted": 19.0,
-        "tap": 19.5
+        "tap": 19.5,
+        "tapd": 14.9
       }
     ],
     "Hamidou Diallo": [
@@ -47974,13 +48446,15 @@
         "y": 2023,
         "tm": "PHI",
         "ted": 34.7,
-        "tap": 35.9
+        "tap": 35.9,
+        "tapd": 38.2
       },
       {
         "y": 2024,
         "tm": "PHI",
         "ted": 33.2,
-        "tap": 33.4
+        "tap": 33.4,
+        "tapd": 31.7
       }
     ],
     "Cade Cunningham": [
@@ -47994,13 +48468,15 @@
         "y": 2023,
         "tm": "DET",
         "ted": 32.4,
-        "tap": 30.9
+        "tap": 30.9,
+        "tapd": 26.8
       },
       {
         "y": 2024,
         "tm": "DET",
         "ted": 40.7,
-        "tap": 41.1
+        "tap": 41.1,
+        "tapd": 42.2
       }
     ],
     "Jalen Green": [
@@ -48020,13 +48496,15 @@
         "y": 2023,
         "tm": "HOU",
         "ted": 28.1,
-        "tap": 28.6
+        "tap": 28.6,
+        "tapd": 30.6
       },
       {
         "y": 2024,
         "tm": "HOU",
         "ted": 28.4,
-        "tap": 30.3
+        "tap": 30.3,
+        "tapd": 33.0
       }
     ],
     "Scottie Barnes": [
@@ -48046,13 +48524,15 @@
         "y": 2023,
         "tm": "TOR",
         "ted": 34.5,
-        "tap": 33.8
+        "tap": 33.8,
+        "tapd": 30.9
       },
       {
         "y": 2024,
         "tm": "TOR",
         "ted": 34.2,
-        "tap": 34.8
+        "tap": 34.8,
+        "tapd": 32.6
       }
     ],
     "Franz Wagner": [
@@ -48072,13 +48552,15 @@
         "y": 2023,
         "tm": "ORL",
         "ted": 32.3,
-        "tap": 33.2
+        "tap": 33.2,
+        "tapd": 35.8
       },
       {
         "y": 2024,
         "tm": "ORL",
         "ted": 38.0,
-        "tap": 40.2
+        "tap": 40.2,
+        "tapd": 42.0
       }
     ],
     "Evan Mobley": [
@@ -48098,13 +48580,15 @@
         "y": 2023,
         "tm": "CLE",
         "ted": 36.1,
-        "tap": 35.7
+        "tap": 35.7,
+        "tapd": 34.4
       },
       {
         "y": 2024,
         "tm": "CLE",
         "ted": 38.6,
-        "tap": 39.1
+        "tap": 39.1,
+        "tapd": 43.5
       }
     ],
     "Chris Duarte": [
@@ -48132,13 +48616,15 @@
         "y": 2023,
         "tm": "OKC",
         "ted": 31.5,
-        "tap": 31.4
+        "tap": 31.4,
+        "tapd": 37.0
       },
       {
         "y": 2024,
         "tm": "CHI",
         "ted": 33.6,
-        "tap": 32.5
+        "tap": 32.5,
+        "tapd": 30.3
       }
     ],
     "Devin Vassell": [
@@ -48152,13 +48638,15 @@
         "y": 2023,
         "tm": "SAS",
         "ted": 27.9,
-        "tap": 27.0
+        "tap": 27.0,
+        "tapd": 24.1
       },
       {
         "y": 2024,
         "tm": "SAS",
         "ted": 24.6,
-        "tap": 23.8
+        "tap": 23.8,
+        "tapd": 21.8
       }
     ],
     "Jalen Suggs": [
@@ -48178,7 +48666,8 @@
         "y": 2023,
         "tm": "ORL",
         "ted": 28.3,
-        "tap": 28.7
+        "tap": 28.7,
+        "tapd": 29.3
       }
     ],
     "Davion Mitchell": [
@@ -48192,7 +48681,8 @@
         "y": 2024,
         "tm": "TOT",
         "ted": 20.0,
-        "tap": 17.8
+        "tap": 17.8,
+        "tapd": 19.3
       }
     ],
     "Immanuel Quickley": [
@@ -48212,7 +48702,8 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 30.0,
-        "tap": 29.5
+        "tap": 29.5,
+        "tapd": 29.2
       }
     ],
     "Terance Mann": [
@@ -48232,13 +48723,15 @@
         "y": 2023,
         "tm": "LAC",
         "ted": 18.5,
-        "tap": 17.5
+        "tap": 17.5,
+        "tapd": 20.2
       },
       {
         "y": 2024,
         "tm": "TOT",
         "ted": 20.5,
-        "tap": 20.0
+        "tap": 20.0,
+        "tapd": 18.4
       }
     ],
     "Cameron Payne": [
@@ -48288,13 +48781,15 @@
         "y": 2023,
         "tm": "CLE",
         "ted": 23.3,
-        "tap": 23.0
+        "tap": 23.0,
+        "tapd": 28.8
       },
       {
         "y": 2024,
         "tm": "CLE",
         "ted": 22.8,
-        "tap": 22.9
+        "tap": 22.9,
+        "tapd": 28.5
       }
     ],
     "Tre Mann": [
@@ -48308,7 +48803,8 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 24.4,
-        "tap": 22.3
+        "tap": 22.3,
+        "tapd": 21.9
       }
     ],
     "Garrison Mathews": [
@@ -48360,13 +48856,15 @@
         "y": 2023,
         "tm": "HOU",
         "ted": 39.1,
-        "tap": 40.0
+        "tap": 40.0,
+        "tapd": 38.1
       },
       {
         "y": 2024,
         "tm": "HOU",
         "ted": 38.0,
-        "tap": 40.0
+        "tap": 40.0,
+        "tapd": 43.0
       }
     ],
     "Herbert Jones": [
@@ -48386,7 +48884,8 @@
         "y": 2023,
         "tm": "NOP",
         "ted": 24.1,
-        "tap": 23.9
+        "tap": 23.9,
+        "tapd": 27.8
       }
     ],
     "Daniel Gafford": [
@@ -48406,13 +48905,15 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 34.9,
-        "tap": 32.6
+        "tap": 32.6,
+        "tapd": 26.6
       },
       {
         "y": 2024,
         "tm": "DAL",
         "ted": 37.4,
-        "tap": 35.7
+        "tap": 35.7,
+        "tapd": 33.7
       }
     ],
     "Jaxson Hayes": [
@@ -48440,13 +48941,15 @@
         "y": 2023,
         "tm": "MIA",
         "ted": 20.7,
-        "tap": 20.7
+        "tap": 20.7,
+        "tapd": 22.7
       },
       {
         "y": 2024,
         "tm": "TOT",
         "ted": 15.2,
-        "tap": 13.7
+        "tap": 13.7,
+        "tapd": 12.9
       }
     ],
     "Georges Niang": [
@@ -48460,13 +48963,15 @@
         "y": 2023,
         "tm": "CLE",
         "ted": 20.7,
-        "tap": 19.7
+        "tap": 19.7,
+        "tapd": 22.9
       },
       {
         "y": 2024,
         "tm": "TOT",
         "ted": 21.7,
-        "tap": 20.2
+        "tap": 20.2,
+        "tapd": 25.8
       }
     ],
     "Precious Achiuwa": [
@@ -48486,13 +48991,15 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 22.9,
-        "tap": 22.3
+        "tap": 22.3,
+        "tapd": 23.5
       },
       {
         "y": 2024,
         "tm": "NYK",
         "ted": 21.9,
-        "tap": 21.6
+        "tap": 21.6,
+        "tapd": 21.2
       }
     ],
     "Oshae Brissett": [
@@ -48514,13 +49021,15 @@
         "y": 2023,
         "tm": "LAC",
         "ted": 16.2,
-        "tap": 15.2
+        "tap": 15.2,
+        "tapd": 15.4
       },
       {
         "y": 2024,
         "tm": "LAC",
         "ted": 19.3,
-        "tap": 19.3
+        "tap": 19.3,
+        "tapd": 19.0
       }
     ],
     "Chimezie Metu": [
@@ -48548,13 +49057,15 @@
         "y": 2023,
         "tm": "CHI",
         "ted": 22.8,
-        "tap": 21.5
+        "tap": 21.5,
+        "tapd": 20.7
       },
       {
         "y": 2024,
         "tm": "CHI",
         "ted": 22.7,
-        "tap": 21.1
+        "tap": 21.1,
+        "tapd": 17.3
       }
     ],
     "Nic Claxton": [
@@ -48574,13 +49085,15 @@
         "y": 2023,
         "tm": "BRK",
         "ted": 30.6,
-        "tap": 29.2
+        "tap": 29.2,
+        "tapd": 22.4
       },
       {
         "y": 2024,
         "tm": "BRK",
         "ted": 27.6,
-        "tap": 26.7
+        "tap": 26.7,
+        "tapd": 17.4
       }
     ],
     "Gabe Vincent": [
@@ -48600,7 +49113,8 @@
         "y": 2024,
         "tm": "LAL",
         "ted": 14.2,
-        "tap": 13.3
+        "tap": 13.3,
+        "tapd": 17.8
       }
     ],
     "Aaron Wiggins": [
@@ -48614,7 +49128,8 @@
         "y": 2024,
         "tm": "OKC",
         "ted": 27.9,
-        "tap": 29.3
+        "tap": 29.3,
+        "tapd": 37.4
       }
     ],
     "Corey Kispert": [
@@ -48634,13 +49149,15 @@
         "y": 2023,
         "tm": "WAS",
         "ted": 20.9,
-        "tap": 18.2
+        "tap": 18.2,
+        "tapd": 14.0
       },
       {
         "y": 2024,
         "tm": "WAS",
         "ted": 16.6,
-        "tap": 14.1
+        "tap": 14.1,
+        "tapd": 12.4
       }
     ],
     "Onyeka Okongwu": [
@@ -48660,13 +49177,15 @@
         "y": 2023,
         "tm": "ATL",
         "ted": 24.3,
-        "tap": 22.0
+        "tap": 22.0,
+        "tapd": 21.3
       },
       {
         "y": 2024,
         "tm": "ATL",
         "ted": 29.9,
-        "tap": 28.5
+        "tap": 28.5,
+        "tapd": 27.5
       }
     ],
     "Ziaire Williams": [
@@ -48680,13 +49199,15 @@
         "y": 2023,
         "tm": "MEM",
         "ted": 18.9,
-        "tap": 17.9
+        "tap": 17.9,
+        "tapd": 13.6
       },
       {
         "y": 2024,
         "tm": "BRK",
         "ted": 21.4,
-        "tap": 20.8
+        "tap": 20.8,
+        "tapd": 15.3
       }
     ],
     "Grant Williams": [
@@ -48706,7 +49227,8 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 18.6,
-        "tap": 16.7
+        "tap": 16.7,
+        "tapd": 16.6
       }
     ],
     "Cody Martin": [
@@ -48720,7 +49242,8 @@
         "y": 2024,
         "tm": "TOT",
         "ted": 20.3,
-        "tap": 19.4
+        "tap": 19.4,
+        "tapd": 18.4
       }
     ],
     "R.J. Hampton": [
@@ -48756,13 +49279,15 @@
         "y": 2023,
         "tm": "LAL",
         "ted": 27.7,
-        "tap": 26.1
+        "tap": 26.1,
+        "tapd": 25.7
       },
       {
         "y": 2024,
         "tm": "LAL",
         "ted": 31.9,
-        "tap": 31.2
+        "tap": 31.2,
+        "tapd": 32.5
       }
     ],
     "Javonte Green": [
@@ -48790,7 +49315,8 @@
         "y": 2023,
         "tm": "DET",
         "ted": 20.9,
-        "tap": 18.9
+        "tap": 18.9,
+        "tapd": 13.8
       }
     ],
     "Jarred Vanderbilt": [
@@ -48848,13 +49374,15 @@
         "y": 2023,
         "tm": "ORL",
         "ted": 34.2,
-        "tap": 35.0
+        "tap": 35.0,
+        "tapd": 35.3
       },
       {
         "y": 2024,
         "tm": "ORL",
         "ted": 38.6,
-        "tap": 40.4
+        "tap": 40.4,
+        "tapd": 38.4
       }
     ],
     "Bennedict Mathurin": [
@@ -48868,13 +49396,15 @@
         "y": 2023,
         "tm": "IND",
         "ted": 21.8,
-        "tap": 20.1
+        "tap": 20.1,
+        "tapd": 21.5
       },
       {
         "y": 2024,
         "tm": "IND",
         "ted": 23.6,
-        "tap": 22.2
+        "tap": 22.2,
+        "tapd": 24.8
       }
     ],
     "Jaden Ivey": [
@@ -48888,7 +49418,8 @@
         "y": 2023,
         "tm": "DET",
         "ted": 22.6,
-        "tap": 20.8
+        "tap": 20.8,
+        "tapd": 19.7
       }
     ],
     "Trey Murphy III": [
@@ -48902,13 +49433,15 @@
         "y": 2023,
         "tm": "NOP",
         "ted": 28.1,
-        "tap": 28.9
+        "tap": 28.9,
+        "tapd": 33.8
       },
       {
         "y": 2024,
         "tm": "NOP",
         "ted": 27.8,
-        "tap": 26.2
+        "tap": 26.2,
+        "tapd": 20.7
       }
     ],
     "Jalen Williams": [
@@ -48922,13 +49455,15 @@
         "y": 2023,
         "tm": "OKC",
         "ted": 34.0,
-        "tap": 33.9
+        "tap": 33.9,
+        "tapd": 38.5
       },
       {
         "y": 2024,
         "tm": "OKC",
         "ted": 38.5,
-        "tap": 40.7
+        "tap": 40.7,
+        "tapd": 44.1
       }
     ],
     "Tre Jones": [
@@ -48942,7 +49477,8 @@
         "y": 2023,
         "tm": "SAS",
         "ted": 25.9,
-        "tap": 23.8
+        "tap": 23.8,
+        "tapd": 24.0
       }
     ],
     "Jabari Smith Jr.": [
@@ -48956,13 +49492,15 @@
         "y": 2023,
         "tm": "HOU",
         "ted": 24.1,
-        "tap": 24.3
+        "tap": 24.3,
+        "tapd": 23.9
       },
       {
         "y": 2024,
         "tm": "HOU",
         "ted": 21.4,
-        "tap": 22.2
+        "tap": 22.2,
+        "tapd": 26.9
       }
     ],
     "Keegan Murray": [
@@ -48976,13 +49514,15 @@
         "y": 2023,
         "tm": "SAC",
         "ted": 22.8,
-        "tap": 22.9
+        "tap": 22.9,
+        "tapd": 25.2
       },
       {
         "y": 2024,
         "tm": "SAC",
         "ted": 18.6,
-        "tap": 18.1
+        "tap": 18.1,
+        "tapd": 20.3
       }
     ],
     "Zach Collins": [
@@ -48996,7 +49536,8 @@
         "y": 2023,
         "tm": "SAS",
         "ted": 27.5,
-        "tap": 25.3
+        "tap": 25.3,
+        "tapd": 17.7
       }
     ],
     "Quentin Grimes": [
@@ -49010,13 +49551,15 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 17.1,
-        "tap": 17.7
+        "tap": 17.7,
+        "tapd": 18.7
       },
       {
         "y": 2024,
         "tm": "TOT",
         "ted": 26.9,
-        "tap": 25.6
+        "tap": 25.6,
+        "tapd": 22.6
       }
     ],
     "Jeremy Sochan": [
@@ -49030,13 +49573,15 @@
         "y": 2023,
         "tm": "SAS",
         "ted": 20.6,
-        "tap": 19.1
+        "tap": 19.1,
+        "tapd": 17.1
       },
       {
         "y": 2024,
         "tm": "SAS",
         "ted": 25.2,
-        "tap": 23.3
+        "tap": 23.3,
+        "tapd": 22.4
       }
     ],
     "Malaki Branham": [
@@ -49050,7 +49595,8 @@
         "y": 2023,
         "tm": "SAS",
         "ted": 16.1,
-        "tap": 13.9
+        "tap": 13.9,
+        "tapd": 10.6
       }
     ],
     "Aaron Nesmith": [
@@ -49064,13 +49610,15 @@
         "y": 2023,
         "tm": "IND",
         "ted": 21.9,
-        "tap": 20.5
+        "tap": 20.5,
+        "tapd": 23.9
       },
       {
         "y": 2024,
         "tm": "IND",
         "ted": 24.5,
-        "tap": 23.2
+        "tap": 23.2,
+        "tapd": 29.7
       }
     ],
     "Jonathan Kuminga": [
@@ -49084,13 +49632,15 @@
         "y": 2023,
         "tm": "GSW",
         "ted": 29.9,
-        "tap": 29.0
+        "tap": 29.0,
+        "tapd": 31.7
       },
       {
         "y": 2024,
         "tm": "GSW",
         "ted": 30.1,
-        "tap": 31.1
+        "tap": 31.1,
+        "tapd": 30.9
       }
     ],
     "Shaedon Sharpe": [
@@ -49104,7 +49654,8 @@
         "y": 2024,
         "tm": "POR",
         "ted": 25.0,
-        "tap": 25.1
+        "tap": 25.1,
+        "tapd": 25.3
       }
     ],
     "Keita Bates-Diop": [
@@ -49126,13 +49677,15 @@
         "y": 2023,
         "tm": "IND",
         "ted": 19.9,
-        "tap": 17.8
+        "tap": 17.8,
+        "tapd": 21.3
       },
       {
         "y": 2024,
         "tm": "IND",
         "ted": 22.3,
-        "tap": 20.8
+        "tap": 20.8,
+        "tapd": 26.4
       }
     ],
     "Tari Eason": [
@@ -49146,7 +49699,8 @@
         "y": 2024,
         "tm": "HOU",
         "ted": 32.4,
-        "tap": 34.9
+        "tap": 34.9,
+        "tapd": 34.6
       }
     ],
     "Walker Kessler": [
@@ -49160,13 +49714,15 @@
         "y": 2023,
         "tm": "UTA",
         "ted": 26.9,
-        "tap": 24.6
+        "tap": 24.6,
+        "tapd": 21.3
       },
       {
         "y": 2024,
         "tm": "UTA",
         "ted": 28.5,
-        "tap": 25.9
+        "tap": 25.9,
+        "tapd": 18.5
       }
     ],
     "Bol Bol": [
@@ -49188,13 +49744,15 @@
         "y": 2023,
         "tm": "DET",
         "ted": 29.9,
-        "tap": 26.6
+        "tap": 26.6,
+        "tapd": 20.6
       },
       {
         "y": 2024,
         "tm": "DET",
         "ted": 35.0,
-        "tap": 33.5
+        "tap": 33.5,
+        "tapd": 30.2
       }
     ],
     "Josh Green": [
@@ -49208,13 +49766,15 @@
         "y": 2023,
         "tm": "DAL",
         "ted": 16.9,
-        "tap": 15.5
+        "tap": 15.5,
+        "tapd": 16.7
       },
       {
         "y": 2024,
         "tm": "CHO",
         "ted": 13.1,
-        "tap": 11.3
+        "tap": 11.3,
+        "tapd": 8.4
       }
     ],
     "Naji Marshall": [
@@ -49228,7 +49788,8 @@
         "y": 2024,
         "tm": "DAL",
         "ted": 24.7,
-        "tap": 23.5
+        "tap": 23.5,
+        "tapd": 22.3
       }
     ],
     "Santi Aldama": [
@@ -49242,13 +49803,15 @@
         "y": 2023,
         "tm": "MEM",
         "ted": 24.3,
-        "tap": 24.0
+        "tap": 24.0,
+        "tapd": 19.5
       },
       {
         "y": 2024,
         "tm": "MEM",
         "ted": 28.8,
-        "tap": 29.4
+        "tap": 29.4,
+        "tapd": 30.2
       }
     ],
     "Jose Alvarado": [
@@ -49262,7 +49825,8 @@
         "y": 2024,
         "tm": "NOP",
         "ted": 23.6,
-        "tap": 21.8
+        "tap": 21.8,
+        "tapd": 18.7
       }
     ],
     "Jevon Carter": [
@@ -49284,13 +49848,15 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 12.1,
-        "tap": 10.3
+        "tap": 10.3,
+        "tapd": 9.5
       },
       {
         "y": 2024,
         "tm": "TOR",
         "ted": 20.2,
-        "tap": 19.5
+        "tap": 19.5,
+        "tapd": 16.6
       }
     ],
     "Isaiah Livers": [
@@ -49320,7 +49886,8 @@
         "y": 2023,
         "tm": "MEM",
         "ted": 20.6,
-        "tap": 19.9
+        "tap": 19.9,
+        "tapd": 16.0
       }
     ],
     "Dean Wade": [
@@ -49334,13 +49901,15 @@
         "y": 2023,
         "tm": "CLE",
         "ted": 19.7,
-        "tap": 19.9
+        "tap": 19.9,
+        "tapd": 25.5
       },
       {
         "y": 2024,
         "tm": "CLE",
         "ted": 18.5,
-        "tap": 19.2
+        "tap": 19.2,
+        "tapd": 26.0
       }
     ],
     "Jalen McDaniels": [
@@ -49356,7 +49925,8 @@
         "y": 2023,
         "tm": "BRK",
         "ted": 28.8,
-        "tap": 28.8
+        "tap": 28.8,
+        "tapd": 28.0
       }
     ],
     "Victor Wembanyama": [
@@ -49364,13 +49934,15 @@
         "y": 2023,
         "tm": "SAS",
         "ted": 45.4,
-        "tap": 45.3
+        "tap": 45.3,
+        "tapd": 41.1
       },
       {
         "y": 2024,
         "tm": "SAS",
         "ted": 45.9,
-        "tap": 45.7
+        "tap": 45.7,
+        "tapd": 45.2
       }
     ],
     "Brandon Miller": [
@@ -49378,7 +49950,8 @@
         "y": 2023,
         "tm": "CHO",
         "ted": 22.5,
-        "tap": 20.7
+        "tap": 20.7,
+        "tapd": 17.4
       }
     ],
     "Chet Holmgren": [
@@ -49386,7 +49959,8 @@
         "y": 2023,
         "tm": "OKC",
         "ted": 36.3,
-        "tap": 36.5
+        "tap": 36.5,
+        "tapd": 39.9
       }
     ],
     "Jalen Johnson": [
@@ -49394,7 +49968,8 @@
         "y": 2023,
         "tm": "ATL",
         "ted": 28.2,
-        "tap": 26.9
+        "tap": 26.9,
+        "tapd": 25.9
       }
     ],
     "GG Jackson II": [
@@ -49402,7 +49977,8 @@
         "y": 2023,
         "tm": "MEM",
         "ted": 23.7,
-        "tap": 23.3
+        "tap": 23.3,
+        "tapd": 21.5
       }
     ],
     "Scoot Henderson": [
@@ -49410,13 +49986,15 @@
         "y": 2023,
         "tm": "POR",
         "ted": 20.9,
-        "tap": 18.5
+        "tap": 18.5,
+        "tapd": 16.4
       },
       {
         "y": 2024,
         "tm": "POR",
         "ted": 24.9,
-        "tap": 23.5
+        "tap": 23.5,
+        "tapd": 25.0
       }
     ],
     "Naz Reid": [
@@ -49424,13 +50002,15 @@
         "y": 2023,
         "tm": "MIN",
         "ted": 32.0,
-        "tap": 32.9
+        "tap": 32.9,
+        "tapd": 37.2
       },
       {
         "y": 2024,
         "tm": "MIN",
         "ted": 29.9,
-        "tap": 30.7
+        "tap": 30.7,
+        "tapd": 34.4
       }
     ],
     "Keyonte George": [
@@ -49438,13 +50018,15 @@
         "y": 2023,
         "tm": "UTA",
         "ted": 19.1,
-        "tap": 16.2
+        "tap": 16.2,
+        "tapd": 15.9
       },
       {
         "y": 2024,
         "tm": "UTA",
         "ted": 22.9,
-        "tap": 20.4
+        "tap": 20.4,
+        "tapd": 16.2
       }
     ],
     "Jaime Jaquez Jr.": [
@@ -49452,13 +50034,15 @@
         "y": 2023,
         "tm": "MIA",
         "ted": 23.8,
-        "tap": 23.4
+        "tap": 23.4,
+        "tapd": 24.9
       },
       {
         "y": 2024,
         "tm": "MIA",
         "ted": 25.6,
-        "tap": 25.2
+        "tap": 25.2,
+        "tapd": 22.0
       }
     ],
     "Obi Toppin": [
@@ -49466,7 +50050,8 @@
         "y": 2023,
         "tm": "IND",
         "ted": 26.1,
-        "tap": 24.4
+        "tap": 24.4,
+        "tapd": 26.2
       }
     ],
     "Vince Williams Jr.": [
@@ -49474,7 +50059,8 @@
         "y": 2023,
         "tm": "MEM",
         "ted": 24.8,
-        "tap": 23.2
+        "tap": 23.2,
+        "tapd": 21.9
       }
     ],
     "Nick Richards": [
@@ -49482,13 +50068,15 @@
         "y": 2023,
         "tm": "CHO",
         "ted": 23.1,
-        "tap": 19.5
+        "tap": 19.5,
+        "tapd": 11.7
       },
       {
         "y": 2024,
         "tm": "TOT",
         "ted": 24.8,
-        "tap": 21.3
+        "tap": 21.3,
+        "tapd": 16.4
       }
     ],
     "Payton Pritchard": [
@@ -49496,13 +50084,15 @@
         "y": 2023,
         "tm": "BOS",
         "ted": 27.1,
-        "tap": 27.2
+        "tap": 27.2,
+        "tapd": 34.1
       },
       {
         "y": 2024,
         "tm": "BOS",
         "ted": 30.1,
-        "tap": 31.1
+        "tap": 31.1,
+        "tapd": 35.7
       }
     ],
     "Amen Thompson": [
@@ -49510,13 +50100,15 @@
         "y": 2023,
         "tm": "HOU",
         "ted": 31.1,
-        "tap": 31.3
+        "tap": 31.3,
+        "tapd": 30.2
       },
       {
         "y": 2024,
         "tm": "HOU",
         "ted": 32.4,
-        "tap": 33.4
+        "tap": 33.4,
+        "tapd": 34.4
       }
     ],
     "Brandin Podziemski": [
@@ -49524,13 +50116,15 @@
         "y": 2023,
         "tm": "GSW",
         "ted": 23.0,
-        "tap": 22.6
+        "tap": 22.6,
+        "tapd": 28.3
       },
       {
         "y": 2024,
         "tm": "GSW",
         "ted": 27.3,
-        "tap": 27.6
+        "tap": 27.6,
+        "tapd": 31.6
       }
     ],
     "Sam Hauser": [
@@ -49538,13 +50132,15 @@
         "y": 2023,
         "tm": "BOS",
         "ted": 22.7,
-        "tap": 23.4
+        "tap": 23.4,
+        "tapd": 32.1
       },
       {
         "y": 2024,
         "tm": "BOS",
         "ted": 22.0,
-        "tap": 22.7
+        "tap": 22.7,
+        "tapd": 29.6
       }
     ],
     "Jabari Walker": [
@@ -49552,7 +50148,8 @@
         "y": 2023,
         "tm": "POR",
         "ted": 20.7,
-        "tap": 19.2
+        "tap": 19.2,
+        "tapd": 15.7
       }
     ],
     "Dereck Lively II": [
@@ -49560,7 +50157,8 @@
         "y": 2023,
         "tm": "DAL",
         "ted": 27.7,
-        "tap": 25.9
+        "tap": 25.9,
+        "tapd": 27.7
       }
     ],
     "Ausar Thompson": [
@@ -49568,13 +50166,15 @@
         "y": 2023,
         "tm": "DET",
         "ted": 22.0,
-        "tap": 20.6
+        "tap": 20.6,
+        "tapd": 17.8
       },
       {
         "y": 2024,
         "tm": "DET",
         "ted": 31.3,
-        "tap": 32.0
+        "tap": 32.0,
+        "tapd": 32.0
       }
     ],
     "Gradey Dick": [
@@ -49582,13 +50182,15 @@
         "y": 2023,
         "tm": "TOR",
         "ted": 14.6,
-        "tap": 12.4
+        "tap": 12.4,
+        "tapd": 8.5
       },
       {
         "y": 2024,
         "tm": "TOR",
         "ted": 19.9,
-        "tap": 19.4
+        "tap": 19.4,
+        "tapd": 18.0
       }
     ],
     "Bilal Coulibaly": [
@@ -49596,13 +50198,15 @@
         "y": 2023,
         "tm": "WAS",
         "ted": 14.8,
-        "tap": 12.4
+        "tap": 12.4,
+        "tapd": 8.5
       },
       {
         "y": 2024,
         "tm": "WAS",
         "ted": 17.9,
-        "tap": 15.7
+        "tap": 15.7,
+        "tapd": 9.7
       }
     ],
     "Isaiah Hartenstein": [
@@ -49610,13 +50214,15 @@
         "y": 2023,
         "tm": "NYK",
         "ted": 31.2,
-        "tap": 31.2
+        "tap": 31.2,
+        "tapd": 34.0
       },
       {
         "y": 2024,
         "tm": "OKC",
         "ted": 34.8,
-        "tap": 35.5
+        "tap": 35.5,
+        "tapd": 38.5
       }
     ],
     "Toumani Camara": [
@@ -49624,13 +50230,15 @@
         "y": 2023,
         "tm": "POR",
         "ted": 16.6,
-        "tap": 15.2
+        "tap": 15.2,
+        "tapd": 14.0
       },
       {
         "y": 2024,
         "tm": "POR",
         "ted": 20.6,
-        "tap": 20.5
+        "tap": 20.5,
+        "tapd": 19.9
       }
     ],
     "Christian Braun": [
@@ -49638,13 +50246,15 @@
         "y": 2023,
         "tm": "DEN",
         "ted": 21.5,
-        "tap": 21.3
+        "tap": 21.3,
+        "tapd": 20.7
       },
       {
         "y": 2024,
         "tm": "DEN",
         "ted": 24.8,
-        "tap": 23.4
+        "tap": 23.4,
+        "tapd": 28.6
       }
     ],
     "Taylor Hendricks": [
@@ -49652,7 +50262,8 @@
         "y": 2023,
         "tm": "UTA",
         "ted": 18.8,
-        "tap": 17.2
+        "tap": 17.2,
+        "tapd": 14.8
       }
     ],
     "Cason Wallace": [
@@ -49660,13 +50271,15 @@
         "y": 2023,
         "tm": "OKC",
         "ted": 21.1,
-        "tap": 21.3
+        "tap": 21.3,
+        "tapd": 23.9
       },
       {
         "y": 2024,
         "tm": "OKC",
         "ted": 23.4,
-        "tap": 25.1
+        "tap": 25.1,
+        "tapd": 30.5
       }
     ],
     "Haywood Highsmith": [
@@ -49674,13 +50287,15 @@
         "y": 2023,
         "tm": "MIA",
         "ted": 20.2,
-        "tap": 20.4
+        "tap": 20.4,
+        "tapd": 18.9
       },
       {
         "y": 2024,
         "tm": "MIA",
         "ted": 17.9,
-        "tap": 17.3
+        "tap": 17.3,
+        "tapd": 18.6
       }
     ],
     "Kris Murray": [
@@ -49688,7 +50303,8 @@
         "y": 2023,
         "tm": "POR",
         "ted": 14.6,
-        "tap": 13.5
+        "tap": 13.5,
+        "tapd": 15.6
       }
     ],
     "Dyson Daniels": [
@@ -49696,13 +50312,15 @@
         "y": 2023,
         "tm": "NOP",
         "ted": 23.2,
-        "tap": 23.7
+        "tap": 23.7,
+        "tapd": 26.3
       },
       {
         "y": 2024,
         "tm": "ATL",
         "ted": 28.5,
-        "tap": 28.6
+        "tap": 28.6,
+        "tapd": 27.5
       }
     ],
     "Simone Fontecchio": [
@@ -49710,7 +50328,8 @@
         "y": 2023,
         "tm": "TOT",
         "ted": 19.3,
-        "tap": 17.6
+        "tap": 17.6,
+        "tapd": 19.4
       }
     ],
     "Mark Williams": [
@@ -49718,7 +50337,8 @@
         "y": 2024,
         "tm": "CHO",
         "ted": 38.1,
-        "tap": 36.6
+        "tap": 36.6,
+        "tapd": 24.9
       }
     ],
     "Stephon Castle": [
@@ -49726,7 +50346,8 @@
         "y": 2024,
         "tm": "SAS",
         "ted": 24.8,
-        "tap": 23.1
+        "tap": 23.1,
+        "tapd": 23.2
       }
     ],
     "Alex Sarr": [
@@ -49734,7 +50355,8 @@
         "y": 2024,
         "tm": "WAS",
         "ted": 22.6,
-        "tap": 21.4
+        "tap": 21.4,
+        "tapd": 15.3
       }
     ],
     "Zaccharie Risacher": [
@@ -49742,7 +50364,8 @@
         "y": 2024,
         "tm": "ATL",
         "ted": 20.3,
-        "tap": 19.0
+        "tap": 19.0,
+        "tapd": 19.8
       }
     ],
     "Guerschon Yabusele": [
@@ -49750,7 +50373,8 @@
         "y": 2024,
         "tm": "PHI",
         "ted": 21.8,
-        "tap": 19.7
+        "tap": 19.7,
+        "tapd": 19.3
       }
     ],
     "Brice Sensabaugh": [
@@ -49758,7 +50382,8 @@
         "y": 2024,
         "tm": "UTA",
         "ted": 22.0,
-        "tap": 19.5
+        "tap": 19.5,
+        "tapd": 15.2
       }
     ],
     "Jordan Hawkins": [
@@ -49766,7 +50391,8 @@
         "y": 2024,
         "tm": "NOP",
         "ted": 14.7,
-        "tap": 12.9
+        "tap": 12.9,
+        "tapd": 10.6
       }
     ],
     "Brandon Boston Jr.": [
@@ -49774,7 +50400,8 @@
         "y": 2024,
         "tm": "NOP",
         "ted": 21.7,
-        "tap": 20.2
+        "tap": 20.2,
+        "tapd": 18.6
       }
     ],
     "Nikola Jović": [
@@ -49782,7 +50409,8 @@
         "y": 2024,
         "tm": "MIA",
         "ted": 25.6,
-        "tap": 25.1
+        "tap": 25.1,
+        "tapd": 23.6
       }
     ],
     "Keon Johnson": [
@@ -49790,7 +50418,8 @@
         "y": 2024,
         "tm": "BRK",
         "ted": 21.2,
-        "tap": 20.9
+        "tap": 20.9,
+        "tapd": 16.6
       }
     ],
     "Jaylen Wells": [
@@ -49798,7 +50427,8 @@
         "y": 2024,
         "tm": "MEM",
         "ted": 17.2,
-        "tap": 17.1
+        "tap": 17.1,
+        "tapd": 22.3
       }
     ],
     "Isaiah Joe": [
@@ -49806,7 +50436,8 @@
         "y": 2024,
         "tm": "OKC",
         "ted": 25.0,
-        "tap": 26.3
+        "tap": 26.3,
+        "tapd": 35.2
       }
     ],
     "Trendon Watford": [
@@ -49814,7 +50445,8 @@
         "y": 2024,
         "tm": "BRK",
         "ted": 24.7,
-        "tap": 22.8
+        "tap": 22.8,
+        "tapd": 23.2
       }
     ],
     "Justin Edwards": [
@@ -49822,7 +50454,8 @@
         "y": 2024,
         "tm": "PHI",
         "ted": 17.2,
-        "tap": 15.2
+        "tap": 15.2,
+        "tapd": 11.3
       }
     ],
     "Julian Champagnie": [
@@ -49830,7 +50463,8 @@
         "y": 2024,
         "tm": "SAS",
         "ted": 20.0,
-        "tap": 18.8
+        "tap": 18.8,
+        "tapd": 19.8
       }
     ],
     "Scotty Pippen Jr.": [
@@ -49838,7 +50472,8 @@
         "y": 2024,
         "tm": "MEM",
         "ted": 31.7,
-        "tap": 31.3
+        "tap": 31.3,
+        "tapd": 30.0
       }
     ],
     "Nick Smith Jr.": [
@@ -49846,7 +50481,8 @@
         "y": 2024,
         "tm": "CHO",
         "ted": 15.2,
-        "tap": 13.3
+        "tap": 13.3,
+        "tapd": 9.0
       }
     ],
     "Bub Carrington": [
@@ -49854,7 +50490,8 @@
         "y": 2024,
         "tm": "WAS",
         "ted": 16.6,
-        "tap": 13.5
+        "tap": 13.5,
+        "tapd": 7.3
       }
     ],
     "Moses Moody": [
@@ -49862,7 +50499,8 @@
         "y": 2024,
         "tm": "GSW",
         "ted": 22.3,
-        "tap": 22.6
+        "tap": 22.6,
+        "tapd": 25.3
       }
     ],
     "Kyle Filipowski": [
@@ -49870,7 +50508,8 @@
         "y": 2024,
         "tm": "UTA",
         "ted": 25.0,
-        "tap": 22.5
+        "tap": 22.5,
+        "tapd": 15.4
       }
     ],
     "Miles McBride": [
@@ -49878,7 +50517,8 @@
         "y": 2024,
         "tm": "NYK",
         "ted": 22.3,
-        "tap": 22.9
+        "tap": 22.9,
+        "tapd": 28.0
       }
     ],
     "Jalen Wilson": [
@@ -49886,7 +50526,8 @@
         "y": 2024,
         "tm": "BRK",
         "ted": 16.3,
-        "tap": 14.8
+        "tap": 14.8,
+        "tapd": 13.8
       }
     ],
     "Anthony Black": [
@@ -49894,7 +50535,8 @@
         "y": 2024,
         "tm": "ORL",
         "ted": 24.5,
-        "tap": 24.6
+        "tap": 24.6,
+        "tapd": 25.4
       }
     ],
     "Kel'el Ware": [
@@ -49902,7 +50544,8 @@
         "y": 2024,
         "tm": "MIA",
         "ted": 29.1,
-        "tap": 28.6
+        "tap": 28.6,
+        "tapd": 28.1
       }
     ],
     "Zach Edey": [
@@ -49910,7 +50553,8 @@
         "y": 2024,
         "tm": "MEM",
         "ted": 27.9,
-        "tap": 26.9
+        "tap": 26.9,
+        "tapd": 28.8
       }
     ],
     "Noah Clowney": [
@@ -49918,7 +50562,8 @@
         "y": 2024,
         "tm": "BRK",
         "ted": 17.3,
-        "tap": 16.4
+        "tap": 16.4,
+        "tapd": 11.4
       }
     ],
     "Yves Missi": [
@@ -49926,7 +50571,8 @@
         "y": 2024,
         "tm": "NOP",
         "ted": 20.2,
-        "tap": 17.2
+        "tap": 17.2,
+        "tapd": 10.7
       }
     ],
     "Julian Strawther": [
@@ -49934,7 +50580,8 @@
         "y": 2024,
         "tm": "DEN",
         "ted": 17.3,
-        "tap": 15.9
+        "tap": 15.9,
+        "tapd": 17.3
       }
     ],
     "Justin Champagnie": [
@@ -49942,7 +50589,8 @@
         "y": 2024,
         "tm": "WAS",
         "ted": 23.7,
-        "tap": 21.8
+        "tap": 21.8,
+        "tapd": 15.4
       }
     ],
     "Isaiah Collier": [
@@ -49950,7 +50598,8 @@
         "y": 2024,
         "tm": "UTA",
         "ted": 19.6,
-        "tap": 15.3
+        "tap": 15.3,
+        "tapd": 12.7
       }
     ],
     "Kyshawn George": [
@@ -49958,7 +50607,8 @@
         "y": 2024,
         "tm": "WAS",
         "ted": 17.1,
-        "tap": 14.9
+        "tap": 14.9,
+        "tapd": 12.4
       }
     ],
     "Tyrese Martin": [
@@ -49966,7 +50616,8 @@
         "y": 2024,
         "tm": "BRK",
         "ted": 19.2,
-        "tap": 18.0
+        "tap": 18.0,
+        "tapd": 14.2
       }
     ],
     "Ja'Kobe Walter": [
@@ -49974,7 +50625,8 @@
         "y": 2024,
         "tm": "TOR",
         "ted": 18.8,
-        "tap": 18.6
+        "tap": 18.6,
+        "tapd": 18.8
       }
     ],
     "Keon Ellis": [
@@ -49982,7 +50634,8 @@
         "y": 2024,
         "tm": "SAC",
         "ted": 23.0,
-        "tap": 22.8
+        "tap": 22.8,
+        "tapd": 23.1
       }
     ],
     "Peyton Watson": [
@@ -49990,7 +50643,8 @@
         "y": 2024,
         "tm": "DEN",
         "ted": 19.5,
-        "tap": 18.4
+        "tap": 18.4,
+        "tapd": 18.1
       }
     ],
     "A.J. Green": [
@@ -49998,7 +50652,8 @@
         "y": 2024,
         "tm": "MIL",
         "ted": 17.0,
-        "tap": 15.8
+        "tap": 15.8,
+        "tapd": 22.7
       }
     ],
     "Goga Bitadze": [
@@ -50006,7 +50661,8 @@
         "y": 2024,
         "tm": "ORL",
         "ted": 33.5,
-        "tap": 33.3
+        "tap": 33.3,
+        "tapd": 31.9
       }
     ],
     "Tristan Da Silva": [
@@ -50014,7 +50670,8 @@
         "y": 2024,
         "tm": "ORL",
         "ted": 17.3,
-        "tap": 17.7
+        "tap": 17.7,
+        "tapd": 17.0
       }
     ],
     "Vit Krejci": [
@@ -50030,7 +50687,8 @@
         "y": 2024,
         "tm": "CHO",
         "ted": 13.5,
-        "tap": 11.9
+        "tap": 11.9,
+        "tapd": 7.1
       }
     ],
     "Jonathan Mogbo": [
@@ -50038,7 +50696,8 @@
         "y": 2024,
         "tm": "TOR",
         "ted": 21.6,
-        "tap": 21.0
+        "tap": 21.0,
+        "tapd": 16.2
       }
     ],
     "Tidjane Salaün": [
@@ -50046,7 +50705,8 @@
         "y": 2024,
         "tm": "CHO",
         "ted": 13.4,
-        "tap": 12.0
+        "tap": 12.0,
+        "tapd": 7.7
       }
     ],
     "Cody Williams": [
@@ -50054,7 +50714,8 @@
         "y": 2024,
         "tm": "UTA",
         "ted": 6.5,
-        "tap": 4.0
+        "tap": 4.0,
+        "tapd": 0.5
       }
     ],
     "Max Christie": [
@@ -50062,7 +50723,8 @@
         "y": 2024,
         "tm": "TOT",
         "ted": 17.5,
-        "tap": 16.4
+        "tap": 16.4,
+        "tapd": 17.3
       }
     ],
     "Jake LaRavia": [
@@ -50070,7 +50732,8 @@
         "y": 2024,
         "tm": "TOT",
         "ted": 23.1,
-        "tap": 22.3
+        "tap": 22.3,
+        "tapd": 26.0
       }
     ]
   },
@@ -51257,7 +51920,14 @@
       "g3_ted": "Giannis Antetokounmpo",
       "g3_ted_val": 51.8,
       "g3_tap": "Luka Dončić",
-      "g3_tap_val": 53.5
+      "g3_tap_val": 53.5,
+      "top10_tapd": 49.2,
+      "ldr_tapd": "Nikola Jokić",
+      "ldr_tapd_val": 57.9,
+      "g2_tapd": "Shai Gilgeous-Alexander",
+      "g2_tapd_val": 55.4,
+      "g3_tapd": "Luka Dončić",
+      "g3_tapd_val": 50.9
     },
     "2024": {
       "top10_ted": 46.6,
@@ -51273,7 +51943,14 @@
       "g3_ted": "Giannis Antetokounmpo",
       "g3_ted_val": 53.5,
       "g3_tap": "Giannis Antetokounmpo",
-      "g3_tap_val": 54.2
+      "g3_tap_val": 54.2,
+      "top10_tapd": 48.8,
+      "ldr_tapd": "Shai Gilgeous-Alexander",
+      "ldr_tapd_val": 60.6,
+      "g2_tapd": "Nikola Jokić",
+      "g2_tapd_val": 55.3,
+      "g3_tapd": "Giannis Antetokounmpo",
+      "g3_tapd_val": 52.8
     }
   }
 }
