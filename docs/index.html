@@ -217,13 +217,40 @@
       background: #eee;
     }
 
+    /* In TAP view, season/tapd title bars are NOT clickable (sub-header toggles instead) */
+    .view-tap .season-monthly-slot .season-table .table-header,
+    .view-tap .season-monthly-slot .tapd-table .table-header {
+      cursor: default;
+    }
+    .view-tap .season-monthly-slot .season-table .table-header:hover,
+    .view-tap .season-monthly-slot .tapd-table .table-header:hover {
+      background: transparent;
+    }
+
     .season-monthly-slot .table-section h2 {
       color: #ee7623;
+    }
+
+    /* But TAP season/tapd title text stays black (not orange — not clickable) */
+    .view-tap .season-monthly-slot .season-table .table-section h2,
+    .view-tap .season-monthly-slot .tapd-table .table-section h2 {
+      color: #000;
     }
 
     .monthly-table th.rank {
       color: #ee7623;
       cursor: pointer;
+    }
+
+    /* TAP sub-header in season-to-date TAP and TAPD tables: orange + clickable */
+    .view-tap .season-monthly-slot .season-table th.stat,
+    .view-tap .season-monthly-slot .tapd-table th.stat {
+      color: #ee7623;
+      cursor: pointer;
+    }
+    .view-tap .season-monthly-slot .season-table th.stat:hover,
+    .view-tap .season-monthly-slot .tapd-table th.stat:hover {
+      opacity: 0.7;
     }
 
     .potm-overlay {
@@ -15521,27 +15548,36 @@
       });
     });
 
-    /* Season / Monthly toggle (TED view), Season TAP ↔ TAPD toggle (TAP view). */
+    /* TED view: Season ↔ Monthly toggle via title bar click. */
     document.querySelectorAll('.season-monthly-slot').forEach(function(slot) {
       slot.addEventListener('click', function(e) {
         var header = e.target.closest('.table-header');
         if (!header) return;
+        /* Only in TED view — TAP view uses the TAP sub-header for TAPD toggle */
+        if (slot.closest('.view-tap')) return;
         var seasonDiv = slot.querySelector('.season-table');
         var monthlyDiv = slot.querySelector('.monthly-table');
-        var tapdDiv = slot.querySelector('.tapd-table');
-        var isInTapView = !!slot.closest('.view-tap');
+        var seasonVisible = seasonDiv.style.display !== 'none';
+        seasonDiv.style.display = seasonVisible ? 'none' : '';
+        monthlyDiv.style.display = seasonVisible ? '' : 'none';
+      });
+    });
 
-        if (isInTapView && tapdDiv) {
-          /* TAP view: 2-way toggle: Season TAP ↔ TAPD */
-          var seasonVisible = seasonDiv.style.display !== 'none';
-          seasonDiv.style.display = seasonVisible ? 'none' : '';
-          tapdDiv.style.display = seasonVisible ? '' : 'none';
-        } else {
-          /* TED view: 2-way toggle: Season ↔ Monthly */
-          var seasonVisible = seasonDiv.style.display !== 'none';
-          seasonDiv.style.display = seasonVisible ? 'none' : '';
-          monthlyDiv.style.display = seasonVisible ? '' : 'none';
-        }
+    /* TAP view: clicking the "TAP" column sub-header toggles TAP ↔ TAPD */
+    document.querySelectorAll('.view-tap .season-monthly-slot').forEach(function(slot) {
+      var seasonDiv = slot.querySelector('.season-table');
+      var tapdDiv = slot.querySelector('.tapd-table');
+      if (!seasonDiv || !tapdDiv) return;
+      slot.addEventListener('click', function(e) {
+        var th = e.target.closest('th.stat');
+        if (!th) return;
+        /* Only respond to stat column header clicks inside season or tapd tables */
+        var inSeason = !!th.closest('.season-table');
+        var inTapd = !!th.closest('.tapd-table');
+        if (!inSeason && !inTapd) return;
+        var seasonVisible = seasonDiv.style.display !== 'none';
+        seasonDiv.style.display = seasonVisible ? 'none' : '';
+        tapdDiv.style.display = seasonVisible ? '' : 'none';
       });
     });
 
