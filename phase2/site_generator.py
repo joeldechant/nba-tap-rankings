@@ -1242,7 +1242,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       font-weight: 900;
       font-size: 1.15em;
       letter-spacing: -0.5px;
-      min-width: 55px;
+      min-width: 62px;
     }}
 
     thead th.num {{
