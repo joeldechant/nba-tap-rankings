@@ -1296,7 +1296,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     .tapd-year-table thead th.stat,
     .tapd-table thead th.stat {{
-      padding-right: 6px;
+      padding-right: 16px;
     }}
 
     .empty {{
@@ -1838,6 +1838,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         font-size: 1.05em;
         padding: 10px 14px;
       }}
+      .tapd-year-table thead th.stat,
+      .tapd-table thead th.stat {{
+        padding-right: inherit;
+      }}
     }}
   </style>
 </head>
@@ -2292,7 +2296,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }});
 
     /* Historical TAP/TAPD toggle: per-year toggle — clicking th.stat-toggle swaps tables within that year only */
-    document.querySelector('.view-tap').addEventListener('click', function(e) {{
+    document.querySelectorAll('.view-tap').forEach(function(vt) {{ vt.addEventListener('click', function(e) {{
       var th = e.target.closest('th.stat-toggle');
       if (!th) return;
       var yearDiv = th.closest('.year-table');
@@ -2308,7 +2312,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       /* Update the header label */
       var label = yearDiv.querySelector('.year-stat-label');
       if (label) label.textContent = tapVisible ? 'TAPD' : 'TAP';
-    }});
+    }}); }});
 
     /* Historical / All-Time toggle — click header to show/hide */
     document.querySelectorAll('.historical-section').forEach(function(sec) {{
