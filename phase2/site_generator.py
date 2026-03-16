@@ -1304,6 +1304,16 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       font-weight: 900;
       font-size: 1.15em;
       letter-spacing: -0.5px;
+    }}
+    /* Lock stat column width in tables that toggle TAP/TAPD (prevents column jump on toggle).
+       GOAT/G2/G3 excluded — they don't toggle and need narrower .num width (52px) to fit mobile. */
+    .decade-years .year-table .stat,
+    .decade-top100 .year-table .stat,
+    .all-time-table .year-table .stat,
+    .season-table .stat,
+    .tapd-table .stat,
+    .monthly-table .stat,
+    .tables-grid .year-table .stat {{
       width: 62px;
       min-width: 62px;
       max-width: 62px;
@@ -1323,6 +1333,15 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     thead th.stat {{
       text-align: right;
+    }}
+    /* Match stat width lock for headers in TAP/TAPD toggle tables only */
+    .decade-years thead th.stat,
+    .decade-top100 thead th.stat,
+    .all-time-table thead th.stat,
+    .season-table thead th.stat,
+    .tapd-table thead th.stat,
+    .monthly-table thead th.stat,
+    .tables-grid thead th.stat {{
       min-width: 62px;
     }}
 
