@@ -1244,6 +1244,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     .player {{
       min-width: 130px;
+      white-space: nowrap;
     }}
 
     .team {{
