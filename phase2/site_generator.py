@@ -196,6 +196,11 @@ def render_historical_section(data, stat_key='ted', season_all=None):
                         team = p['team'] if p['team'] else '&mdash;'
                         val_str = f'{p["tapd"]:.1f}'
                         tapd_rows += f'        <tr><td class="rank">{rank}</td><td class="player" data-player="{player_attr}">{name_html}</td><td class="team">{team}</td><td class="num stat">{val_str}</td></tr>\n'
+                else:
+                    # Skeleton rows — show rank numbers but no data yet
+                    num_rows = len(year_data['players'])
+                    for rank in range(1, num_rows + 1):
+                        tapd_rows += f'        <tr><td class="rank">{rank}</td><td class="player"></td><td class="team"></td><td class="num stat"></td></tr>\n'
                 tapd_table_html = f"""
         <table class="tapd-year-table" style="display:none">
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat stat-toggle">TAPD</th></tr></thead>
