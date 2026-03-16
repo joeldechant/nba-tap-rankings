@@ -221,8 +221,10 @@ def render_historical_section(data, stat_key='ted', season_all=None):
     # Build G3 table (top 3 players per year) from season_stats
     g3_html = render_g3_html(data.get('season_stats', {}), stat_key, season_all)
 
+    # TAPD view still uses "TAP" in the section header — no separate historical TAPD summary
+    header_label = 'TAP' if stat_key in ('tap', 'tapd') else stat_upper
     return nav_links, f"""  <div class="historical-section">
-    <div class="historical-header"><h2>Historical {stat_upper} Rankings</h2></div>
+    <div class="historical-header"><h2>Historical {header_label} Rankings</h2></div>
     <div class="all-time-table" style="display:none">
 {render_all_time_html(data, stat_key, season_all)}    </div>
     <nav class="decade-nav">{nav_links}</nav>
