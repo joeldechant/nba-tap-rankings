@@ -176,16 +176,41 @@ def render_historical_section(data, stat_key='ted', season_all=None):
                 val_str = f'{val:.1f}'
                 rows += f'        <tr><td class="rank">{rank}</td><td class="player" data-player="{player_attr}">{name_html}</td><td class="team">{team}</td><td class="num stat">{val_str}</td></tr>\n'
 
-            # Add stat-toggle class only for years with TAPD data (2000+)
-            has_tapd_data = any(p.get('tapd') is not None for p in year_data['players'] if p.get('player'))
+            # Check if this year has TAPD data — if so, build a hidden TAPD table too
+            has_tapd_data = (stat_key == 'tap' and
+                any(p.get('tapd') is not None for p in year_data['players'] if p.get('player')))
             stat_cls = 'num stat stat-toggle' if has_tapd_data else 'num stat'
+
+            tapd_table_html = ''
+            if has_tapd_data:
+                # Build TAPD version of this year's table
+                tapd_sorted = sorted(
+                    [p for p in year_data['players'] if p.get('player')],
+                    key=lambda p: p.get('tapd', 0) or 0,
+                    reverse=True
+                )
+                tapd_rows = ''
+                for rank, p in enumerate(tapd_sorted, 1):
+                    name_html = format_player_name(p['player'])
+                    player_attr = html_module.escape(p['player'], quote=True)
+                    team = p['team'] if p['team'] else '&mdash;'
+                    val = p.get('tapd', 0) or 0
+                    val_str = f'{val:.1f}'
+                    tapd_rows += f'        <tr><td class="rank">{rank}</td><td class="player" data-player="{player_attr}">{name_html}</td><td class="team">{team}</td><td class="num stat">{val_str}</td></tr>\n'
+                tapd_table_html = f"""
+        <table class="tapd-year-table" style="display:none">
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="num stat stat-toggle">TAPD</th></tr></thead>
+          <tbody>
+{tapd_rows}          </tbody>
+        </table>"""
+
             year_tables.append(f"""      <div class="year-table" data-year="{year_data['year']}">
-        <div class="table-header"><h2>{season_label} SEASON &mdash; {effective_upper} TOP {top_n}</h2></div>
-        <table>
+        <div class="table-header"><h2>{season_label} SEASON &mdash; <span class="year-stat-label">{effective_upper}</span> TOP {top_n}</h2></div>
+        <table class="tap-year-table">
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="team">Team</th><th class="{stat_cls}">{effective_upper}</th></tr></thead>
           <tbody>
 {rows}          </tbody>
-        </table>
+        </table>{tapd_table_html}
       </div>
 """)
 
@@ -786,13 +811,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     if historical:
         decade_nav_links, historical_ted_html = render_historical_section(historical, 'ted', season_all)
         _, historical_tap_html = render_historical_section(historical, 'tap', season_all)
-        _, historical_tapd_html = render_historical_section(historical, 'tapd', season_all)
         decade_nav_html = ''  # now embedded inside historical sections
         historical_html = f"""<div class="view-ted" style="display:none">
 {historical_ted_html}</div>
 <div class="view-tap">
-<div class="hist-tap-view">{historical_tap_html}</div>
-<div class="hist-tapd-view" style="display:none">{historical_tapd_html}</div>
+{historical_tap_html}
 </div>"""
     else:
         decade_nav_html = ''
@@ -1043,15 +1066,12 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       opacity: 1;
     }}
     /* Historical TAP/TAPD toggle: orange clickable sub-header only for years with TAPD data */
-    .view-tap .hist-tap-view th.stat-toggle,
-    .view-tap .hist-tapd-view th.stat-toggle {{
+    .view-tap th.stat-toggle {{
       color: #ee7623;
       cursor: pointer;
     }}
-    .view-tap .hist-tap-view th.stat-toggle:hover,
-    .view-tap .hist-tap-view th.stat-toggle:active,
-    .view-tap .hist-tapd-view th.stat-toggle:hover,
-    .view-tap .hist-tapd-view th.stat-toggle:active {{
+    .view-tap th.stat-toggle:hover,
+    .view-tap th.stat-toggle:active {{
       color: #ee7623;
       opacity: 1;
     }}
@@ -2004,11 +2024,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         var newTapdDiv = newSeasonSlot.querySelector('.tapd-table');
         if (newTapdDiv) newTapdDiv.style.display = 'none';
       }}
-      /* Reset historical TAP/TAPD toggle to TAP view on switch */
-      var histTap = document.querySelector('.view-tap .hist-tap-view');
-      var histTapd = document.querySelector('.view-tap .hist-tapd-view');
-      if (histTap) histTap.style.display = '';
-      if (histTapd) histTapd.style.display = 'none';
+      /* Reset per-year TAPD toggles back to TAP on switch */
+      document.querySelectorAll('.view-tap .tapd-year-table').forEach(function(t) {{ t.style.display = 'none'; }});
+      document.querySelectorAll('.view-tap .tap-year-table').forEach(function(t) {{ t.style.display = ''; }});
+      document.querySelectorAll('.view-tap .year-stat-label').forEach(function(l) {{ l.textContent = 'TAP'; }});
       /* Sync all-time and decade top 100 expand/collapse state */
       var oldSec = document.querySelector(oldView + ' .historical-section');
       var newSec = document.querySelector(newView + ' .historical-section');
@@ -2077,11 +2096,6 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         if (tip && tip.classList.contains('active')) return;
         var decade = this.getAttribute('data-decade');
         var suffix = stat === 'ted' ? '' : '-tap';
-        /* In TAP view, check if TAPD is active */
-        if (stat === 'tap') {{
-          var tapdView = document.querySelector('.hist-tapd-view');
-          if (tapdView && tapdView.style.display !== 'none') suffix = '-tapd';
-        }}
         var target = document.getElementById('decade-' + decade + suffix);
         if (target) target.scrollIntoView({{behavior: 'smooth'}});
       }});
@@ -2271,25 +2285,24 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       }});
     }});
 
-    /* Historical TAP/TAPD toggle: clicking th.stat in TAP historical view toggles TAP ↔ TAPD */
-    (function() {{
-      var tapView = document.querySelector('.view-tap .hist-tap-view');
-      var tapdView = document.querySelector('.view-tap .hist-tapd-view');
-      if (!tapView || !tapdView) return;
-      /* Attach click handler to the TAP view parent to catch all th.stat clicks */
-      var tapParent = tapView.parentElement;
-      tapParent.addEventListener('click', function(e) {{
-        var th = e.target.closest('th.stat-toggle');
-        if (!th) return;
-        /* Must be inside either hist-tap-view or hist-tapd-view */
-        var inTap = !!th.closest('.hist-tap-view');
-        var inTapd = !!th.closest('.hist-tapd-view');
-        if (!inTap && !inTapd) return;
-        var tapVisible = tapView.style.display !== 'none';
-        tapView.style.display = tapVisible ? 'none' : '';
-        tapdView.style.display = tapVisible ? '' : 'none';
-      }});
-    }})();
+    /* Historical TAP/TAPD toggle: per-year toggle — clicking th.stat-toggle swaps tables within that year only */
+    document.querySelector('.view-tap').addEventListener('click', function(e) {{
+      var th = e.target.closest('th.stat-toggle');
+      if (!th) return;
+      var yearDiv = th.closest('.year-table');
+      if (!yearDiv) return;
+      /* Only handle historical year tables (not current-season tables) */
+      if (yearDiv.closest('.season-monthly-slot')) return;
+      var tapTable = yearDiv.querySelector('.tap-year-table');
+      var tapdTable = yearDiv.querySelector('.tapd-year-table');
+      if (!tapTable || !tapdTable) return;
+      var tapVisible = tapTable.style.display !== 'none';
+      tapTable.style.display = tapVisible ? 'none' : '';
+      tapdTable.style.display = tapVisible ? '' : 'none';
+      /* Update the header label */
+      var label = yearDiv.querySelector('.year-stat-label');
+      if (label) label.textContent = tapVisible ? 'TAPD' : 'TAP';
+    }});
 
     /* Historical / All-Time toggle — click header to show/hide */
     document.querySelectorAll('.historical-section').forEach(function(sec) {{
