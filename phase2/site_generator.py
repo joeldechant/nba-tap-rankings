@@ -2025,13 +2025,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         newSlot.querySelector('.weekly-table').style.display = showingDaily ? 'none' : '';
         newSlot.querySelector('.daily-table').style.display = showingDaily ? '' : 'none';
       }}
-      /* Sync season state to new view.
-         TED view uses season/monthly. TAP view uses season/tapd.
-         When switching, reset to season-table visible in both. */
+      /* Sync season/monthly state to new view */
       var newSeasonSlot = document.querySelector(newView + ' .season-monthly-slot');
       if (newSeasonSlot) {{
-        newSeasonSlot.querySelector('.season-table').style.display = '';
-        newSeasonSlot.querySelector('.monthly-table').style.display = 'none';
+        newSeasonSlot.querySelector('.season-table').style.display = showingMonthly ? 'none' : '';
+        newSeasonSlot.querySelector('.monthly-table').style.display = showingMonthly ? '' : 'none';
         var newTapdDiv = newSeasonSlot.querySelector('.tapd-table');
         if (newTapdDiv) newTapdDiv.style.display = 'none';
       }}
