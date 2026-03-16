@@ -176,13 +176,12 @@ def render_historical_section(data, stat_key='ted', season_all=None):
                 val_str = f'{val:.1f}'
                 rows += f'        <tr><td class="rank">{rank}</td><td class="player" data-player="{player_attr}">{name_html}</td><td class="team">{team}</td><td class="num stat">{val_str}</td></tr>\n'
 
-            # Check if this year has TAPD data — if so, build a hidden TAPD table too
-            has_tapd_data = (stat_key == 'tap' and
-                any(p.get('tapd') is not None for p in year_data['players'] if p.get('player')))
-            stat_cls = 'num stat stat-toggle' if has_tapd_data else 'num stat'
+            # Years 2000+ will have TAPD data — build a hidden TAPD table (may be empty until scraping completes)
+            tapd_eligible = (stat_key == 'tap' and year_data['year'] >= 2000)
+            stat_cls = 'num stat stat-toggle' if tapd_eligible else 'num stat'
 
             tapd_table_html = ''
-            if has_tapd_data:
+            if tapd_eligible:
                 # Build TAPD version of this year's table
                 tapd_sorted = sorted(
                     [p for p in year_data['players'] if p.get('player')],
