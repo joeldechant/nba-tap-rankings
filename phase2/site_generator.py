@@ -402,14 +402,41 @@ def render_decade_top100_html(decade_label, decade_data, stat_key='ted', season_
         val_str = f'{val:.1f}'
         rows += f'        <tr><td class="rank">{rank}</td><td class="player" data-player="{player_attr}">{name_html}</td><td class="season">{p["season_label"]}</td><td class="num stat">{val_str}</td></tr>\n'
 
+    # TAPD toggle for 2000s+ decades in TAP view
+    tapd_eligible = (stat_key == 'tap' and decade_start >= 2000)
+    stat_cls = 'num stat stat-toggle' if tapd_eligible else 'num stat'
+
+    tapd_table_html = ''
+    if tapd_eligible:
+        # Build TAPD version of the decade table
+        tapd_entries = [e for e in all_entries if e.get('tapd') is not None]
+        tapd_rows = ''
+        if tapd_entries:
+            tapd_sorted = sorted(tapd_entries, key=lambda p: p.get('tapd', 0) or 0, reverse=True)[:decade_top_n]
+            for rank, p in enumerate(tapd_sorted, 1):
+                name_html = format_player_name(p['player'])
+                player_attr = html_module.escape(p['player'], quote=True)
+                val_str = f'{p["tapd"]:.1f}'
+                tapd_rows += f'        <tr><td class="rank">{rank}</td><td class="player" data-player="{player_attr}">{name_html}</td><td class="season">{p["season_label"]}</td><td class="num stat">{val_str}</td></tr>\n'
+        else:
+            # Skeleton rows
+            for rank in range(1, len(players_sorted) + 1):
+                tapd_rows += f'        <tr><td class="rank">{rank}</td><td class="player"></td><td class="season"></td><td class="num stat"></td></tr>\n'
+        tapd_table_html = f"""
+        <table class="tapd-year-table" style="display:none">
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="season">Season</th><th class="num stat stat-toggle">TAPD</th></tr></thead>
+          <tbody>
+{tapd_rows}          </tbody>
+        </table>"""
+
     return f"""    <div class="year-pair single">
       <div class="year-table">
-        <div class="table-header"><h2><span class="decade-label">{decade_label[:-1]}<span class="decade-s">s</span></span> {stat_upper} TOP {decade_top_n}</h2></div>
-        <table>
-          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="season">Season</th><th class="num stat">{stat_upper}</th></tr></thead>
+        <div class="table-header"><h2><span class="decade-label">{decade_label[:-1]}<span class="decade-s">s</span></span> <span class="year-stat-label">{stat_upper}</span> TOP {decade_top_n}</h2></div>
+        <table class="tap-year-table">
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="season">Season</th><th class="{stat_cls}">{stat_upper}</th></tr></thead>
           <tbody>
 {rows}          </tbody>
-        </table>
+        </table>{tapd_table_html}
       </div>
       <div class="year-table">
         <div class="table-header"><h2><span class="decade-label" style="visibility:hidden">&nbsp;</span></h2></div>
