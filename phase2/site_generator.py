@@ -1004,11 +1004,13 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       color: #ee7623;
     }}
 
-    .season-monthly-slot .table-header {{
+    .season-monthly-slot .season-table .table-header,
+    .season-monthly-slot .monthly-table .table-header {{
       cursor: pointer;
     }}
 
-    .season-monthly-slot .table-header:hover {{
+    .season-monthly-slot .season-table .table-header:hover,
+    .season-monthly-slot .monthly-table .table-header:hover {{
       background: #eee;
     }}
 
