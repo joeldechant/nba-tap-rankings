@@ -1962,9 +1962,6 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       width: 100%;
     }}
 
-    .mg-table {{
-      overflow: hidden;
-    }}
 
     .all-time-table .player,
     .decade-top100 .player {{
