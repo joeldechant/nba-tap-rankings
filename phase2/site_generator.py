@@ -2316,16 +2316,6 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         padding-left: 3px;
         padding-right: 3px;
       }}
-      .mg-table thead th.stat,
-      .mg-table td.stat {{
-        width: 46px;
-        min-width: 46px;
-        max-width: 46px;
-        overflow: hidden;
-      }}
-      .mg-table thead th.stat {{
-        letter-spacing: -1.5px;
-      }}
       .all-time-table .player,
       .decade-top100 .player {{
         max-width: 120px;
