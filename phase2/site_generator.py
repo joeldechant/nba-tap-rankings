@@ -150,21 +150,26 @@ def render_historical_section(data, stat_key='ted', season_all=None):
             season_label = year_data['season_label']
             top_n = year_data['top_n']
 
+            # Use the independently-sorted player pool for this stat
+            if stat_key == 'tap':
+                player_pool = year_data.get('players_tap', year_data['players'])
+            elif stat_key == 'tapd':
+                player_pool = year_data.get('players_tapd', year_data.get('players_tap', year_data['players']))
+            else:
+                player_pool = year_data['players']
+
             # For TAPD: check if this year has TAPD data; fall back to TAP if not
             effective_key = stat_key
             if stat_key == 'tapd':
                 has_tapd = any(p.get('tapd') is not None
-                              for p in year_data['players'] if p.get('player'))
+                              for p in player_pool if p.get('player'))
                 if not has_tapd:
                     effective_key = 'tap'
+                    player_pool = year_data.get('players_tap', year_data['players'])
             effective_upper = effective_key.upper()
 
-            # Re-sort players by the chosen stat and re-rank
-            players_sorted = sorted(
-                [p for p in year_data['players'] if p.get('player')],
-                key=lambda p: p.get(effective_key, 0),
-                reverse=True
-            )
+            # Players are already sorted by the correct stat from JSON
+            players_sorted = [p for p in player_pool if p.get('player')]
 
             # Build table rows with fresh ranks
             rows = ''
@@ -182,15 +187,12 @@ def render_historical_section(data, stat_key='ted', season_all=None):
 
             tapd_table_html = ''
             if tapd_eligible:
-                # Only populate rows if this year actually has TAPD values in the data
-                tapd_players = [p for p in year_data['players']
-                                if p.get('player') and p.get('tapd') is not None]
+                # Use independently-sorted TAPD player pool
+                tapd_players = [p for p in year_data.get('players_tapd', [])
+                                if p.get('player')]
                 tapd_rows = ''
                 if tapd_players:
-                    tapd_sorted = sorted(tapd_players,
-                        key=lambda p: p.get('tapd', 0) or 0,
-                        reverse=True)
-                    for rank, p in enumerate(tapd_sorted, 1):
+                    for rank, p in enumerate(tapd_players, 1):
                         name_html = format_player_name(p['player'])
                         player_attr = html_module.escape(p['player'], quote=True)
                         team = p['team'] if p['team'] else '&mdash;'
@@ -292,8 +294,11 @@ def render_all_time_html(data, stat_key='ted', season_all=None):
     stat_upper = stat_key.upper()
     current_year = config.CURRENT_SEASON_YEAR
 
-    # Start with historical all-time entries
-    all_entries = list(data['all_time_top_200'])
+    # Use independently-sorted pool for each stat
+    if stat_key == 'tap':
+        all_entries = list(data.get('all_time_tap', data['all_time_top_200']))
+    else:
+        all_entries = list(data['all_time_top_200'])
 
     # Merge current season players
     if season_all:
@@ -311,14 +316,6 @@ def render_all_time_html(data, stat_key='ted', season_all=None):
                 if p.get('tapd') is not None:
                     entry['tapd'] = round(p['tapd'], 1)
                 all_entries.append(entry)
-
-    # For TAPD: fall back to TAP for entries without TAPD data
-    effective_key = stat_key
-    if stat_key == 'tapd':
-        for e in all_entries:
-            if e.get('tapd') is None:
-                e['tapd'] = e.get('tap', 0)
-    effective_upper = stat_upper
 
     # Re-sort by chosen stat, take top 400, and re-rank
     players_sorted = sorted(
@@ -406,8 +403,11 @@ def render_decade_top100_html(decade_label, decade_data, stat_key='ted', season_
     decade_end = decade_start + 9
     decade_top_n = decade_data.get('decade_top_n', 100)
 
-    # Start with historical decade entries
-    all_entries = list(decade_data['decade_top_100'])
+    # Use independently-sorted pool for each stat
+    if stat_key == 'tap':
+        all_entries = list(decade_data.get('decade_top_tap', decade_data['decade_top_100']))
+    else:
+        all_entries = list(decade_data['decade_top_100'])
 
     # Merge current season for the current decade
     if season_all and decade_start <= current_year <= decade_end:
