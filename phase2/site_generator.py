@@ -901,7 +901,7 @@ def render_mg1_html(season_stats, season_all=None):
     return f"""  <div class="mg-goat-view">
     <div class="year-pair single">
       <div class="year-table">
-        <div class="table-header"><h2>MODERN ERA TOP {stat_upper} BY SEASON</h2></div>
+        <div class="table-header"><h2>MODERN TOP {stat_upper} BY SEASON</h2></div>
         <table>
           <thead><tr><th class="season mg1-sort-yr">Yr</th><th class="player mg1-sort-player">Player</th><th class="num stat mg1-sort-val">{stat_upper}</th><th class="num mg1-avg">TOP 9*</th><th class="num mg1-sort-diff">DIFF</th></tr></thead>
           <tbody>
@@ -1007,7 +1007,7 @@ def render_mg2_html(season_stats, season_all=None):
     return f"""  <div class="mg-g2-view" style="display:none">
     <div class="year-pair single">
       <div class="year-table">
-        <div class="table-header"><h2>MODERN ERA TOP 2 {stat_upper} BY SEASON</h2></div>
+        <div class="table-header"><h2>MODERN TOP 2 {stat_upper} BY SEASON</h2></div>
         <table>
           <thead><tr><th class="season mg2-sort-yr">Yr</th><th class="player mg2-sort-player">Player</th><th class="num stat mg2-sort-val">{stat_upper}</th><th class="num mg2-avg">TOP 9*</th><th class="num mg2-sort-diff">DIFF</th></tr></thead>
           <tbody>
@@ -1129,7 +1129,7 @@ def render_mg3_html(season_stats, season_all=None):
     return f"""  <div class="mg-g3-view" style="display:none">
     <div class="year-pair single">
       <div class="year-table">
-        <div class="table-header"><h2>MODERN ERA TOP 3 {stat_upper} BY SEASON</h2></div>
+        <div class="table-header"><h2>MODERN TOP 3 {stat_upper} BY SEASON</h2></div>
         <table>
           <thead><tr><th class="season mg3-sort-yr">Yr</th><th class="player mg3-sort-player">Player</th><th class="num stat mg3-sort-val">{stat_upper}</th><th class="num mg3-avg">TOP 9*</th><th class="num mg3-sort-diff">DIFF</th></tr></thead>
           <tbody>
@@ -2826,7 +2826,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         if (isAllTime) {{
           var h2 = yearDiv.querySelector('.table-header h2');
           if (h2) h2.innerHTML = tapVisible
-            ? 'MODERN ERA <span class="year-stat-label">TAPD</span> TOP 400'
+            ? 'MODERN <span class="year-stat-label">TAPD</span> TOP 400'
             : 'ALL-TIME <span class="year-stat-label">TAP</span> TOP 400';
         }} else {{
           label.textContent = tapVisible ? 'TAPD' : 'TAP';
