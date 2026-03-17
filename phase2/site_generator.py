@@ -1307,7 +1307,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
 
     .decade-top100 tbody tr:last-child {{
-      border-bottom: 1px solid #fff;
+      border-bottom: 2px solid #fff;
     }}
 
     td {{
