@@ -903,7 +903,7 @@ def render_mg1_html(season_stats, season_all=None):
     return f"""  <div class="mg-goat-view">
     <div class="year-pair single">
       <div class="year-table">
-        <div class="table-header"><h2>MODERN TOP {stat_upper} BY SEASON</h2></div>
+        <div class="table-header"><h2>MODERN ERA TOP {stat_upper} BY SEASON</h2></div>
         <table>
           <thead><tr><th class="season mg1-sort-yr">Yr</th><th class="player mg1-sort-player">Player</th><th class="num stat mg1-sort-val">{stat_upper}</th><th class="num mg1-avg">TOP 9*</th><th class="num mg1-sort-diff">DIFF</th></tr></thead>
           <tbody>
@@ -3806,7 +3806,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           if (mode === 'diff-player') {{
             textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;min-height:2.4em;display:flex;align-items:center;justify-content:center">Watch out for the herd of GOATs above!</p></td>';
           }} else {{
-            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;max-width:28em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 20 DIFF seasons and see your modern GOAT candidates!</p></td>';
+            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 20 DIFF seasons and see your modern GOAT candidates!</p></td>';
           }}
           if (mode === 'diff') {{
             tbody.insertBefore(textRow, tbody.children[20]);
