@@ -18996,7 +18996,7 @@
       });
     });
 
-    /* MG1 (Modern GOAT) sort modes — same pattern as GOAT, cutoff 15 */
+    /* MG1 (Modern GOAT) sort modes — same pattern as GOAT, cutoff 20 */
     var mg1SortMode = 'year';
     var mg1TextOpen = false;
     function mg1Sort(table, mode) {
@@ -19042,15 +19042,15 @@
         sortByCount(rows, counts, 2);
       } else if (mode === 'diff-player') {
         sortByDiff(rows);
-        var top15 = rows.slice(0, 15);
-        var rest = rows.slice(15);
+        var top20 = rows.slice(0, 20);
+        var rest = rows.slice(20);
         var counts = {};
-        top15.forEach(function(r) {
+        top20.forEach(function(r) {
           var n = r.cells[1].textContent.trim();
           counts[n] = (counts[n] || 0) + 1;
         });
-        sortByCount(top15, counts, 4);
-        rows = top15.concat(rest);
+        sortByCount(top20, counts, 4);
+        rows = top20.concat(rest);
       } else {
         rows.sort(function(a, b) {
           var ay = parseInt(a.cells[0].textContent.replace("'", '')) || 0;
@@ -19066,7 +19066,7 @@
       if (oldTextRow) oldTextRow.remove();
       var truncate = (mode === 'diff-player');
       rows.forEach(function(r, i) {
-        var hide = (truncate && i >= 15);
+        var hide = (truncate && i >= 20);
         r.style.display = hide ? 'none' : '';
         for (var c = 0; c < r.cells.length; c++) {
           r.cells[c].style.borderTop = '';
@@ -19082,10 +19082,10 @@
           if (mode === 'diff-player') {
             textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;min-height:2.4em;display:flex;align-items:center;justify-content:center">Watch out for the herd of GOATs above!</p></td>';
           } else {
-            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;max-width:23em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 15 DIFF seasons and see your GOAT candidates!</p></td>';
+            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;max-width:23em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 20 DIFF seasons and see your modern GOAT candidates!</p></td>';
           }
           if (mode === 'diff') {
-            tbody.insertBefore(textRow, tbody.children[15]);
+            tbody.insertBefore(textRow, tbody.children[20]);
           } else {
             tbody.appendChild(textRow);
           }
@@ -19098,7 +19098,7 @@
           sep.className = 'mg1-orange-sep';
           sep.innerHTML = '<td colspan="5">\u00a0</td>';
           if (mode === 'diff') {
-            tbody.insertBefore(sep, tbody.children[15]);
+            tbody.insertBefore(sep, tbody.children[20]);
           } else {
             tbody.appendChild(sep);
           }
@@ -19178,7 +19178,7 @@
       });
     });
 
-    /* MG2 sort modes — same as G2 but cutoff 25 */
+    /* MG2 sort modes — same as G2 but cutoff 30 */
     var mg2SortMode = 'year';
     var mg2TextOpen = false;
     function mg2Sort(table, mode) {
@@ -19232,15 +19232,15 @@
         sortByCount(rows, counts, 2);
       } else if (mode === 'diff-player') {
         sortByDiff(rows);
-        var top25 = rows.slice(0, 25);
-        var rest = rows.slice(25);
+        var top30 = rows.slice(0, 30);
+        var rest = rows.slice(30);
         var counts = {};
-        top25.forEach(function(r) {
+        top30.forEach(function(r) {
           var n = getName(r);
           counts[n] = (counts[n] || 0) + 1;
         });
-        sortByCount(top25, counts, 4);
-        rows = top25.concat(rest);
+        sortByCount(top30, counts, 4);
+        rows = top30.concat(rest);
       } else {
         rows.sort(function(a, b) {
           var ayr = a.cells[0].textContent.replace("'", '').trim();
@@ -19263,7 +19263,7 @@
       if (oldTextRow) oldTextRow.remove();
       var truncate = (mode === 'diff-player');
       rows.forEach(function(r, i) {
-        var hide = (truncate && i >= 25);
+        var hide = (truncate && i >= 30);
         r.style.display = hide ? 'none' : '';
         for (var c = 0; c < r.cells.length; c++) {
           r.cells[c].style.borderTop = '';
@@ -19279,10 +19279,10 @@
           if (mode === 'diff-player') {
             textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;min-height:2.4em;display:flex;align-items:center;justify-content:center">Watch out for the herd of GOATs above!</p></td>';
           } else {
-            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;max-width:23em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 25 DIFF seasons and see your GOAT candidates!</p></td>';
+            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;max-width:23em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 30 DIFF seasons and see your modern GOAT candidates!</p></td>';
           }
           if (mode === 'diff') {
-            tbody.insertBefore(textRow, tbody.children[25]);
+            tbody.insertBefore(textRow, tbody.children[30]);
           } else {
             tbody.appendChild(textRow);
           }
@@ -19295,7 +19295,7 @@
           sep.className = 'mg2-orange-sep';
           sep.innerHTML = '<td colspan="5">\u00a0</td>';
           if (mode === 'diff') {
-            tbody.insertBefore(sep, tbody.children[25]);
+            tbody.insertBefore(sep, tbody.children[30]);
           } else {
             tbody.appendChild(sep);
           }
@@ -19384,7 +19384,7 @@
       });
     });
 
-    /* MG3 sort modes — same as G3 but cutoff 30 */
+    /* MG3 sort modes — same as G3 but cutoff 40 */
     var mg3SortMode = 'year';
     var mg3TextOpen = false;
     function mg3Sort(table, mode) {
@@ -19438,15 +19438,15 @@
         sortByCount(rows, counts, 2);
       } else if (mode === 'diff-player') {
         sortByDiff(rows);
-        var top30 = rows.slice(0, 30);
-        var rest = rows.slice(30);
+        var top40 = rows.slice(0, 40);
+        var rest = rows.slice(40);
         var counts = {};
-        top30.forEach(function(r) {
+        top40.forEach(function(r) {
           var n = getName(r);
           counts[n] = (counts[n] || 0) + 1;
         });
-        sortByCount(top30, counts, 4);
-        rows = top30.concat(rest);
+        sortByCount(top40, counts, 4);
+        rows = top40.concat(rest);
       } else {
         rows.sort(function(a, b) {
           var ayr = a.cells[0].textContent.replace("'", '').trim();
@@ -19469,7 +19469,7 @@
       if (oldTextRow) oldTextRow.remove();
       var truncate = (mode === 'diff-player');
       rows.forEach(function(r, i) {
-        var hide = (truncate && i >= 30);
+        var hide = (truncate && i >= 40);
         r.style.display = hide ? 'none' : '';
         for (var c = 0; c < r.cells.length; c++) {
           r.cells[c].style.borderTop = '';
@@ -19485,10 +19485,10 @@
           if (mode === 'diff-player') {
             textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;min-height:2.4em;display:flex;align-items:center;justify-content:center">Watch out for the herd of GOATs above!</p></td>';
           } else {
-            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;max-width:23em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 30 DIFF seasons and see your GOAT candidates!</p></td>';
+            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;max-width:23em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 40 DIFF seasons and see your modern GOAT candidates!</p></td>';
           }
           if (mode === 'diff') {
-            tbody.insertBefore(textRow, tbody.children[30]);
+            tbody.insertBefore(textRow, tbody.children[40]);
           } else {
             tbody.appendChild(textRow);
           }
@@ -19501,7 +19501,7 @@
           sep.className = 'mg3-orange-sep';
           sep.innerHTML = '<td colspan="5">\u00a0</td>';
           if (mode === 'diff') {
-            tbody.insertBefore(sep, tbody.children[30]);
+            tbody.insertBefore(sep, tbody.children[40]);
           } else {
             tbody.appendChild(sep);
           }
