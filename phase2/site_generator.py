@@ -1089,6 +1089,13 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       color: #ee7623;
       cursor: pointer;
     }}
+    /* TAPD table header text: orange + clickable (goes back to TAP) */
+    .tapd-table .table-header h2 {{
+      color: #ee7623;
+    }}
+    .tapd-table .table-header {{
+      cursor: pointer;
+    }}
     .view-tap .season-monthly-slot .season-table th.stat:hover,
     .view-tap .season-monthly-slot .season-table th.stat:active,
     .view-tap .season-monthly-slot .tapd-table th.stat:hover,
@@ -2304,14 +2311,21 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       slot.addEventListener('click', function(e) {{
         var header = e.target.closest('.table-header');
         if (!header) return;
-        /* Only toggle for season-table or monthly-table title bars */
+        /* Handle season-table, monthly-table, or tapd-table title bars */
         var inSeason = !!header.closest('.season-table');
         var inMonthly = !!header.closest('.monthly-table');
-        if (!inSeason && !inMonthly) return;
+        var inTapd = !!header.closest('.tapd-table');
+        if (!inSeason && !inMonthly && !inTapd) return;
         var seasonDiv = slot.querySelector('.season-table');
         var monthlyDiv = slot.querySelector('.monthly-table');
-        /* Also hide TAPD table when toggling to monthly */
         var tapdDiv = slot.querySelector('.tapd-table');
+        if (inTapd) {{
+          /* TAPD header click: go back to TAP */
+          if (tapdDiv) tapdDiv.style.display = 'none';
+          if (seasonDiv) seasonDiv.style.display = '';
+          if (monthlyDiv) monthlyDiv.style.display = 'none';
+          return;
+        }}
         var seasonVisible = seasonDiv.style.display !== 'none';
         seasonDiv.style.display = seasonVisible ? 'none' : '';
         monthlyDiv.style.display = seasonVisible ? '' : 'none';
