@@ -3741,7 +3741,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           var nb = b.cells[1].textContent.trim();
           var ca = countMap[na] || 0, cb = countMap[nb] || 0;
           if (cb !== ca) return cb - ca;
-          if (na !== nb) return (bestDiff[nb] || 0) - (bestDiff[na] || 0);
+          if (na !== nb) {{
+            var da = bestDiff[na] || 0, db = bestDiff[nb] || 0;
+            if (db !== da) return db - da;
+            return na < nb ? -1 : 1;
+          }}
           return (parseFloat(b.cells[intraCol].textContent) || 0) -
                  (parseFloat(a.cells[intraCol].textContent) || 0);
         }});
@@ -3931,7 +3935,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           var nb = getName(b);
           var ca = countMap[na] || 0, cb = countMap[nb] || 0;
           if (cb !== ca) return cb - ca;
-          if (na !== nb) return (avgDiff[nb] || 0) - (avgDiff[na] || 0);
+          if (na !== nb) {{
+            var da = avgDiff[na] || 0, db = avgDiff[nb] || 0;
+            if (db !== da) return db - da;
+            return na < nb ? -1 : 1;
+          }}
           return (parseFloat(b.cells[intraCol].textContent) || 0) -
                  (parseFloat(a.cells[intraCol].textContent) || 0);
         }});
@@ -4137,7 +4145,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           var nb = getName(b);
           var ca = countMap[na] || 0, cb = countMap[nb] || 0;
           if (cb !== ca) return cb - ca;
-          if (na !== nb) return (avgDiff[nb] || 0) - (avgDiff[na] || 0);
+          if (na !== nb) {{
+            var da = avgDiff[na] || 0, db = avgDiff[nb] || 0;
+            if (db !== da) return db - da;
+            return na < nb ? -1 : 1;
+          }}
           return (parseFloat(b.cells[intraCol].textContent) || 0) -
                  (parseFloat(a.cells[intraCol].textContent) || 0);
         }});
