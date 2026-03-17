@@ -2122,10 +2122,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       document.querySelectorAll('.view-tap .tapd-year-table').forEach(function(t) {{ t.style.display = 'none'; }});
       document.querySelectorAll('.view-tap .tap-year-table').forEach(function(t) {{ t.style.display = ''; }});
       document.querySelectorAll('.view-tap .year-stat-label').forEach(function(l) {{ l.textContent = 'TAP'; }});
-      /* Reset all-time header text back to TAP */
-      document.querySelectorAll('.view-tap .all-time-table .table-header h2').forEach(function(h2) {{
-        h2.innerHTML = 'ALL-TIME <span class="year-stat-label">TAP</span> TOP 400';
-      }});
+      /* Reset all-time header text back to TAP (first year-table only, skip placeholder) */
+      var atH2 = document.querySelector('.view-tap .all-time-table .year-pair > .year-table:first-child .table-header h2');
+      if (atH2) atH2.innerHTML = 'ALL-TIME <span class="year-stat-label">TAP</span> TOP 400';
       /* Sync all-time and decade top 100 expand/collapse state */
       var oldSec = document.querySelector(oldView + ' .historical-section');
       var newSec = document.querySelector(newView + ' .historical-section');
