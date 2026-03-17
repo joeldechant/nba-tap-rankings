@@ -455,10 +455,33 @@ def build_historical_json():
                 decade_top_entries.append(entry)
             print(f"  {decade_label}: {len(decade_top_entries)} entries in decade top {decade_top_n}")
 
+            # Build separate TAPD decade list (from full TAPD pool, not TED-filtered)
+            decade_tapd_entries = []
+            if decade_start >= 2000:
+                decade_tapd_pool = [r for r in results
+                                    if decade_start <= r['year'] <= decade_end
+                                    and r.get('tapd') is not None]
+                decade_tapd_sorted = sorted(decade_tapd_pool,
+                                            key=lambda x: x['tapd'],
+                                            reverse=True)[:decade_top_n]
+                for i, p in enumerate(decade_tapd_sorted, 1):
+                    sl = f"{p['year']}-{str(p['year'] + 1)[-2:]}"
+                    decade_tapd_entries.append({
+                        'rank': i,
+                        'player': p['player'],
+                        'team': p['team'],
+                        'year': p['year'],
+                        'season_label': sl,
+                        'ted': round(p['ted'], 1),
+                        'tap': round(p['tap'], 1),
+                        'tapd': round(p['tapd'], 1),
+                    })
+
             decades[decade_label] = {
                 'years': years_data,
                 'decade_top_100': decade_top_entries,
                 'decade_top_n': decade_top_n,
+                'decade_top_tapd': decade_tapd_entries,
             }
 
     # Build all-time top 400 (best individual seasons by TED across all years)
@@ -480,10 +503,30 @@ def build_historical_json():
         all_time_top.append(entry)
     print(f"  All-time top 400: TED range {all_time_top[0]['ted']} to {all_time_top[-1]['ted']}")
 
+    # Build all-time TAPD top 400 (best individual seasons by TAPD, 2000+ only)
+    tapd_pool = [p for p in results if p.get('tapd') is not None and p['year'] >= 2000]
+    tapd_sorted = sorted(tapd_pool, key=lambda x: x['tapd'], reverse=True)[:400]
+    all_time_tapd = []
+    for i, p in enumerate(tapd_sorted, 1):
+        season_label = f"{p['year']}-{str(p['year'] + 1)[-2:]}"
+        all_time_tapd.append({
+            'rank': i,
+            'player': p['player'],
+            'team': p['team'],
+            'year': p['year'],
+            'season_label': season_label,
+            'ted': round(p['ted'], 1),
+            'tap': round(p['tap'], 1),
+            'tapd': round(p['tapd'], 1),
+        })
+    if all_time_tapd:
+        print(f"  All-time TAPD top {len(all_time_tapd)}: TAPD range {all_time_tapd[0]['tapd']} to {all_time_tapd[-1]['tapd']}")
+
     # Write JSON
     output = {
         'generated': str(__import__('datetime').date.today()),
         'all_time_top_200': all_time_top,
+        'all_time_tapd': all_time_tapd,
         'decades': decades,
         'career_data': dict(career_data),
         'season_stats': season_stats,

@@ -335,16 +335,29 @@ def render_all_time_html(data, stat_key='ted', season_all=None):
         val_str = f'{val:.1f}'
         rows += f'        <tr><td class="rank">{rank}</td><td class="player" data-player="{player_attr}">{name_html}</td><td class="season">{p["season_label"]}</td><td class="num stat">{val_str}</td></tr>\n'
 
-    # TAPD toggle table for TAP view
+    # TAPD toggle table for TAP view — uses separate all_time_tapd pool
     tapd_eligible = (stat_key == 'tap')
     stat_cls = 'num stat stat-toggle' if tapd_eligible else 'num stat'
 
     tapd_table_html = ''
     if tapd_eligible:
-        tapd_entries = [e for e in all_entries if e.get('tapd') is not None]
+        # Build TAPD entries from dedicated pool (all 2000+ players, not just TED/TAP top 400)
+        tapd_pool = list(data.get('all_time_tapd', []))
+        # Merge current season
+        if season_all:
+            season_label = f"{current_year}-{str(current_year + 1)[-2:]}"
+            for p in season_all:
+                if p.get('tapd') is not None:
+                    tapd_pool.append({
+                        'player': p['player'],
+                        'team': p.get('team', ''),
+                        'year': current_year,
+                        'season_label': season_label,
+                        'tapd': round(p['tapd'], 1),
+                    })
         tapd_rows = ''
-        if tapd_entries:
-            tapd_sorted = sorted(tapd_entries, key=lambda p: p.get('tapd', 0) or 0, reverse=True)[:400]
+        if tapd_pool:
+            tapd_sorted = sorted(tapd_pool, key=lambda p: p.get('tapd', 0) or 0, reverse=True)[:400]
             for rank, p in enumerate(tapd_sorted, 1):
                 name_html = format_player_name(p['player'])
                 player_attr = html_module.escape(p['player'], quote=True)
@@ -440,8 +453,20 @@ def render_decade_top100_html(decade_label, decade_data, stat_key='ted', season_
 
     tapd_table_html = ''
     if tapd_eligible:
-        # Build TAPD version of the decade table
-        tapd_entries = [e for e in all_entries if e.get('tapd') is not None]
+        # Build TAPD version from dedicated pool (all players with TAPD, not TED-filtered)
+        tapd_entries = list(decade_data.get('decade_top_tapd', []))
+        # Merge current season
+        if season_all and decade_start <= current_year <= decade_end:
+            season_label = f"{current_year}-{str(current_year + 1)[-2:]}"
+            for p in season_all:
+                if p.get('tapd') is not None:
+                    tapd_entries.append({
+                        'player': p['player'],
+                        'team': p.get('team', ''),
+                        'year': current_year,
+                        'season_label': season_label,
+                        'tapd': round(p['tapd'], 1),
+                    })
         tapd_rows = ''
         if tapd_entries:
             tapd_sorted = sorted(tapd_entries, key=lambda p: p.get('tapd', 0) or 0, reverse=True)[:decade_top_n]
