@@ -1958,10 +1958,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       min-width: 46px;
       max-width: 46px;
     }}
-    .goat-table thead th.stat,
-    .g2-table thead th.stat,
-    .g3-table thead th.stat,
-    .mg-table thead th.stat {{
+    .goat-table thead th,
+    .g2-table thead th,
+    .g3-table thead th,
+    .mg-table thead th {{
       overflow: visible;
     }}
     .mg-table thead th.stat {{
