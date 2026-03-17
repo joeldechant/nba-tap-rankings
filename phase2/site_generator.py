@@ -1962,9 +1962,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       width: 100%;
     }}
 
-    .mg-goat-view,
-    .mg-g2-view,
-    .mg-g3-view {{
+    .mg-table {{
       overflow: hidden;
     }}
 
