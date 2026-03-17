@@ -2349,7 +2349,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         letter-spacing: 0.5px;
       }}
       .mg-table .table-header {{
-        padding-left: 0;
+        padding-left: 6px;
       }}
       .all-time-table .player,
       .decade-top100 .player {{
