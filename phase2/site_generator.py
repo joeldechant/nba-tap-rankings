@@ -2235,10 +2235,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     var popupStatHeader = document.getElementById('career-stat-header');
     var currentYear = {config.CURRENT_SEASON_YEAR};
 
-    function showCareer(name, contextYear) {{
+    function showCareer(name, contextYear, statOverride) {{
       var career = window.CAREER[name];
       if (!career || career.length === 0) return;
-      var s = stat;
+      var s = statOverride || stat;
       var su = s.toUpperCase();
       var hlYear = contextYear || null;
       popupName.textContent = name;
@@ -2293,7 +2293,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         e.stopPropagation();
         var yearDiv = td.closest('.year-table[data-year]');
         var ctxYear = yearDiv ? parseInt(yearDiv.getAttribute('data-year')) : currentYear;
-        showCareer(td.getAttribute('data-player'), ctxYear);
+        var so = null;
+        if (td.closest('.tapd-year-table') || td.closest('.tapd-table')) so = 'tapd';
+        showCareer(td.getAttribute('data-player'), ctxYear, so);
       }}
     }});
 
