@@ -1947,7 +1947,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       max-width: 46px;
     }}
     .mg-table thead th.stat {{
-      text-indent: -4px;
+      text-indent: -6px;
     }}
 
     .goat-table .player,
