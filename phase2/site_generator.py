@@ -1841,6 +1841,12 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .mg-table thead {{
       box-shadow: 3px 0 0 #fff;
     }}
+    .goat-table thead tr,
+    .g2-table thead tr,
+    .g3-table thead tr,
+    .mg-table thead tr {{
+      border-bottom: 2px solid #fff;
+    }}
 
     .goat-table td.num:last-child,
     .goat-table thead th.num:last-child,
@@ -3817,7 +3823,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           if (mode === 'diff-player') {{
             textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;min-height:2.4em;display:flex;align-items:center;justify-content:center">Watch out for the herd of GOATs above!</p></td>';
           }} else {{
-            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 20 DIFF seasons and see your modern GOAT candidates!</p></td>';
+            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 4px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 20 DIFF seasons and see your modern GOAT candidates!</p></td>';
           }}
           if (mode === 'diff') {{
             tbody.insertBefore(textRow, tbody.children[20]);
@@ -4018,7 +4024,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           if (mode === 'diff-player') {{
             textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;min-height:2.4em;display:flex;align-items:center;justify-content:center">Watch out for the herd of GOATs above!</p></td>';
           }} else {{
-            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;max-width:28em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 30 DIFF seasons and see your modern GOAT candidates!</p></td>';
+            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 4px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;max-width:28em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 30 DIFF seasons and see your modern GOAT candidates!</p></td>';
           }}
           if (mode === 'diff') {{
             tbody.insertBefore(textRow, tbody.children[30]);
@@ -4228,7 +4234,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           if (mode === 'diff-player') {{
             textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;min-height:2.4em;display:flex;align-items:center;justify-content:center">Watch out for the herd of GOATs above!</p></td>';
           }} else {{
-            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;max-width:28em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 40 DIFF seasons and see your modern GOAT candidates!</p></td>';
+            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 4px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;max-width:28em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 40 DIFF seasons and see your modern GOAT candidates!</p></td>';
           }}
           if (mode === 'diff') {{
             tbody.insertBefore(textRow, tbody.children[40]);
