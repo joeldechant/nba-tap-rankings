@@ -131,8 +131,10 @@ def render_historical_section(data, stat_key='ted', season_all=None):
     nav_links = ''
     for i, d in enumerate(available_decades):
         nav_links += f'<a href="#decade-{d}" data-decade="{d}">{d[:-1]}<span class="decade-s">s</span></a>'
+        if i == 3:
+            nav_links += '<div class="nav-break mobile-break"></div>'
         if i == 5:
-            nav_links += '<div class="nav-break"></div>'
+            nav_links += '<div class="nav-break desktop-break"></div>'
     nav_links += '<a href="#" data-goat="true" style="color:#ee7623">GOAT</a>'
     nav_links += '<a href="#" data-g2="true" style="color:#ee7623">G2</a>'
     nav_links += '<a href="#" data-g3="true" style="color:#ee7623">G3</a>'
@@ -1989,9 +1991,13 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
 
     .decade-nav .nav-break {{
-      display: block;
+      display: none;
       width: 100%;
       height: 0;
+    }}
+
+    .decade-nav .nav-break.desktop-break {{
+      display: block;
     }}
 
     .decade-nav a {{
@@ -2266,10 +2272,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         font-size: 0.85em;
         padding: 4px 8px;
       }}
-      .decade-nav .nav-break {{
+      .decade-nav .nav-break.mobile-break {{
         display: block;
-        width: 100%;
-        height: 0;
+      }}
+      .decade-nav .nav-break.desktop-break {{
+        display: none;
       }}
       .year-pair {{
         grid-template-columns: 1fr;
@@ -2305,6 +2312,16 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       .mg-table thead th {{
         padding-left: 3px;
         padding-right: 3px;
+      }}
+      .mg-table thead th.stat,
+      .mg-table td.stat {{
+        width: 46px;
+        min-width: 46px;
+        max-width: 46px;
+        overflow: hidden;
+      }}
+      .mg-table thead th.stat {{
+        letter-spacing: -1.5px;
       }}
       .all-time-table .player,
       .decade-top100 .player {{
