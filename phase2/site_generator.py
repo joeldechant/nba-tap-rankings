@@ -1961,7 +1961,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .goat-table thead th,
     .g2-table thead th,
     .g3-table thead th,
-    .mg-table thead th {{
+    .mg-table thead th,
+    .goat-table thead th.player,
+    .g2-table thead th.player,
+    .g3-table thead th.player,
+    .mg-table thead th.player {{
       overflow: visible;
     }}
     .mg-table thead th.stat {{
