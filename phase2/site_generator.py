@@ -1940,6 +1940,16 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
 
 
+    .mg-table th.stat,
+    .mg-table td.stat {{
+      width: 46px;
+      min-width: 46px;
+      max-width: 46px;
+    }}
+    .mg-table thead th.stat {{
+      letter-spacing: -1.5px;
+    }}
+
     .goat-table .player,
     .g2-table .player,
     .g3-table .player,
