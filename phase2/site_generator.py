@@ -132,9 +132,10 @@ def render_historical_section(data, stat_key='ted', season_all=None):
     for i, d in enumerate(available_decades):
         nav_links += f'<a href="#decade-{d}" data-decade="{d}">{d[:-1]}<span class="decade-s">s</span></a>'
         if i == 3:
-            nav_links += '<div class="nav-break mobile-break"></div>'
+            nav_links += '<div class="nav-break"></div>'
         if i == 5:
-            nav_links += '<div class="nav-break desktop-break"></div>'
+            nav_links += '<div class="nav-break desktop-only"></div>'
+    nav_links += '<div class="nav-break"></div>'
     nav_links += '<a href="#" data-goat="true" style="color:#ee7623">GOAT</a>'
     nav_links += '<a href="#" data-g2="true" style="color:#ee7623">G2</a>'
     nav_links += '<a href="#" data-g3="true" style="color:#ee7623">G3</a>'
@@ -1996,7 +1997,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       height: 0;
     }}
 
-    .decade-nav .nav-break.desktop-break {{
+    .decade-nav .nav-break.desktop-only {{
       display: block;
     }}
 
@@ -2006,7 +2007,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       font-weight: 700;
       color: #fff;
       text-decoration: none;
-      padding: 4px 8px;
+      padding: 4px 12px;
       border: 1px solid #fff;
       transition: background 0.2s, color 0.2s;
     }}
@@ -2272,10 +2273,12 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         font-size: 0.85em;
         padding: 4px 8px;
       }}
-      .decade-nav .nav-break.mobile-break {{
+      .decade-nav .nav-break {{
         display: block;
+        width: 100%;
+        height: 0;
       }}
-      .decade-nav .nav-break.desktop-break {{
+      .decade-nav .nav-break.desktop-only {{
         display: none;
       }}
       .year-pair {{
