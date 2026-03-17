@@ -1302,12 +1302,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       border-bottom: none;
     }}
 
-    .all-time-table tbody tr:last-child {{
-      border-bottom: 2px solid #fff;
-    }}
-
-    .decade-top100 tbody tr:last-child {{
-      border-bottom: 1px solid #fff;
+    .all-time-table .year-pair,
+    .decade-top100 .year-pair {{
+      border-bottom: 3px solid #fff;
     }}
 
     td {{
