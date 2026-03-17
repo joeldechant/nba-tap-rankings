@@ -28,9 +28,33 @@ PROJECT_DIR = r"C:\Projects\TED Claude Project"
 sys.path.insert(0, PROJECT_DIR)
 
 from phase2 import config, database as db
-from phase2.scraper import create_session, _get_page, _parse_minutes, _clean_player_name
+from phase2.scraper import create_session, _parse_minutes, _clean_player_name
 
-SCRAPE_DELAY = 4  # seconds between requests (on top of scraper's 3s internal delay)
+SCRAPE_DELAY = 5  # seconds between requests
+RATE_LIMIT_WAIT = 300  # 5 minutes cooldown on 429
+MAX_429_RETRIES = 5  # retry up to 5 times on 429 before giving up on a player
+REQUEST_TIMEOUT = 30
+
+
+def _get_page_no429retry(session, url, label="page"):
+    """Fetch a URL. Does NOT retry on 429 — lets caller handle rate limits."""
+    try:
+        resp = session.get(url, timeout=REQUEST_TIMEOUT)
+        resp.encoding = 'utf-8'
+        resp.raise_for_status()
+        return resp.text
+    except Exception as e:
+        if '429' in str(e):
+            raise  # Let outer loop handle with long backoff
+        # Retry once for non-429 errors
+        try:
+            time.sleep(5)
+            resp = session.get(url, timeout=REQUEST_TIMEOUT)
+            resp.encoding = 'utf-8'
+            resp.raise_for_status()
+            return resp.text
+        except Exception:
+            raise
 
 
 def fix_encoding(s):
@@ -110,7 +134,7 @@ def get_player_slugs(session, br_year):
     """
     url = f"{config.BR_BASE_URL}/leagues/NBA_{br_year}_per_game.html"
     print(f"  Fetching player slugs from NBA_{br_year} per-game page...")
-    html = _get_page(session, url, f"per-game NBA_{br_year}")
+    html = _get_page_no429retry(session, url, f"per-game NBA_{br_year}")
     time.sleep(SCRAPE_DELAY)
 
     soup = BeautifulSoup(html, 'html.parser')
@@ -158,7 +182,7 @@ def scrape_player_gamelog_pm(session, slug, br_year):
     Returns list of (mp_decimal, plus_minus) tuples for games where both exist.
     """
     url = f"{config.BR_BASE_URL}/players/{slug[0]}/{slug}/gamelog/{br_year}"
-    html = _get_page(session, url, f"gamelog {slug}/{br_year}")
+    html = _get_page_no429retry(session, url, f"gamelog {slug}/{br_year}")
 
     soup = BeautifulSoup(html, 'html.parser')
     table = soup.find('table', id='player_game_log_reg')
@@ -275,7 +299,19 @@ def scrape_season_pm(session, season_year, full=False):
     print(f"{'='*60}")
 
     # Get player slugs from per-game page (need this for both modes)
-    slugs = get_player_slugs(session, br_year)
+    slugs = None
+    for slug_retry in range(MAX_429_RETRIES):
+        try:
+            slugs = get_player_slugs(session, br_year)
+            break
+        except Exception as e:
+            if '429' in str(e) and slug_retry < MAX_429_RETRIES - 1:
+                wait = RATE_LIMIT_WAIT * (slug_retry + 1)
+                print(f"  429 on slug page, waiting {wait}s...")
+                time.sleep(wait)
+            else:
+                print(f"  ERROR getting slugs: {e}")
+                break
     if not slugs:
         print(f"  ERROR: Could not get player slugs")
         return 0
@@ -319,29 +355,41 @@ def scrape_season_pm(session, season_year, full=False):
             continue
 
         print(f"    [{i+1}/{len(remaining)}] {player_name} ({slug})...", end=' ')
-        try:
-            games = scrape_player_gamelog_pm(session, slug, br_year)
-            if games:
-                avg_pm = compute_avg_pm(games)
-                # Store in historical_pm as a summary row (tuple format)
-                pm_rows = [(
-                    f'avg_{season_year}_{slug}',
-                    f'{season_year + 1}-07-01',  # placeholder date
-                    season_year,
-                    player_name,
-                    'AVG',
-                    sum(mp for mp, _ in games) / len(games),
-                    avg_pm or 0,
-                )]
-                db.insert_historical_pm(pm_rows)
-                print(f"{len(games)} games, avg PM = {avg_pm:+.1f}")
-                scraped += 1
-            else:
-                print("no game data")
-                failed.append(player_name)
-        except Exception as e:
-            print(f"ERROR: {e}")
-            failed.append(player_name)
+        success = False
+        for retry_429 in range(MAX_429_RETRIES):
+            try:
+                games = scrape_player_gamelog_pm(session, slug, br_year)
+                if games:
+                    avg_pm = compute_avg_pm(games)
+                    # Store in historical_pm as a summary row (tuple format)
+                    pm_rows = [(
+                        f'avg_{season_year}_{slug}',
+                        f'{season_year + 1}-07-01',  # placeholder date
+                        season_year,
+                        player_name,
+                        'AVG',
+                        sum(mp for mp, _ in games) / len(games),
+                        avg_pm or 0,
+                    )]
+                    db.insert_historical_pm(pm_rows)
+                    print(f"{len(games)} games, avg PM = {avg_pm:+.1f}")
+                    scraped += 1
+                else:
+                    print("no game data")
+                    failed.append(player_name)
+                success = True
+                break
+            except Exception as e:
+                if '429' in str(e) and retry_429 < MAX_429_RETRIES - 1:
+                    wait = RATE_LIMIT_WAIT * (retry_429 + 1)
+                    print(f"429 rate limited, waiting {wait}s...")
+                    time.sleep(wait)
+                    print(f"    [{i+1}/{len(remaining)}] {player_name} ({slug}) retry...", end=' ')
+                else:
+                    print(f"ERROR: {e}")
+                    failed.append(player_name)
+                    success = True  # don't retry non-429 errors
+                    break
 
         time.sleep(SCRAPE_DELAY)
 

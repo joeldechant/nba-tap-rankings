@@ -300,14 +300,17 @@ def render_all_time_html(data, stat_key='ted', season_all=None):
         season_label = f"{current_year}-{str(current_year + 1)[-2:]}"
         for p in season_all:
             if p.get('ted') is not None and p.get('tap') is not None:
-                all_entries.append({
+                entry = {
                     'player': p['player'],
                     'team': p.get('team', ''),
                     'year': current_year,
                     'season_label': season_label,
                     'ted': round(p['ted'], 1),
                     'tap': round(p['tap'], 1),
-                })
+                }
+                if p.get('tapd') is not None:
+                    entry['tapd'] = round(p['tapd'], 1)
+                all_entries.append(entry)
 
     # For TAPD: fall back to TAP for entries without TAPD data
     effective_key = stat_key
@@ -332,14 +335,40 @@ def render_all_time_html(data, stat_key='ted', season_all=None):
         val_str = f'{val:.1f}'
         rows += f'        <tr><td class="rank">{rank}</td><td class="player" data-player="{player_attr}">{name_html}</td><td class="season">{p["season_label"]}</td><td class="num stat">{val_str}</td></tr>\n'
 
+    # TAPD toggle table for TAP view
+    tapd_eligible = (stat_key == 'tap')
+    stat_cls = 'num stat stat-toggle' if tapd_eligible else 'num stat'
+
+    tapd_table_html = ''
+    if tapd_eligible:
+        tapd_entries = [e for e in all_entries if e.get('tapd') is not None]
+        tapd_rows = ''
+        if tapd_entries:
+            tapd_sorted = sorted(tapd_entries, key=lambda p: p.get('tapd', 0) or 0, reverse=True)[:400]
+            for rank, p in enumerate(tapd_sorted, 1):
+                name_html = format_player_name(p['player'])
+                player_attr = html_module.escape(p['player'], quote=True)
+                val_str = f'{p["tapd"]:.1f}'
+                tapd_rows += f'        <tr><td class="rank">{rank}</td><td class="player" data-player="{player_attr}">{name_html}</td><td class="season">{p["season_label"]}</td><td class="num stat">{val_str}</td></tr>\n'
+        else:
+            # Skeleton rows
+            for rank in range(1, len(players_sorted) + 1):
+                tapd_rows += f'        <tr><td class="rank">{rank}</td><td class="player"></td><td class="season"></td><td class="num stat"></td></tr>\n'
+        tapd_table_html = f"""
+        <table class="tapd-year-table" style="display:none">
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="season">Season</th><th class="num stat stat-toggle">TAPD</th></tr></thead>
+          <tbody>
+{tapd_rows}          </tbody>
+        </table>"""
+
     return f"""    <div class="year-pair single">
       <div class="year-table">
-        <div class="table-header"><h2>ALL-TIME {stat_upper} TOP 400</h2></div>
-        <table>
-          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="season">Season</th><th class="num stat">{stat_upper}</th></tr></thead>
+        <div class="table-header"><h2>ALL-TIME <span class="year-stat-label">{stat_upper}</span> TOP 400</h2></div>
+        <table class="tap-year-table">
+          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="season">Season</th><th class="{stat_cls}">{stat_upper}</th></tr></thead>
           <tbody>
 {rows}          </tbody>
-        </table>
+        </table>{tapd_table_html}
       </div>
       <div class="year-table">
         <div class="table-header"><h2>&nbsp;</h2></div>
@@ -2093,6 +2122,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       document.querySelectorAll('.view-tap .tapd-year-table').forEach(function(t) {{ t.style.display = 'none'; }});
       document.querySelectorAll('.view-tap .tap-year-table').forEach(function(t) {{ t.style.display = ''; }});
       document.querySelectorAll('.view-tap .year-stat-label').forEach(function(l) {{ l.textContent = 'TAP'; }});
+      /* Reset all-time header text back to TAP */
+      document.querySelectorAll('.view-tap .all-time-table .table-header h2').forEach(function(h2) {{
+        h2.innerHTML = 'ALL-TIME <span class="year-stat-label">TAP</span> TOP 400';
+      }});
       /* Sync all-time and decade top 100 expand/collapse state */
       var oldSec = document.querySelector(oldView + ' .historical-section');
       var newSec = document.querySelector(newView + ' .historical-section');
@@ -2373,7 +2406,17 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       tapdTable.style.display = tapVisible ? '' : 'none';
       /* Update the header label */
       var label = yearDiv.querySelector('.year-stat-label');
-      if (label) label.textContent = tapVisible ? 'TAPD' : 'TAP';
+      if (label) {{
+        var isAllTime = yearDiv.closest('.all-time-table');
+        if (isAllTime) {{
+          var h2 = yearDiv.querySelector('.table-header h2');
+          if (h2) h2.innerHTML = tapVisible
+            ? 'MODERN ERA <span class="year-stat-label">TAPD</span> TOP 400'
+            : 'ALL-TIME <span class="year-stat-label">TAP</span> TOP 400';
+        }} else {{
+          label.textContent = tapVisible ? 'TAPD' : 'TAP';
+        }}
+      }}
     }}); }});
 
     /* Historical / All-Time toggle — click header to show/hide */
