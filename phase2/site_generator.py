@@ -1962,6 +1962,12 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       width: 100%;
     }}
 
+    .mg-goat-view,
+    .mg-g2-view,
+    .mg-g3-view {{
+      overflow: hidden;
+    }}
+
     .all-time-table .player,
     .decade-top100 .player {{
       max-width: 160px;
@@ -2826,7 +2832,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         if (isAllTime) {{
           var h2 = yearDiv.querySelector('.table-header h2');
           if (h2) h2.innerHTML = tapVisible
-            ? 'MODERN <span class="year-stat-label">TAPD</span> TOP 400'
+            ? 'MODERN ERA <span class="year-stat-label">TAPD</span> TOP 400'
             : 'ALL-TIME <span class="year-stat-label">TAP</span> TOP 400';
         }} else {{
           label.textContent = tapVisible ? 'TAPD' : 'TAP';
