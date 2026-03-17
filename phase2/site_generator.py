@@ -300,17 +300,14 @@ def render_all_time_html(data, stat_key='ted', season_all=None):
         season_label = f"{current_year}-{str(current_year + 1)[-2:]}"
         for p in season_all:
             if p.get('ted') is not None and p.get('tap') is not None:
-                entry = {
+                all_entries.append({
                     'player': p['player'],
                     'team': p.get('team', ''),
                     'year': current_year,
                     'season_label': season_label,
                     'ted': round(p['ted'], 1),
                     'tap': round(p['tap'], 1),
-                }
-                if p.get('tapd') is not None:
-                    entry['tapd'] = round(p['tapd'], 1)
-                all_entries.append(entry)
+                })
 
     # For TAPD: fall back to TAP for entries without TAPD data
     effective_key = stat_key
