@@ -2344,6 +2344,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         padding-left: 3px;
         padding-right: 3px;
       }}
+      .mg-table .table-header h2 {{
+        white-space: nowrap;
+        letter-spacing: 0.5px;
+      }}
       .all-time-table .player,
       .decade-top100 .player {{
         max-width: 120px;
