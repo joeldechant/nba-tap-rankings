@@ -132,7 +132,7 @@ def render_historical_section(data, stat_key='ted', season_all=None):
     for i, d in enumerate(available_decades):
         nav_links += f'<a href="#decade-{d}" data-decade="{d}">{d[:-1]}<span class="decade-s">s</span></a>'
         if i == 3:
-            nav_links += '<div class="nav-break"></div>'
+            nav_links += '<div class="nav-break mobile-only"></div>'
     nav_links += '<div class="nav-break"></div>'
     nav_links += '<a href="#" data-goat="true" style="color:#ee7623">GOAT</a>'
     nav_links += '<a href="#" data-g2="true" style="color:#ee7623">G2</a>'
@@ -1991,6 +1991,12 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
 
     .decade-nav .nav-break {{
+      display: block;
+      width: 100%;
+      height: 0;
+    }}
+
+    .decade-nav .nav-break.mobile-only {{
       display: none;
     }}
 
@@ -2305,6 +2311,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       .mg-table thead th {{
         padding-left: 3px;
         padding-right: 3px;
+      }}
+      .mg-table thead th.stat {{
+        text-indent: -3px;
       }}
       .all-time-table .player,
       .decade-top100 .player {{
