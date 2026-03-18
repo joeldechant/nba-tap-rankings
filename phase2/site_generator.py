@@ -1161,9 +1161,11 @@ def build_career_js(historical, season_all):
 
     # Merge current-season players into career data
     current_year = config.CURRENT_SEASON_YEAR
+    qualifying_names = set()
     if season_all:
         for r in season_all:
             name = r['player']
+            qualifying_names.add(name)
             entry = {'y': current_year, 'tm': r['team'], 'ted': round(r['ted'], 1), 'tap': round(r['tap'], 1)}
             if r.get('tapd') is not None:
                 entry['tapd'] = round(r['tapd'], 1)
@@ -1173,6 +1175,23 @@ def build_career_js(historical, season_all):
             if not any(s['y'] == current_year for s in career[name]):
                 career[name].append(entry)
                 career[name].sort(key=lambda x: x['y'])
+
+    # Add non-qualifying current-season players as dash rows
+    # (active this season but haven't met G/MP thresholds)
+    all_season_players = db.get_season_averages(current_year)
+    for row in all_season_players:
+        name = row['player']
+        if name in qualifying_names:
+            continue
+        if name not in career:
+            continue  # only add dash rows for players with existing career data
+        if not any(s['y'] == current_year for s in career[name]):
+            team = row['team'] if 'team' in row.keys() else ''
+            career[name].append({
+                'y': current_year, 'tm': team,
+                'ted': None, 'tap': None
+            })
+            career[name].sort(key=lambda x: x['y'])
 
         # Add current season to season_stats
         ted_sorted = sorted(season_all, key=lambda r: r['ted'], reverse=True)

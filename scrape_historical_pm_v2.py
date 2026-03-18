@@ -30,23 +30,35 @@ sys.path.insert(0, PROJECT_DIR)
 from phase2 import config, database as db
 from phase2.scraper import create_session, _parse_minutes, _clean_player_name
 
-SCRAPE_DELAY = 5  # seconds between requests
-RATE_LIMIT_WAIT = 300  # 5 minutes cooldown on 429
-MAX_429_RETRIES = 5  # retry up to 5 times on 429 before giving up on a player
+SCRAPE_DELAY = 12  # seconds between requests — must stay under BR's rate limit
+SEASON_PAUSE = 120  # seconds between seasons (matches historical seasons scraper)
 REQUEST_TIMEOUT = 30
+COOLDOWN_MINUTES = 65  # how long to pause on 429 before resuming (shouldn't happen with 12s delay)
 
 
-def _get_page_no429retry(session, url, label="page"):
-    """Fetch a URL. Does NOT retry on 429 — lets caller handle rate limits."""
+def _get_page_with_cooldown(session, url, label="page"):
+    """Fetch a URL. On 429, pauses for COOLDOWN_MINUTES then retries once.
+    On other errors, retries once after 5s."""
     try:
         resp = session.get(url, timeout=REQUEST_TIMEOUT)
         resp.encoding = 'utf-8'
+        if resp.status_code == 429:
+            _do_cooldown(label)
+            # Create fresh session after cooldown (old one may be flagged)
+            resp = session.get(url, timeout=REQUEST_TIMEOUT)
+            resp.encoding = 'utf-8'
+            resp.raise_for_status()
+            return resp.text
         resp.raise_for_status()
         return resp.text
     except Exception as e:
         if '429' in str(e):
-            raise  # Let outer loop handle with long backoff
-        # Retry once for non-429 errors
+            _do_cooldown(label)
+            resp = session.get(url, timeout=REQUEST_TIMEOUT)
+            resp.encoding = 'utf-8'
+            resp.raise_for_status()
+            return resp.text
+        # Retry once for non-429 errors (timeouts, connection resets, etc.)
         try:
             time.sleep(5)
             resp = session.get(url, timeout=REQUEST_TIMEOUT)
@@ -55,6 +67,17 @@ def _get_page_no429retry(session, url, label="page"):
             return resp.text
         except Exception:
             raise
+
+
+def _do_cooldown(label):
+    """Wait for BR rate limit to reset."""
+    from datetime import datetime, timedelta
+    resume_time = datetime.now() + timedelta(minutes=COOLDOWN_MINUTES)
+    print(f"\n  *** 429 on {label} — cooling down {COOLDOWN_MINUTES} min until {resume_time.strftime('%H:%M:%S')} ***")
+    sys.stdout.flush()
+    time.sleep(COOLDOWN_MINUTES * 60)
+    print(f"  *** Cooldown complete, resuming... ***")
+    sys.stdout.flush()
 
 
 def fix_encoding(s):
@@ -119,11 +142,15 @@ def get_scraped_players(season_year):
 
 
 def get_all_players(season_year):
-    """Get ALL players we have data for in a season (v9 for 2000-2016, scraped for 2017+)."""
+    """Get ALL players we have data for in a season (from scraped CSVs for all years)."""
+    # Always prefer scraped CSVs (complete BR data for all seasons)
+    scraped = get_scraped_players(season_year)
+    if scraped:
+        return scraped
+    # Fallback to v9 if no scraped CSV exists
     if season_year <= 2016:
         return get_v9_players(season_year)
-    else:
-        return get_scraped_players(season_year)
+    return []
 
 
 def get_player_slugs(session, br_year):
@@ -134,7 +161,7 @@ def get_player_slugs(session, br_year):
     """
     url = f"{config.BR_BASE_URL}/leagues/NBA_{br_year}_per_game.html"
     print(f"  Fetching player slugs from NBA_{br_year} per-game page...")
-    html = _get_page_no429retry(session, url, f"per-game NBA_{br_year}")
+    html = _get_page_with_cooldown(session, url, f"per-game NBA_{br_year}")
     time.sleep(SCRAPE_DELAY)
 
     soup = BeautifulSoup(html, 'html.parser')
@@ -182,7 +209,7 @@ def scrape_player_gamelog_pm(session, slug, br_year):
     Returns list of (mp_decimal, plus_minus) tuples for games where both exist.
     """
     url = f"{config.BR_BASE_URL}/players/{slug[0]}/{slug}/gamelog/{br_year}"
-    html = _get_page_no429retry(session, url, f"gamelog {slug}/{br_year}")
+    html = _get_page_with_cooldown(session, url, f"gamelog {slug}/{br_year}")
 
     soup = BeautifulSoup(html, 'html.parser')
     table = soup.find('table', id='player_game_log_reg')
@@ -299,19 +326,7 @@ def scrape_season_pm(session, season_year, full=False):
     print(f"{'='*60}")
 
     # Get player slugs from per-game page (need this for both modes)
-    slugs = None
-    for slug_retry in range(MAX_429_RETRIES):
-        try:
-            slugs = get_player_slugs(session, br_year)
-            break
-        except Exception as e:
-            if '429' in str(e) and slug_retry < MAX_429_RETRIES - 1:
-                wait = RATE_LIMIT_WAIT * (slug_retry + 1)
-                print(f"  429 on slug page, waiting {wait}s...")
-                time.sleep(wait)
-            else:
-                print(f"  ERROR getting slugs: {e}")
-                break
+    slugs = get_player_slugs(session, br_year)
     if not slugs:
         print(f"  ERROR: Could not get player slugs")
         return 0
@@ -344,6 +359,13 @@ def scrape_season_pm(session, season_year, full=False):
         print(f"  All done for {season_label}!")
         return 0
 
+    # Skip seasons with very few remaining — likely encoding mismatches that will never resolve
+    SKIP_THRESHOLD = 5
+    if full and len(remaining) < SKIP_THRESHOLD:
+        print(f"  Only {len(remaining)} remaining (< {SKIP_THRESHOLD}), skipping (likely name mismatches)")
+        print(f"  Skipped: {', '.join(remaining)}")
+        return 0
+
     scraped = 0
     failed = []
 
@@ -355,41 +377,28 @@ def scrape_season_pm(session, season_year, full=False):
             continue
 
         print(f"    [{i+1}/{len(remaining)}] {player_name} ({slug})...", end=' ')
-        success = False
-        for retry_429 in range(MAX_429_RETRIES):
-            try:
-                games = scrape_player_gamelog_pm(session, slug, br_year)
-                if games:
-                    avg_pm = compute_avg_pm(games)
-                    # Store in historical_pm as a summary row (tuple format)
-                    pm_rows = [(
-                        f'avg_{season_year}_{slug}',
-                        f'{season_year + 1}-07-01',  # placeholder date
-                        season_year,
-                        player_name,
-                        'AVG',
-                        sum(mp for mp, _ in games) / len(games),
-                        avg_pm or 0,
-                    )]
-                    db.insert_historical_pm(pm_rows)
-                    print(f"{len(games)} games, avg PM = {avg_pm:+.1f}")
-                    scraped += 1
-                else:
-                    print("no game data")
-                    failed.append(player_name)
-                success = True
-                break
-            except Exception as e:
-                if '429' in str(e) and retry_429 < MAX_429_RETRIES - 1:
-                    wait = RATE_LIMIT_WAIT * (retry_429 + 1)
-                    print(f"429 rate limited, waiting {wait}s...")
-                    time.sleep(wait)
-                    print(f"    [{i+1}/{len(remaining)}] {player_name} ({slug}) retry...", end=' ')
-                else:
-                    print(f"ERROR: {e}")
-                    failed.append(player_name)
-                    success = True  # don't retry non-429 errors
-                    break
+        try:
+            games = scrape_player_gamelog_pm(session, slug, br_year)
+            if games:
+                avg_pm = compute_avg_pm(games)
+                pm_rows = [(
+                    f'avg_{season_year}_{slug}',
+                    f'{season_year + 1}-07-01',  # placeholder date
+                    season_year,
+                    player_name,
+                    'AVG',
+                    sum(mp for mp, _ in games) / len(games),
+                    avg_pm or 0,
+                )]
+                db.insert_historical_pm(pm_rows)
+                print(f"{len(games)} games, avg PM = {avg_pm:+.1f}")
+                scraped += 1
+            else:
+                print("no game data")
+                failed.append(player_name)
+        except Exception as e:
+            print(f"ERROR: {e}")
+            failed.append(player_name)
 
         time.sleep(SCRAPE_DELAY)
 
@@ -456,7 +465,8 @@ FULL_SEASONS = list(range(2024, 1999, -1))  # 2000-2024 (start-year)
 def main():
     parser = argparse.ArgumentParser(description='Scrape historical PM from BR player game logs')
     parser.add_argument('--season', type=int, help='Single season year (start-year, e.g. 2020)')
-    parser.add_argument('--full', action='store_true', help='Scrape ALL players (not just ranked) for seasons 2017-2024')
+    parser.add_argument('--from-season', type=int, help='Start from this season and go backward (e.g. --from-season 2017)')
+    parser.add_argument('--full', action='store_true', help='Scrape ALL players (not just ranked) for seasons 2000-2024')
     parser.add_argument('--status', action='store_true', help='Show progress')
     args = parser.parse_args()
 
@@ -467,10 +477,19 @@ def main():
     session = create_session()
 
     if args.full:
-        # Full mode: all players for scraped seasons (2017-2024)
-        seasons = [args.season] if args.season else FULL_SEASONS
-        for season_year in seasons:
-            scrape_season_pm(session, season_year, full=True)
+        # Full mode: all players for seasons 2000-2024
+        if args.season:
+            seasons = [args.season]
+        elif args.from_season:
+            seasons = [y for y in FULL_SEASONS if y <= args.from_season]
+        else:
+            seasons = FULL_SEASONS
+        for i, season_year in enumerate(seasons):
+            scraped = scrape_season_pm(session, season_year, full=True)
+            if i < len(seasons) - 1 and scraped > 0:
+                print(f"\n  Pausing {SEASON_PAUSE}s between seasons...")
+                sys.stdout.flush()
+                time.sleep(SEASON_PAUSE)
     elif args.season:
         scrape_season_pm(session, args.season)
     else:
