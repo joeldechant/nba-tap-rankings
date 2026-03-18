@@ -270,7 +270,11 @@ def build_historical_json():
         tap_second = tap_sorted[1] if len(tap_sorted) > 1 else None
         ted_third = ted_sorted[2] if len(ted_sorted) > 2 else None
         tap_third = tap_sorted[2] if len(tap_sorted) > 2 else None
+        all_teds = [p['ted'] for p in players]
+        all_taps = [p['tap'] for p in players]
         stats_entry = {
+            'avg_ted': round(sum(all_teds) / len(all_teds), 1),
+            'avg_tap': round(sum(all_taps) / len(all_taps), 1),
             'top10_ted': round(sum(top10_teds) / len(top10_teds), 1),
             'top10_tap': round(sum(top10_taps) / len(top10_taps), 1),
             'ldr_ted': ted_leader['player'], 'ldr_ted_val': round(ted_leader['ted'], 1),
