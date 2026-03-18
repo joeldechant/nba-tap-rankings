@@ -2000,6 +2000,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       overflow: visible;
     }}
     .mg-table thead th.stat {{
+      text-align: left;
       text-indent: -4px;
     }}
 
