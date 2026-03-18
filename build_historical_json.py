@@ -1,9 +1,8 @@
-"""Build historical TAP rankings JSON from v9 + scraped data.
+"""Build historical TED/TAP rankings JSON from scraped season CSVs.
 
-One-time script that:
-1. Reads v9_historical_data.csv (years 1950-2017) and scraped data (2018-2024)
-2. Calculates TAP for each qualifying player via calculator.py
-3. Groups by decade, outputs phase2/historical_rankings.json
+Reads individual season CSVs from scraped_data/ (BR years 1950-2025),
+calculates TED/TAP/TAPD for each qualifying player via calculator.py,
+groups by decade, outputs phase2/historical_rankings.json.
 
 Usage: python build_historical_json.py
 """
@@ -32,133 +31,71 @@ from phase2 import config
 from phase2.calculator import calculate_stats
 
 
-def load_v9_data():
-    """Load v9 historical data (1950-2017)."""
-    path = os.path.join(PROJECT_DIR, "v9_historical_data.csv")
+def load_all_seasons():
+    """Load all season CSVs from scraped_data/ (BR years 1950-2025 = start-years 1949-2024)."""
+    scraped_dir = os.path.join(PROJECT_DIR, "scraped_data")
     players = []
-    with open(path, 'r', encoding='utf-8') as f:
-        reader = csv.reader(f)
-        header = next(reader)
-        # Columns: TAP 2017, Year, Pace, Games, Minutes, FG, FGA, 3P, FT, FTA,
-        #          RB, Assists, Steals, Blocks, Turnovers, DBPM, DWS, Points, PER, OBPM, OWS
-        for row in reader:
+
+    for br_year in range(1950, 2026):
+        csv_path = os.path.join(scraped_dir, f"{br_year}_season.csv")
+        if not os.path.exists(csv_path):
+            continue
+
+        start_year = br_year - 1  # Convert BR end-year to start-year
+
+        def safe_float(val, default=0.0):
             try:
-                year = int(float(row[1]))
-            except (ValueError, IndexError):
-                continue
-            if year < 1950 or year > 2017:
-                continue
+                v = float(val)
+                return v if not math.isnan(v) else default
+            except (ValueError, TypeError):
+                return default
 
-            def safe_float(val, default=0.0):
-                try:
-                    v = float(val)
-                    return v if not math.isnan(v) else default
-                except (ValueError, TypeError):
-                    return default
+        with open(csv_path, 'r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            season_count = 0
+            for row in reader:
+                g = safe_float(row.get('G', 0))
+                mp = safe_float(row.get('MP', 0))
+                pace = safe_float(row.get('Pace', 0))
 
-            g = safe_float(row[3])
-            mp = safe_float(row[4])
-            pace = safe_float(row[2])
+                # Filter: G >= 40, MP >= 20
+                if g < 40 or mp < 20:
+                    continue
+                if pace == 0:
+                    continue
 
-            # Filter: G >= 40, MP >= 20
-            if g < 40 or mp < 20:
-                continue
-            if pace == 0:
-                continue
+                # Skip traded-player individual team rows (keep only combined)
+                team = row.get('Team', '').strip()
+                if team in ('2TM', '3TM', '4TM', '5TM'):
+                    team = 'TOT'
 
-            players.append({
-                'player': row[0].strip(),
-                'team': None,
-                'year': year,
-                'pace': pace,
-                'g': int(g),
-                'mp': mp,
-                'fg': safe_float(row[5]),
-                'fga': safe_float(row[6]),
-                'three_p': safe_float(row[7]),
-                'ft': safe_float(row[8]),
-                'fta': safe_float(row[9]),
-                'rb': safe_float(row[10]),
-                'ast': safe_float(row[11]),
-                'stl': safe_float(row[12]),
-                'blk': safe_float(row[13]),
-                'tov': safe_float(row[14]),
-                'pts': safe_float(row[17]),
-                'dbpm': safe_float(row[15]) if row[15].strip() else None,
-                'dws': safe_float(row[16]) if row[16].strip() else None,
-                'obpm': safe_float(row[19]) if row[19].strip() else None,
-                'ows': safe_float(row[20]) if row[20].strip() else None,
-                'per': safe_float(row[18]),
-            })
+                players.append({
+                    'player': fix_encoding(row['Player'].strip()),
+                    'team': team,
+                    'year': start_year,
+                    'pace': pace,
+                    'g': int(g),
+                    'mp': mp,
+                    'fg': safe_float(row.get('FG', 0)),
+                    'fga': safe_float(row.get('FGA', 0)),
+                    'three_p': safe_float(row.get('3P', 0)),
+                    'ft': safe_float(row.get('FT', 0)),
+                    'fta': safe_float(row.get('FTA', 0)),
+                    'rb': safe_float(row.get('RB', 0)),
+                    'ast': safe_float(row.get('AST', 0)),
+                    'stl': safe_float(row.get('STL', 0)),
+                    'blk': safe_float(row.get('BLK', 0)),
+                    'tov': safe_float(row.get('Turnovers', 0)),
+                    'pts': safe_float(row.get('PTS', 0)),
+                    'dbpm': safe_float(row['DBPM']) if row.get('DBPM', '').strip() else None,
+                    'dws': safe_float(row['DWS']) if row.get('DWS', '').strip() else None,
+                    'obpm': safe_float(row['OBPM']) if row.get('OBPM', '').strip() else None,
+                    'ows': safe_float(row['OWS']) if row.get('OWS', '').strip() else None,
+                    'per': safe_float(row.get('PER', 0)),
+                })
+                season_count += 1
 
-    print(f"  v9: loaded {len(players)} qualifying players (1950-2017)")
-    return players
-
-
-def load_scraped_data():
-    """Load scraped data (BR years 2019-2025 = start-years 2018-2024)."""
-    path = os.path.join(PROJECT_DIR, "scraped_data", "all_seasons_2018_2026.csv")
-    players = []
-    with open(path, 'r', encoding='utf-8') as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            try:
-                br_year = int(float(row['Year']))
-            except (ValueError, KeyError):
-                continue
-            start_year = br_year - 1  # Convert BR end-year to start-year
-            if start_year < 2018 or start_year > 2024:
-                continue
-
-            def safe_float(val, default=0.0):
-                try:
-                    v = float(val)
-                    return v if not math.isnan(v) else default
-                except (ValueError, TypeError):
-                    return default
-
-            g = safe_float(row.get('G', 0))
-            mp = safe_float(row.get('MP', 0))
-            pace = safe_float(row.get('Pace', 0))
-
-            # Filter: G >= 40, MP >= 20
-            if g < 40 or mp < 20:
-                continue
-            if pace == 0:
-                continue
-
-            # Skip traded-player individual team rows (keep only combined)
-            team = row.get('Team', '').strip()
-            if team in ('2TM', '3TM', '4TM', '5TM'):
-                # These are combined rows — keep them but show TOT as team
-                team = 'TOT'
-
-            players.append({
-                'player': fix_encoding(row['Player'].strip()),
-                'team': team,
-                'year': start_year,
-                'pace': pace,
-                'g': int(g),
-                'mp': mp,
-                'fg': safe_float(row.get('FG', 0)),
-                'fga': safe_float(row.get('FGA', 0)),
-                'three_p': safe_float(row.get('3P', 0)),
-                'ft': safe_float(row.get('FT', 0)),
-                'fta': safe_float(row.get('FTA', 0)),
-                'rb': safe_float(row.get('RB', 0)),
-                'ast': safe_float(row.get('AST', 0)),
-                'stl': safe_float(row.get('STL', 0)),
-                'blk': safe_float(row.get('BLK', 0)),
-                'tov': safe_float(row.get('Turnovers', 0)),
-                'pts': safe_float(row.get('PTS', 0)),
-                'dbpm': safe_float(row['DBPM']) if row.get('DBPM', '').strip() else None,
-                'dws': safe_float(row['DWS']) if row.get('DWS', '').strip() else None,
-                'obpm': safe_float(row['OBPM']) if row.get('OBPM', '').strip() else None,
-                'ows': safe_float(row['OWS']) if row.get('OWS', '').strip() else None,
-                'per': safe_float(row.get('PER', 0)),
-            })
-
-    print(f"  Scraped: loaded {len(players)} qualifying players (2018-2024)")
+    print(f"  Loaded {len(players)} qualifying players across {br_year - 1949} seasons (1949-2024)")
     return players
 
 
@@ -254,10 +191,8 @@ def build_historical_json():
     """Main entry point: build and write historical_rankings.json."""
     print("Building historical TAP rankings JSON...")
 
-    # Load data
-    v9_players = load_v9_data()
-    scraped_players = load_scraped_data()
-    all_players = v9_players + scraped_players
+    # Load data from all scraped season CSVs
+    all_players = load_all_seasons()
 
     print(f"  Total qualifying players: {len(all_players)}")
 
@@ -384,10 +319,8 @@ def build_historical_json():
 
             if year >= 2013:
                 top_n = 40
-            elif year >= 1984:
+            elif year >= 1980:
                 top_n = 30
-            elif year >= 1982:
-                top_n = 20
             else:
                 top_n = 10
             season_label = f"{year}-{str(year + 1)[-2:]}"
