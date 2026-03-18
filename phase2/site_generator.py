@@ -2689,13 +2689,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       popupStatHeader.textContent = su;
       var avgH = document.getElementById('career-avg-header');
       var t10H = document.getElementById('career-top10-header');
-      if (s === 'tapd') {{
-        avgH.textContent = 'TOP 10';
-        t10H.textContent = '';
-      }} else {{
-        avgH.textContent = 'AVG';
-        t10H.textContent = 'TOP 10';
-      }}
+      avgH.textContent = 'AVG';
+      t10H.textContent = 'TOP 10';
       var html = '';
       for (var i = career.length - 1; i >= 0; i--) {{
         var c = career[i];
@@ -2705,16 +2700,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         var ss = window.SEASON_STATS[String(c.y)];
         var avgVal = '', top10Val = '';
         if (ss) {{
-          if (s === 'tapd') {{
-            /* TAPD: no avg (incomplete PM data), show top10 in AVG column */
-            var t10 = ss['top10_tapd'];
-            avgVal = t10 !== undefined ? t10.toFixed(1) : '';
-          }} else {{
-            var av = ss['avg_' + s];
-            avgVal = av !== undefined ? av.toFixed(1) : '';
-            var t10 = ss['top10_' + s];
-            top10Val = t10 !== undefined ? t10.toFixed(1) : '';
-          }}
+          var av = ss['avg_' + s];
+          avgVal = av !== undefined ? av.toFixed(1) : '';
+          var t10 = ss['top10_' + s];
+          top10Val = t10 !== undefined ? t10.toFixed(1) : '';
         }}
         var rc = c.y === hlYear ? ' class="cp-current"' : '';
         html += '<tr' + rc + '>'

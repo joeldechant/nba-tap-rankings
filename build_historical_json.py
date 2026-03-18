@@ -32,11 +32,16 @@ from phase2.calculator import calculate_stats
 
 
 def load_all_seasons():
-    """Load all season CSVs from scraped_data/ (BR years 1950-2025 = start-years 1949-2024)."""
+    """Load all season CSVs from scraped_data/ (BR years 1952-2025 = start-years 1951-2024).
+
+    Starts at 1952 because BR doesn't have MP data before 1951-52 season,
+    and TED/TAP require minutes per game for per-36 normalization.
+    """
     scraped_dir = os.path.join(PROJECT_DIR, "scraped_data")
     players = []
+    non_qualifying = []  # Players active but didn't meet G>=40/MP>=20
 
-    for br_year in range(1950, 2026):
+    for br_year in range(1952, 2026):
         csv_path = os.path.join(scraped_dir, f"{br_year}_season.csv")
         if not os.path.exists(csv_path):
             continue
@@ -58,19 +63,26 @@ def load_all_seasons():
                 mp = safe_float(row.get('MP', 0))
                 pace = safe_float(row.get('Pace', 0))
 
-                # Filter: G >= 40, MP >= 20
-                if g < 40 or mp < 20:
-                    continue
-                if pace == 0:
-                    continue
-
                 # Skip traded-player individual team rows (keep only combined)
                 team = row.get('Team', '').strip()
                 if team in ('2TM', '3TM', '4TM', '5TM'):
                     team = 'TOT'
 
+                player_name = fix_encoding(row['Player'].strip())
+
+                # Filter: G >= 40, MP >= 20
+                if g < 40 or mp < 20 or pace == 0:
+                    # Track non-qualifying appearances for career popup
+                    if g > 0 and player_name:
+                        non_qualifying.append({
+                            'player': player_name,
+                            'team': team,
+                            'year': start_year,
+                        })
+                    continue
+
                 players.append({
-                    'player': fix_encoding(row['Player'].strip()),
+                    'player': player_name,
                     'team': team,
                     'year': start_year,
                     'pace': pace,
@@ -96,7 +108,8 @@ def load_all_seasons():
                 season_count += 1
 
     print(f"  Loaded {len(players)} qualifying players across {br_year - 1949} seasons (1949-2024)")
-    return players
+    print(f"  Non-qualifying appearances: {len(non_qualifying)}")
+    return players, non_qualifying
 
 
 def calculate_tap_for_players(players, pm_lookup=None):
@@ -192,7 +205,7 @@ def build_historical_json():
     print("Building historical TAP rankings JSON...")
 
     # Load data from all scraped season CSVs
-    all_players = load_all_seasons()
+    all_players, non_qualifying = load_all_seasons()
 
     print(f"  Total qualifying players: {len(all_players)}")
 
@@ -240,6 +253,7 @@ def build_historical_json():
 
     # Build career_data: all player-seasons grouped by player name
     career_data = defaultdict(list)
+    qualifying_years = set()  # Track (player, year) pairs already added
     for r in results:
         entry = {
             'y': r['year'], 'tm': r['team'] or '',
@@ -248,9 +262,23 @@ def build_historical_json():
         if 'tapd' in r:
             entry['tapd'] = round(r['tapd'], 1)
         career_data[r['player']].append(entry)
+        qualifying_years.add((r['player'], r['year']))
+
+    # Add non-qualifying seasons (dashes) for players who have at least one qualifying season
+    nq_added = 0
+    for nq in non_qualifying:
+        name = nq['player']
+        if name in career_data and (name, nq['year']) not in qualifying_years:
+            career_data[name].append({
+                'y': nq['year'], 'tm': nq['team'] or '',
+                'ted': None, 'tap': None
+            })
+            qualifying_years.add((name, nq['year']))  # Prevent duplicates
+            nq_added += 1
+
     for name in career_data:
         career_data[name].sort(key=lambda x: x['y'])
-    print(f"  Career data: {len(career_data)} unique players")
+    print(f"  Career data: {len(career_data)} unique players ({nq_added} non-qualifying seasons added)")
 
     # Group by year
     by_year = defaultdict(list)
@@ -318,7 +346,7 @@ def build_historical_json():
         years_data = []
 
         for year in range(min(decade_end, 2024), decade_start - 1, -1):  # newest first, cap at 2024
-            if year < 1950:
+            if year < 1951:  # BR has no MP data before 1951-52
                 continue
 
             if year >= 1990:
