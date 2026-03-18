@@ -464,6 +464,8 @@ def render_decade_top100_html(decade_label, decade_data, stat_key='ted', season_
     tapd_table_html = ''
     if tapd_eligible:
         # Build TAPD version from dedicated pool (all players with TAPD, not TED-filtered)
+        # 1990s gets top 100 (only 4 years of PM data), 2000s+ gets same as TED/TAP
+        decade_tapd_n = 100 if decade_start == 1990 else decade_top_n
         tapd_entries = list(decade_data.get('decade_top_tapd', []))
         # Merge current season
         if season_all and decade_start <= current_year <= decade_end:
@@ -479,7 +481,7 @@ def render_decade_top100_html(decade_label, decade_data, stat_key='ted', season_
                     })
         tapd_rows = ''
         if tapd_entries:
-            tapd_sorted = sorted(tapd_entries, key=lambda p: p.get('tapd', 0) or 0, reverse=True)[:decade_top_n]
+            tapd_sorted = sorted(tapd_entries, key=lambda p: p.get('tapd', 0) or 0, reverse=True)[:decade_tapd_n]
             for rank, p in enumerate(tapd_sorted, 1):
                 name_html = format_player_name(p['player'])
                 player_attr = html_module.escape(p['player'], quote=True)
@@ -498,7 +500,7 @@ def render_decade_top100_html(decade_label, decade_data, stat_key='ted', season_
 
     return f"""    <div class="year-pair single">
       <div class="year-table">
-        <div class="table-header"><h2><span class="decade-label">{decade_label[:-1]}<span class="decade-s">s</span></span> <span class="year-stat-label">{stat_upper}</span> TOP {decade_top_n}</h2></div>
+        <div class="table-header" data-tap-n="{decade_top_n}" data-tapd-n="{decade_tapd_n if tapd_eligible else decade_top_n}"><h2><span class="decade-label">{decade_label[:-1]}<span class="decade-s">s</span></span> <span class="year-stat-label">{stat_upper}</span> TOP <span class="top-n-label">{decade_top_n}</span></h2></div>
         <table class="tap-year-table">
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="season">Season</th><th class="{stat_cls}">{stat_upper}</th></tr></thead>
           <tbody>
@@ -2912,6 +2914,12 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
             : 'ALL-TIME <span class="year-stat-label">TAP</span> TOP 400';
         }} else {{
           label.textContent = tapVisible ? 'TAPD' : 'TAP';
+          /* Update TOP N label for decade lists (e.g., 1990s: TAP TOP 200 → TAPD TOP 100) */
+          var header = yearDiv.querySelector('.table-header');
+          var topNLabel = header ? header.querySelector('.top-n-label') : null;
+          if (topNLabel && header.dataset.tapN && header.dataset.tapdN) {{
+            topNLabel.textContent = tapVisible ? header.dataset.tapdN : header.dataset.tapN;
+          }}
         }}
       }}
     }}); }});

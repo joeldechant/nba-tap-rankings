@@ -438,10 +438,12 @@ def build_historical_json():
             print(f"  {decade_label}: {len(decade_top_ted)} entries in decade top {decade_top_n}")
 
             # Separate TAPD decade list (1990s+ for TAPD, from full TAPD pool)
+            # 1990s gets top 100 (only 4 years of PM data: 1996-1999), 2000s+ gets same as TED/TAP
             decade_tapd_entries = []
             if decade_start >= 1990:
+                decade_tapd_n = 100 if decade_start == 1990 else decade_top_n
                 decade_tapd_pool = [r for r in decade_players if r.get('tapd') is not None]
-                decade_tapd_entries = build_decade_entries(decade_tapd_pool, 'tapd', decade_top_n)
+                decade_tapd_entries = build_decade_entries(decade_tapd_pool, 'tapd', decade_tapd_n)
 
             decades[decade_label] = {
                 'years': years_data,
