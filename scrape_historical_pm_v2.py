@@ -416,7 +416,7 @@ def show_status(full=False):
         print('-' * 50)
         total_ds = 0
         total_have = 0
-        for season_year in range(2024, 1999, -1):
+        for season_year in range(2024, 1995, -1):
             all_players = get_all_players(season_year)
             existing_raw = db.get_historical_avg_pm(season_year)
             existing = {player: data for (player, sy), data in existing_raw.items() if sy == season_year}
@@ -440,7 +440,7 @@ def show_status(full=False):
         total_ranked = 0
         total_have = 0
 
-        for season_year in range(2024, 1999, -1):
+        for season_year in range(2024, 1995, -1):
             ranked = get_ranked_players(season_year)
             if not ranked:
                 continue
@@ -458,8 +458,8 @@ def show_status(full=False):
         print(f"{'TOTAL':<16} {total_ranked:>7} {total_have:>8} {total_ranked - total_have:>8}")
 
 
-# Seasons with player data (v9: 2000-2016, scraped: 2017-2024)
-FULL_SEASONS = list(range(2024, 1999, -1))  # 2000-2024 (start-year)
+# Seasons with player data and PM available on BR (1996-97 onward = start-year 1996+)
+FULL_SEASONS = list(range(2024, 1995, -1))  # 1996-2024 (start-year)
 
 
 def main():
@@ -494,7 +494,7 @@ def main():
         scrape_season_pm(session, args.season)
     else:
         # Ranked-only for all seasons 2000-2024
-        for season_year in range(2024, 1999, -1):
+        for season_year in range(2024, 1995, -1):
             scrape_season_pm(session, season_year)
 
     print("\nDone!")

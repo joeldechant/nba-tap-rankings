@@ -209,7 +209,7 @@ def build_historical_json():
 
     print(f"  Total qualifying players: {len(all_players)}")
 
-    # Load historical PM data for TAPD calculation (seasons 2000+)
+    # Load historical PM data for TAPD calculation (seasons 1997+)
     pm_lookup = load_historical_pm()
 
     # Calculate TAP (and TAPD where PM data available)
@@ -317,7 +317,7 @@ def build_historical_json():
             'g3_tap_val': round(tap_third['tap'], 1) if tap_third else 0,
         }
 
-        # TAPD stats (only for years with PM data, typically 2000+)
+        # TAPD stats (only for years with PM data, 1997+)
         tapd_players = [p for p in players if 'tapd' in p]
         if tapd_players:
             tapd_sorted = sorted(tapd_players, key=lambda p: p['tapd'], reverse=True)
@@ -437,9 +437,9 @@ def build_historical_json():
             decade_top_tap = build_decade_entries(decade_players, 'tap', decade_top_n)
             print(f"  {decade_label}: {len(decade_top_ted)} entries in decade top {decade_top_n}")
 
-            # Separate TAPD decade list (2000s+ only, from full TAPD pool)
+            # Separate TAPD decade list (1990s+ for TAPD, from full TAPD pool)
             decade_tapd_entries = []
-            if decade_start >= 2000:
+            if decade_start >= 1990:
                 decade_tapd_pool = [r for r in decade_players if r.get('tapd') is not None]
                 decade_tapd_entries = build_decade_entries(decade_tapd_pool, 'tapd', decade_top_n)
 
@@ -476,7 +476,7 @@ def build_historical_json():
     print(f"  All-time top 400: TED range {all_time_ted[0]['ted']} to {all_time_ted[-1]['ted']}")
     print(f"  All-time top 400: TAP range {all_time_tap[0]['tap']} to {all_time_tap[-1]['tap']}")
 
-    tapd_pool = [p for p in results if p.get('tapd') is not None and p['year'] >= 2000]
+    tapd_pool = [p for p in results if p.get('tapd') is not None and p['year'] >= 1996]
     all_time_tapd = build_all_time(tapd_pool, 'tapd', 400)
     if all_time_tapd:
         print(f"  All-time TAPD top {len(all_time_tapd)}: TAPD range {all_time_tapd[0]['tapd']} to {all_time_tapd[-1]['tapd']}")

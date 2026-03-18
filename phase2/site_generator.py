@@ -184,8 +184,8 @@ def render_historical_section(data, stat_key='ted', season_all=None):
                 val_str = f'{val:.1f}'
                 rows += f'        <tr><td class="rank">{rank}</td><td class="player" data-player="{player_attr}">{name_html}</td><td class="team">{team}</td><td class="num stat">{val_str}</td></tr>\n'
 
-            # Years 2000+ will have TAPD data — build a hidden TAPD table (may be empty until scraping completes)
-            tapd_eligible = (stat_key == 'tap' and year_data['year'] >= 2000)
+            # Years 1996+ will have TAPD data — build a hidden TAPD table (may be empty until scraping completes)
+            tapd_eligible = (stat_key == 'tap' and year_data['year'] >= 1996)
             stat_cls = 'num stat stat-toggle' if tapd_eligible else 'num stat'
 
             tapd_table_html = ''
@@ -348,7 +348,7 @@ def render_all_time_html(data, stat_key='ted', season_all=None):
 
     tapd_table_html = ''
     if tapd_eligible:
-        # Build TAPD entries from dedicated pool (all 2000+ players, not just TED/TAP top 400)
+        # Build TAPD entries from dedicated pool (all 1996+ players, not just TED/TAP top 400)
         tapd_pool = list(data.get('all_time_tapd', []))
         # Merge current season
         if season_all:
@@ -457,8 +457,8 @@ def render_decade_top100_html(decade_label, decade_data, stat_key='ted', season_
         val_str = f'{val:.1f}'
         rows += f'        <tr><td class="rank">{rank}</td><td class="player" data-player="{player_attr}">{name_html}</td><td class="season">{p["season_label"]}</td><td class="num stat">{val_str}</td></tr>\n'
 
-    # TAPD toggle for 2000s+ decades in TAP view
-    tapd_eligible = (stat_key == 'tap' and decade_start >= 2000)
+    # TAPD toggle for 1990s+ decades in TAP view
+    tapd_eligible = (stat_key == 'tap' and decade_start >= 1990)
     stat_cls = 'num stat stat-toggle' if tapd_eligible else 'num stat'
 
     tapd_table_html = ''
@@ -823,7 +823,7 @@ def render_g3_html(season_stats, stat_key='ted', season_all=None):
 
 
 def render_mg1_html(season_stats, season_all=None):
-    """Generate HTML for the MG GOAT table — #1 TAPD player by season (2000+ only).
+    """Generate HTML for the MG GOAT table — #1 TAPD player by season (1996+ only).
 
     Always uses stat_key='tapd' internally. Falls back to TAP when TAPD
     data is not available for a given year.
@@ -867,9 +867,9 @@ def render_mg1_html(season_stats, season_all=None):
                 'g3_tapd_val': round(tapd_third['tapd'], 1) if tapd_third else 0,
             })
 
-    # Sort years descending, only 2000+
+    # Sort years descending, only 1996+ (PM data available from 1996-97)
     years_sorted = sorted(
-        [y for y in stats.keys() if int(y) >= 2000],
+        [y for y in stats.keys() if int(y) >= 1996],
         key=lambda y: int(y), reverse=True)
 
     rows = ''
@@ -920,7 +920,7 @@ def render_mg1_html(season_stats, season_all=None):
 
 
 def render_mg2_html(season_stats, season_all=None):
-    """Generate HTML for the MG G2 table — top 2 TAPD players by season (2000+ only)."""
+    """Generate HTML for the MG G2 table — top 2 TAPD players by season (1996+ only)."""
     stat_upper = 'TAPD'
     current_year = config.CURRENT_SEASON_YEAR
 
@@ -960,7 +960,7 @@ def render_mg2_html(season_stats, season_all=None):
             })
 
     years_sorted = sorted(
-        [y for y in stats.keys() if int(y) >= 2000],
+        [y for y in stats.keys() if int(y) >= 1996],
         key=lambda y: int(y), reverse=True)
 
     rows = ''
@@ -1026,7 +1026,7 @@ def render_mg2_html(season_stats, season_all=None):
 
 
 def render_mg3_html(season_stats, season_all=None):
-    """Generate HTML for the MG G3 table — top 3 TAPD players by season (2000+ only)."""
+    """Generate HTML for the MG G3 table — top 3 TAPD players by season (1996+ only)."""
     stat_upper = 'TAPD'
     current_year = config.CURRENT_SEASON_YEAR
 
@@ -1066,7 +1066,7 @@ def render_mg3_html(season_stats, season_all=None):
             })
 
     years_sorted = sorted(
-        [y for y in stats.keys() if int(y) >= 2000],
+        [y for y in stats.keys() if int(y) >= 1996],
         key=lambda y: int(y), reverse=True)
 
     rows = ''
