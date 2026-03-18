@@ -4232,15 +4232,15 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         sortByCount(rows, counts, 2);
       }} else if (mode === 'diff-player') {{
         sortByDiff(rows);
-        var top40 = rows.slice(0, 40);
-        var rest = rows.slice(40);
+        var top50 = rows.slice(0, 50);
+        var rest = rows.slice(50);
         var counts = {{}};
-        top40.forEach(function(r) {{
+        top50.forEach(function(r) {{
           var n = getName(r);
           counts[n] = (counts[n] || 0) + 1;
         }});
-        sortByCount(top40, counts, 4);
-        rows = top40.concat(rest);
+        sortByCount(top50, counts, 4);
+        rows = top50.concat(rest);
       }} else {{
         rows.sort(function(a, b) {{
           var ayr = a.cells[0].textContent.replace("'", '').trim();
@@ -4263,7 +4263,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       if (oldTextRow) oldTextRow.remove();
       var truncate = (mode === 'diff-player');
       rows.forEach(function(r, i) {{
-        var hide = (truncate && i >= 40);
+        var hide = (truncate && i >= 50);
         r.style.display = hide ? 'none' : '';
         for (var c = 0; c < r.cells.length; c++) {{
           r.cells[c].style.borderTop = '';
@@ -4279,10 +4279,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           if (mode === 'diff-player') {{
             textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;min-height:2.4em;display:flex;align-items:center;justify-content:center">Watch out for the herd of GOATs above!</p></td>';
           }} else {{
-            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 4px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;max-width:28em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 40 DIFF seasons and see your modern GOAT candidates!</p></td>';
+            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 4px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;max-width:28em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 50 DIFF seasons and see your modern GOAT candidates!</p></td>';
           }}
           if (mode === 'diff') {{
-            tbody.insertBefore(textRow, tbody.children[40]);
+            tbody.insertBefore(textRow, tbody.children[50]);
           }} else {{
             tbody.appendChild(textRow);
           }}
@@ -4295,7 +4295,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           sep.className = 'mg3-orange-sep';
           sep.innerHTML = '<td colspan="5">\\u00a0</td>';
           if (mode === 'diff') {{
-            tbody.insertBefore(sep, tbody.children[40]);
+            tbody.insertBefore(sep, tbody.children[50]);
           }} else {{
             tbody.appendChild(sep);
           }}
