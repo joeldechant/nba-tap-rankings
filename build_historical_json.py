@@ -321,7 +321,7 @@ def build_historical_json():
             if year < 1950:
                 continue
 
-            if year >= 2013:
+            if year >= 1990:
                 top_n = 40
             elif year >= 1980:
                 top_n = 30
