@@ -2000,8 +2000,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       overflow: visible;
     }}
     .mg-table thead th.stat {{
-      text-align: left;
       text-indent: -4px;
+    }}
+    .mg-table thead th[class*="avg"] {{
+      padding-left: 8px;
     }}
 
     .goat-table .player,
@@ -2376,7 +2378,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       .g3-table td,
       .g3-table thead th,
       .mg-table td,
-      .mg-table thead th {{
+      .mg-table thead th,
+      .mg-table thead th[class*="avg"] {{
         padding-left: 3px;
         padding-right: 3px;
       }}
