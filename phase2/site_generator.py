@@ -1315,6 +1315,8 @@ def build_career_js(historical, season_all):
             'avg_tap': round(sum(all_taps) / len(all_taps), 1),
             'top10_ted': round(sum(top10_teds) / len(top10_teds), 1),
             'top10_tap': round(sum(top10_taps) / len(top10_taps), 1),
+            'top100_ted': round(sum(r['ted'] for r in ted_sorted[:100]) / min(100, len(ted_sorted)), 1),
+            'top100_tap': round(sum(r['tap'] for r in tap_sorted[:100]) / min(100, len(tap_sorted)), 1),
             'ldr_ted': ted_leader['player'], 'ldr_ted_val': round(ted_leader['ted'], 1),
             'ldr_tap': tap_leader['player'], 'ldr_tap_val': round(tap_leader['tap'], 1),
             'g2_ted': ted_second['player'] if ted_second else '',
@@ -2898,7 +2900,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     var popupStatHeader = document.getElementById('career-stat-header');
     var currentYear = {config.CURRENT_SEASON_YEAR};
 
-    function showCareer(name, contextYear, statOverride) {{
+    function showCareer(name, contextYear, statOverride, diffMode) {{
       var career = window.CAREER[name];
       if (!career || career.length === 0) return;
       var s = statOverride || stat;
@@ -2908,8 +2910,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       popupStatHeader.textContent = su;
       var avgH = document.getElementById('career-avg-header');
       var t10H = document.getElementById('career-top10-header');
-      avgH.textContent = 'AVG';
-      t10H.textContent = 'TOP 10';
+      avgH.textContent = diffMode ? 'TOP 100' : 'AVG';
+      t10H.textContent = diffMode ? 'DIFF' : 'TOP 10';
       var html = '';
       for (var i = career.length - 1; i >= 0; i--) {{
         var c = career[i];
@@ -2917,20 +2919,31 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         var tm = c.tm || '\\u2014';
         var val = c[s] !== null && c[s] !== undefined ? c[s].toFixed(1) : '\\u2014';
         var ss = window.SEASON_STATS[String(c.y)];
-        var avgVal = '', top10Val = '';
-        if (ss) {{
-          var av = ss['avg_' + s];
-          avgVal = av !== undefined ? av.toFixed(1) : '';
-          var t10 = ss['top10_' + s];
-          top10Val = t10 !== undefined ? t10.toFixed(1) : '';
+        var col4 = '', col5 = '';
+        if (diffMode) {{
+          if (ss) {{
+            var t100 = ss['top100_' + s];
+            col4 = t100 !== undefined ? t100.toFixed(1) : '';
+            if (c[s] !== null && c[s] !== undefined && t100 !== undefined) {{
+              var d = c[s] - t100;
+              col5 = (d >= 0 ? '+' : '') + d.toFixed(1);
+            }}
+          }}
+        }} else {{
+          if (ss) {{
+            var av = ss['avg_' + s];
+            col4 = av !== undefined ? av.toFixed(1) : '';
+            var t10 = ss['top10_' + s];
+            col5 = t10 !== undefined ? t10.toFixed(1) : '';
+          }}
         }}
         var rc = c.y === hlYear ? ' class="cp-current"' : '';
         html += '<tr' + rc + '>'
           + '<td class="cp-season">' + sl + '</td>'
           + '<td class="cp-team">' + tm + '</td>'
           + '<td class="cp-stat">' + val + '</td>'
-          + '<td class="cp-avg">' + (avgVal || '\\u2014') + '</td>'
-          + '<td class="cp-leader">' + (top10Val || '\\u2014') + '</td>'
+          + '<td class="cp-avg">' + (col4 || '\\u2014') + '</td>'
+          + '<td class="cp-leader">' + (col5 || '\\u2014') + '</td>'
           + '</tr>';
       }}
       popupBody.innerHTML = html;
@@ -2961,7 +2974,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         var ctxYear = yearDiv ? parseInt(yearDiv.getAttribute('data-year')) : currentYear;
         var so = null;
         if (td.closest('.tapd-year-table') || td.closest('.tapd-table')) so = 'tapd';
-        showCareer(td.getAttribute('data-player'), ctxYear, so);
+        var dm = !!td.closest('.diff-table');
+        showCareer(td.getAttribute('data-player'), ctxYear, so, dm);
       }}
     }});
 
