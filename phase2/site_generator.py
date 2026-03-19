@@ -2547,7 +2547,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       }}
       .diff-table td.rank,
       .diff-table thead th.rank {{
-        font-size: 0.75em;
+        font-size: 0.85em;
       }}
       .diff-table .player {{
         max-width: 120px;
