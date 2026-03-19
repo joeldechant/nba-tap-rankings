@@ -2157,14 +2157,14 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .diff-table thead th.diff-sort-tdiff {{
       cursor: pointer;
       color: #ee7623;
-      font-size: 0.85em;
+      font-size: 0.95em;
       white-space: nowrap;
       text-transform: none;
     }}
     .diff-table td.diff-val,
     .diff-table td.diff-adiff,
     .diff-table td.diff-tdiff {{
-      font-size: 0.85em;
+      font-size: 0.92em;
     }}
     .diff-table td.rank {{
       text-align: center;
