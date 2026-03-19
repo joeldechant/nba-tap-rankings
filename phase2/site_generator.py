@@ -1211,7 +1211,6 @@ def render_diff_html(diff_data_ted, diff_data_tap):
         val_col = 'ated' if stat_key == 'ted' else 'atap'
         data = sorted(data, key=lambda x: x[val_col], reverse=True)[:400]
         data = sorted(data, key=lambda x: x['adiff'], reverse=True)[:200]
-        data.sort(key=lambda x: x[val_col], reverse=True)
         for i, p in enumerate(data, 1):
             name_html = format_player_name(p['player'])
             player_attr = html_module.escape(p['player'], quote=True)
