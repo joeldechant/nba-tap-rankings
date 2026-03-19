@@ -2526,11 +2526,14 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       .g3-table thead th,
       .mg-table td,
       .mg-table thead th,
-      .mg-table thead th[class*="avg"],
       .diff-table td,
       .diff-table thead th {{
         padding-left: 3px;
         padding-right: 3px;
+      }}
+      .mg-table thead th[class*="avg"] {{
+        padding-left: 0;
+        padding-right: 0;
       }}
       .diff-table thead th {{
         padding-top: 6px;
