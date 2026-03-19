@@ -268,11 +268,11 @@ def render_historical_section(data, stat_key='ted', season_all=None):
     if season_all:
         current_year = config.CURRENT_SEASON_YEAR
         yr_key = str(current_year)
-        # Compute top50 avg for current season (DIFF baseline)
+        # Compute top100 avg for current season (DIFF baseline)
         ted_sorted_cur = sorted(season_all, key=lambda r: r['ted'], reverse=True)
         tap_sorted_cur = sorted(season_all, key=lambda r: r['tap'], reverse=True)
-        top50_ted_cur = sum(r['ted'] for r in ted_sorted_cur[:50]) / min(50, len(ted_sorted_cur))
-        top50_tap_cur = sum(r['tap'] for r in tap_sorted_cur[:50]) / min(50, len(tap_sorted_cur))
+        top100_ted_cur = sum(r['ted'] for r in ted_sorted_cur[:100]) / min(100, len(ted_sorted_cur))
+        top100_tap_cur = sum(r['tap'] for r in tap_sorted_cur[:100]) / min(100, len(tap_sorted_cur))
         # Update each player's career aggregates with current season
         cur_by_name = {r['player']: r for r in season_all}
         # Build lookup of existing diff entries
@@ -280,8 +280,8 @@ def render_historical_section(data, stat_key='ted', season_all=None):
         tap_lookup = {d['player']: d for d in diff_data_tap}
         for r in season_all:
             name = r['player']
-            ted_diff = r['ted'] - top50_ted_cur
-            tap_diff = r['tap'] - top50_tap_cur
+            ted_diff = r['ted'] - top100_ted_cur
+            tap_diff = r['tap'] - top100_tap_cur
             if name in ted_lookup:
                 d = ted_lookup[name]
                 old_n = d['seasons']

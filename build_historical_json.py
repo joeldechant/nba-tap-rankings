@@ -512,8 +512,8 @@ def build_historical_json():
             ss = season_stats[yr]
             ted_vals.append(s['ted'])
             tap_vals.append(s['tap'])
-            ted_diffs.append(s['ted'] - ss['top50_ted'])
-            tap_diffs.append(s['tap'] - ss['top50_tap'])
+            ted_diffs.append(s['ted'] - ss['top100_ted'])
+            tap_diffs.append(s['tap'] - ss['top100_tap'])
         if not ted_vals:
             continue
         n = len(ted_vals)
