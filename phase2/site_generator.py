@@ -2167,6 +2167,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .diff-table td.diff-tdiff {{
       font-size: 0.92em;
     }}
+    .diff-table td.diff-tdiff {{
+      padding-right: 6px;
+    }}
     .diff-table td.rank {{
       text-align: center;
       width: 30px;
@@ -2538,6 +2541,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       .diff-table td.diff-adiff,
       .diff-table td.diff-tdiff {{
         font-size: 0.85em;
+      }}
+      .diff-table td.diff-tdiff {{
+        padding-right: 6px;
       }}
       .diff-table .player {{
         max-width: 120px;
