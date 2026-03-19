@@ -2975,7 +2975,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         var so = null;
         if (td.closest('.tapd-year-table') || td.closest('.tapd-table')) so = 'tapd';
         var dm = !!td.closest('.diff-table');
-        showCareer(td.getAttribute('data-player'), ctxYear, so, dm);
+        var noHighlight = dm || !!td.closest('.goat-table') || !!td.closest('.g2-table') || !!td.closest('.g3-table') || !!td.closest('.mg-table');
+        showCareer(td.getAttribute('data-player'), noHighlight ? null : ctxYear, so, dm);
       }}
     }});
 
