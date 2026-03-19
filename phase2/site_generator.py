@@ -2935,8 +2935,6 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
                   decLabel.parentNode.insertBefore(latePrefix, decLabel);
                 }}
                 latePrefix.style.display = '';
-                var decS = decLabel.querySelector('.decade-s');
-                if (decS) decS.style.display = 'none';
               }} else {{
                 if (latePrefix) latePrefix.style.display = 'none';
                 var newLabel = tapVisible ? header.dataset.tapdLabel : header.dataset.tapLabel;
