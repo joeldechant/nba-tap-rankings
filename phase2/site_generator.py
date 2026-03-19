@@ -914,7 +914,6 @@ def render_mg1_html(season_stats, season_all=None):
       </div>
       <div class="year-table">
         <div class="table-header"><h2>&nbsp;</h2></div>
-        <table style="visibility:hidden"><thead><tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr></thead></table>
       </div>
     </div>
   </div>
