@@ -500,7 +500,7 @@ def render_decade_top100_html(decade_label, decade_data, stat_key='ted', season_
 
     return f"""    <div class="year-pair single">
       <div class="year-table">
-        <div class="table-header" data-tap-n="{decade_top_n}" data-tapd-n="{decade_tapd_n if tapd_eligible else decade_top_n}" data-tap-label="{decade_label[:-1]}" data-tapd-label="{'1996-00' if decade_start == 1990 and tapd_eligible else decade_label[:-1]}"><h2><span class="decade-label">{decade_label[:-1]}<span class="decade-s">s</span></span> <span class="year-stat-label">{stat_upper}</span> TOP <span class="top-n-label">{decade_top_n}</span></h2></div>
+        <div class="table-header" data-tap-n="{decade_top_n}" data-tapd-n="{decade_tapd_n if tapd_eligible else decade_top_n}" data-tap-label="{decade_label[:-1]}" data-tapd-label="{'LATE 1990s' if decade_start == 1990 and tapd_eligible else decade_label[:-1]}"><h2><span class="decade-label">{decade_label[:-1]}<span class="decade-s">s</span></span> <span class="year-stat-label">{stat_upper}</span> TOP <span class="top-n-label">{decade_top_n}</span></h2></div>
         <table class="tap-year-table">
           <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="season">Season</th><th class="{stat_cls}">{stat_upper}</th></tr></thead>
           <tbody>
@@ -2918,7 +2918,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
             : 'ALL-TIME <span class="year-stat-label">TAP</span> TOP 400';
         }} else {{
           label.textContent = tapVisible ? 'TAPD' : 'TAP';
-          /* Update TOP N and decade label for decade lists (e.g., 1990s TAP TOP 200 → 1996-00 TAPD TOP 100) */
+          /* Update TOP N and decade label for decade lists (e.g., 1990s TAP TOP 200 → LATE 1990s TAPD TOP 100) */
           var header = yearDiv.querySelector('.table-header');
           if (header && header.dataset.tapN) {{
             var topNLabel = header.querySelector('.top-n-label');
