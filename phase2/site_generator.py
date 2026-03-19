@@ -2158,6 +2158,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       color: #ee7623;
       font-size: 0.85em;
       white-space: nowrap;
+      text-transform: none;
     }}
     .diff-table td.diff-val,
     .diff-table td.diff-adiff,
