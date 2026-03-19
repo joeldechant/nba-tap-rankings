@@ -2925,10 +2925,16 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
             if (topNLabel) topNLabel.textContent = tapVisible ? header.dataset.tapdN : header.dataset.tapN;
             var decLabel = header.querySelector('.decade-label');
             if (decLabel && header.dataset.tapLabel && header.dataset.tapdLabel) {{
-              var newLabel = tapVisible ? header.dataset.tapdLabel : header.dataset.tapLabel;
-              var decS = decLabel.querySelector('.decade-s');
-              decLabel.childNodes[0].textContent = newLabel;
-              if (decS) decS.style.display = (newLabel === header.dataset.tapLabel) ? '' : 'none';
+              var isLate90s = (header.dataset.tapdLabel === 'LATE 1990s');
+              if (isLate90s) {{
+                decLabel.style.display = tapVisible ? 'none' : '';
+                label.textContent = tapVisible ? 'LATE 1990s TAPD' : 'TAP';
+              }} else {{
+                var newLabel = tapVisible ? header.dataset.tapdLabel : header.dataset.tapLabel;
+                var decS = decLabel.querySelector('.decade-s');
+                decLabel.childNodes[0].textContent = newLabel;
+                if (decS) decS.style.display = (newLabel === header.dataset.tapLabel) ? '' : 'none';
+              }}
             }}
           }}
         }}
