@@ -504,7 +504,7 @@ def build_historical_json():
         ted_diffs = []
         tap_diffs = []
         for s in seasons:
-            if s['year'] < 1951:
+            if s['year'] < 1960:
                 continue
             yr = str(s['year'])
             if yr not in season_stats:
@@ -517,6 +517,11 @@ def build_historical_json():
         if not ted_vals:
             continue
         n = len(ted_vals)
+        # Minimum 4 qualifying seasons (from 1960+), unless first qualifying season is 2020+
+        qualifying_years = [s['year'] for s in seasons if s['year'] >= 1960]
+        first_year = min(qualifying_years) if qualifying_years else 9999
+        if n < 4 and first_year < 2020:
+            continue
         diff_data_ted.append({
             'player': player,
             'seasons': n,
