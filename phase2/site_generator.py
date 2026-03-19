@@ -1209,6 +1209,7 @@ def render_diff_html(diff_data_ted, diff_data_tap):
     def build_rows(data, stat_key):
         rows = ''
         val_col = 'ated' if stat_key == 'ted' else 'atap'
+        data = data[:400]
         for i, p in enumerate(data, 1):
             name_html = format_player_name(p['player'])
             player_attr = html_module.escape(p['player'], quote=True)
