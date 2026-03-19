@@ -1219,7 +1219,7 @@ def render_diff_html(diff_data_ted, diff_data_tap):
             adiff = p['adiff']
             tdiff = p['tdiff']
             adiff_str = f'+{abs(adiff):.1f}' if adiff >= 0 else f'-{abs(adiff):.1f}'
-            tdiff_str = f'+{abs(tdiff):.1f}' if tdiff >= 0 else f'-{abs(tdiff):.1f}'
+            tdiff_str = f'+{abs(tdiff):.0f}' if tdiff >= 0 else f'-{abs(tdiff):.0f}'
             rows += (f'        <tr>'
                      f'<td class="rank">{i}</td>'
                      f'<td class="player" data-player="{player_attr}">{name_html}</td>'
