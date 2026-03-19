@@ -2937,7 +2937,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
             col5 = t10 !== undefined ? t10.toFixed(1) : '';
           }}
         }}
-        var rc = c.y === hlYear ? ' class="cp-current"' : '';
+        var rc = (!diffMode && c.y === hlYear) ? ' class="cp-current"' : '';
         html += '<tr' + rc + '>'
           + '<td class="cp-season">' + sl + '</td>'
           + '<td class="cp-team">' + tm + '</td>'
