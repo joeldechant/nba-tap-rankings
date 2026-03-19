@@ -4628,28 +4628,6 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       if (valTh) valTh.addEventListener('click', function() {{ diffSort('val'); }});
       if (adiffTh) adiffTh.addEventListener('click', function() {{ diffSort('adiff'); }});
       if (tdiffTh) tdiffTh.addEventListener('click', function() {{ diffSort('tdiff'); }});
-      /* DIFF Rank tooltip — click Rank header to show explanation */
-      var rankTh = thead.querySelector('.diff-sort-rank');
-      if (rankTh) rankTh.addEventListener('click', function(e) {{
-        e.stopPropagation();
-        var isActive = avgTooltip.classList.contains('active');
-        avgTooltip.classList.remove('active');
-        if (isActive) return;
-        var activeStat = 'TED';
-        document.querySelectorAll('.view-tap').forEach(function(v) {{
-          if (window.getComputedStyle(v).display !== 'none' && v.querySelector('.diff-table')) activeStat = 'TAP';
-        }});
-        avgTooltip.innerHTML = '<b>CAREER AVG / TOTAL ' + activeStat + ' DIFF</b><br><br>' +
-          '<b>a' + activeStat + '</b> = career average ' + activeStat + ' across qualifying seasons (G\u226540, MP\u226520, 1960\u2013present)<br><br>' +
-          '<b>aDIFF</b> = career average of per-season DIFF vs the top 100 ' + activeStat + ' average that season<br><br>' +
-          '<b>tDIFF</b> = career total (sum) of all per-season DIFFs<br><br>' +
-          '<b>Inclusion:</b> top 400 by a' + activeStat + ', then top 200 by aDIFF<br><br>' +
-          '<b>Sort:</b> click any orange header to re-sort. Default is a' + activeStat + ' descending.';
-        var rect = rankTh.getBoundingClientRect();
-        avgTooltip.style.left = Math.max(8, rect.left) + 'px';
-        avgTooltip.style.top = (rect.bottom + 6) + 'px';
-        avgTooltip.classList.add('active');
-      }});
     }});
 
     /* Scroll helper — only scrolls when the sticky header is floating.
