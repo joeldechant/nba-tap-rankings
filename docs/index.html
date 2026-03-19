@@ -22154,14 +22154,15 @@
     });
     /* DIFF header click — collapse */
     document.querySelectorAll('.diff-table').forEach(function(diffDiv) {
-      var tableHeader = diffDiv.querySelector('.table-header');
-      if (tableHeader) tableHeader.addEventListener('click', function() {
-        var isStuck = tableHeader.getBoundingClientRect().top <= 5;
-        diffDiv.style.display = 'none';
-        if (isStuck) {
-          var nav = diffDiv.closest('.historical-section').querySelector('.decade-nav');
-          if (nav) nav.scrollIntoView({block: 'start'});
-        }
+      diffDiv.querySelectorAll('.table-header').forEach(function(tableHeader) {
+        tableHeader.addEventListener('click', function() {
+          var isStuck = tableHeader.getBoundingClientRect().top <= 5;
+          diffDiv.style.display = 'none';
+          if (isStuck) {
+            var nav = diffDiv.closest('.historical-section').querySelector('.decade-nav');
+            if (nav) nav.scrollIntoView({block: 'start'});
+          }
+        });
       });
     });
     /* DIFF sort — click aTED/aTAP, aDIFF, tDIFF headers to sort */
