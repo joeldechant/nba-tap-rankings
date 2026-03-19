@@ -504,6 +504,8 @@ def build_historical_json():
         ted_diffs = []
         tap_diffs = []
         for s in seasons:
+            if s['year'] < 1960:
+                continue
             yr = str(s['year'])
             if yr not in season_stats:
                 continue
