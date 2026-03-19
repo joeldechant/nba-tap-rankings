@@ -21037,15 +21037,15 @@
         sortByCount(rows, counts, 2);
       } else if (mode === 'diff-player') {
         sortByDiff(rows);
-        var top50 = rows.slice(0, 50);
-        var rest = rows.slice(50);
+        var top40 = rows.slice(0, 40);
+        var rest = rows.slice(40);
         var counts = {};
-        top50.forEach(function(r) {
+        top40.forEach(function(r) {
           var n = getName(r);
           counts[n] = (counts[n] || 0) + 1;
         });
-        sortByCount(top50, counts, 4);
-        rows = top50.concat(rest);
+        sortByCount(top40, counts, 4);
+        rows = top40.concat(rest);
       } else {
         rows.sort(function(a, b) {
           var ayr = a.cells[0].textContent.replace("'", '').trim();
