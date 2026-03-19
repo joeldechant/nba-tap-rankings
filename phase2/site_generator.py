@@ -262,8 +262,8 @@ def render_historical_section(data, stat_key='ted', season_all=None):
     mg3_html = render_mg3_html(data.get('season_stats', {}), season_all)
 
     # Build DIFF tables (career avg TED/TAP and DIFF vs top 100)
-    diff_data_ted = list(data.get('diff_data_ted', []))
-    diff_data_tap = list(data.get('diff_data_tap', []))
+    diff_data_ted = [dict(d) for d in data.get('diff_data_ted', [])]
+    diff_data_tap = [dict(d) for d in data.get('diff_data_tap', [])]
     # Merge current season into diff data (uses tiered min-games filter from season_all)
     if season_all:
         current_year = config.CURRENT_SEASON_YEAR
