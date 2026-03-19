@@ -1973,7 +1973,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       box-shadow: 3px 0 0 #fff;
     }}
     .diff-table thead {{
-      box-shadow: none;
+      box-shadow: 3px 0 0 #fff;
     }}
     .goat-table thead tr,
     .g2-table thead tr,
