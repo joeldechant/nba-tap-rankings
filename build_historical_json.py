@@ -517,9 +517,9 @@ def build_historical_json():
         if not ted_vals:
             continue
         n = len(ted_vals)
-        # Minimum 4 qualifying seasons (from 1960+), unless first qualifying season is 2020+
-        qualifying_years = [s['year'] for s in seasons if s['year'] >= 1960]
-        first_year = min(qualifying_years) if qualifying_years else 9999
+        # Minimum 4 qualifying seasons (from 1960+), unless first NBA season is 2020+
+        all_career_years = [s['y'] for s in career_data.get(player, [])]
+        first_year = min(all_career_years) if all_career_years else 9999
         if n < 4 and first_year < 2020:
             continue
         diff_data_ted.append({
