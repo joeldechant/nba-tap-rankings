@@ -1209,7 +1209,7 @@ def render_diff_html(diff_data_ted, diff_data_tap):
     def build_rows(data, stat_key):
         rows = ''
         val_col = 'ated' if stat_key == 'ted' else 'atap'
-        data = sorted(data, key=lambda x: x['adiff'], reverse=True)[:400]
+        data = [p for p in data if p[val_col] >= 30]
         data.sort(key=lambda x: x[val_col], reverse=True)
         for i, p in enumerate(data, 1):
             name_html = format_player_name(p['player'])
