@@ -2152,6 +2152,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
 
     /* DIFF table styles */
+    .diff-table tbody td {{
+      padding-top: 6px;
+      padding-bottom: 6px;
+    }}
     .diff-table thead th.diff-sort-val,
     .diff-table thead th.diff-sort-adiff,
     .diff-table thead th.diff-sort-tdiff {{
