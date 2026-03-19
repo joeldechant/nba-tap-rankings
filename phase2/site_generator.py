@@ -264,22 +264,21 @@ def render_historical_section(data, stat_key='ted', season_all=None):
     # Build DIFF tables (career avg TED/TAP and DIFF vs top 100)
     diff_data_ted = list(data.get('diff_data_ted', []))
     diff_data_tap = list(data.get('diff_data_tap', []))
-    # Merge current season into diff data (G>=40 only, matching historical qualifying filter)
+    # Merge current season into diff data (uses tiered min-games filter from season_all)
     if season_all:
         current_year = config.CURRENT_SEASON_YEAR
         yr_key = str(current_year)
-        diff_qualified = [r for r in season_all if r.get('g', 0) >= 40]
-        # Compute top100 avg for current season (DIFF baseline) — use full pool for baseline
+        # Compute top100 avg for current season (DIFF baseline)
         ted_sorted_cur = sorted(season_all, key=lambda r: r['ted'], reverse=True)
         tap_sorted_cur = sorted(season_all, key=lambda r: r['tap'], reverse=True)
         top100_ted_cur = sum(r['ted'] for r in ted_sorted_cur[:100]) / min(100, len(ted_sorted_cur))
         top100_tap_cur = sum(r['tap'] for r in tap_sorted_cur[:100]) / min(100, len(tap_sorted_cur))
         # Update each player's career aggregates with current season
-        cur_by_name = {r['player']: r for r in diff_qualified}
+        cur_by_name = {r['player']: r for r in season_all}
         # Build lookup of existing diff entries
         ted_lookup = {d['player']: d for d in diff_data_ted}
         tap_lookup = {d['player']: d for d in diff_data_tap}
-        for r in diff_qualified:
+        for r in season_all:
             name = r['player']
             ted_diff = r['ted'] - top100_ted_cur
             tap_diff = r['tap'] - top100_tap_cur
