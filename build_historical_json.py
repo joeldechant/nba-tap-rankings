@@ -300,11 +300,19 @@ def build_historical_json():
         tap_third = tap_sorted[2] if len(tap_sorted) > 2 else None
         all_teds = [p['ted'] for p in players]
         all_taps = [p['tap'] for p in players]
+        top50_teds = [p['ted'] for p in ted_sorted[:50]]
+        top50_taps = [p['tap'] for p in tap_sorted[:50]]
+        top100_teds = [p['ted'] for p in ted_sorted[:100]]
+        top100_taps = [p['tap'] for p in tap_sorted[:100]]
         stats_entry = {
             'avg_ted': round(sum(all_teds) / len(all_teds), 1),
             'avg_tap': round(sum(all_taps) / len(all_taps), 1),
             'top10_ted': round(sum(top10_teds) / len(top10_teds), 1),
             'top10_tap': round(sum(top10_taps) / len(top10_taps), 1),
+            'top50_ted': round(sum(top50_teds) / len(top50_teds), 1),
+            'top50_tap': round(sum(top50_taps) / len(top50_taps), 1),
+            'top100_ted': round(sum(top100_teds) / len(top100_teds), 1),
+            'top100_tap': round(sum(top100_taps) / len(top100_taps), 1),
             'ldr_ted': ted_leader['player'], 'ldr_ted_val': round(ted_leader['ted'], 1),
             'ldr_tap': tap_leader['player'], 'ldr_tap_val': round(tap_leader['tap'], 1),
             'g2_ted': ted_second['player'] if ted_second else '',
@@ -483,6 +491,48 @@ def build_historical_json():
     if all_time_tapd:
         print(f"  All-time TAPD top {len(all_time_tapd)}: TAPD range {all_time_tapd[0]['tapd']} to {all_time_tapd[-1]['tapd']}")
 
+    # Build diff_data: career aggregates for DIFF tab
+    # For each player: aTED/aTAP (career avg), aDIFF (avg of per-season DIFF vs top100), tDIFF (total)
+    diff_data_ted = []
+    diff_data_tap = []
+    player_seasons = defaultdict(list)  # player -> [(year, ted, tap)]
+    for r in results:
+        player_seasons[r['player']].append(r)
+    for player, seasons in player_seasons.items():
+        ted_vals = []
+        tap_vals = []
+        ted_diffs = []
+        tap_diffs = []
+        for s in seasons:
+            yr = str(s['year'])
+            if yr not in season_stats:
+                continue
+            ss = season_stats[yr]
+            ted_vals.append(s['ted'])
+            tap_vals.append(s['tap'])
+            ted_diffs.append(s['ted'] - ss['top50_ted'])
+            tap_diffs.append(s['tap'] - ss['top50_tap'])
+        if not ted_vals:
+            continue
+        n = len(ted_vals)
+        diff_data_ted.append({
+            'player': player,
+            'seasons': n,
+            'ated': round(sum(ted_vals) / n, 1),
+            'adiff': round(sum(ted_diffs) / n, 1),
+            'tdiff': round(sum(ted_diffs), 1),
+        })
+        diff_data_tap.append({
+            'player': player,
+            'seasons': n,
+            'atap': round(sum(tap_vals) / n, 1),
+            'adiff': round(sum(tap_diffs) / n, 1),
+            'tdiff': round(sum(tap_diffs), 1),
+        })
+    diff_data_ted.sort(key=lambda x: x['ated'], reverse=True)
+    diff_data_tap.sort(key=lambda x: x['atap'], reverse=True)
+    print(f"  Diff data: {len(diff_data_ted)} players (TED), {len(diff_data_tap)} players (TAP)")
+
     # Write JSON
     output = {
         'generated': str(__import__('datetime').date.today()),
@@ -492,6 +542,8 @@ def build_historical_json():
         'decades': decades,
         'career_data': dict(career_data),
         'season_stats': season_stats,
+        'diff_data_ted': diff_data_ted,
+        'diff_data_tap': diff_data_tap,
     }
 
     output_path = os.path.join(PROJECT_DIR, "phase2", "historical_rankings.json")

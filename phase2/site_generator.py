@@ -140,6 +140,7 @@ def render_historical_section(data, stat_key='ted', season_all=None):
     nav_links += '<a href="#" data-g2="true" style="color:#ee7623">G2</a>'
     nav_links += '<a href="#" data-g3="true" style="color:#ee7623">G3</a>'
     nav_links += '<a href="#" data-mg="true" style="color:#ee7623">MG</a>'
+    nav_links += '<a href="#" data-diff="true" style="color:#ee7623">DIFF</a>'
 
     # Build decade sections
     decades_html = ''
@@ -260,6 +261,53 @@ def render_historical_section(data, stat_key='ted', season_all=None):
     mg2_html = render_mg2_html(data.get('season_stats', {}), season_all)
     mg3_html = render_mg3_html(data.get('season_stats', {}), season_all)
 
+    # Build DIFF tables (career avg TED/TAP and DIFF vs top 100)
+    diff_data_ted = list(data.get('diff_data_ted', []))
+    diff_data_tap = list(data.get('diff_data_tap', []))
+    # Merge current season into diff data
+    if season_all:
+        current_year = config.CURRENT_SEASON_YEAR
+        yr_key = str(current_year)
+        # Compute top50 avg for current season (DIFF baseline)
+        ted_sorted_cur = sorted(season_all, key=lambda r: r['ted'], reverse=True)
+        tap_sorted_cur = sorted(season_all, key=lambda r: r['tap'], reverse=True)
+        top50_ted_cur = sum(r['ted'] for r in ted_sorted_cur[:50]) / min(50, len(ted_sorted_cur))
+        top50_tap_cur = sum(r['tap'] for r in tap_sorted_cur[:50]) / min(50, len(tap_sorted_cur))
+        # Update each player's career aggregates with current season
+        cur_by_name = {r['player']: r for r in season_all}
+        # Build lookup of existing diff entries
+        ted_lookup = {d['player']: d for d in diff_data_ted}
+        tap_lookup = {d['player']: d for d in diff_data_tap}
+        for r in season_all:
+            name = r['player']
+            ted_diff = r['ted'] - top50_ted_cur
+            tap_diff = r['tap'] - top50_tap_cur
+            if name in ted_lookup:
+                d = ted_lookup[name]
+                old_n = d['seasons']
+                d['ated'] = round((d['ated'] * old_n + r['ted']) / (old_n + 1), 1)
+                d['adiff'] = round((d['adiff'] * old_n + ted_diff) / (old_n + 1), 1)
+                d['tdiff'] = round(d['tdiff'] + ted_diff, 1)
+                d['seasons'] = old_n + 1
+            else:
+                new_entry = {'player': name, 'seasons': 1, 'ated': round(r['ted'], 1),
+                             'adiff': round(ted_diff, 1), 'tdiff': round(ted_diff, 1)}
+                diff_data_ted.append(new_entry)
+            if name in tap_lookup:
+                d = tap_lookup[name]
+                old_n = d['seasons']
+                d['atap'] = round((d['atap'] * old_n + r['tap']) / (old_n + 1), 1)
+                d['adiff'] = round((d['adiff'] * old_n + tap_diff) / (old_n + 1), 1)
+                d['tdiff'] = round(d['tdiff'] + tap_diff, 1)
+                d['seasons'] = old_n + 1
+            else:
+                new_entry = {'player': name, 'seasons': 1, 'atap': round(r['tap'], 1),
+                             'adiff': round(tap_diff, 1), 'tdiff': round(tap_diff, 1)}
+                diff_data_tap.append(new_entry)
+        diff_data_ted.sort(key=lambda x: x['ated'], reverse=True)
+        diff_data_tap.sort(key=lambda x: x.get('atap', 0), reverse=True)
+    diff_tables = render_diff_html(diff_data_ted, diff_data_tap)
+
     # TAPD view still uses "TAP" in the section header — no separate historical TAPD summary
     header_label = 'TAP' if stat_key in ('tap', 'tapd') else stat_upper
     return nav_links, f"""  <div class="historical-section">
@@ -275,6 +323,10 @@ def render_historical_section(data, stat_key='ted', season_all=None):
 {g3_html}    </div>
     <div class="mg-table" style="display:none">
 {mg1_html}{mg2_html}{mg3_html}    </div>
+    <div class="diff-table" style="display:none">
+      <div class="view-ted">{diff_tables['ted']}</div>
+      <div class="view-tap" style="display:none">{diff_tables['tap']}</div>
+    </div>
 {decades_html}  </div>
 """
 
@@ -1149,6 +1201,54 @@ def render_mg3_html(season_stats, season_all=None):
 """
 
 
+def render_diff_html(diff_data_ted, diff_data_tap):
+    """Generate HTML for the DIFF table — career averages and DIFF vs top 100.
+
+    Two table sets (view-ted/view-tap), each with Rank, Player, aTED/aTAP, aDIFF, tDIFF.
+    """
+    def build_rows(data, stat_key):
+        rows = ''
+        val_col = 'ated' if stat_key == 'ted' else 'atap'
+        for i, p in enumerate(data, 1):
+            name_html = format_player_name(p['player'])
+            player_attr = html_module.escape(p['player'], quote=True)
+            val = p[val_col]
+            adiff = p['adiff']
+            tdiff = p['tdiff']
+            adiff_str = f'+{adiff:.1f}' if adiff >= 0 else f'{adiff:.1f}'
+            tdiff_str = f'+{tdiff:.1f}' if tdiff >= 0 else f'{tdiff:.1f}'
+            rows += (f'        <tr>'
+                     f'<td class="rank">{i}</td>'
+                     f'<td class="player" data-player="{player_attr}">{name_html}</td>'
+                     f'<td class="num diff-val">{val:.1f}</td>'
+                     f'<td class="num diff-adiff">{adiff_str}</td>'
+                     f'<td class="num diff-tdiff">{tdiff_str}</td>'
+                     f'</tr>\n')
+        return rows
+
+    stat_labels = {'ted': 'aTED', 'tap': 'aTAP'}
+    results = {}
+    for stat_key, data in [('ted', diff_data_ted), ('tap', diff_data_tap)]:
+        label = stat_labels[stat_key]
+        rows = build_rows(data, stat_key)
+        results[stat_key] = f"""    <div class="year-pair single">
+      <div class="year-table">
+        <div class="table-header"><h2>CAREER AVG / TOTAL {stat_key.upper()} DIFF</h2></div>
+        <table>
+          <thead><tr><th class="rank diff-sort-rank">Rank</th><th class="player diff-sort-player">Player</th><th class="num diff-sort-val">{label}</th><th class="num diff-sort-adiff">aDIFF</th><th class="num diff-sort-tdiff">tDIFF</th></tr></thead>
+          <tbody>
+{rows}          </tbody>
+        </table>
+      </div>
+      <div class="year-table">
+        <div class="table-header"><h2>&nbsp;</h2></div>
+        <table style="visibility:hidden"><thead><tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr></thead></table>
+      </div>
+    </div>
+"""
+    return results
+
+
 def build_career_js(historical, season_all):
     """Build JS career data from historical JSON + current season results.
 
@@ -1820,7 +1920,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .goat-table .table-header,
     .g2-table .table-header,
     .g3-table .table-header,
-    .mg-table .table-header {{
+    .mg-table .table-header,
+    .diff-table .table-header {{
       background: #fff;
       cursor: pointer;
     }}
@@ -1830,7 +1931,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .goat-table .year-table .table-header h2,
     .g2-table .year-table .table-header h2,
     .g3-table .year-table .table-header h2,
-    .mg-table .year-table .table-header h2 {{
+    .mg-table .year-table .table-header h2,
+    .diff-table .year-table .table-header h2 {{
       color: #ee7623;
     }}
 
@@ -1839,7 +1941,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .goat-table .table-header:hover,
     .g2-table .table-header:hover,
     .g3-table .table-header:hover,
-    .mg-table .table-header:hover {{
+    .mg-table .table-header:hover,
+    .diff-table .table-header:hover {{
       background: #eee;
     }}
 
@@ -1863,13 +1966,15 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .goat-table thead,
     .g2-table thead,
     .g3-table thead,
-    .mg-table thead {{
+    .mg-table thead,
+    .diff-table thead {{
       box-shadow: 3px 0 0 #fff;
     }}
     .goat-table thead tr,
     .g2-table thead tr,
     .g3-table thead tr,
-    .mg-table thead tr {{
+    .mg-table thead tr,
+    .diff-table thead tr {{
       border-bottom: 2px solid #fff;
     }}
 
@@ -2009,7 +2114,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .goat-table .player,
     .g2-table .player,
     .g3-table .player,
-    .mg-table .player {{
+    .mg-table .player,
+    .diff-table .player {{
       max-width: 160px;
       white-space: nowrap;
       overflow: hidden;
@@ -2026,7 +2132,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .goat-table table,
     .g2-table table,
     .g3-table table,
-    .mg-table table {{
+    .mg-table table,
+    .diff-table table {{
       width: 100%;
     }}
 
@@ -2036,6 +2143,36 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }}
+
+    /* DIFF table styles */
+    .diff-table thead th {{
+      overflow: visible;
+    }}
+    .diff-table thead th.diff-sort-val,
+    .diff-table thead th.diff-sort-adiff,
+    .diff-table thead th.diff-sort-tdiff {{
+      cursor: pointer;
+      color: #ee7623;
+      font-size: 0.85em;
+      white-space: nowrap;
+    }}
+    .diff-table td.diff-val,
+    .diff-table td.diff-adiff,
+    .diff-table td.diff-tdiff {{
+      font-size: 0.85em;
+    }}
+    .diff-table td.rank {{
+      text-align: center;
+      width: 30px;
+    }}
+    .diff-table thead th.rank {{
+      text-align: center;
+      width: 30px;
+    }}
+    .diff-table .view-ted,
+    .diff-table .view-tap {{
+      width: 100%;
     }}
 
     .historical-header h2 {{
@@ -2359,7 +2496,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       .goat-table .year-pair > :first-child,
       .g2-table .year-pair > :first-child,
       .g3-table .year-pair > :first-child,
-      .mg-table .year-pair > :first-child {{
+      .mg-table .year-pair > :first-child,
+      .diff-table .year-pair > :first-child {{
         border-bottom: none;
       }}
       .year-pair.single > :last-child,
@@ -2368,7 +2506,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       .goat-table .year-pair > :last-child,
       .g2-table .year-pair > :last-child,
       .g3-table .year-pair > :last-child,
-      .mg-table .year-pair > :last-child {{
+      .mg-table .year-pair > :last-child,
+      .diff-table .year-pair > :last-child {{
         display: none;
       }}
       .goat-table td,
@@ -2379,7 +2518,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       .g3-table thead th,
       .mg-table td,
       .mg-table thead th,
-      .mg-table thead th[class*="avg"] {{
+      .mg-table thead th[class*="avg"],
+      .diff-table td,
+      .diff-table thead th {{
         padding-left: 3px;
         padding-right: 3px;
       }}
@@ -2642,6 +2783,16 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
             if (typeof mg2ApplySort === 'function') mg2ApplySort();
             if (typeof mg3ApplySort === 'function') mg3ApplySort();
           }}
+        }}
+        var oldDiff = oldSec.querySelector('.diff-table');
+        var newDiff = newSec.querySelector('.diff-table');
+        if (oldDiff && newDiff) {{
+          newDiff.style.display = oldDiff.style.display;
+          /* Sync internal TED/TAP views */
+          var dTed = newDiff.querySelector('.view-ted');
+          var dTap = newDiff.querySelector('.view-tap');
+          if (dTed) dTed.style.display = tapVisible ? 'none' : '';
+          if (dTap) dTap.style.display = tapVisible ? '' : 'none';
         }}
         var oldDecs = oldSec.querySelectorAll('.decade');
         var newDecs = newSec.querySelectorAll('.decade');
@@ -2989,6 +3140,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         var g2Div = document.querySelector(viewClass + ' .g2-table');
         var g3Div = document.querySelector(viewClass + ' .g3-table');
         var mgDiv = document.querySelector(viewClass + ' .mg-table');
+        var diffDiv = document.querySelector(viewClass + ' .diff-table');
         if (!goatDiv) return;
         if (goatDiv.style.display !== 'none') {{
           goatDiv.style.display = 'none';
@@ -2997,6 +3149,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           if (g2Div) g2Div.style.display = 'none';
           if (g3Div) g3Div.style.display = 'none';
           if (mgDiv) mgDiv.style.display = 'none';
+          if (diffDiv) diffDiv.style.display = 'none';
         }}
       }});
     }});
@@ -3247,6 +3400,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         var goatDiv = document.querySelector(viewClass + ' .goat-table');
         var g3Div = document.querySelector(viewClass + ' .g3-table');
         var mgDiv = document.querySelector(viewClass + ' .mg-table');
+        var diffDiv = document.querySelector(viewClass + ' .diff-table');
         if (!g2Div) return;
         if (g2Div.style.display !== 'none') {{
           g2Div.style.display = 'none';
@@ -3255,6 +3409,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           if (goatDiv) goatDiv.style.display = 'none';
           if (g3Div) g3Div.style.display = 'none';
           if (mgDiv) mgDiv.style.display = 'none';
+          if (diffDiv) diffDiv.style.display = 'none';
         }}
       }});
     }});
@@ -3497,6 +3652,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         var goatDiv = document.querySelector(viewClass + ' .goat-table');
         var g2Div = document.querySelector(viewClass + ' .g2-table');
         var mgDiv = document.querySelector(viewClass + ' .mg-table');
+        var diffDiv = document.querySelector(viewClass + ' .diff-table');
         if (!g3Div) return;
         if (g3Div.style.display !== 'none') {{
           g3Div.style.display = 'none';
@@ -3505,6 +3661,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           if (goatDiv) goatDiv.style.display = 'none';
           if (g2Div) g2Div.style.display = 'none';
           if (mgDiv) mgDiv.style.display = 'none';
+          if (diffDiv) diffDiv.style.display = 'none';
         }}
       }});
     }});
@@ -3754,9 +3911,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           if (v1) v1.style.display = '';
           if (v2) v2.style.display = 'none';
           if (v3) v3.style.display = 'none';
+          var diffDiv = document.querySelector(viewClass + ' .diff-table');
           if (goatDiv) goatDiv.style.display = 'none';
           if (g2Div) g2Div.style.display = 'none';
           if (g3Div) g3Div.style.display = 'none';
+          if (diffDiv) diffDiv.style.display = 'none';
         }}
       }});
     }});
@@ -4395,6 +4554,76 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         if (yrCell) lastYear = yrCell.replace("'", '');
         tr.setAttribute('data-sort-year', lastYear);
       }});
+    }});
+
+    /* === DIFF table toggle — click nav link to show/hide === */
+    document.querySelectorAll('.decade-nav a[data-diff]').forEach(function(a) {{
+      a.addEventListener('click', function(e) {{
+        e.preventDefault();
+        var tip = document.getElementById('goat-avg-tooltip');
+        if (tip && tip.classList.contains('active')) return;
+        var viewClass = stat === 'ted' ? '.view-ted' : '.view-tap';
+        var diffDiv = document.querySelector(viewClass + ' .diff-table');
+        var goatDiv = document.querySelector(viewClass + ' .goat-table');
+        var g2Div = document.querySelector(viewClass + ' .g2-table');
+        var g3Div = document.querySelector(viewClass + ' .g3-table');
+        var mgDiv = document.querySelector(viewClass + ' .mg-table');
+        if (!diffDiv) return;
+        if (diffDiv.style.display !== 'none') {{
+          diffDiv.style.display = 'none';
+        }} else {{
+          diffDiv.style.display = '';
+          /* Show correct internal view */
+          var tedV = diffDiv.querySelector('.view-ted');
+          var tapV = diffDiv.querySelector('.view-tap');
+          if (tedV) tedV.style.display = (stat === 'ted') ? '' : 'none';
+          if (tapV) tapV.style.display = (stat === 'tap') ? '' : 'none';
+          if (goatDiv) goatDiv.style.display = 'none';
+          if (g2Div) g2Div.style.display = 'none';
+          if (g3Div) g3Div.style.display = 'none';
+          if (mgDiv) mgDiv.style.display = 'none';
+        }}
+      }});
+    }});
+    /* DIFF header click — collapse */
+    document.querySelectorAll('.diff-table').forEach(function(diffDiv) {{
+      var tableHeader = diffDiv.querySelector('.table-header');
+      if (tableHeader) tableHeader.addEventListener('click', function() {{
+        var isStuck = tableHeader.getBoundingClientRect().top <= 5;
+        diffDiv.style.display = 'none';
+        if (isStuck) {{
+          var nav = diffDiv.closest('.historical-section').querySelector('.decade-nav');
+          if (nav) nav.scrollIntoView({{block: 'start'}});
+        }}
+      }});
+    }});
+    /* DIFF sort — click aTED/aTAP, aDIFF, tDIFF headers to sort */
+    document.querySelectorAll('.diff-table table').forEach(function(table) {{
+      if (table.style.visibility === 'hidden') return;
+      var thead = table.querySelector('thead');
+      var tbody = table.querySelector('tbody');
+      if (!thead || !tbody) return;
+      var currentSort = 'val'; /* default sort by aTED/aTAP desc */
+      function diffSort(mode) {{
+        var rows = Array.from(tbody.querySelectorAll('tr'));
+        var colIdx = mode === 'val' ? 2 : mode === 'adiff' ? 3 : 4;
+        rows.sort(function(a, b) {{
+          var av = parseFloat(a.cells[colIdx].textContent.replace('+','')) || 0;
+          var bv = parseFloat(b.cells[colIdx].textContent.replace('+','')) || 0;
+          return bv - av;
+        }});
+        rows.forEach(function(r, i) {{
+          r.cells[0].textContent = i + 1;
+          tbody.appendChild(r);
+        }});
+        currentSort = mode;
+      }}
+      var valTh = thead.querySelector('.diff-sort-val');
+      var adiffTh = thead.querySelector('.diff-sort-adiff');
+      var tdiffTh = thead.querySelector('.diff-sort-tdiff');
+      if (valTh) valTh.addEventListener('click', function() {{ diffSort('val'); }});
+      if (adiffTh) adiffTh.addEventListener('click', function() {{ diffSort('adiff'); }});
+      if (tdiffTh) tdiffTh.addEventListener('click', function() {{ diffSort('tdiff'); }});
     }});
 
     /* Scroll helper — only scrolls when the sticky header is floating.
