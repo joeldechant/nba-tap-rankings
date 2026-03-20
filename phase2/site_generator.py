@@ -2155,8 +2155,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     /* DIFF table styles */
     .diff-table tbody td {{
-      padding-top: 7px;
-      padding-bottom: 7px;
+      padding-top: 5.5px;
+      padding-bottom: 5.5px;
     }}
     .diff-table thead th.diff-sort-val,
     .diff-table thead th.diff-sort-adiff,
@@ -2541,12 +2541,12 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         padding-right: 0;
       }}
       .diff-table tbody td {{
-        padding-top: 6px;
-        padding-bottom: 6px;
+        padding-top: 5.5px;
+        padding-bottom: 5.5px;
       }}
       .diff-table thead th {{
-        padding-top: 6px;
-        padding-bottom: 6px;
+        padding-top: 5.5px;
+        padding-bottom: 5.5px;
       }}
       .diff-table thead th.diff-sort-val,
       .diff-table thead th.diff-sort-adiff,
