@@ -568,20 +568,28 @@ def build_historical_json():
         tap_best = sorted(tap_pairs, key=lambda x: x[1], reverse=True)[:10]
         n_ted = len(ted_best)
         n_tap = len(tap_best)
-        diff10_data_ted.append({
+        ted_entry = {
             'player': player,
             'seasons': n_ted,
             'ated': round(sum(v for v, d in ted_best) / n_ted, 1),
             'adiff': round(sum(d for v, d in ted_best) / n_ted, 1),
             'tdiff': round(sum(d for v, d in ted_best), 1),
-        })
-        diff10_data_tap.append({
+        }
+        if len(ted_pairs) > 10:
+            ted_entry['worst_diff'] = round(ted_best[-1][1], 1)
+            ted_entry['worst_val'] = round(ted_best[-1][0], 1)
+        diff10_data_ted.append(ted_entry)
+        tap_entry = {
             'player': player,
             'seasons': n_tap,
             'atap': round(sum(v for v, d in tap_best) / n_tap, 1),
             'adiff': round(sum(d for v, d in tap_best) / n_tap, 1),
             'tdiff': round(sum(d for v, d in tap_best), 1),
-        })
+        }
+        if len(tap_pairs) > 10:
+            tap_entry['worst_diff'] = round(tap_best[-1][1], 1)
+            tap_entry['worst_val'] = round(tap_best[-1][0], 1)
+        diff10_data_tap.append(tap_entry)
     diff10_data_ted.sort(key=lambda x: x['ated'], reverse=True)
     diff10_data_tap.sort(key=lambda x: x.get('atap', 0), reverse=True)
     print(f"  Diff10 data: {len(diff10_data_ted)} players (TED), {len(diff10_data_tap)} players (TAP)")
@@ -612,20 +620,28 @@ def build_historical_json():
         tap_best = sorted(tap_pairs, key=lambda x: x[1], reverse=True)[:5]
         n_ted = len(ted_best)
         n_tap = len(tap_best)
-        diff5_data_ted.append({
+        ted_entry = {
             'player': player,
             'seasons': n_ted,
             'ated': round(sum(v for v, d in ted_best) / n_ted, 1),
             'adiff': round(sum(d for v, d in ted_best) / n_ted, 1),
             'tdiff': round(sum(d for v, d in ted_best), 1),
-        })
-        diff5_data_tap.append({
+        }
+        if len(ted_pairs) > 5:
+            ted_entry['worst_diff'] = round(ted_best[-1][1], 1)
+            ted_entry['worst_val'] = round(ted_best[-1][0], 1)
+        diff5_data_ted.append(ted_entry)
+        tap_entry = {
             'player': player,
             'seasons': n_tap,
             'atap': round(sum(v for v, d in tap_best) / n_tap, 1),
             'adiff': round(sum(d for v, d in tap_best) / n_tap, 1),
             'tdiff': round(sum(d for v, d in tap_best), 1),
-        })
+        }
+        if len(tap_pairs) > 5:
+            tap_entry['worst_diff'] = round(tap_best[-1][1], 1)
+            tap_entry['worst_val'] = round(tap_best[-1][0], 1)
+        diff5_data_tap.append(tap_entry)
     diff5_data_ted.sort(key=lambda x: x['ated'], reverse=True)
     diff5_data_tap.sort(key=lambda x: x.get('atap', 0), reverse=True)
     print(f"  Diff5 data: {len(diff5_data_ted)} players (TED), {len(diff5_data_tap)} players (TAP)")

@@ -290,10 +290,6 @@ def render_historical_section(data, stat_key='ted', season_all=None):
                 d['adiff'] = round((d['adiff'] * old_n + ted_diff) / (old_n + 1), 1)
                 d['tdiff'] = round(d['tdiff'] + ted_diff, 1)
                 d['seasons'] = old_n + 1
-            else:
-                new_entry = {'player': name, 'seasons': 1, 'ated': round(r['ted'], 1),
-                             'adiff': round(ted_diff, 1), 'tdiff': round(ted_diff, 1)}
-                diff_data_ted.append(new_entry)
             if name in tap_lookup:
                 d = tap_lookup[name]
                 old_n = d['seasons']
@@ -301,10 +297,6 @@ def render_historical_section(data, stat_key='ted', season_all=None):
                 d['adiff'] = round((d['adiff'] * old_n + tap_diff) / (old_n + 1), 1)
                 d['tdiff'] = round(d['tdiff'] + tap_diff, 1)
                 d['seasons'] = old_n + 1
-            else:
-                new_entry = {'player': name, 'seasons': 1, 'atap': round(r['tap'], 1),
-                             'adiff': round(tap_diff, 1), 'tdiff': round(tap_diff, 1)}
-                diff_data_tap.append(new_entry)
         diff_data_ted.sort(key=lambda x: x['ated'], reverse=True)
         diff_data_tap.sort(key=lambda x: x.get('atap', 0), reverse=True)
     diff_tables = render_diff_html(diff_data_ted, diff_data_tap, 'CAREER AVG / TOTAL')
@@ -322,23 +314,33 @@ def render_historical_section(data, stat_key='ted', season_all=None):
             if name in ted10_lookup:
                 d = ted10_lookup[name]
                 old_n = d['seasons']
-                d['ated'] = round((d['ated'] * old_n + r['ted']) / (old_n + 1), 1)
-                d['adiff'] = round((d['adiff'] * old_n + ted_diff) / (old_n + 1), 1)
-                d['tdiff'] = round(d['tdiff'] + ted_diff, 1)
-                d['seasons'] = old_n + 1
-            else:
-                diff10_data_ted.append({'player': name, 'seasons': 1, 'ated': round(r['ted'], 1),
-                                        'adiff': round(ted_diff, 1), 'tdiff': round(ted_diff, 1)})
+                if 'worst_diff' in d:
+                    if ted_diff > d['worst_diff']:
+                        total_val = d['ated'] * old_n - d['worst_val'] + r['ted']
+                        total_diff = d['adiff'] * old_n - d['worst_diff'] + ted_diff
+                        d['ated'] = round(total_val / old_n, 1)
+                        d['adiff'] = round(total_diff / old_n, 1)
+                        d['tdiff'] = round(d['tdiff'] - d['worst_diff'] + ted_diff, 1)
+                else:
+                    d['ated'] = round((d['ated'] * old_n + r['ted']) / (old_n + 1), 1)
+                    d['adiff'] = round((d['adiff'] * old_n + ted_diff) / (old_n + 1), 1)
+                    d['tdiff'] = round(d['tdiff'] + ted_diff, 1)
+                    d['seasons'] = old_n + 1
             if name in tap10_lookup:
                 d = tap10_lookup[name]
                 old_n = d['seasons']
-                d['atap'] = round((d['atap'] * old_n + r['tap']) / (old_n + 1), 1)
-                d['adiff'] = round((d['adiff'] * old_n + tap_diff) / (old_n + 1), 1)
-                d['tdiff'] = round(d['tdiff'] + tap_diff, 1)
-                d['seasons'] = old_n + 1
-            else:
-                diff10_data_tap.append({'player': name, 'seasons': 1, 'atap': round(r['tap'], 1),
-                                        'adiff': round(tap_diff, 1), 'tdiff': round(tap_diff, 1)})
+                if 'worst_diff' in d:
+                    if tap_diff > d['worst_diff']:
+                        total_val = d['atap'] * old_n - d['worst_val'] + r['tap']
+                        total_diff = d['adiff'] * old_n - d['worst_diff'] + tap_diff
+                        d['atap'] = round(total_val / old_n, 1)
+                        d['adiff'] = round(total_diff / old_n, 1)
+                        d['tdiff'] = round(d['tdiff'] - d['worst_diff'] + tap_diff, 1)
+                else:
+                    d['atap'] = round((d['atap'] * old_n + r['tap']) / (old_n + 1), 1)
+                    d['adiff'] = round((d['adiff'] * old_n + tap_diff) / (old_n + 1), 1)
+                    d['tdiff'] = round(d['tdiff'] + tap_diff, 1)
+                    d['seasons'] = old_n + 1
         diff10_data_ted.sort(key=lambda x: x['ated'], reverse=True)
         diff10_data_tap.sort(key=lambda x: x.get('atap', 0), reverse=True)
     diff10_tables = render_diff_html(diff10_data_ted, diff10_data_tap, 'CAREER <span style="font-size:1.3em;line-height:0">10</span> BEST')
@@ -356,23 +358,33 @@ def render_historical_section(data, stat_key='ted', season_all=None):
             if name in ted5_lookup:
                 d = ted5_lookup[name]
                 old_n = d['seasons']
-                d['ated'] = round((d['ated'] * old_n + r['ted']) / (old_n + 1), 1)
-                d['adiff'] = round((d['adiff'] * old_n + ted_diff) / (old_n + 1), 1)
-                d['tdiff'] = round(d['tdiff'] + ted_diff, 1)
-                d['seasons'] = old_n + 1
-            else:
-                diff5_data_ted.append({'player': name, 'seasons': 1, 'ated': round(r['ted'], 1),
-                                       'adiff': round(ted_diff, 1), 'tdiff': round(ted_diff, 1)})
+                if 'worst_diff' in d:
+                    if ted_diff > d['worst_diff']:
+                        total_val = d['ated'] * old_n - d['worst_val'] + r['ted']
+                        total_diff = d['adiff'] * old_n - d['worst_diff'] + ted_diff
+                        d['ated'] = round(total_val / old_n, 1)
+                        d['adiff'] = round(total_diff / old_n, 1)
+                        d['tdiff'] = round(d['tdiff'] - d['worst_diff'] + ted_diff, 1)
+                else:
+                    d['ated'] = round((d['ated'] * old_n + r['ted']) / (old_n + 1), 1)
+                    d['adiff'] = round((d['adiff'] * old_n + ted_diff) / (old_n + 1), 1)
+                    d['tdiff'] = round(d['tdiff'] + ted_diff, 1)
+                    d['seasons'] = old_n + 1
             if name in tap5_lookup:
                 d = tap5_lookup[name]
                 old_n = d['seasons']
-                d['atap'] = round((d['atap'] * old_n + r['tap']) / (old_n + 1), 1)
-                d['adiff'] = round((d['adiff'] * old_n + tap_diff) / (old_n + 1), 1)
-                d['tdiff'] = round(d['tdiff'] + tap_diff, 1)
-                d['seasons'] = old_n + 1
-            else:
-                diff5_data_tap.append({'player': name, 'seasons': 1, 'atap': round(r['tap'], 1),
-                                       'adiff': round(tap_diff, 1), 'tdiff': round(tap_diff, 1)})
+                if 'worst_diff' in d:
+                    if tap_diff > d['worst_diff']:
+                        total_val = d['atap'] * old_n - d['worst_val'] + r['tap']
+                        total_diff = d['adiff'] * old_n - d['worst_diff'] + tap_diff
+                        d['atap'] = round(total_val / old_n, 1)
+                        d['adiff'] = round(total_diff / old_n, 1)
+                        d['tdiff'] = round(d['tdiff'] - d['worst_diff'] + tap_diff, 1)
+                else:
+                    d['atap'] = round((d['atap'] * old_n + r['tap']) / (old_n + 1), 1)
+                    d['adiff'] = round((d['adiff'] * old_n + tap_diff) / (old_n + 1), 1)
+                    d['tdiff'] = round(d['tdiff'] + tap_diff, 1)
+                    d['seasons'] = old_n + 1
         diff5_data_ted.sort(key=lambda x: x['ated'], reverse=True)
         diff5_data_tap.sort(key=lambda x: x.get('atap', 0), reverse=True)
     diff5_tables = render_diff_html(diff5_data_ted, diff5_data_tap, 'CAREER <span style="font-size:1.3em;line-height:0">5</span> BEST')
