@@ -1432,7 +1432,7 @@ def build_career_js(historical, season_all):
     return f'<script>window.CAREER={career_json};window.SEASON_STATS={stats_json};</script>'
 
 
-def generate_html(weekly, season, daily, monthly, month_label, month_winners, updated_at):
+def generate_html(weekly, season, daily, monthly, month_label, month_winners, updated_at, week_start=None, week_end=None):
     """Generate the full HTML page — TED only."""
     season_label = f"{config.CURRENT_SEASON_YEAR}-{str(config.CURRENT_SEASON_YEAR + 1)[-2:]}"
 
@@ -3084,7 +3084,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       document.body.classList.add('career-open');
     }}
 
-    function showRecentGames(name) {{
+    var weekStartMD = '{week_start.month:02d}-{week_start.day:02d}';
+    var weekEndMD = '{week_end.month:02d}-{week_end.day:02d}';
+
+    function showRecentGames(name, isWeekly) {{
       var games = window.RECENT_GAMES[name];
       if (!games || games.length === 0) return;
       popupName.textContent = name;
@@ -3100,7 +3103,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         var g = games[i];
         var parts = g.d.split('-');
         var dateStr = parts[1] + '/' + parts[0];
-        var rc = i === 0 ? ' class="cp-current"' : '';
+        var hl = isWeekly ? (g.d >= weekStartMD && g.d <= weekEndMD) : (i === 0);
+        var rc = hl ? ' class="cp-current"' : '';
         var pmStr = g.pm >= 0 ? '+' + g.pm : String(g.pm);
         html += '<tr' + rc + '>'
           + '<td class="cp-season">' + dateStr + '</td>'
@@ -3147,7 +3151,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         e.stopPropagation();
         // Check if click is from daily or weekly table
         if (td.closest('.weekly-daily-slot')) {{
-          showRecentGames(td.getAttribute('data-player'));
+          var isWeekly = !!td.closest('.weekly-table');
+          showRecentGames(td.getAttribute('data-player'), isWeekly);
           return;
         }}
         var yearDiv = td.closest('.year-table[data-year]');
@@ -5052,7 +5057,7 @@ def generate_site():
 
     # Generate HTML
     updated_at = date.today().strftime("%B %d, %Y")
-    html = generate_html(weekly, season, daily, monthly, month_label, month_winners, updated_at)
+    html = generate_html(weekly, season, daily, monthly, month_label, month_winners, updated_at, week_start, week_end)
 
     # Write output
     os.makedirs(DOCS_DIR, exist_ok=True)
