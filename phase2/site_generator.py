@@ -2155,8 +2155,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     /* DIFF table styles */
     .diff-table tbody td {{
-      padding-top: 6px;
-      padding-bottom: 6px;
+      padding-top: 7px;
+      padding-bottom: 7px;
     }}
     .diff-table thead th.diff-sort-val,
     .diff-table thead th.diff-sort-adiff,
@@ -2539,6 +2539,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       .mg-table thead th[class*="avg"] {{
         padding-left: 0;
         padding-right: 0;
+      }}
+      .diff-table tbody td {{
+        padding-top: 6px;
+        padding-bottom: 6px;
       }}
       .diff-table thead th {{
         padding-top: 6px;
