@@ -343,6 +343,40 @@ def render_historical_section(data, stat_key='ted', season_all=None):
         diff10_data_tap.sort(key=lambda x: x.get('atap', 0), reverse=True)
     diff10_tables = render_diff_html(diff10_data_ted, diff10_data_tap, 'CAREER <span style="font-size:1.3em;line-height:0">10</span> BEST')
 
+    # Build DIFF5 tables (same as DIFF but best 5 seasons per player)
+    diff5_data_ted = copy.deepcopy(data.get('diff5_data_ted', []))
+    diff5_data_tap = copy.deepcopy(data.get('diff5_data_tap', []))
+    if season_all:
+        ted5_lookup = {d['player']: d for d in diff5_data_ted}
+        tap5_lookup = {d['player']: d for d in diff5_data_tap}
+        for r in season_all:
+            name = r['player']
+            ted_diff = r['ted'] - top100_ted_cur
+            tap_diff = r['tap'] - top100_tap_cur
+            if name in ted5_lookup:
+                d = ted5_lookup[name]
+                old_n = d['seasons']
+                d['ated'] = round((d['ated'] * old_n + r['ted']) / (old_n + 1), 1)
+                d['adiff'] = round((d['adiff'] * old_n + ted_diff) / (old_n + 1), 1)
+                d['tdiff'] = round(d['tdiff'] + ted_diff, 1)
+                d['seasons'] = old_n + 1
+            else:
+                diff5_data_ted.append({'player': name, 'seasons': 1, 'ated': round(r['ted'], 1),
+                                       'adiff': round(ted_diff, 1), 'tdiff': round(ted_diff, 1)})
+            if name in tap5_lookup:
+                d = tap5_lookup[name]
+                old_n = d['seasons']
+                d['atap'] = round((d['atap'] * old_n + r['tap']) / (old_n + 1), 1)
+                d['adiff'] = round((d['adiff'] * old_n + tap_diff) / (old_n + 1), 1)
+                d['tdiff'] = round(d['tdiff'] + tap_diff, 1)
+                d['seasons'] = old_n + 1
+            else:
+                diff5_data_tap.append({'player': name, 'seasons': 1, 'atap': round(r['tap'], 1),
+                                       'adiff': round(tap_diff, 1), 'tdiff': round(tap_diff, 1)})
+        diff5_data_ted.sort(key=lambda x: x['ated'], reverse=True)
+        diff5_data_tap.sort(key=lambda x: x.get('atap', 0), reverse=True)
+    diff5_tables = render_diff_html(diff5_data_ted, diff5_data_tap, 'CAREER <span style="font-size:1.3em;line-height:0">5</span> BEST')
+
     # TAPD view still uses "TAP" in the section header — no separate historical TAPD summary
     header_label = 'TAP' if stat_key in ('tap', 'tapd') else stat_upper
     return nav_links, f"""  <div class="historical-section">
@@ -366,6 +400,10 @@ def render_historical_section(data, stat_key='ted', season_all=None):
       <div class="diff-best10-view" style="display:none">
         <div class="view-ted">{diff10_tables['ted']}</div>
         <div class="view-tap" style="display:none">{diff10_tables['tap']}</div>
+      </div>
+      <div class="diff-best5-view" style="display:none">
+        <div class="view-ted">{diff5_tables['ted']}</div>
+        <div class="view-tap" style="display:none">{diff5_tables['tap']}</div>
       </div>
     </div>
 {decades_html}  </div>
@@ -2882,13 +2920,12 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         var newDiff = newSec.querySelector('.diff-table');
         if (oldDiff && newDiff) {{
           newDiff.style.display = oldDiff.style.display;
-          /* Sync career/best10 sub-view state */
-          var oldCareer = oldDiff.querySelector('.diff-career-view');
-          var newCareer = newDiff.querySelector('.diff-career-view');
-          var oldBest10 = oldDiff.querySelector('.diff-best10-view');
-          var newBest10 = newDiff.querySelector('.diff-best10-view');
-          if (oldCareer && newCareer) newCareer.style.display = oldCareer.style.display;
-          if (oldBest10 && newBest10) newBest10.style.display = oldBest10.style.display;
+          /* Sync career/best10/best5 sub-view state */
+          ['.diff-career-view', '.diff-best10-view', '.diff-best5-view'].forEach(function(cls) {{
+            var oldV = oldDiff.querySelector(cls);
+            var newV = newDiff.querySelector(cls);
+            if (oldV && newV) newV.style.display = oldV.style.display;
+          }});
           /* Sync internal TED/TAP views (all sub-views) */
           newDiff.querySelectorAll('.view-ted').forEach(function(v) {{ v.style.display = tapVisible ? 'none' : ''; }});
           newDiff.querySelectorAll('.view-tap').forEach(function(v) {{ v.style.display = tapVisible ? '' : 'none'; }});
@@ -4695,21 +4732,20 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         }}
       }});
     }});
-    /* DIFF header click — toggle between career view and best-10 view */
+    /* DIFF header click — cycle career → best10 → best5 → career */
     document.querySelectorAll('.diff-table').forEach(function(diffDiv) {{
-      var careerView = diffDiv.querySelector('.diff-career-view');
-      var best10View = diffDiv.querySelector('.diff-best10-view');
-      if (!careerView || !best10View) return;
+      var views = [
+        diffDiv.querySelector('.diff-career-view'),
+        diffDiv.querySelector('.diff-best10-view'),
+        diffDiv.querySelector('.diff-best5-view')
+      ];
+      if (!views[0] || !views[1] || !views[2]) return;
       diffDiv.querySelectorAll('.table-header').forEach(function(tableHeader) {{
         tableHeader.style.cursor = 'pointer';
         tableHeader.addEventListener('click', function() {{
-          if (careerView.style.display !== 'none') {{
-            careerView.style.display = 'none';
-            best10View.style.display = '';
-          }} else {{
-            careerView.style.display = '';
-            best10View.style.display = 'none';
-          }}
+          var current = views.findIndex(function(v) {{ return v.style.display !== 'none'; }});
+          var next = (current + 1) % views.length;
+          views.forEach(function(v, i) {{ v.style.display = i === next ? '' : 'none'; }});
         }});
       }});
     }});

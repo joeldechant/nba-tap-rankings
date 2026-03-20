@@ -585,6 +585,50 @@ def build_historical_json():
     diff10_data_tap.sort(key=lambda x: x.get('atap', 0), reverse=True)
     print(f"  Diff10 data: {len(diff10_data_ted)} players (TED), {len(diff10_data_tap)} players (TAP)")
 
+    # Build diff5_data: same as diff_data but uses only the 5 best seasons per player (by DIFF)
+    diff5_data_ted = []
+    diff5_data_tap = []
+    for player, seasons in player_seasons.items():
+        ted_pairs = []
+        tap_pairs = []
+        for s in seasons:
+            if s['year'] < 1960:
+                continue
+            yr = str(s['year'])
+            if yr not in season_stats:
+                continue
+            ss = season_stats[yr]
+            ted_pairs.append((s['ted'], s['ted'] - ss['top100_ted']))
+            tap_pairs.append((s['tap'], s['tap'] - ss['top100_tap']))
+        if not ted_pairs:
+            continue
+        n_all = len(ted_pairs)
+        all_career_years = [s['y'] for s in career_data.get(player, [])]
+        first_year = min(all_career_years) if all_career_years else 9999
+        if n_all < 4 and first_year < 2020:
+            continue
+        ted_best = sorted(ted_pairs, key=lambda x: x[1], reverse=True)[:5]
+        tap_best = sorted(tap_pairs, key=lambda x: x[1], reverse=True)[:5]
+        n_ted = len(ted_best)
+        n_tap = len(tap_best)
+        diff5_data_ted.append({
+            'player': player,
+            'seasons': n_ted,
+            'ated': round(sum(v for v, d in ted_best) / n_ted, 1),
+            'adiff': round(sum(d for v, d in ted_best) / n_ted, 1),
+            'tdiff': round(sum(d for v, d in ted_best), 1),
+        })
+        diff5_data_tap.append({
+            'player': player,
+            'seasons': n_tap,
+            'atap': round(sum(v for v, d in tap_best) / n_tap, 1),
+            'adiff': round(sum(d for v, d in tap_best) / n_tap, 1),
+            'tdiff': round(sum(d for v, d in tap_best), 1),
+        })
+    diff5_data_ted.sort(key=lambda x: x['ated'], reverse=True)
+    diff5_data_tap.sort(key=lambda x: x.get('atap', 0), reverse=True)
+    print(f"  Diff5 data: {len(diff5_data_ted)} players (TED), {len(diff5_data_tap)} players (TAP)")
+
     # Write JSON
     output = {
         'generated': str(__import__('datetime').date.today()),
@@ -598,6 +642,8 @@ def build_historical_json():
         'diff_data_tap': diff_data_tap,
         'diff10_data_ted': diff10_data_ted,
         'diff10_data_tap': diff10_data_tap,
+        'diff5_data_ted': diff5_data_ted,
+        'diff5_data_tap': diff5_data_tap,
     }
 
     output_path = os.path.join(PROJECT_DIR, "phase2", "historical_rankings.json")
