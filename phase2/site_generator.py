@@ -1538,6 +1538,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       display: block;
       margin: 8px auto 0;
       cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
     }}
 
     .toggle-link {{
