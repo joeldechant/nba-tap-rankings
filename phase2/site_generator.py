@@ -1496,7 +1496,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>NBA TAP Rankings &mdash; {season_label} Season</title>
   <style>
     * {{ margin: 0; padding: 0; box-sizing: border-box; }}
@@ -1556,7 +1556,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     .float-toggle {{
       position: fixed;
-      bottom: 20px;
+      bottom: calc(20px + env(safe-area-inset-bottom, 0px));
       right: 20px;
       z-index: 100;
       cursor: pointer;
