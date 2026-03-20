@@ -341,7 +341,7 @@ def render_historical_section(data, stat_key='ted', season_all=None):
                                         'adiff': round(tap_diff, 1), 'tdiff': round(tap_diff, 1)})
         diff10_data_ted.sort(key=lambda x: x['ated'], reverse=True)
         diff10_data_tap.sort(key=lambda x: x.get('atap', 0), reverse=True)
-    diff10_tables = render_diff_html(diff10_data_ted, diff10_data_tap, 'CAREER 10 BEST')
+    diff10_tables = render_diff_html(diff10_data_ted, diff10_data_tap, 'CAREER <span style="font-size:1.3em;line-height:0">10</span> BEST')
 
     # TAPD view still uses "TAP" in the section header — no separate historical TAPD summary
     header_label = 'TAP' if stat_key in ('tap', 'tapd') else stat_upper
