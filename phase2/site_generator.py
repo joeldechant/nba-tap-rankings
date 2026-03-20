@@ -957,7 +957,7 @@ def render_mg1_html(season_stats, season_all=None):
     return f"""  <div class="mg-goat-view">
     <div class="year-pair single">
       <div class="year-table">
-        <div class="table-header"><h2>MODERN ERA TOP {stat_upper} BY SEASON</h2></div>
+        <div class="table-header"><h2>MODERN TOP {stat_upper} BY SEASON</h2></div>
         <table>
           <thead><tr><th class="season mg1-sort-yr">Yr</th><th class="player mg1-sort-player">Player</th><th class="num stat mg1-sort-val">{stat_upper}</th><th class="num mg1-avg">TOP 9*</th><th class="num mg1-sort-diff">DIFF</th></tr></thead>
           <tbody>
