@@ -3201,7 +3201,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       if (!winners || winners.length === 0) return;
       var s = stat;
       var su = s === 'tap' ? 'TAPD' : s.toUpperCase();
-      potmTitle.textContent = 'PLAYER OF THE MONTH - ' + su;
+      potmTitle.textContent = 'PLAYER OF THE MONTH';
       potmStatHeader.textContent = su;
       var html = '';
       for (var i = winners.length - 1; i >= 0; i--) {{
