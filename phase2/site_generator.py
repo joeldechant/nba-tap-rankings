@@ -1452,6 +1452,27 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         season.get('all', [])
     )
 
+    # Build recent games data for daily/weekly player popup
+    # Collect all unique players from daily + weekly rankings
+    recent_players = set()
+    for lst in [weekly.get('ted', []), weekly.get('tap', []), daily.get('ted', []), daily.get('tap', [])]:
+        for r in lst:
+            recent_players.add(r['player'])
+    recent_games = {}
+    for player in recent_players:
+        games = db.get_player_recent_games(player, n=5, season_year=config.CURRENT_SEASON_YEAR)
+        if games:
+            recent_games[player] = [{
+                'd': g['game_date'][5:],  # MM-DD
+                'min': round(g['mp_decimal']) if g['mp_decimal'] else 0,
+                'pts': g['pts'] or 0,
+                'rb': g['rb'] or 0,
+                'na': (g['ast'] or 0) - (g['tov'] or 0),
+                'pm': g['plus_minus'] if g['plus_minus'] is not None else 0,
+            } for g in games]
+    recent_games_json = json.dumps(recent_games, ensure_ascii=False, separators=(',', ':'))
+    recent_games_js = f'<script>window.RECENT_GAMES={recent_games_json};</script>'
+
     # Embed month winners for POTM popup
     month_winners_json = json.dumps(month_winners, ensure_ascii=False, separators=(',', ':'))
     potm_js = f'<script>window.MONTH_WINNERS={month_winners_json};</script>'
@@ -2541,6 +2562,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .career-popup .cp-stat {{ width: 52px; text-align: center; font-weight: 900; }}
     .career-popup .cp-avg {{ width: 48px; text-align: center; }}
     .career-popup .cp-leader {{ width: 52px; text-align: center; font-weight: 900; }}
+    .career-popup .cp-pm {{ width: 42px; text-align: center; }}
 
     .career-popup thead th {{ text-align: center; }}
 
@@ -2819,6 +2841,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
   </div>
 {potm_js}
 {career_js}
+{recent_games_js}
   <script>
   (function() {{
     var stat = 'tap';
@@ -3061,10 +3084,52 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       document.body.classList.add('career-open');
     }}
 
+    function showRecentGames(name) {{
+      var games = window.RECENT_GAMES[name];
+      if (!games || games.length === 0) return;
+      popupName.textContent = name;
+      var thead = overlay.querySelector('thead tr');
+      thead.innerHTML = '<th class="cp-season">DATE</th>'
+        + '<th class="cp-team">MIN</th>'
+        + '<th class="cp-stat">PTS</th>'
+        + '<th class="cp-avg">RB</th>'
+        + '<th class="cp-leader">NA</th>'
+        + '<th class="cp-pm">PM</th>';
+      var html = '';
+      for (var i = 0; i < games.length; i++) {{
+        var g = games[i];
+        var parts = g.d.split('-');
+        var dateStr = parts[1] + '/' + parts[0];
+        var rc = i === 0 ? ' class="cp-current"' : '';
+        var pmStr = g.pm >= 0 ? '+' + g.pm : String(g.pm);
+        html += '<tr' + rc + '>'
+          + '<td class="cp-season">' + dateStr + '</td>'
+          + '<td class="cp-team">' + g.min + '</td>'
+          + '<td class="cp-stat">' + g.pts + '</td>'
+          + '<td class="cp-avg">' + g.rb + '</td>'
+          + '<td class="cp-leader">' + g.na + '</td>'
+          + '<td class="cp-pm">' + pmStr + '</td>'
+          + '</tr>';
+      }}
+      popupBody.innerHTML = html;
+      overlay.classList.add('active');
+      document.body.classList.add('career-open');
+    }}
+
+    var defaultThead = '<th class="cp-season">Season</th>'
+      + '<th class="cp-team">Team</th>'
+      + '<th class="cp-stat" id="career-stat-header">TED</th>'
+      + '<th class="cp-avg" id="career-avg-header">AVG</th>'
+      + '<th class="cp-leader" id="career-top10-header">TOP 10</th>';
+
     function closeCareer() {{
       overlay.classList.remove('active');
       document.body.classList.remove('career-open');
       popupBody.innerHTML = '';
+      // Restore default thead
+      var thead = overlay.querySelector('thead tr');
+      thead.innerHTML = defaultThead;
+      popupStatHeader = document.getElementById('career-stat-header');
     }}
 
     document.querySelector('.container').addEventListener('click', function(e) {{
@@ -3080,6 +3145,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       var td = e.target.closest('td.player[data-player]');
       if (td) {{
         e.stopPropagation();
+        // Check if click is from daily or weekly table
+        if (td.closest('.weekly-daily-slot')) {{
+          showRecentGames(td.getAttribute('data-player'));
+          return;
+        }}
         var yearDiv = td.closest('.year-table[data-year]');
         var ctxYear = yearDiv ? parseInt(yearDiv.getAttribute('data-year')) : currentYear;
         var so = null;
