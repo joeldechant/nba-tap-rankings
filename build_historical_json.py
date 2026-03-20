@@ -331,6 +331,7 @@ def build_historical_json():
             tapd_sorted = sorted(tapd_players, key=lambda p: p['tapd'], reverse=True)
             top10_tapds = [p['tapd'] for p in tapd_sorted[:10]]
             stats_entry['top10_tapd'] = round(sum(top10_tapds) / len(top10_tapds), 1)
+            stats_entry['avg_tapd'] = round(sum(p['tapd'] for p in tapd_players) / len(tapd_players), 1)
             tapd_leader = tapd_sorted[0]
             stats_entry['ldr_tapd'] = tapd_leader['player']
             stats_entry['ldr_tapd_val'] = round(tapd_leader['tapd'], 1)

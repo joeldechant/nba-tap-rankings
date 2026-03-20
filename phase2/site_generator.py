@@ -1407,6 +1407,13 @@ def build_career_js(historical, season_all):
             'g3_tap': tap_third['player'] if tap_third else '',
             'g3_tap_val': round(tap_third['tap'], 1) if tap_third else 0,
         }
+        # Add TAPD stats for current season
+        tapd_players = [r for r in season_all if r.get('tapd') is not None]
+        if tapd_players:
+            tapd_sorted = sorted(tapd_players, key=lambda r: r['tapd'], reverse=True)
+            top10_tapds = [r['tapd'] for r in tapd_sorted[:10]]
+            season_stats[str(current_year)]['top10_tapd'] = round(sum(top10_tapds) / len(top10_tapds), 1)
+            season_stats[str(current_year)]['avg_tapd'] = round(sum(r['tapd'] for r in tapd_players) / len(tapd_players), 1)
 
     career_json = json.dumps(career, ensure_ascii=False, separators=(',', ':'))
     stats_json = json.dumps(season_stats, ensure_ascii=False, separators=(',', ':'))
@@ -3064,7 +3071,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         var yearDiv = td.closest('.year-table[data-year]');
         var ctxYear = yearDiv ? parseInt(yearDiv.getAttribute('data-year')) : currentYear;
         var so = null;
-        if (td.closest('.tapd-year-table') || td.closest('.tapd-table')) so = 'tapd';
+        if (td.closest('.tapd-year-table') || td.closest('.tapd-table') || td.closest('.mg-table')) so = 'tapd';
         var dm = !!td.closest('.diff-table');
         var noHighlight = dm || !!td.closest('.goat-table') || !!td.closest('.g2-table') || !!td.closest('.g3-table') || !!td.closest('.mg-table');
         showCareer(td.getAttribute('data-player'), noHighlight ? null : ctxYear, so, dm);
