@@ -3102,7 +3102,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       for (var i = 0; i < games.length; i++) {{
         var g = games[i];
         var parts = g.d.split('-');
-        var dateStr = parts[1] + '/' + parts[0];
+        var dateStr = parts[0] + '/' + parseInt(parts[1]);
         var hl = isWeekly ? (g.d >= weekStartMD && g.d <= weekEndMD) : (i === 0);
         var rc = hl ? ' class="cp-current"' : '';
         var pmStr = g.pm >= 0 ? '+' + g.pm : String(g.pm);
