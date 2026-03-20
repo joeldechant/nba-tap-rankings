@@ -2969,8 +2969,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
             if (oldV && newV) newV.style.display = oldV.style.display;
           }});
           /* Sync internal TED/TAP views (all sub-views) */
-          newDiff.querySelectorAll('.view-ted').forEach(function(v) {{ v.style.display = tapVisible ? 'none' : ''; }});
-          newDiff.querySelectorAll('.view-tap').forEach(function(v) {{ v.style.display = tapVisible ? '' : 'none'; }});
+          var showTap = stat === 'tap';
+          newDiff.querySelectorAll('.view-ted').forEach(function(v) {{ v.style.display = showTap ? 'none' : ''; }});
+          newDiff.querySelectorAll('.view-tap').forEach(function(v) {{ v.style.display = showTap ? '' : 'none'; }});
         }}
         var oldDecs = oldSec.querySelectorAll('.decade');
         var newDecs = newSec.querySelectorAll('.decade');
