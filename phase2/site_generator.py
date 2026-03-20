@@ -3093,7 +3093,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       popupName.textContent = name;
       var thead = overlay.querySelector('thead tr');
       thead.innerHTML = '<th class="cp-season">DATE</th>'
-        + '<th class="cp-team">MIN</th>'
+        + '<th class="cp-team">MPG</th>'
         + '<th class="cp-stat">PTS</th>'
         + '<th class="cp-avg">RB</th>'
         + '<th class="cp-leader">NA</th>'
