@@ -45,7 +45,7 @@ def get_rolling_week():
     return start, end
 
 
-def render_table(rankings, stat_key, title, week_label=None):
+def render_table(rankings, stat_key, title, week_label=None, stat_label=None):
     """Render a single ranking table as HTML."""
     rows_html = ""
     if not rankings:
@@ -73,7 +73,7 @@ def render_table(rankings, stat_key, title, week_label=None):
           <th class="rank">Rank</th>
           <th class="player">Player</th>
           <th class="team">Team</th>
-          <th class="num stat">{stat_key.upper()}</th>
+          <th class="num stat">{stat_label or stat_key.upper()}</th>
         </tr>
       </thead>
       <tbody>
@@ -1438,13 +1438,13 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     weekly_ted_table = render_table(weekly['ted'], 'ted', 'WEEKLY TED TOP 100')
     season_ted_table = render_table(season['ted'], 'ted', 'SEASON-TO-DATE TED TOP 100')
-    weekly_tap_table = render_table(weekly['tap'], 'tap', 'WEEKLY TAPD TOP 100')
+    weekly_tap_table = render_table(weekly['tap'], 'tap', 'WEEKLY TAPD TOP 100', stat_label='TAPD')
     season_tap_table = render_table(season['tap'], 'tap', 'SEASON-TO-DATE TAP TOP 100')
     season_tapd_table = render_table(season.get('tapd', []), 'tapd', 'SEASON-TO-DATE TAPD TOP 100')
     daily_ted_table = render_table(daily['ted'], 'ted', 'DAILY TED TOP 40')
-    daily_tap_table = render_table(daily['tap'], 'tap', 'DAILY TAPD TOP 40')
+    daily_tap_table = render_table(daily['tap'], 'tap', 'DAILY TAPD TOP 40', stat_label='TAPD')
     monthly_ted_table = render_table(monthly['ted'], 'ted', 'PLAYER OF THE MONTH - TED')
-    monthly_tap_table = render_table(monthly['tap'], 'tap', 'PLAYER OF THE MONTH - TAPD')
+    monthly_tap_table = render_table(monthly['tap'], 'tap', 'PLAYER OF THE MONTH - TAPD', stat_label='TAPD')
 
     # Build career popup data
     career_js = build_career_js(
@@ -1999,7 +1999,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
 
     .tapd-year-table thead th.stat,
-    .tapd-table thead th.stat {{
+    .tapd-table thead th.stat,
+    .view-tap .weekly-daily-slot thead th.stat,
+    .view-tap .season-monthly-slot .monthly-table thead th.stat {{
       text-indent: -4px;
     }}
 
@@ -3198,7 +3200,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       var winners = window.MONTH_WINNERS;
       if (!winners || winners.length === 0) return;
       var s = stat;
-      var su = s.toUpperCase();
+      var su = s === 'tap' ? 'TAPD' : s.toUpperCase();
       potmTitle.textContent = 'PLAYER OF THE MONTH - ' + su;
       potmStatHeader.textContent = su;
       var html = '';
