@@ -1444,7 +1444,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     daily_ted_table = render_table(daily['ted'], 'ted', 'DAILY TED TOP 40')
     daily_tap_table = render_table(daily['tap'], 'tap', 'DAILY TAPD TOP 40')
     monthly_ted_table = render_table(monthly['ted'], 'ted', 'PLAYER OF THE MONTH - TED')
-    monthly_tap_table = render_table(monthly['tap'], 'tap', 'PLAYER OF THE MONTH - TAP')
+    monthly_tap_table = render_table(monthly['tap'], 'tap', 'PLAYER OF THE MONTH - TAPD')
 
     # Build career popup data
     career_js = build_career_js(
