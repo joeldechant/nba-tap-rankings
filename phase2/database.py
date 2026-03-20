@@ -430,18 +430,18 @@ def get_game_count(start_date, end_date):
 
 def get_player_recent_games(player, n=5, season_year=None):
     """Get the last N games for a player, most recent first.
-    Returns list of dicts with game_date, mp_decimal, pts, rb, ast, tov, plus_minus."""
+    Returns list of dicts with game_date, mp_decimal, pts, rb, ast, stl, blk, tov, plus_minus."""
     conn = get_connection()
     if season_year:
         rows = conn.execute("""
-            SELECT game_date, mp_decimal, pts, rb, ast, tov, plus_minus
+            SELECT game_date, mp_decimal, pts, rb, ast, stl, blk, tov, plus_minus
             FROM game_box_scores
             WHERE player = ? AND season_year = ?
             ORDER BY game_date DESC LIMIT ?
         """, (player, season_year, n)).fetchall()
     else:
         rows = conn.execute("""
-            SELECT game_date, mp_decimal, pts, rb, ast, tov, plus_minus
+            SELECT game_date, mp_decimal, pts, rb, ast, stl, blk, tov, plus_minus
             FROM game_box_scores
             WHERE player = ?
             ORDER BY game_date DESC LIMIT ?

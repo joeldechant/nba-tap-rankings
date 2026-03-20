@@ -1467,7 +1467,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
                 'min': round(g['mp_decimal']) if g['mp_decimal'] else 0,
                 'pts': g['pts'] or 0,
                 'rb': g['rb'] or 0,
-                'na': (g['ast'] or 0) - (g['tov'] or 0),
+                'na': (g['ast'] or 0) + (g['stl'] or 0) + (g['blk'] or 0) - (g['tov'] or 0),
                 'pm': g['plus_minus'] if g['plus_minus'] is not None else 0,
             } for g in games]
     recent_games_json = json.dumps(recent_games, ensure_ascii=False, separators=(',', ':'))
