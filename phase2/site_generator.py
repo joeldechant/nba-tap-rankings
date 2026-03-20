@@ -1442,7 +1442,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     season_tap_table = render_table(season['tap'], 'tap', 'SEASON-TO-DATE TAP TOP 100')
     season_tapd_table = render_table(season.get('tapd', []), 'tapd', 'SEASON-TO-DATE TAPD TOP 100')
     daily_ted_table = render_table(daily['ted'], 'ted', 'DAILY TED TOP 40')
-    daily_tap_table = render_table(daily['tap'], 'tap', 'DAILY TAP TOP 40')
+    daily_tap_table = render_table(daily['tap'], 'tap', 'DAILY TAPD TOP 40')
     monthly_ted_table = render_table(monthly['ted'], 'ted', 'PLAYER OF THE MONTH - TED')
     monthly_tap_table = render_table(monthly['tap'], 'tap', 'PLAYER OF THE MONTH - TAP')
 
