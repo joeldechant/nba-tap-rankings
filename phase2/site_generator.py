@@ -3033,7 +3033,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     var popupStatHeader = document.getElementById('career-stat-header');
     var currentYear = {config.CURRENT_SEASON_YEAR};
 
-    function showCareer(name, contextYear, statOverride, diffMode) {{
+    function showCareer(name, contextYear, statOverride, diffMode, goatMode) {{
       var career = window.CAREER[name];
       if (!career || career.length === 0) return;
       var s = statOverride || stat;
@@ -3044,7 +3044,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       var avgH = document.getElementById('career-avg-header');
       var t10H = document.getElementById('career-top10-header');
       avgH.textContent = diffMode ? 'TOP 100' : 'AVG';
-      t10H.textContent = diffMode ? 'DIFF' : 'TOP 10';
+      t10H.textContent = diffMode ? 'DIFF' : (goatMode ? 'TOP 9*' : 'TOP 10');
       var html = '';
       for (var i = career.length - 1; i >= 0; i--) {{
         var c = career[i];
@@ -3060,6 +3060,17 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
             if (c[s] !== null && c[s] !== undefined && t100 !== undefined) {{
               var d = c[s] - t100;
               col5 = (d >= 0 ? '+' : '') + d.toFixed(1);
+            }}
+          }}
+        }} else if (goatMode) {{
+          if (ss) {{
+            var av = ss['avg_' + s];
+            col4 = av !== undefined ? av.toFixed(1) : '';
+            var t10 = ss['top10_' + s];
+            var ldr = ss['ldr_' + s + '_val'];
+            if (t10 !== undefined && ldr !== undefined) {{
+              var top9 = (t10 * 10 - ldr) / 9;
+              col5 = top9.toFixed(1);
             }}
           }}
         }} else {{
@@ -3160,8 +3171,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         var so = null;
         if (td.closest('.tapd-year-table') || td.closest('.tapd-table') || td.closest('.mg-table')) so = 'tapd';
         var dm = !!td.closest('.diff-table');
-        var noHighlight = dm || !!td.closest('.goat-table') || !!td.closest('.g2-table') || !!td.closest('.g3-table') || !!td.closest('.mg-table');
-        showCareer(td.getAttribute('data-player'), noHighlight ? null : ctxYear, so, dm);
+        var gm = !!td.closest('.goat-table') || !!td.closest('.g2-table') || !!td.closest('.g3-table') || !!td.closest('.mg-table');
+        var noHighlight = dm || gm;
+        showCareer(td.getAttribute('data-player'), noHighlight ? null : ctxYear, so, dm, gm);
       }}
     }});
 
