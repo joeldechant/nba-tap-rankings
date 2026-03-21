@@ -2012,6 +2012,14 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       color: #ee7623;
       cursor: pointer;
     }}
+    .team-rank-slot th.num.stat {{
+      white-space: nowrap;
+      min-width: 90px;
+      text-align: center;
+    }}
+    .team-rank-slot td.num.stat {{
+      text-align: center;
+    }}
     .team-stat-tooltip {{
       display: none;
       position: fixed;
