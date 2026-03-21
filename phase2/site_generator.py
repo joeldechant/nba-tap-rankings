@@ -3876,7 +3876,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           var activeStat = stat === 'ted' ? 'TED' : 'TAP';
           var tapdT = slot.querySelector('.tapd-team-table');
           if (tapdT && tapdT.style.display !== 'none') activeStat = 'TAPD';
-          teamStatTooltip.textContent = "Team Power Rank is in beta mode, and doesn\u0027t adjust for injuries or recent in-season performance. It is determined by the average season-to-date " + activeStat + " of the top 5 " + activeStat + " players on each team.";
+          teamStatTooltip.textContent = "Team Power Rank is in beta mode, and doesn\u0027t adjust for injuries or recent in-season performance. It is determined by the average season-to-date " + activeStat + " of the top 5 qualifying " + activeStat + " players on each team.";
           var rect = rankTh.getBoundingClientRect();
           var tooltipWidth = 340;
           teamStatTooltip.style.left = Math.max(8, rect.left + rect.width / 2 - tooltipWidth / 2) + 'px';
