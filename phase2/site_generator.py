@@ -2047,6 +2047,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       text-align: right;
       min-width: 52px;
       width: 52px;
+      padding-right: 12px;
     }}
     .view-tap .team-rank-slot .team-stat-tip {{
       color: #ee7623;
@@ -3157,7 +3158,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       .team-rank-slot td.num.stat {{
         width: 52px;
         text-align: right;
-        padding-right: 6px;
+        padding-right: 12px;
       }}
       .team-rank-slot td.player {{
         max-width: none;
