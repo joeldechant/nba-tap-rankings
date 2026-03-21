@@ -5916,11 +5916,15 @@ def generate_site():
     team_season = compute_team_power_rank(season_all, ['ted', 'tap', 'tapd'])
     print(f"  Team power rank: {len(team_season.get('ted', []))} teams")
 
-    # Team of the month (TED + TAPD only, no standard TAP, no min games, all qualifying players)
+    # Team of the month (TED + TAPD only, all qualifying players)
+    # Min 4 games filter kicks in after mid-month (day >= 15)
     if last_game_date:
-        team_monthly = compute_team_power_rank(monthly_all_players, ['ted'])
+        team_monthly_players = monthly_all_players
+        if last_game_date.day >= 15:
+            team_monthly_players = [r for r in monthly_all_players if r.get('g', 0) >= 4]
+        team_monthly = compute_team_power_rank(team_monthly_players, ['ted'])
         # Add TAPD from all players (filter those with tapd)
-        monthly_tapd_all = [r for r in monthly_all_players if r.get('tapd') is not None]
+        monthly_tapd_all = [r for r in team_monthly_players if r.get('tapd') is not None]
         if monthly_tapd_all:
             team_monthly_tapd = compute_team_power_rank(monthly_tapd_all, ['tapd'])
             team_monthly['tapd'] = team_monthly_tapd.get('tapd', [])
