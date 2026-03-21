@@ -1966,6 +1966,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .season-table .stat,
     .tapd-table .stat,
     .monthly-table .stat,
+    .weekly-table .stat,
+    .daily-table .stat,
     .tables-grid .year-table .stat {{
       width: 62px;
       min-width: 62px;
