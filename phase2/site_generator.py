@@ -2030,6 +2030,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       white-space: nowrap;
       width: 90px;
       text-align: center;
+      overflow: visible;
     }}
     .team-rank-slot td.num.stat {{
       text-align: center;
