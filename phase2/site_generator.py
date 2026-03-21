@@ -2034,12 +2034,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
     .team-rank-slot th.num.stat {{
       white-space: nowrap;
-      width: 110px;
-      text-align: center;
+      text-align: right;
     }}
     .team-rank-slot td.num.stat {{
-      text-align: center;
-      width: 110px;
+      text-align: right;
     }}
     .view-tap .team-rank-slot .team-stat-tip {{
       color: #ee7623;
