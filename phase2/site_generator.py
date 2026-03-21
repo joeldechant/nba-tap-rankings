@@ -2022,28 +2022,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       color: #ee7623;
       cursor: pointer;
     }}
-    .team-rank-slot table {{
-      table-layout: fixed;
-    }}
-    .team-rank-slot th.rank,
-    .team-rank-slot td.rank {{
-      width: 52px;
-    }}
     .team-rank-slot th.player,
     .team-rank-slot td.player {{
       padding-left: 16px;
-    }}
-    .team-rank-slot thead th {{
-      overflow: visible;
-    }}
-    .team-rank-slot th.num.stat,
-    .team-rank-slot td.num.stat {{
-      width: 52px;
-      white-space: nowrap;
-      text-align: right;
-    }}
-    .team-rank-slot thead th.num.stat {{
-      overflow: visible;
     }}
     .view-tap .team-rank-slot .team-stat-tip {{
       color: #ee7623;
