@@ -2030,24 +2030,12 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       overflow: visible;
     }}
     .team-rank-slot th.num.stat {{
-      position: relative;
       overflow: visible;
-      text-align: right;
-      min-width: 52px;
-      width: 52px;
-    }}
-    .team-rank-slot th.num.stat span {{
-      position: absolute;
-      right: 6px;
-      top: 50%;
-      transform: translateY(-50%);
-      white-space: nowrap;
+      min-width: 62px;
     }}
     .team-rank-slot td.num.stat {{
       text-align: right;
-      min-width: 52px;
-      width: 52px;
-      padding-right: 12px;
+      min-width: 62px;
     }}
     .view-tap .team-rank-slot .team-stat-tip {{
       color: #ee7623;
@@ -2405,7 +2393,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .tapd-year-table thead th.stat,
     .tapd-table thead th.stat,
     .view-tap .weekly-daily-slot thead th.stat,
-    .view-tap .season-monthly-slot .monthly-table thead th.stat {{
+    .view-tap .season-monthly-slot .monthly-table thead th.stat,
+    .view-tap .team-rank-slot .tapd-team-table thead th.stat {{
       text-indent: -4px;
     }}
 
