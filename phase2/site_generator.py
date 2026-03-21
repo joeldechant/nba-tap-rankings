@@ -2029,6 +2029,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .team-rank-slot td.rank {{
       width: 52px;
     }}
+    .team-rank-slot th.player,
+    .team-rank-slot td.player {{
+      padding-left: 16px;
+    }}
     .team-rank-slot thead th {{
       overflow: visible;
     }}
