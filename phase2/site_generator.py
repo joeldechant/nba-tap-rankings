@@ -3722,8 +3722,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       var players = data[source] && data[source][sk] && data[source][sk][team];
       if (!players || players.length === 0) return;
       var su = sk === 'tapd' ? 'TAPD' : sk.toUpperCase();
-      var fullName = (window.TEAM_NAMES && window.TEAM_NAMES[team]) || team;
-      teamTitle.textContent = fullName + ' - TOP 5 PLAYER ' + su;
+      teamTitle.textContent = team + ' - TOP 5 PLAYER ' + su;
       teamStatHeader.textContent = su;
       var html = '';
       for (var i = 0; i < players.length; i++) {{
