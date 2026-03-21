@@ -183,7 +183,7 @@ def render_team_table(team_data, stat_key, title, stat_label=None):
         <tr>
           <th class="rank">RANK</th>
           <th class="player">TEAM</th>
-          <th class="num stat team-stat-tip" style="color:#ee7623">{label}</th>
+          <th class="num stat">{label}</th>
         </tr>
       </thead>
       <tbody>
@@ -2006,7 +2006,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .team-rank-slot .team-name:hover {{
       opacity: 0.7;
     }}
-    .team-rank-slot .team-stat-tip {{
+    .team-rank-slot th.rank {{
+      color: #ee7623;
       cursor: pointer;
     }}
     .team-stat-tooltip {{
@@ -3775,25 +3776,6 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     /* Team rank: click team name for popup, click header to toggle season/monthly */
     document.querySelectorAll('.team-rank-slot').forEach(function(slot) {{
       slot.addEventListener('click', function(e) {{
-        // Check for team stat tooltip click
-        var statTip = e.target.closest('.team-stat-tip');
-        if (statTip) {{
-          e.stopPropagation();
-          var isActive = teamStatTooltip.classList.contains('active');
-          teamStatTooltip.classList.remove('active');
-          if (isActive) return;
-          var activeStat = stat === 'ted' ? 'TED' : 'TAP';
-          // Check if TAPD view
-          var tapdT = slot.querySelector('.tapd-team-table');
-          if (tapdT && tapdT.style.display !== 'none') activeStat = 'TAPD';
-          if (slot.closest('.team-monthly-view') && stat === 'tap') activeStat = 'TAPD';
-          teamStatTooltip.textContent = 'Average ' + activeStat + ' of the top 5 qualifying players on each team';
-          var rect = statTip.getBoundingClientRect();
-          teamStatTooltip.style.left = Math.max(8, rect.left + rect.width / 2 - 130) + 'px';
-          teamStatTooltip.style.top = (rect.bottom + 6) + 'px';
-          teamStatTooltip.classList.add('active');
-          return;
-        }}
         // Check for team name click
         var teamTd = e.target.closest('.team-name');
         if (teamTd) {{
@@ -3803,11 +3785,28 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           showTeamPopup(team, isMonthly);
           return;
         }}
-        // Check for RANK header click in monthly view (TOTM popup)
-        var rankTh = e.target.closest('.team-monthly-view th.rank');
+        // Check for RANK header click
+        var rankTh = e.target.closest('th.rank');
         if (rankTh) {{
           e.stopPropagation();
-          showTotm();
+          // Monthly: TOTM popup
+          if (rankTh.closest('.team-monthly-view')) {{
+            showTotm();
+            return;
+          }}
+          // Season: tooltip explaining TOP 5
+          var isActive = teamStatTooltip.classList.contains('active');
+          teamStatTooltip.classList.remove('active');
+          if (isActive) return;
+          var activeStat = stat === 'ted' ? 'TED' : 'TAP';
+          var tapdT = slot.querySelector('.tapd-team-table');
+          if (tapdT && tapdT.style.display !== 'none') activeStat = 'TAPD';
+          teamStatTooltip.textContent = 'Average ' + activeStat + ' of the top 5 qualifying players on each team';
+          var rect = rankTh.getBoundingClientRect();
+          var tooltipWidth = 260;
+          teamStatTooltip.style.left = Math.max(8, rect.left + rect.width / 2 - tooltipWidth / 2) + 'px';
+          teamStatTooltip.style.top = (rect.bottom + 6) + 'px';
+          teamStatTooltip.classList.add('active');
           return;
         }}
         // Header click: toggle season/monthly
