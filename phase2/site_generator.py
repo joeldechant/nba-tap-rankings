@@ -2022,18 +2022,18 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .team-rank-slot table {{
       table-layout: fixed;
     }}
+    .team-rank-slot th.rank,
+    .team-rank-slot td.rank {{
+      width: 52px;
+    }}
     .team-rank-slot th.num.stat {{
       white-space: nowrap;
-      min-width: 90px;
       width: 90px;
-      max-width: 90px;
       text-align: center;
     }}
     .team-rank-slot td.num.stat {{
       text-align: center;
       width: 90px;
-      min-width: 90px;
-      max-width: 90px;
     }}
     .view-tap .team-rank-slot .team-stat-tip {{
       color: #ee7623;
@@ -3122,21 +3122,23 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         font-size: 1.05em;
         padding: 10px 14px;
       }}
-      .team-rank-slot table {{
-        table-layout: auto;
+      .team-rank-slot th.rank,
+      .team-rank-slot td.rank {{
+        width: 36px;
+      }}
+      .team-rank-slot th.player,
+      .team-rank-slot td.player {{
+        overflow: hidden;
+        text-overflow: ellipsis;
       }}
       .team-rank-slot th.num.stat {{
-        min-width: 0;
-        width: auto;
-        max-width: none;
+        width: 68px;
         white-space: nowrap;
         text-align: right;
         padding-right: 8px;
       }}
       .team-rank-slot td.num.stat {{
-        width: auto;
-        min-width: 0;
-        max-width: none;
+        width: 68px;
         text-align: right;
         padding-right: 8px;
       }}
