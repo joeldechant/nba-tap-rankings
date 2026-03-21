@@ -185,7 +185,7 @@ def render_team_table(team_data, stat_key, title, stat_label=None, clickable_sta
         <tr>
           <th class="rank">RANK</th>
           <th class="player">TEAM</th>
-          <th class="{stat_class}">{label}</th>
+          <th class="{stat_class}"><span>{label}</span></th>
         </tr>
       </thead>
       <tbody>
@@ -2026,6 +2026,24 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .team-rank-slot td.player {{
       padding-left: 16px;
     }}
+    .team-rank-slot th.rank {{
+      overflow: visible;
+    }}
+    .team-rank-slot th.num.stat {{
+      position: relative;
+      overflow: visible;
+      text-align: right;
+    }}
+    .team-rank-slot th.num.stat span {{
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      white-space: nowrap;
+    }}
+    .team-rank-slot td.num.stat {{
+      text-align: right;
+    }}
     .view-tap .team-rank-slot .team-stat-tip {{
       color: #ee7623;
       cursor: pointer;
@@ -3117,13 +3135,20 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       .team-rank-slot th.rank,
       .team-rank-slot td.rank {{
         width: 48px;
+        overflow: visible;
       }}
       .team-rank-slot th.num.stat {{
         width: 52px;
-        white-space: nowrap;
-        text-align: right;
-        padding-right: 6px;
+        position: relative;
         overflow: visible;
+        padding-right: 6px;
+      }}
+      .team-rank-slot th.num.stat span {{
+        position: absolute;
+        right: 6px;
+        top: 50%;
+        transform: translateY(-50%);
+        white-space: nowrap;
       }}
       .team-rank-slot td.num.stat {{
         width: 52px;
