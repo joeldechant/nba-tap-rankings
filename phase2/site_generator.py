@@ -2026,6 +2026,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .team-rank-slot td.rank {{
       width: 52px;
     }}
+    .team-rank-slot thead th {{
+      overflow: visible;
+    }}
     .team-rank-slot th.num.stat {{
       white-space: nowrap;
       width: 110px;
@@ -3119,25 +3122,34 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         font-size: 1.05em;
         padding: 10px 14px;
       }}
+      .team-rank-slot table {{
+        table-layout: fixed;
+        width: 100%;
+      }}
       .team-rank-slot th.rank,
       .team-rank-slot td.rank {{
-        width: 36px;
+        width: 42px;
       }}
-      .team-rank-slot th.player,
-      .team-rank-slot td.player {{
-        overflow: hidden;
-        text-overflow: ellipsis;
+      .team-rank-slot th.rank {{
+        font-size: 0.75em;
       }}
       .team-rank-slot th.num.stat {{
-        width: 68px;
+        width: 72px;
         white-space: nowrap;
         text-align: right;
-        padding-right: 8px;
+        padding-right: 4px;
+        font-size: 0.75em;
       }}
       .team-rank-slot td.num.stat {{
-        width: 68px;
+        width: 72px;
         text-align: right;
-        padding-right: 8px;
+        padding-right: 6px;
+      }}
+      .team-rank-slot td.player {{
+        max-width: none;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }}
     }}
   </style>
