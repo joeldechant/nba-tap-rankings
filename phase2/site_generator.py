@@ -3102,6 +3102,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       }}
       .team-rank-slot th.num.stat {{
         min-width: 60px;
+        white-space: nowrap;
+        text-indent: -6px;
       }}
     }}
   </style>
