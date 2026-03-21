@@ -3122,14 +3122,23 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         font-size: 1.05em;
         padding: 10px 14px;
       }}
+      .team-rank-slot table {{
+        table-layout: auto;
+      }}
       .team-rank-slot th.num.stat {{
-        min-width: 60px;
+        min-width: 0;
+        width: auto;
+        max-width: none;
         white-space: nowrap;
-        text-indent: -6px;
+        text-align: right;
+        padding-right: 8px;
       }}
       .team-rank-slot td.num.stat {{
+        width: auto;
+        min-width: 0;
+        max-width: none;
         text-align: right;
-        padding-right: 24px;
+        padding-right: 8px;
       }}
     }}
   </style>
