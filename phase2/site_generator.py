@@ -1615,6 +1615,14 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       color: #ee7623;
       margin: 0;
     }}
+    .desktop-break {{
+      display: none;
+    }}
+    @media (min-width: 901px) {{
+      .desktop-break {{
+        display: block;
+      }}
+    }}
 
     .description {{
       display: grid;
@@ -2761,7 +2769,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
 {decade_nav_html}
     <div class="season-header" id="season-header"><h3>{season_label} Season <span class="season-click-hint">Click here</span></h3></div>
-    <div class="season-hint" id="season-hint"><p>Everything you see in ORANGE is CLICKABLE for added functionality! Player names are also CLICKABLE for a career view!</p><p>&nbsp;</p></div>
+    <div class="season-hint" id="season-hint"><p>Everything you see in ORANGE is CLICKABLE for added functionality!<br class="desktop-break"> Player names are also CLICKABLE for a career view!</p><p>&nbsp;</p></div>
     <div class="view-ted" style="display:none">
       <div class="tables-grid">
         <div class="weekly-daily-slot">
