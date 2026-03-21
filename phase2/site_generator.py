@@ -169,9 +169,10 @@ def render_team_table(team_data, stat_key, title, stat_label=None):
         rows_html = '<tr><td colspan="3" class="empty">No data available</td></tr>'
     else:
         for tr in team_data:
+            full_name = config.TEAM_ABBREV_TO_FULL.get(tr['team'], tr['team'])
             rows_html += f"""        <tr>
           <td class="rank">{tr['rank']}</td>
-          <td class="player team-name" data-team="{tr['team']}">{tr['team']}</td>
+          <td class="player team-name" data-team="{tr['team']}">{full_name}</td>
           <td class="num stat">{tr['score']:.1f}</td>
         </tr>
 """
@@ -1588,7 +1589,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         for tr in team_monthly.get(sk, []):
             team_popup_data['monthly'][sk][tr['team']] = [{'n': p['name'], 'v': round(p['value'], 1)} for p in tr['players']]
     team_data_json = json.dumps(team_popup_data, ensure_ascii=False, separators=(',', ':'))
-    team_data_js = f'<script>window.TEAM_DATA={team_data_json};</script>'
+    team_names_json = json.dumps(config.TEAM_ABBREV_TO_FULL, ensure_ascii=False, separators=(',', ':'))
+    team_data_js = f'<script>window.TEAM_DATA={team_data_json};window.TEAM_NAMES={team_names_json};</script>'
 
     # Embed team month winners for TOTM popup
     team_winners_json = json.dumps(team_month_winners, ensure_ascii=False, separators=(',', ':'))
@@ -3707,7 +3709,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       var players = data[source] && data[source][sk] && data[source][sk][team];
       if (!players || players.length === 0) return;
       var su = sk === 'tapd' ? 'TAPD' : sk.toUpperCase();
-      teamTitle.textContent = team + ' - TOP 5 PLAYER ' + su;
+      var fullName = (window.TEAM_NAMES && window.TEAM_NAMES[team]) || team;
+      teamTitle.textContent = fullName + ' - TOP 5 PLAYER ' + su;
       teamStatHeader.textContent = su;
       var html = '';
       for (var i = 0; i < players.length; i++) {{
@@ -3749,11 +3752,12 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       var html = '';
       for (var i = winners.length - 1; i >= 0; i--) {{
         var w = winners[i];
-        var team = s === 'ted' ? w.ted_team : w.tapd_team;
+        var teamAbbr = s === 'ted' ? w.ted_team : w.tapd_team;
         var val = s === 'ted' ? w.ted_val : w.tapd_val;
+        var teamFull = (window.TEAM_NAMES && window.TEAM_NAMES[teamAbbr]) || teamAbbr;
         html += '<tr>'
           + '<td class="pm-month">' + w.month + '</td>'
-          + '<td class="pm-player">' + team + '</td>'
+          + '<td class="pm-player">' + teamFull + '</td>'
           + '<td class="pm-stat">' + val.toFixed(1) + '</td>'
           + '</tr>';
       }}
