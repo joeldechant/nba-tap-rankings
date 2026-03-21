@@ -109,6 +109,90 @@ def load_historical_rankings():
         return json.load(f)
 
 
+def compute_team_power_rank(all_players, stat_keys=None):
+    """Compute team power rank: avg of top 5 qualifying players per team.
+
+    Args:
+        all_players: list of player dicts from calculate_season_rankings()['all']
+                     or calculate_weekly_rankings() results
+        stat_keys: list of stat keys to compute (e.g., ['ted', 'tap', 'tapd'])
+
+    Returns:
+        dict of stat_key -> list of {rank, team, score, players} sorted by score desc
+    """
+    if stat_keys is None:
+        stat_keys = ['ted', 'tap', 'tapd']
+
+    result = {}
+    for sk in stat_keys:
+        # Group by team
+        teams = {}
+        for p in all_players:
+            val = p.get(sk)
+            if val is None:
+                continue
+            team = p.get('team', 'UNK')
+            if team in ('TOT', '2TM', '3TM', '4TM'):
+                continue  # Skip BR combined/multi-team rows
+            if team not in teams:
+                teams[team] = []
+            teams[team].append({'name': p['player'], 'value': val})
+
+        # Sort each team's players by value desc, take top 5
+        team_ranks = []
+        for team, players in teams.items():
+            players.sort(key=lambda x: x['value'], reverse=True)
+            top5 = players[:5]
+            avg = sum(p['value'] for p in top5) / len(top5)
+            team_ranks.append({
+                'team': team,
+                'score': round(avg, 1),
+                'players': top5,
+                'count': len(top5),
+            })
+
+        # Sort by score desc
+        team_ranks.sort(key=lambda x: x['score'], reverse=True)
+        for i, tr in enumerate(team_ranks):
+            tr['rank'] = i + 1
+
+        result[sk] = team_ranks
+
+    return result
+
+
+def render_team_table(team_data, stat_key, title, stat_label=None):
+    """Render a team power rank table as HTML."""
+    label = stat_label or f'TOP 5 {stat_key.upper()}'
+    rows_html = ""
+    if not team_data:
+        rows_html = '<tr><td colspan="3" class="empty">No data available</td></tr>'
+    else:
+        for tr in team_data:
+            rows_html += f"""        <tr>
+          <td class="rank">{tr['rank']}</td>
+          <td class="player team-name" data-team="{tr['team']}">{tr['team']}</td>
+          <td class="num stat">{tr['score']:.1f}</td>
+        </tr>
+"""
+
+    return f"""  <div class="table-section">
+    <div class="table-header"><h2>{title}</h2></div>
+    <table>
+      <thead>
+        <tr>
+          <th class="rank">RANK</th>
+          <th class="player">TEAM</th>
+          <th class="num stat team-stat-tip" style="color:#ee7623">{label}</th>
+        </tr>
+      </thead>
+      <tbody>
+{rows_html}      </tbody>
+    </table>
+  </div>
+"""
+
+
 def render_historical_section(data, stat_key='ted', season_all=None):
     """Generate full HTML for the historical rankings section.
 
@@ -1432,7 +1516,8 @@ def build_career_js(historical, season_all):
     return f'<script>window.CAREER={career_json};window.SEASON_STATS={stats_json};</script>'
 
 
-def generate_html(weekly, season, daily, monthly, month_label, month_winners, updated_at, week_start=None, week_end=None):
+def generate_html(weekly, season, daily, monthly, month_label, month_winners, updated_at, week_start=None, week_end=None,
+                   team_season=None, team_monthly=None, team_month_winners=None):
     """Generate the full HTML page — TED only."""
     season_label = f"{config.CURRENT_SEASON_YEAR}-{str(config.CURRENT_SEASON_YEAR + 1)[-2:]}"
 
@@ -1445,6 +1530,20 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     daily_tap_table = render_table(daily['tap'], 'tap', 'DAILY TAPD TOP 40', stat_label='TAPD')
     monthly_ted_table = render_table(monthly['ted'], 'ted', 'PLAYER OF THE MONTH - TED')
     monthly_tap_table = render_table(monthly['tap'], 'tap', 'PLAYER OF THE MONTH - TAPD', stat_label='TAPD')
+
+    # Team power rank tables
+    if team_season is None:
+        team_season = {}
+    if team_monthly is None:
+        team_monthly = {}
+    if team_month_winners is None:
+        team_month_winners = []
+
+    team_season_ted = render_team_table(team_season.get('ted', []), 'ted', 'TEAM POWER RANK', 'TOP 5 TED')
+    team_season_tap = render_team_table(team_season.get('tap', []), 'tap', 'TEAM POWER RANK', 'TOP 5 TAP')
+    team_season_tapd = render_team_table(team_season.get('tapd', []), 'tapd', 'TEAM POWER RANK', 'TOP 5 TAPD')
+    team_monthly_ted = render_team_table(team_monthly.get('ted', []), 'ted', 'TEAM OF THE MONTH', 'TOP 5 TED')
+    team_monthly_tapd = render_team_table(team_monthly.get('tapd', []), 'tapd', 'TEAM OF THE MONTH', 'TOP 5 TAPD')
 
     # Build career popup data
     career_js = build_career_js(
@@ -1476,6 +1575,24 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     # Embed month winners for POTM popup
     month_winners_json = json.dumps(month_winners, ensure_ascii=False, separators=(',', ':'))
     potm_js = f'<script>window.MONTH_WINNERS={month_winners_json};</script>'
+
+    # Embed team power rank data for team popup
+    # Build JS object: {season: {ted: {TEAM: [{name, value}, ...]}, tap: {...}, tapd: {...}}, monthly: {ted: {...}, tapd: {...}}}
+    team_popup_data = {'season': {}, 'monthly': {}}
+    for sk in ['ted', 'tap', 'tapd']:
+        team_popup_data['season'][sk] = {}
+        for tr in team_season.get(sk, []):
+            team_popup_data['season'][sk][tr['team']] = [{'n': p['name'], 'v': round(p['value'], 1)} for p in tr['players']]
+    for sk in ['ted', 'tapd']:
+        team_popup_data['monthly'][sk] = {}
+        for tr in team_monthly.get(sk, []):
+            team_popup_data['monthly'][sk][tr['team']] = [{'n': p['name'], 'v': round(p['value'], 1)} for p in tr['players']]
+    team_data_json = json.dumps(team_popup_data, ensure_ascii=False, separators=(',', ':'))
+    team_data_js = f'<script>window.TEAM_DATA={team_data_json};</script>'
+
+    # Embed team month winners for TOTM popup
+    team_winners_json = json.dumps(team_month_winners, ensure_ascii=False, separators=(',', ':'))
+    team_winners_js = f'<script>window.TEAM_MONTH_WINNERS={team_winners_json};</script>'
 
     historical = load_historical_rankings()
     season_all = season.get('all', [])
@@ -1866,6 +1983,236 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .potm-popup .pm-stat {{ width: 52px; font-weight: 900; }}
 
     .potm-popup tbody tr:first-child td {{
+      color: #ee7623;
+      font-weight: 900;
+    }}
+
+    /* Team Power Rank section */
+    .team-rank-section {{
+      border-top: 2px solid #fff;
+    }}
+    .team-rank-slot .table-header {{
+      cursor: pointer;
+    }}
+    .team-rank-slot .table-header:hover {{
+      background: #eee;
+    }}
+    .team-rank-slot .team-name {{
+      cursor: pointer;
+    }}
+    .team-rank-slot .team-name:hover {{
+      opacity: 0.7;
+    }}
+    .team-rank-slot .team-stat-tip {{
+      cursor: pointer;
+    }}
+    .team-stat-tooltip {{
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      background: #222;
+      color: #fff;
+      border: 1px solid #fff;
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.82em;
+      font-style: italic;
+      max-width: 260px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }}
+    .team-stat-tooltip.active {{
+      display: block;
+    }}
+
+    /* Team popup */
+    .team-overlay {{
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }}
+    .team-overlay.active {{
+      display: flex;
+    }}
+    body.team-open .container {{
+      pointer-events: none;
+    }}
+    body.team-open .team-overlay {{
+      pointer-events: auto;
+    }}
+    .team-popup {{
+      background: #111;
+      border: 2px solid #fff;
+      max-width: 400px;
+      width: 92%;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 0;
+      position: relative;
+    }}
+    .team-popup-header {{
+      background: #fff;
+      color: #000;
+      padding: 12px 16px;
+      text-align: center;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1.1em;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }}
+    .team-popup-close {{
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      cursor: pointer;
+      font-size: 1.4em;
+      font-weight: 900;
+      color: #000;
+      background: none;
+      border: none;
+      font-family: 'Courier New', monospace;
+      line-height: 1;
+    }}
+    .team-popup table {{
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88em;
+    }}
+    .team-popup thead {{
+      position: sticky;
+      top: 42px;
+      z-index: 1;
+    }}
+    .team-popup thead th {{
+      font-family: Georgia, 'Times New Roman', serif;
+      text-align: center;
+      padding: 6px 8px;
+      font-weight: 900;
+      font-size: 0.85em;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #fff;
+      border-bottom: 1px solid #fff;
+      background: #111;
+    }}
+    .team-popup tbody tr {{
+      border-bottom: 1px solid #333;
+    }}
+    .team-popup td {{
+      padding: 10px 8px;
+      color: #fff;
+      text-align: center;
+      vertical-align: middle;
+    }}
+    .team-popup .tp-rank {{ width: 40px; }}
+    .team-popup .tp-player {{ width: auto; text-align: left; padding-left: 16px; }}
+    .team-popup .tp-stat {{ width: 60px; font-weight: 900; }}
+
+    /* TOTM (Team of the Month) popup — reuses potm styling */
+    .totm-overlay {{
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }}
+    .totm-overlay.active {{
+      display: flex;
+    }}
+    body.totm-open .container {{
+      pointer-events: none;
+    }}
+    body.totm-open .totm-overlay {{
+      pointer-events: auto;
+    }}
+    .totm-popup {{
+      background: #111;
+      border: 2px solid #fff;
+      max-width: 500px;
+      width: 92%;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 0;
+      position: relative;
+    }}
+    .totm-popup-header {{
+      background: #fff;
+      color: #000;
+      padding: 12px 16px;
+      text-align: center;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1.1em;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }}
+    .totm-popup-close {{
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      cursor: pointer;
+      font-size: 1.4em;
+      font-weight: 900;
+      color: #000;
+      background: none;
+      border: none;
+      font-family: 'Courier New', monospace;
+      line-height: 1;
+    }}
+    .totm-popup table {{
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88em;
+    }}
+    .totm-popup thead {{
+      position: sticky;
+      top: 42px;
+      z-index: 1;
+    }}
+    .totm-popup thead th {{
+      font-family: Georgia, 'Times New Roman', serif;
+      text-align: center;
+      padding: 6px 8px;
+      font-weight: 900;
+      font-size: 0.85em;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #fff;
+      border-bottom: 1px solid #fff;
+      background: #111;
+    }}
+    .totm-popup tbody tr {{
+      border-bottom: 1px solid #333;
+    }}
+    .totm-popup td {{
+      padding: 12px 8px;
+      color: #fff;
+      text-align: center;
+      vertical-align: middle;
+      height: 2.8em;
+    }}
+    .totm-popup .pm-month {{ width: 120px; }}
+    .totm-popup .pm-player {{ width: 160px; }}
+    .totm-popup .pm-stat {{ width: 52px; font-weight: 900; }}
+    .totm-popup tbody tr:first-child td {{
       color: #ee7623;
       font-weight: 900;
     }}
@@ -2796,6 +3143,24 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       </div>
     </div>
 
+    <div class="team-rank-section">
+      <div class="view-ted" style="display:none">
+        <div class="team-rank-slot">
+          <div class="team-season-view">{team_season_ted}</div>
+          <div class="team-monthly-view" style="display:none">{team_monthly_ted}</div>
+        </div>
+      </div>
+      <div class="view-tap">
+        <div class="team-rank-slot">
+          <div class="team-season-view">
+            <div class="tap-team-table">{team_season_tap}</div>
+            <div class="tapd-team-table" style="display:none">{team_season_tapd}</div>
+          </div>
+          <div class="team-monthly-view" style="display:none">{team_monthly_tapd}</div>
+        </div>
+      </div>
+    </div>
+
 {historical_html}
     <footer>
       <div class="updated">Last updated: {updated_at}</div>
@@ -2852,7 +3217,48 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       </table>
     </div>
   </div>
+  <div class="team-overlay" id="team-overlay">
+    <div class="team-popup" id="team-popup">
+      <div class="team-popup-header">
+        <span id="team-popup-title"></span>
+        <button class="team-popup-close" id="team-popup-close">&times;</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th class="tp-rank">#</th>
+            <th class="tp-player">Player</th>
+            <th class="tp-stat" id="team-stat-header">TED</th>
+          </tr>
+        </thead>
+        <tbody id="team-popup-body">
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="totm-overlay" id="totm-overlay">
+    <div class="totm-popup" id="totm-popup">
+      <div class="totm-popup-header">
+        <span id="totm-popup-title">TEAM OF THE MONTH</span>
+        <button class="totm-popup-close" id="totm-popup-close">&times;</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th class="pm-month">Month</th>
+            <th class="pm-player">Team</th>
+            <th class="pm-stat" id="totm-stat-header">TED</th>
+          </tr>
+        </thead>
+        <tbody id="totm-popup-body">
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="team-stat-tooltip" id="team-stat-tooltip"></div>
 {potm_js}
+{team_data_js}
+{team_winners_js}
 {career_js}
 {recent_games_js}
   <script>
@@ -2930,6 +3336,20 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         var newTapdDiv = newSeasonSlot.querySelector('.tapd-table');
         if (newTapdDiv) newTapdDiv.style.display = 'none';
       }}
+      /* Sync team rank section state */
+      document.querySelectorAll('.team-rank-slot').forEach(function(slot) {{
+        var sv = slot.querySelector('.team-season-view');
+        var mv = slot.querySelector('.team-monthly-view');
+        if (sv) sv.style.display = '';
+        if (mv) mv.style.display = 'none';
+        /* Reset TAP team TAPD toggle */
+        var tapT = slot.querySelector('.tap-team-table');
+        var tapdT = slot.querySelector('.tapd-team-table');
+        if (tapT) tapT.style.display = '';
+        if (tapdT) tapdT.style.display = 'none';
+      }});
+      closeTeam();
+      closeTotm();
       /* Reset per-year TAPD toggles back to TAP on switch */
       document.querySelectorAll('.view-tap .tapd-year-table').forEach(function(t) {{ t.style.display = 'none'; }});
       document.querySelectorAll('.view-tap .tap-year-table').forEach(function(t) {{ t.style.display = ''; }});
@@ -3246,6 +3666,203 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     document.getElementById('potm-popup-close').addEventListener('click', closePotm);
     potmOverlay.addEventListener('click', function(e) {{
       closePotm();
+    }});
+
+    /* Team Power Rank section */
+    var teamOverlay = document.getElementById('team-overlay');
+    var teamBody = document.getElementById('team-popup-body');
+    var teamTitle = document.getElementById('team-popup-title');
+    var teamStatHeader = document.getElementById('team-stat-header');
+    var teamStatTooltip = document.getElementById('team-stat-tooltip');
+
+    function showTeamPopup(team, isMonthly) {{
+      var data = window.TEAM_DATA;
+      if (!data) return;
+      var source = isMonthly ? 'monthly' : 'season';
+      var sk;
+      if (stat === 'ted') {{
+        sk = 'ted';
+      }} else {{
+        // Check if TAPD view is active
+        var slot = document.querySelector('.view-tap .team-rank-slot');
+        if (slot) {{
+          var tapdT = slot.querySelector('.tapd-team-table');
+          if (tapdT && tapdT.style.display !== 'none') sk = 'tapd';
+          else if (isMonthly) sk = 'tapd';  // monthly TAP always uses TAPD
+          else sk = 'tap';
+        }} else {{
+          sk = 'tap';
+        }}
+      }}
+      var players = data[source] && data[source][sk] && data[source][sk][team];
+      if (!players || players.length === 0) return;
+      var su = sk === 'tapd' ? 'TAPD' : sk.toUpperCase();
+      teamTitle.textContent = team;
+      teamStatHeader.textContent = su;
+      var html = '';
+      for (var i = 0; i < players.length; i++) {{
+        html += '<tr>'
+          + '<td class="tp-rank">' + (i + 1) + '</td>'
+          + '<td class="tp-player">' + players[i].n + '</td>'
+          + '<td class="tp-stat">' + players[i].v.toFixed(1) + '</td>'
+          + '</tr>';
+      }}
+      teamBody.innerHTML = html;
+      teamOverlay.classList.add('active');
+      document.body.classList.add('team-open');
+    }}
+
+    function closeTeam() {{
+      teamOverlay.classList.remove('active');
+      document.body.classList.remove('team-open');
+      teamBody.innerHTML = '';
+    }}
+
+    document.getElementById('team-popup-close').addEventListener('click', closeTeam);
+    teamOverlay.addEventListener('click', function(e) {{
+      closeTeam();
+    }});
+
+    /* TOTM (Team of the Month) popup — click RANK header in monthly team table */
+    var totmOverlay = document.getElementById('totm-overlay');
+    var totmBody = document.getElementById('totm-popup-body');
+    var totmTitle = document.getElementById('totm-popup-title');
+    var totmStatHeader = document.getElementById('totm-stat-header');
+
+    function showTotm() {{
+      var winners = window.TEAM_MONTH_WINNERS;
+      if (!winners || winners.length === 0) return;
+      var s = stat;
+      var su = s === 'ted' ? 'TED' : 'TAPD';
+      totmTitle.textContent = 'TEAM OF THE MONTH';
+      totmStatHeader.textContent = su;
+      var html = '';
+      for (var i = winners.length - 1; i >= 0; i--) {{
+        var w = winners[i];
+        var team = s === 'ted' ? w.ted_team : w.tapd_team;
+        var val = s === 'ted' ? w.ted_val : w.tapd_val;
+        html += '<tr>'
+          + '<td class="pm-month">' + w.month + '</td>'
+          + '<td class="pm-player">' + team + '</td>'
+          + '<td class="pm-stat">' + val.toFixed(1) + '</td>'
+          + '</tr>';
+      }}
+      totmBody.innerHTML = html;
+      totmOverlay.classList.add('active');
+      document.body.classList.add('totm-open');
+    }}
+
+    function closeTotm() {{
+      totmOverlay.classList.remove('active');
+      document.body.classList.remove('totm-open');
+      totmBody.innerHTML = '';
+    }}
+
+    document.getElementById('totm-popup-close').addEventListener('click', closeTotm);
+    totmOverlay.addEventListener('click', function(e) {{
+      closeTotm();
+    }});
+
+    /* Team rank: click team name for popup, click header to toggle season/monthly */
+    document.querySelectorAll('.team-rank-slot').forEach(function(slot) {{
+      slot.addEventListener('click', function(e) {{
+        // Check for team stat tooltip click
+        var statTip = e.target.closest('.team-stat-tip');
+        if (statTip) {{
+          e.stopPropagation();
+          var isActive = teamStatTooltip.classList.contains('active');
+          teamStatTooltip.classList.remove('active');
+          if (isActive) return;
+          var activeStat = stat === 'ted' ? 'TED' : 'TAP';
+          // Check if TAPD view
+          var tapdT = slot.querySelector('.tapd-team-table');
+          if (tapdT && tapdT.style.display !== 'none') activeStat = 'TAPD';
+          if (slot.closest('.team-monthly-view') && stat === 'tap') activeStat = 'TAPD';
+          teamStatTooltip.textContent = 'Average ' + activeStat + ' of the top 5 qualifying players on each team';
+          var rect = statTip.getBoundingClientRect();
+          teamStatTooltip.style.left = Math.max(8, rect.left + rect.width / 2 - 130) + 'px';
+          teamStatTooltip.style.top = (rect.bottom + 6) + 'px';
+          teamStatTooltip.classList.add('active');
+          return;
+        }}
+        // Check for team name click
+        var teamTd = e.target.closest('.team-name');
+        if (teamTd) {{
+          e.stopPropagation();
+          var team = teamTd.getAttribute('data-team');
+          var isMonthly = !!teamTd.closest('.team-monthly-view');
+          showTeamPopup(team, isMonthly);
+          return;
+        }}
+        // Check for RANK header click in monthly view (TOTM popup)
+        var rankTh = e.target.closest('.team-monthly-view th.rank');
+        if (rankTh) {{
+          e.stopPropagation();
+          showTotm();
+          return;
+        }}
+        // Header click: toggle season/monthly
+        var header = e.target.closest('.table-header');
+        if (!header) return;
+        var sv = slot.querySelector('.team-season-view');
+        var mv = slot.querySelector('.team-monthly-view');
+        if (!sv || !mv) return;
+        if (sv.style.display === 'none') {{
+          sv.style.display = '';
+          mv.style.display = 'none';
+        }} else {{
+          sv.style.display = 'none';
+          mv.style.display = '';
+        }}
+      }});
+    }});
+
+    /* Team rank TAP/TAPD toggle: click orange stat header in TAP view */
+    document.querySelectorAll('.view-tap .team-rank-slot .team-season-view .team-stat-tip').forEach(function(th) {{
+      th.addEventListener('click', function(e) {{
+        // Don't handle here — tooltip is handled above. But need to toggle tables.
+        // The tooltip handler returns early after showing. This toggles the table.
+      }});
+    }});
+    /* Separate click handler for the stat-tip specifically for TAPD toggle in team season view */
+    document.querySelectorAll('.view-tap .team-rank-slot').forEach(function(slot) {{
+      var seasonView = slot.querySelector('.team-season-view');
+      if (!seasonView) return;
+      seasonView.addEventListener('click', function(e) {{
+        var statTip = e.target.closest('.team-stat-tip');
+        if (!statTip) return;
+        // Toggle TAP ↔ TAPD tables
+        var tapT = seasonView.querySelector('.tap-team-table');
+        var tapdT = seasonView.querySelector('.tapd-team-table');
+        if (!tapT || !tapdT) return;
+        if (tapT.style.display === 'none') {{
+          tapT.style.display = '';
+          tapdT.style.display = 'none';
+        }} else {{
+          tapT.style.display = 'none';
+          tapdT.style.display = '';
+        }}
+      }});
+    }});
+
+    /* Close team stat tooltip on any click */
+    document.addEventListener('click', function(e) {{
+      if (teamStatTooltip.classList.contains('active')) {{
+        teamStatTooltip.classList.remove('active');
+        e.stopImmediatePropagation();
+        e.preventDefault();
+      }}
+    }}, true);
+
+    /* Close team/totm popups on Escape */
+    document.addEventListener('keydown', function(e) {{
+      if (e.key === 'Escape') {{ closeTeam(); closeTotm(); }}
+    }});
+
+    /* Make monthly RANK header orange */
+    document.querySelectorAll('.team-monthly-view th.rank').forEach(function(th) {{
+      th.style.color = '#ee7623';
+      th.style.cursor = 'pointer';
     }});
 
     /* Weekly / Daily toggle — click header to swap */
@@ -5024,8 +5641,9 @@ def generate_site():
     print(f"  Season TED: {len(season['ted'])} players")
     print(f"  Season TAP: {len(season['tap'])} players")
 
-    # Compute month-by-month leaders for POTM popup
+    # Compute month-by-month leaders for POTM popup + team-of-the-month winners
     month_winners = []
+    team_month_winners = []
     if last_game_date:
         # Season starts in October of CURRENT_SEASON_YEAR
         season_start_month = 10  # October
@@ -5082,11 +5700,48 @@ def generate_site():
                 'tap_val': tap_val,
             }
             month_winners.append(winner)
+
+            # Team-of-the-month winners (reuse same m_rankings)
+            m_team_ted = compute_team_power_rank(m_rankings.get('ted', []), ['ted'])
+            m_tapd_list = m_rankings.get('tapd', [])
+            if m_tapd_list:
+                m_team_tapd = compute_team_power_rank(m_tapd_list, ['tapd'])
+            else:
+                m_team_tapd = {'tapd': []}
+            ted_tw = m_team_ted['ted'][0] if m_team_ted.get('ted') else None
+            tapd_tw = m_team_tapd['tapd'][0] if m_team_tapd.get('tapd') else None
+            team_month_winners.append({
+                'month': month_name,
+                'ted_team': ted_tw['team'] if ted_tw else '',
+                'ted_val': ted_tw['score'] if ted_tw else 0,
+                'tapd_team': tapd_tw['team'] if tapd_tw else '',
+                'tapd_val': tapd_tw['score'] if tapd_tw else 0,
+            })
         print(f"  Month winners computed: {len(month_winners)} months")
+        print(f"  Team month winners computed: {len(team_month_winners)} months")
+
+    # Compute team power rankings
+    season_all = season.get('all', [])
+    team_season = compute_team_power_rank(season_all, ['ted', 'tap', 'tapd'])
+    print(f"  Team power rank: {len(team_season.get('ted', []))} teams")
+
+    # Team of the month (TED + TAPD only, no standard TAP)
+    if last_game_date:
+        team_monthly = compute_team_power_rank(monthly_full.get('ted', []), ['ted'])
+        # Add TAPD from monthly_full
+        monthly_tapd_full = monthly_full.get('tapd', [])
+        if monthly_tapd_full:
+            team_monthly_tapd = compute_team_power_rank(monthly_tapd_full, ['tapd'])
+            team_monthly['tapd'] = team_monthly_tapd.get('tapd', [])
+        else:
+            team_monthly['tapd'] = []
+    else:
+        team_monthly = {'ted': [], 'tapd': []}
 
     # Generate HTML
     updated_at = date.today().strftime("%B %d, %Y")
-    html = generate_html(weekly, season, daily, monthly, month_label, month_winners, updated_at, week_start, week_end)
+    html = generate_html(weekly, season, daily, monthly, month_label, month_winners, updated_at, week_start, week_end,
+                         team_season=team_season, team_monthly=team_monthly, team_month_winners=team_month_winners)
 
     # Write output
     os.makedirs(DOCS_DIR, exist_ok=True)
