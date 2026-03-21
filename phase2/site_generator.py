@@ -3801,7 +3801,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           var activeStat = stat === 'ted' ? 'TED' : 'TAP';
           var tapdT = slot.querySelector('.tapd-team-table');
           if (tapdT && tapdT.style.display !== 'none') activeStat = 'TAPD';
-          teamStatTooltip.textContent = 'Average ' + activeStat + ' of the top 5 qualifying players on each team';
+          teamStatTooltip.textContent = 'Team power rank is determined by the average ' + activeStat + ' of the top 5 ' + activeStat + ' players on each team.';
           var rect = rankTh.getBoundingClientRect();
           var tooltipWidth = 260;
           teamStatTooltip.style.left = Math.max(8, rect.left + rect.width / 2 - tooltipWidth / 2) + 'px';
