@@ -2033,6 +2033,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       position: relative;
       overflow: visible;
       text-align: right;
+      min-width: 52px;
+      width: 52px;
     }}
     .team-rank-slot th.num.stat span {{
       position: absolute;
@@ -2043,6 +2045,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
     .team-rank-slot td.num.stat {{
       text-align: right;
+      min-width: 52px;
+      width: 52px;
     }}
     .view-tap .team-rank-slot .team-stat-tip {{
       color: #ee7623;
