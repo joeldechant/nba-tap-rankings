@@ -363,7 +363,7 @@ def calculate_weekly_rankings(week_start, week_end):
     for i, r in enumerate(tapd_ranked):
         r['tapd_rank'] = i + 1
 
-    return {'ted': ted_ranked, 'tap': tap_ranked, 'tapd': tapd_ranked}
+    return {'ted': ted_ranked, 'tap': tap_ranked, 'tapd': tapd_ranked, 'all': results}
 
 
 def _compute_avg_pm_lookup():
