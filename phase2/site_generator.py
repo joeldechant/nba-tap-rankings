@@ -3145,18 +3145,24 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     <div class="team-rank-section">
       <div class="view-ted" style="display:none">
-        <div class="team-rank-slot">
-          <div class="team-season-view">{team_season_ted}</div>
-          <div class="team-monthly-view" style="display:none">{team_monthly_ted}</div>
+        <div class="tables-grid">
+          <div class="team-rank-slot">
+            <div class="team-season-view">{team_season_ted}</div>
+            <div class="team-monthly-view" style="display:none">{team_monthly_ted}</div>
+          </div>
+          <div></div>
         </div>
       </div>
       <div class="view-tap">
-        <div class="team-rank-slot">
-          <div class="team-season-view">
-            <div class="tap-team-table">{team_season_tap}</div>
-            <div class="tapd-team-table" style="display:none">{team_season_tapd}</div>
+        <div class="tables-grid">
+          <div class="team-rank-slot">
+            <div class="team-season-view">
+              <div class="tap-team-table">{team_season_tap}</div>
+              <div class="tapd-team-table" style="display:none">{team_season_tapd}</div>
+            </div>
+            <div class="team-monthly-view" style="display:none">{team_monthly_tapd}</div>
           </div>
-          <div class="team-monthly-view" style="display:none">{team_monthly_tapd}</div>
+          <div></div>
         </div>
       </div>
     </div>
