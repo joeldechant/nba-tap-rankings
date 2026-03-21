@@ -1539,11 +1539,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     if team_month_winners is None:
         team_month_winners = []
 
-    team_season_ted = render_team_table(team_season.get('ted', []), 'ted', 'TEAM POWER RANK', 'TOP 5 TED')
-    team_season_tap = render_team_table(team_season.get('tap', []), 'tap', 'TEAM POWER RANK', 'TOP 5 TAP')
-    team_season_tapd = render_team_table(team_season.get('tapd', []), 'tapd', 'TEAM POWER RANK', 'TOP 5 TAPD')
-    team_monthly_ted = render_team_table(team_monthly.get('ted', []), 'ted', 'TEAM OF THE MONTH', 'TOP 5 TED')
-    team_monthly_tapd = render_team_table(team_monthly.get('tapd', []), 'tapd', 'TEAM OF THE MONTH', 'TOP 5 TAPD')
+    team_season_ted = render_team_table(team_season.get('ted', []), 'ted', 'TEAM POWER RANK - TED', 'TOP 5 TED')
+    team_season_tap = render_team_table(team_season.get('tap', []), 'tap', 'TEAM POWER RANK - TAP', 'TOP 5 TAP')
+    team_season_tapd = render_team_table(team_season.get('tapd', []), 'tapd', 'TEAM POWER RANK - TAPD', 'TOP 5 TAPD')
+    team_monthly_ted = render_team_table(team_monthly.get('ted', []), 'ted', 'TEAM OF THE MONTH - TED', 'TOP 5 TED')
+    team_monthly_tapd = render_team_table(team_monthly.get('tapd', []), 'tapd', 'TEAM OF THE MONTH - TAPD', 'TOP 5 TAPD')
 
     # Build career popup data
     career_js = build_career_js(
@@ -1996,6 +1996,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
     .team-rank-slot .table-header:hover {{
       background: #eee;
+    }}
+    .team-rank-slot .table-header h2 {{
+      color: #ee7623;
     }}
     .team-rank-slot .team-name {{
       cursor: pointer;
