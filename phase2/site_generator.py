@@ -1519,7 +1519,7 @@ def build_career_js(historical, season_all):
 
 
 def generate_html(weekly, season, daily, monthly, month_label, month_winners, updated_at, week_start=None, week_end=None,
-                   team_season=None, team_monthly=None, team_month_winners=None, player_monthly=None):
+                   team_season=None, team_monthly=None, team_month_winners=None, player_monthly=None, month_stats=None):
     """Generate the full HTML page — TED only."""
     season_label = f"{config.CURRENT_SEASON_YEAR}-{str(config.CURRENT_SEASON_YEAR + 1)[-2:]}"
 
@@ -1542,6 +1542,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         team_month_winners = []
     if player_monthly is None:
         player_monthly = {}
+    if month_stats is None:
+        month_stats = []
 
     team_season_ted = render_team_table(team_season.get('ted', []), 'ted', 'TEAM POWER RANK - TED', 'TOP 5 TED')
     team_season_tap = render_team_table(team_season.get('tap', []), 'tap', 'TEAM POWER RANK - TAP', 'TOP 5 TAP', clickable_stat=True)
@@ -1599,9 +1601,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     team_winners_json = json.dumps(team_month_winners, ensure_ascii=False, separators=(',', ':'))
     team_winners_js = f'<script>window.TEAM_MONTH_WINNERS={team_winners_json};</script>'
 
-    # Embed per-player monthly stats for monthly player popup
+    # Embed per-player monthly stats and month-level stats for monthly player popup
     player_monthly_json = json.dumps(player_monthly, ensure_ascii=False, separators=(',', ':'))
-    player_monthly_js = f'<script>window.PLAYER_MONTHLY={player_monthly_json};</script>'
+    month_stats_json = json.dumps(month_stats, ensure_ascii=False, separators=(',', ':'))
+    player_monthly_js = f'<script>window.PLAYER_MONTHLY={player_monthly_json};window.MONTH_STATS_LIST={month_stats_json};</script>'
 
     historical = load_historical_rankings()
     season_all = season.get('all', [])
@@ -3649,11 +3652,18 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       + '<th class="cp-leader" id="career-top10-header">TOP 10</th>';
 
     function showMonthlyStats(name) {{
-      var months = window.PLAYER_MONTHLY && window.PLAYER_MONTHLY[name];
-      if (!months || months.length === 0) {{
-        // Fallback to career if no monthly data
+      var playerMonths = window.PLAYER_MONTHLY && window.PLAYER_MONTHLY[name];
+      var allMonths = window.MONTH_STATS_LIST || [];
+      if (allMonths.length === 0) {{
         showCareer(name, currentYear);
         return;
+      }}
+      // Build lookup of player data by month
+      var pLookup = {{}};
+      if (playerMonths) {{
+        for (var j = 0; j < playerMonths.length; j++) {{
+          pLookup[playerMonths[j].month] = playerMonths[j];
+        }}
       }}
       popupName.textContent = name;
       var thead = overlay.querySelector('thead tr');
@@ -3664,18 +3674,28 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         + '<th class="cp-team">TOP 10</th>';
       var html = '';
       // Most recent month first
-      for (var i = months.length - 1; i >= 0; i--) {{
-        var m = months[i];
-        var val = stat === 'ted' ? m.ted : m.tapd;
-        var avg = stat === 'ted' ? m.avg_ted : m.avg_tapd;
-        var top10 = stat === 'ted' ? m.top10_ted : m.top10_tapd;
-        var rc = (i === months.length - 1) ? ' class="cp-current"' : '';
-        html += '<tr' + rc + '>'
-          + '<td class="cp-season">' + m.month + '</td>'
-          + '<td class="cp-stat">' + val.toFixed(1) + '</td>'
-          + '<td class="cp-team">' + avg.toFixed(1) + '</td>'
-          + '<td class="cp-team">' + top10.toFixed(1) + '</td>'
-          + '</tr>';
+      for (var i = allMonths.length - 1; i >= 0; i--) {{
+        var ms = allMonths[i];
+        var pm = pLookup[ms.month];
+        var avg = stat === 'ted' ? ms.avg_ted : ms.avg_tapd;
+        var top10 = stat === 'ted' ? ms.top10_ted : ms.top10_tapd;
+        var rc = (i === allMonths.length - 1) ? ' class="cp-current"' : '';
+        if (pm) {{
+          var val = stat === 'ted' ? pm.ted : pm.tapd;
+          html += '<tr' + rc + '>'
+            + '<td class="cp-season">' + ms.month + '</td>'
+            + '<td class="cp-stat">' + val.toFixed(1) + '</td>'
+            + '<td class="cp-team">' + avg.toFixed(1) + '</td>'
+            + '<td class="cp-team">' + top10.toFixed(1) + '</td>'
+            + '</tr>';
+        }} else {{
+          html += '<tr' + rc + '>'
+            + '<td class="cp-season">' + ms.month + '</td>'
+            + '<td class="cp-stat">\u2014</td>'
+            + '<td class="cp-team">' + avg.toFixed(1) + '</td>'
+            + '<td class="cp-team">' + top10.toFixed(1) + '</td>'
+            + '</tr>';
+        }}
       }}
       popupBody.innerHTML = html;
       overlay.classList.add('active');
@@ -5768,7 +5788,8 @@ def generate_site():
     # Compute month-by-month leaders for POTM popup + team-of-the-month winners
     month_winners = []
     team_month_winners = []
-    player_monthly = {}  # {player_name: [{month, ted, tap/tapd, g}, ...]}
+    player_monthly = {}  # {player_name: [{month, ted, tapd, avg_ted, avg_tapd, top10_ted, top10_tapd}, ...]}
+    month_stats = []  # [{month, avg_ted, avg_tapd, top10_ted, top10_tapd}, ...] for all months
     if last_game_date:
         # Season starts in October of CURRENT_SEASON_YEAR
         season_start_month = 10  # October
@@ -5857,6 +5878,13 @@ def generate_site():
             m_top10_ted = round(sum(ted_sorted[:10]) / min(10, len(ted_sorted)), 1) if ted_sorted else 0
             m_top10_tapd = round(sum(tapd_sorted[:10]) / min(10, len(tapd_sorted)), 1) if tapd_sorted else 0
 
+            # Store month-level stats for dash rows in popup
+            month_stats.append({
+                'month': short_month,
+                'avg_ted': m_avg_ted, 'avg_tapd': m_avg_tapd,
+                'top10_ted': m_top10_ted, 'top10_tapd': m_top10_tapd,
+            })
+
             # Collect per-player monthly stats for player popup
             for r in m_all:
                 pname = r['player']
@@ -5899,7 +5927,7 @@ def generate_site():
     updated_at = date.today().strftime("%B %d, %Y")
     html = generate_html(weekly, season, daily, monthly, month_label, month_winners, updated_at, week_start, week_end,
                          team_season=team_season, team_monthly=team_monthly, team_month_winners=team_month_winners,
-                         player_monthly=player_monthly)
+                         player_monthly=player_monthly, month_stats=month_stats)
 
     # Write output
     os.makedirs(DOCS_DIR, exist_ok=True)
