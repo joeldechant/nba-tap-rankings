@@ -1518,7 +1518,7 @@ def build_career_js(historical, season_all):
 
 
 def generate_html(weekly, season, daily, monthly, month_label, month_winners, updated_at, week_start=None, week_end=None,
-                   team_season=None, team_monthly=None, team_month_winners=None):
+                   team_season=None, team_monthly=None, team_month_winners=None, player_monthly=None):
     """Generate the full HTML page — TED only."""
     season_label = f"{config.CURRENT_SEASON_YEAR}-{str(config.CURRENT_SEASON_YEAR + 1)[-2:]}"
 
@@ -1539,6 +1539,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         team_monthly = {}
     if team_month_winners is None:
         team_month_winners = []
+    if player_monthly is None:
+        player_monthly = {}
 
     team_season_ted = render_team_table(team_season.get('ted', []), 'ted', 'TEAM POWER RANK - TED', 'TOP 5 TED')
     team_season_tap = render_team_table(team_season.get('tap', []), 'tap', 'TEAM POWER RANK - TAP', 'TOP 5 TAP')
@@ -1595,6 +1597,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     # Embed team month winners for TOTM popup
     team_winners_json = json.dumps(team_month_winners, ensure_ascii=False, separators=(',', ':'))
     team_winners_js = f'<script>window.TEAM_MONTH_WINNERS={team_winners_json};</script>'
+
+    # Embed per-player monthly stats for monthly player popup
+    player_monthly_json = json.dumps(player_monthly, ensure_ascii=False, separators=(',', ':'))
+    player_monthly_js = f'<script>window.PLAYER_MONTHLY={player_monthly_json};</script>'
 
     historical = load_historical_rankings()
     season_all = season.get('all', [])
@@ -2032,7 +2038,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       font-family: Georgia, 'Times New Roman', serif;
       font-size: 0.82em;
       font-style: italic;
-      max-width: 260px;
+      max-width: 340px;
       text-align: center;
       box-shadow: 0 2px 8px rgba(0,0,0,0.5);
     }}
@@ -3105,6 +3111,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         white-space: nowrap;
         text-indent: -6px;
       }}
+      .team-rank-slot td.num.stat {{
+        padding-right: 16px;
+      }}
     }}
   </style>
 </head>
@@ -3286,6 +3295,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 {team_winners_js}
 {career_js}
 {recent_games_js}
+{player_monthly_js}
   <script>
   (function() {{
     var stat = 'tap';
@@ -3596,6 +3606,36 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       + '<th class="cp-avg" id="career-avg-header">AVG</th>'
       + '<th class="cp-leader" id="career-top10-header">TOP 10</th>';
 
+    function showMonthlyStats(name) {{
+      var months = window.PLAYER_MONTHLY && window.PLAYER_MONTHLY[name];
+      if (!months || months.length === 0) {{
+        // Fallback to career if no monthly data
+        showCareer(name, currentYear);
+        return;
+      }}
+      popupName.textContent = name;
+      var thead = overlay.querySelector('thead tr');
+      var su = stat === 'ted' ? 'TED' : 'TAPD';
+      thead.innerHTML = '<th class="cp-season">Month</th>'
+        + '<th class="cp-team">G</th>'
+        + '<th class="cp-stat">' + su + '</th>';
+      var html = '';
+      // Most recent month first
+      for (var i = months.length - 1; i >= 0; i--) {{
+        var m = months[i];
+        var val = stat === 'ted' ? m.ted : m.tapd;
+        var rc = (i === months.length - 1) ? ' class="cp-current"' : '';
+        html += '<tr' + rc + '>'
+          + '<td class="cp-season">' + m.month + '</td>'
+          + '<td class="cp-team">' + m.g + '</td>'
+          + '<td class="cp-stat">' + val.toFixed(1) + '</td>'
+          + '</tr>';
+      }}
+      popupBody.innerHTML = html;
+      overlay.classList.add('active');
+      document.body.classList.add('career-open');
+    }}
+
     function closeCareer() {{
       overlay.classList.remove('active');
       document.body.classList.remove('career-open');
@@ -3625,10 +3665,15 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           showRecentGames(td.getAttribute('data-player'), isWeekly);
           return;
         }}
+        // Check if click is from monthly table
+        if (td.closest('.monthly-table')) {{
+          showMonthlyStats(td.getAttribute('data-player'));
+          return;
+        }}
         var yearDiv = td.closest('.year-table[data-year]');
         var ctxYear = yearDiv ? parseInt(yearDiv.getAttribute('data-year')) : currentYear;
         var so = null;
-        if (td.closest('.tapd-year-table') || td.closest('.tapd-table') || td.closest('.mg-table') || (stat === 'tap' && td.closest('.monthly-table'))) so = 'tapd';
+        if (td.closest('.tapd-year-table') || td.closest('.tapd-table') || td.closest('.mg-table')) so = 'tapd';
         var dm = !!td.closest('.diff-table');
         var gm = !!td.closest('.goat-table') || !!td.closest('.g2-table') || !!td.closest('.g3-table') || !!td.closest('.mg-table');
         var noHighlight = dm || gm;
@@ -3722,7 +3767,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       var players = data[source] && data[source][sk] && data[source][sk][team];
       if (!players || players.length === 0) return;
       var su = sk === 'tapd' ? 'TAPD' : sk.toUpperCase();
-      teamTitle.textContent = team + ' - TOP 5 PLAYER ' + su;
+      teamTitle.textContent = team + ' - TOP 5 ' + (isMonthly ? 'MONTHLY ' : 'PLAYER ') + su;
       teamStatHeader.textContent = su;
       var html = '';
       for (var i = 0; i < players.length; i++) {{
@@ -3817,9 +3862,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           var activeStat = stat === 'ted' ? 'TED' : 'TAP';
           var tapdT = slot.querySelector('.tapd-team-table');
           if (tapdT && tapdT.style.display !== 'none') activeStat = 'TAPD';
-          teamStatTooltip.textContent = 'Team power rank is determined by the average ' + activeStat + ' of the top 5 ' + activeStat + ' players on each team.';
+          teamStatTooltip.textContent = "Team Power Rank is in beta mode, and doesn\u0027t adjust for injuries or recent in-season performance. It is determined by the average season-to-date " + activeStat + " of the top 5 " + activeStat + " players on each team.";
           var rect = rankTh.getBoundingClientRect();
-          var tooltipWidth = 260;
+          var tooltipWidth = 340;
           teamStatTooltip.style.left = Math.max(8, rect.left + rect.width / 2 - tooltipWidth / 2) + 'px';
           teamStatTooltip.style.top = (rect.bottom + 6) + 'px';
           teamStatTooltip.classList.add('active');
@@ -5670,6 +5715,7 @@ def generate_site():
     # Compute month-by-month leaders for POTM popup + team-of-the-month winners
     month_winners = []
     team_month_winners = []
+    player_monthly = {}  # {player_name: [{month, ted, tap/tapd, g}, ...]}
     if last_game_date:
         # Season starts in October of CURRENT_SEASON_YEAR
         season_start_month = 10  # October
@@ -5744,6 +5790,22 @@ def generate_site():
                 'tapd_team': tapd_tw['team'] if tapd_tw else '',
                 'tapd_val': tapd_tw['score'] if tapd_tw else 0,
             })
+
+            # Collect per-player monthly stats for player popup
+            short_month = m_start.strftime("%b").upper()  # OCT, NOV, etc.
+            for r in m_all:
+                pname = r['player']
+                tapd_val = r.get('tapd', r.get('tap', 0))
+                entry = {
+                    'month': short_month,
+                    'ted': round(r.get('ted', 0), 1),
+                    'tapd': round(tapd_val, 1) if tapd_val else 0,
+                    'g': r.get('g', 0),
+                }
+                if pname not in player_monthly:
+                    player_monthly[pname] = []
+                player_monthly[pname].append(entry)
+
         print(f"  Month winners computed: {len(month_winners)} months")
         print(f"  Team month winners computed: {len(team_month_winners)} months")
 
@@ -5768,7 +5830,8 @@ def generate_site():
     # Generate HTML
     updated_at = date.today().strftime("%B %d, %Y")
     html = generate_html(weekly, season, daily, monthly, month_label, month_winners, updated_at, week_start, week_end,
-                         team_season=team_season, team_monthly=team_monthly, team_month_winners=team_month_winners)
+                         team_season=team_season, team_monthly=team_monthly, team_month_winners=team_month_winners,
+                         player_monthly=player_monthly)
 
     # Write output
     os.makedirs(DOCS_DIR, exist_ok=True)
