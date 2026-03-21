@@ -2019,6 +2019,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       color: #ee7623;
       cursor: pointer;
     }}
+    .team-rank-slot table {{
+      table-layout: fixed;
+    }}
     .team-rank-slot th.num.stat {{
       white-space: nowrap;
       min-width: 90px;
