@@ -2022,10 +2022,15 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .team-rank-slot th.num.stat {{
       white-space: nowrap;
       min-width: 90px;
+      width: 90px;
+      max-width: 90px;
       text-align: center;
     }}
     .team-rank-slot td.num.stat {{
       text-align: center;
+      width: 90px;
+      min-width: 90px;
+      max-width: 90px;
     }}
     .view-tap .team-rank-slot .team-stat-tip {{
       color: #ee7623;
