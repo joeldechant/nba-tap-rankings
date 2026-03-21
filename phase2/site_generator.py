@@ -2029,13 +2029,13 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .team-rank-slot th.rank {{
       overflow: visible;
     }}
+    .team-rank-slot .stat {{
+      width: 62px;
+      min-width: 62px;
+      max-width: 62px;
+    }}
     .team-rank-slot th.num.stat {{
       overflow: visible;
-      min-width: 62px;
-    }}
-    .team-rank-slot td.num.stat {{
-      text-align: right;
-      min-width: 62px;
     }}
     .view-tap .team-rank-slot .team-stat-tip {{
       color: #ee7623;
