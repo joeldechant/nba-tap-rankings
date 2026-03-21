@@ -3173,7 +3173,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         var yearDiv = td.closest('.year-table[data-year]');
         var ctxYear = yearDiv ? parseInt(yearDiv.getAttribute('data-year')) : currentYear;
         var so = null;
-        if (td.closest('.tapd-year-table') || td.closest('.tapd-table') || td.closest('.mg-table')) so = 'tapd';
+        if (td.closest('.tapd-year-table') || td.closest('.tapd-table') || td.closest('.mg-table') || (stat === 'tap' && td.closest('.monthly-table'))) so = 'tapd';
         var dm = !!td.closest('.diff-table');
         var gm = !!td.closest('.goat-table') || !!td.closest('.g2-table') || !!td.closest('.g3-table') || !!td.closest('.mg-table');
         var noHighlight = dm || gm;
