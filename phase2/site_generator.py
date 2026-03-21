@@ -161,7 +161,7 @@ def compute_team_power_rank(all_players, stat_keys=None):
     return result
 
 
-def render_team_table(team_data, stat_key, title, stat_label=None):
+def render_team_table(team_data, stat_key, title, stat_label=None, clickable_stat=False):
     """Render a team power rank table as HTML."""
     label = stat_label or f'TOP 5 {stat_key.upper()}'
     rows_html = ""
@@ -177,6 +177,7 @@ def render_team_table(team_data, stat_key, title, stat_label=None):
         </tr>
 """
 
+    stat_class = 'num stat team-stat-tip' if clickable_stat else 'num stat'
     return f"""  <div class="table-section">
     <div class="table-header"><h2>{title}</h2></div>
     <table>
@@ -184,7 +185,7 @@ def render_team_table(team_data, stat_key, title, stat_label=None):
         <tr>
           <th class="rank">RANK</th>
           <th class="player">TEAM</th>
-          <th class="num stat">{label}</th>
+          <th class="{stat_class}">{label}</th>
         </tr>
       </thead>
       <tbody>
@@ -1543,8 +1544,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         player_monthly = {}
 
     team_season_ted = render_team_table(team_season.get('ted', []), 'ted', 'TEAM POWER RANK - TED', 'TOP 5 TED')
-    team_season_tap = render_team_table(team_season.get('tap', []), 'tap', 'TEAM POWER RANK - TAP', 'TOP 5 TAP')
-    team_season_tapd = render_team_table(team_season.get('tapd', []), 'tapd', 'TEAM POWER RANK - TAPD', 'TOP 5 TAPD')
+    team_season_tap = render_team_table(team_season.get('tap', []), 'tap', 'TEAM POWER RANK - TAP', 'TOP 5 TAP', clickable_stat=True)
+    team_season_tapd = render_team_table(team_season.get('tapd', []), 'tapd', 'TEAM POWER RANK - TAPD', 'TOP 5 TAPD', clickable_stat=True)
     team_monthly_ted = render_team_table(team_monthly.get('ted', []), 'ted', 'TEAM OF THE MONTH - TED', 'TOP 5 TED')
     team_monthly_tapd = render_team_table(team_monthly.get('tapd', []), 'tapd', 'TEAM OF THE MONTH - TAPD', 'TOP 5 TAPD')
 
@@ -2025,6 +2026,13 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
     .team-rank-slot td.num.stat {{
       text-align: center;
+    }}
+    .view-tap .team-rank-slot .team-stat-tip {{
+      color: #ee7623;
+      cursor: pointer;
+    }}
+    .view-tap .team-rank-slot .tapd-team-table .team-stat-tip {{
+      text-indent: -6px;
     }}
     .team-stat-tooltip {{
       display: none;
@@ -3112,7 +3120,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         text-indent: -6px;
       }}
       .team-rank-slot td.num.stat {{
-        padding-right: 16px;
+        text-align: right;
+        padding-right: 24px;
       }}
     }}
   </style>
