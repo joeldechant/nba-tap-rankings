@@ -3408,18 +3408,23 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         var newTapdDiv = newSeasonSlot.querySelector('.tapd-table');
         if (newTapdDiv) newTapdDiv.style.display = 'none';
       }}
-      /* Sync team rank section state */
-      document.querySelectorAll('.team-rank-slot').forEach(function(slot) {{
-        var sv = slot.querySelector('.team-season-view');
-        var mv = slot.querySelector('.team-monthly-view');
-        if (sv) sv.style.display = '';
-        if (mv) mv.style.display = 'none';
+      /* Sync team rank section state — preserve season/monthly toggle */
+      var oldTeamSlot = document.querySelector(oldView + ' .team-rank-slot');
+      var newTeamSlot = document.querySelector(newView + ' .team-rank-slot');
+      if (oldTeamSlot && newTeamSlot) {{
+        var oldSv = oldTeamSlot.querySelector('.team-season-view');
+        var oldMv = oldTeamSlot.querySelector('.team-monthly-view');
+        var showingTeamMonthly = oldSv && oldSv.style.display === 'none';
+        var newSv = newTeamSlot.querySelector('.team-season-view');
+        var newMv = newTeamSlot.querySelector('.team-monthly-view');
+        if (newSv) newSv.style.display = showingTeamMonthly ? 'none' : '';
+        if (newMv) newMv.style.display = showingTeamMonthly ? '' : 'none';
         /* Reset TAP team TAPD toggle */
-        var tapT = slot.querySelector('.tap-team-table');
-        var tapdT = slot.querySelector('.tapd-team-table');
+        var tapT = newTeamSlot.querySelector('.tap-team-table');
+        var tapdT = newTeamSlot.querySelector('.tapd-team-table');
         if (tapT) tapT.style.display = '';
         if (tapdT) tapdT.style.display = 'none';
-      }});
+      }}
       closeTeam();
       closeTotm();
       /* Reset per-year TAPD toggles back to TAP on switch */
@@ -3654,18 +3659,22 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       var thead = overlay.querySelector('thead tr');
       var su = stat === 'ted' ? 'TED' : 'TAPD';
       thead.innerHTML = '<th class="cp-season">Month</th>'
-        + '<th class="cp-team">G</th>'
-        + '<th class="cp-stat">' + su + '</th>';
+        + '<th class="cp-stat">' + su + '</th>'
+        + '<th class="cp-team">AVG</th>'
+        + '<th class="cp-team">TOP 10</th>';
       var html = '';
       // Most recent month first
       for (var i = months.length - 1; i >= 0; i--) {{
         var m = months[i];
         var val = stat === 'ted' ? m.ted : m.tapd;
+        var avg = stat === 'ted' ? m.avg_ted : m.avg_tapd;
+        var top10 = stat === 'ted' ? m.top10_ted : m.top10_tapd;
         var rc = (i === months.length - 1) ? ' class="cp-current"' : '';
         html += '<tr' + rc + '>'
           + '<td class="cp-season">' + m.month + '</td>'
-          + '<td class="cp-team">' + m.g + '</td>'
           + '<td class="cp-stat">' + val.toFixed(1) + '</td>'
+          + '<td class="cp-team">' + avg.toFixed(1) + '</td>'
+          + '<td class="cp-team">' + top10.toFixed(1) + '</td>'
           + '</tr>';
       }}
       popupBody.innerHTML = html;
@@ -3907,9 +3916,16 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           teamStatTooltip.classList.add('active');
           return;
         }}
-        // Header click: toggle season/monthly
+        // Header click: toggle season/monthly (or TAPD→TAP)
         var header = e.target.closest('.table-header');
         if (!header) return;
+        // If TAPD table is visible, clicking its header goes back to TAP (not monthly)
+        var tapdT = slot.querySelector('.tapd-team-table');
+        if (tapdT && tapdT.style.display !== 'none' && header.closest('.tapd-team-table')) {{
+          var tapT = slot.querySelector('.tap-team-table');
+          if (tapT) {{ tapT.style.display = ''; tapdT.style.display = 'none'; }}
+          return;
+        }}
         var sv = slot.querySelector('.team-season-view');
         var mv = slot.querySelector('.team-monthly-view');
         if (!sv || !mv) return;
@@ -5828,8 +5844,20 @@ def generate_site():
                 'tapd_val': tapd_tw['score'] if tapd_tw else 0,
             })
 
-            # Collect per-player monthly stats for player popup
+            # Compute monthly league averages and top 10 for popup context
             short_month = m_start.strftime("%b").upper()  # OCT, NOV, etc.
+            ted_vals = [r['ted'] for r in m_all if r.get('ted') is not None]
+            tapd_vals = [r.get('tapd') if r.get('tapd') is not None else r.get('tap') for r in m_all
+                         if r.get('tapd') is not None or r.get('tap') is not None]
+            tapd_vals = [v for v in tapd_vals if v is not None]
+            m_avg_ted = round(sum(ted_vals) / len(ted_vals), 1) if ted_vals else 0
+            m_avg_tapd = round(sum(tapd_vals) / len(tapd_vals), 1) if tapd_vals else 0
+            ted_sorted = sorted(ted_vals, reverse=True)
+            tapd_sorted = sorted(tapd_vals, reverse=True)
+            m_top10_ted = round(sum(ted_sorted[:10]) / min(10, len(ted_sorted)), 1) if ted_sorted else 0
+            m_top10_tapd = round(sum(tapd_sorted[:10]) / min(10, len(tapd_sorted)), 1) if tapd_sorted else 0
+
+            # Collect per-player monthly stats for player popup
             for r in m_all:
                 pname = r['player']
                 tapd_val = r.get('tapd', r.get('tap', 0))
@@ -5837,7 +5865,10 @@ def generate_site():
                     'month': short_month,
                     'ted': round(r.get('ted', 0), 1),
                     'tapd': round(tapd_val, 1) if tapd_val else 0,
-                    'g': r.get('g', 0),
+                    'avg_ted': m_avg_ted,
+                    'avg_tapd': m_avg_tapd,
+                    'top10_ted': m_top10_ted,
+                    'top10_tapd': m_top10_tapd,
                 }
                 if pname not in player_monthly:
                     player_monthly[pname] = []
