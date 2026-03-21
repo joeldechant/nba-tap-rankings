@@ -163,7 +163,7 @@ def compute_team_power_rank(all_players, stat_keys=None):
 
 def render_team_table(team_data, stat_key, title, stat_label=None, clickable_stat=False):
     """Render a team power rank table as HTML."""
-    label = stat_label or f'TOP 5 {stat_key.upper()}'
+    label = stat_label or stat_key.upper()
     rows_html = ""
     if not team_data:
         rows_html = '<tr><td colspan="3" class="empty">No data available</td></tr>'
@@ -1545,11 +1545,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     if month_stats is None:
         month_stats = []
 
-    team_season_ted = render_team_table(team_season.get('ted', []), 'ted', 'TEAM POWER RANK - TED', 'TOP 5 TED')
-    team_season_tap = render_team_table(team_season.get('tap', []), 'tap', 'TEAM POWER RANK - TAP', 'TOP 5 TAP', clickable_stat=True)
-    team_season_tapd = render_team_table(team_season.get('tapd', []), 'tapd', 'TEAM POWER RANK - TAPD', 'TOP 5 TAPD', clickable_stat=True)
-    team_monthly_ted = render_team_table(team_monthly.get('ted', []), 'ted', 'TEAM OF THE MONTH - TED', 'TOP 5 TED')
-    team_monthly_tapd = render_team_table(team_monthly.get('tapd', []), 'tapd', 'TEAM OF THE MONTH - TAPD', 'TOP 5 TAPD')
+    team_season_ted = render_team_table(team_season.get('ted', []), 'ted', 'TEAM POWER RANK - TED')
+    team_season_tap = render_team_table(team_season.get('tap', []), 'tap', 'TEAM POWER RANK - TAP', clickable_stat=True)
+    team_season_tapd = render_team_table(team_season.get('tapd', []), 'tapd', 'TEAM POWER RANK - TAPD', clickable_stat=True)
+    team_monthly_ted = render_team_table(team_monthly.get('ted', []), 'ted', 'TEAM OF THE MONTH - TED')
+    team_monthly_tapd = render_team_table(team_monthly.get('tapd', []), 'tapd', 'TEAM OF THE MONTH - TAPD')
 
     # Build career popup data
     career_js = build_career_js(
@@ -3845,7 +3845,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       var players = data[source] && data[source][sk] && data[source][sk][team];
       if (!players || players.length === 0) return;
       var su = sk === 'tapd' ? 'TAPD' : sk.toUpperCase();
-      teamTitle.textContent = team + ' - TOP 5 ' + (isMonthly ? 'MONTHLY ' : 'PLAYER ') + su;
+      teamTitle.textContent = team + ' - ' + (isMonthly ? 'MONTHLY ' : 'PLAYER ') + su;
       teamStatHeader.textContent = su;
       var html = '';
       for (var i = 0; i < players.length; i++) {{
