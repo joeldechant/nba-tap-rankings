@@ -5761,10 +5761,15 @@ def generate_site():
         past_midmonth = last_game_date.day >= 15
         min_monthly_games = 3 if (past_midmonth and month_start.month != 10) else 0
         if min_monthly_games:
-            monthly_full['ted'] = [r for r in monthly_full['ted'] if r.get('g', 0) >= min_monthly_games]
-            monthly_full['tap'] = [r for r in monthly_full['tap'] if r.get('g', 0) >= min_monthly_games]
-            if 'tapd' in monthly_full:
-                monthly_full['tapd'] = [r for r in monthly_full['tapd'] if r.get('g', 0) >= min_monthly_games]
+            # Filter from full pool, then re-sort and take top 100 (guarantees full 100)
+            filtered_all = [r for r in monthly_all_players if r.get('g', 0) >= min_monthly_games]
+            monthly_full['ted'] = sorted([r for r in filtered_all if r.get('ted') is not None],
+                                         key=lambda x: x['ted'], reverse=True)[:100]
+            monthly_full['tap'] = sorted([r for r in filtered_all if r.get('tap') is not None],
+                                         key=lambda x: x['tap'], reverse=True)[:100]
+            tapd_filtered = [r for r in filtered_all if r.get('tapd') is not None]
+            if tapd_filtered:
+                monthly_full['tapd'] = sorted(tapd_filtered, key=lambda x: x['tapd'], reverse=True)[:100]
         monthly_tapd = monthly_full.get('tapd', [])
         if monthly_tapd:
             monthly_tap = _remap_tapd(monthly_tapd)[:100]
