@@ -2029,19 +2029,15 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .team-rank-slot th.num.stat {{
       white-space: nowrap;
       width: 90px;
-      text-align: center;
-      overflow: visible;
+      text-align: right;
     }}
     .team-rank-slot td.num.stat {{
-      text-align: center;
+      text-align: right;
       width: 90px;
     }}
     .view-tap .team-rank-slot .team-stat-tip {{
       color: #ee7623;
       cursor: pointer;
-    }}
-    .view-tap .team-rank-slot .tapd-team-table .team-stat-tip {{
-      text-indent: -6px;
     }}
     .team-stat-tooltip {{
       display: none;
