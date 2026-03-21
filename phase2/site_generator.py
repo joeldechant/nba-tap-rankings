@@ -2036,12 +2036,14 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .team-rank-slot thead th {{
       overflow: visible;
     }}
-    .team-rank-slot th.num.stat {{
+    .team-rank-slot th.num.stat,
+    .team-rank-slot td.num.stat {{
+      width: 52px;
       white-space: nowrap;
       text-align: right;
     }}
-    .team-rank-slot td.num.stat {{
-      text-align: right;
+    .team-rank-slot thead th.num.stat {{
+      overflow: visible;
     }}
     .view-tap .team-rank-slot .team-stat-tip {{
       color: #ee7623;
