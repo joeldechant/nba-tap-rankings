@@ -3131,20 +3131,17 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       }}
       .team-rank-slot th.rank,
       .team-rank-slot td.rank {{
-        width: 42px;
-      }}
-      .team-rank-slot th.rank {{
-        font-size: 0.75em;
+        width: 48px;
       }}
       .team-rank-slot th.num.stat {{
-        width: 72px;
+        width: 52px;
         white-space: nowrap;
         text-align: right;
-        padding-right: 4px;
-        font-size: 0.75em;
+        padding-right: 6px;
+        overflow: visible;
       }}
       .team-rank-slot td.num.stat {{
-        width: 72px;
+        width: 52px;
         text-align: right;
         padding-right: 6px;
       }}
