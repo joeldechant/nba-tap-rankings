@@ -3738,6 +3738,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       var s = statOverride || stat;
       var su = s.toUpperCase();
       var hlYear = contextYear || null;
+      // Restore default 5-column thead (may have been replaced by monthly 3-column view)
+      var thead = overlay.querySelector('thead tr');
+      thead.innerHTML = defaultThead;
+      popupStatHeader = document.getElementById('career-stat-header');
       popupName.textContent = name;
       // Show CAREER toggle only when opened from season-to-date (TED or TAPD only, not TAP)
       if (fromSeason) {{
