@@ -3225,6 +3225,12 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       .stat-desc p {{
         text-align: center;
       }}
+      .player-search-wrap {{
+        padding: 10px 0 0 0;
+      }}
+      .description {{
+        padding-bottom: 10px;
+      }}
       .decade-nav {{
         gap: 4px;
         padding: 10px 8px;
