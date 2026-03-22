@@ -4006,19 +4006,21 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
             }});
             th.dataset.sorted = '';
           }} else {{
-            // count appearances per player
+            // count appearances and avg stat per player
             var counts = {{}};
+            var totals = {{}};
             rows.forEach(function(r) {{
               var name = r.querySelector('td.player') ? r.querySelector('td.player').getAttribute('data-player') || r.querySelector('td.player').textContent.trim() : '';
               counts[name] = (counts[name] || 0) + 1;
+              totals[name] = (totals[name] || 0) + (parseFloat(r.cells[3].textContent) || 0);
             }});
-            // sort by count desc, group by player, within-player by stat desc
+            // sort by count desc, tiebreak by avg stat desc, group by player, within-player by stat desc
             rows.sort(function(a, b) {{
               var na = a.querySelector('td.player') ? a.querySelector('td.player').getAttribute('data-player') || a.querySelector('td.player').textContent.trim() : '';
               var nb = b.querySelector('td.player') ? b.querySelector('td.player').getAttribute('data-player') || b.querySelector('td.player').textContent.trim() : '';
               var diff = (counts[nb] || 0) - (counts[na] || 0);
               if (diff !== 0) return diff;
-              if (na !== nb) return na < nb ? -1 : 1;
+              if (na !== nb) return (totals[nb] / counts[nb]) - (totals[na] / counts[na]);
               var va = parseFloat(a.cells[3].textContent) || 0;
               var vb = parseFloat(b.cells[3].textContent) || 0;
               return vb - va;
