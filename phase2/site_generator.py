@@ -3863,7 +3863,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       _teamPopupState = {{team: team, isMonthly: isMonthly, sk: sk, su: su}};
       // Build title with clickable orange team abbreviation for monthly
       if (isMonthly) {{
-        teamTitle.innerHTML = '<span class="team-abbr-link" style="color:#ee7623;cursor:pointer">' + team + '</span> - TOP 6 ' + currentMonthName + ' ' + su;
+        teamTitle.innerHTML = '<span class="team-abbr-link" style="color:#ee7623;cursor:pointer">' + team + '</span> - TOP 6 MONTHLY ' + su;
       }} else {{
         teamTitle.textContent = team + ' - TOP 6 PLAYER ' + su;
       }}
@@ -3889,7 +3889,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       if (!trend || trend.length === 0) return;
       var su = sk === 'tapd' ? 'TAPD' : sk.toUpperCase();
       // Title with clickable orange team abbreviation to go back
-      teamTitle.innerHTML = '<span class="team-abbr-link" style="color:#ee7623;cursor:pointer">' + team + '</span> - TOP 6 MONTHLY ' + su;
+      teamTitle.innerHTML = '<span class="team-abbr-link" style="color:#ee7623;cursor:pointer">' + team + '</span> - TOP 6 TEAM ' + su;
       // Swap to trend-view headers (Month + Stat + Rank)
       teamThead.querySelector('tr').innerHTML = '<th class="tp-player" style="text-align:center">Month</th><th class="tp-stat">' + su + '</th><th class="tp-rank">Rank</th>';
       teamThead.classList.add('team-trend-mode');
