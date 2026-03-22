@@ -5996,7 +5996,7 @@ def generate_site():
 
             # Store month-level stats for dash rows in popup
             month_stats.append({
-                'month': short_month,
+                'month': month_name,
                 'avg_ted': m_avg_ted, 'avg_tapd': m_avg_tapd,
                 'top10_ted': m_top10_ted, 'top10_tapd': m_top10_tapd,
             })
@@ -6013,7 +6013,7 @@ def generate_site():
                 pname = r['player']
                 tapd_val = r.get('tapd', r.get('tap', 0))
                 entry = {
-                    'month': short_month,
+                    'month': month_name,
                     'ted': round(r.get('ted', 0), 1),
                     'tapd': round(tapd_val, 1) if tapd_val else 0,
                     'ted_rank': ted_rank_lookup.get(pname),
