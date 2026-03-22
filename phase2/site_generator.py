@@ -3264,6 +3264,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       .career-monthly-toggle > span:first-child {{
         display: none;
       }}
+      .career-popup thead th {{
+        white-space: nowrap;
+      }}
       .player-search-wrap input {{
         font-size: 16px;
       }}
