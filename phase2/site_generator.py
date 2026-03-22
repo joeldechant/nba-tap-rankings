@@ -110,9 +110,9 @@ def load_historical_rankings():
 
 
 def compute_team_power_rank(all_players, stat_keys=None):
-    """Compute team power rank: weighted avg of top 5 qualifying players per team.
+    """Compute team power rank: weighted avg of top 6 qualifying players per team.
 
-    Weighted by each player's total minutes (mp * g) relative to the top 5's
+    Weighted by each player's total minutes (mp * g) relative to the top 6's
     combined minutes. This gives more weight to players who play more.
 
     Args:
@@ -144,21 +144,21 @@ def compute_team_power_rank(all_players, stat_keys=None):
             total_min = mp * g
             teams[team].append({'name': p['player'], 'value': val, 'total_min': total_min})
 
-        # Sort each team's players by value desc, take top 5, weighted avg by minutes
+        # Sort each team's players by value desc, take top 6, weighted avg by minutes
         team_ranks = []
         for team, players in teams.items():
             players.sort(key=lambda x: x['value'], reverse=True)
-            top5 = players[:5]
-            total_minutes = sum(p['total_min'] for p in top5)
+            top6 = players[:6]
+            total_minutes = sum(p['total_min'] for p in top6)
             if total_minutes > 0:
-                avg = sum(p['value'] * p['total_min'] for p in top5) / total_minutes
+                avg = sum(p['value'] * p['total_min'] for p in top6) / total_minutes
             else:
-                avg = sum(p['value'] for p in top5) / len(top5)
+                avg = sum(p['value'] for p in top6) / len(top6)
             team_ranks.append({
                 'team': team,
                 'score': round(avg, 1),
-                'players': top5,
-                'count': len(top5),
+                'players': top6,
+                'count': len(top6),
             })
 
         # Sort by score desc
@@ -3844,7 +3844,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       var players = data[source] && data[source][sk] && data[source][sk][team];
       if (!players || players.length === 0) return;
       var su = sk === 'tapd' ? 'TAPD' : sk.toUpperCase();
-      teamTitle.textContent = team + ' - TOP 5 ' + (isMonthly ? 'MONTHLY ' : 'PLAYER ') + su;
+      teamTitle.textContent = team + ' - TOP 6 ' + (isMonthly ? 'MONTHLY ' : 'PLAYER ') + su;
       teamStatHeader.textContent = su;
       var html = '';
       for (var i = 0; i < players.length; i++) {{
@@ -3932,14 +3932,14 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
             showTotm();
             return;
           }}
-          // Season: tooltip explaining TOP 5
+          // Season: tooltip explaining TOP 6
           var isActive = teamStatTooltip.classList.contains('active');
           teamStatTooltip.classList.remove('active');
           if (isActive) return;
           var activeStat = stat === 'ted' ? 'TED' : 'TAP';
           var tapdT = slot.querySelector('.tapd-team-table');
           if (tapdT && tapdT.style.display !== 'none') activeStat = 'TAPD';
-          teamStatTooltip.textContent = "Team Power Rank is in beta mode, and doesn\u0027t adjust for injuries or recent in-season performance. It is determined by the average season-to-date " + activeStat + " of the top 5 qualifying " + activeStat + " players on each team, weighted by each player\u0027s minutes/games played.";
+          teamStatTooltip.textContent = "Team Power Rank is in beta mode, and doesn\u0027t adjust for injuries or recent in-season performance. It is determined by the average season-to-date " + activeStat + " of the top 6 qualifying " + activeStat + " players on each team, weighted by each player\u0027s minutes/games played.";
           var rect = rankTh.getBoundingClientRect();
           var tooltipWidth = 340;
           teamStatTooltip.style.left = Math.max(8, rect.left + rect.width / 2 - tooltipWidth / 2) + 'px';
