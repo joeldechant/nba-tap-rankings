@@ -6727,10 +6727,13 @@ def generate_site():
                 if pname not in m_all_dedup or r.get('games', 0) > m_all_dedup[pname].get('games', 0):
                     m_all_dedup[pname] = r
             m_all_unique = list(m_all_dedup.values())
+            # Apply same min-games filter as table for rank computation (so popup ranks match table ranks)
+            mg_filter = min_g if not is_current_month else (min_monthly_games if min_monthly_games else 0)
+            m_rank_pool = [r for r in m_all_unique if r.get('g', 0) >= mg_filter] if mg_filter else m_all_unique
             # Build rank lookups (sorted by TED and TAPD only — no monthly TAP)
-            ted_sorted_all = sorted([r for r in m_all_unique if r.get('ted') is not None],
+            ted_sorted_all = sorted([r for r in m_rank_pool if r.get('ted') is not None],
                                      key=lambda x: x['ted'], reverse=True)
-            tapd_sorted_all = sorted([r for r in m_all_unique if r.get('tapd') is not None],
+            tapd_sorted_all = sorted([r for r in m_rank_pool if r.get('tapd') is not None],
                                       key=lambda x: x['tapd'], reverse=True)
             ted_rank_lookup = {r['player']: i + 1 for i, r in enumerate(ted_sorted_all)}
             tapd_rank_lookup = {r['player']: i + 1 for i, r in enumerate(tapd_sorted_all)}
