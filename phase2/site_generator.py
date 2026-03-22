@@ -2919,6 +2919,18 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .career-popup.monthly-mode {{
       max-width: 400px;
     }}
+    .career-popup.monthly-mode td {{
+      padding: 10px 8px;
+      text-align: center;
+      width: auto;
+    }}
+    .career-popup.monthly-mode th {{
+      text-align: center;
+      width: auto;
+    }}
+    .career-popup.monthly-mode .cp-stat {{
+      font-weight: 900;
+    }}
 
     .career-popup-header {{
       background: #fff;
