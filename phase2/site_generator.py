@@ -3043,6 +3043,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       position: sticky;
       top: 0;
       z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
     }}
 
     .career-monthly-toggle {{
@@ -3051,8 +3055,6 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       font-weight: 900;
       -webkit-text-stroke: 0.5px currentColor;
       cursor: pointer;
-      margin-left: 8px;
-      vertical-align: 0.15em;
     }}
     .career-monthly-toggle:hover {{
       opacity: 0.7;
@@ -3751,14 +3753,14 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         if (s === 'tap') {{
           // TAP mode: show CAREER in black (not clickable)
           _careerPopupState = null;
-          careerMonthlyToggle.textContent = '- CAREER';
+          careerMonthlyToggle.innerHTML = '\u00a0\u2013\u00a0CAREER';
           careerMonthlyToggle.style.display = '';
           careerMonthlyToggle.style.color = '#000';
           careerMonthlyToggle.style.cursor = 'default';
         }} else {{
           // TED or TAPD: show CAREER in orange (clickable)
           _careerPopupState = {{name: name, statMode: s}};
-          careerMonthlyToggle.textContent = '- CAREER';
+          careerMonthlyToggle.innerHTML = '\u00a0\u2013\u00a0CAREER';
           careerMonthlyToggle.style.display = '';
           careerMonthlyToggle.style.color = '#ee7623';
           careerMonthlyToggle.style.cursor = 'pointer';
@@ -3938,7 +3940,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         }}
       }}
       popupName.textContent = name;
-      careerMonthlyToggle.textContent = '- MONTHLY';
+      careerMonthlyToggle.innerHTML = '\u00a0\u2013\u00a0MONTHLY';
       // Swap thead to Month / Stat / Rank
       var thead = overlay.querySelector('thead tr');
       thead.innerHTML = '<th class="cp-season" style="text-align:center">Month</th>'
@@ -3975,7 +3977,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       e.preventDefault();
       if (!_careerPopupState) return;
       _careerToggleClicked = true;
-      var showingMonthly = (careerMonthlyToggle.textContent === '- MONTHLY');
+      var showingMonthly = (careerMonthlyToggle.textContent.indexOf('MONTHLY') !== -1);
       if (showingMonthly) {{
         // Go back to career view
         var savedName = _careerPopupState.name;
