@@ -3134,10 +3134,12 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     .career-popup .cp-season {{ width: 68px; text-align: center; }}
     .career-popup .cp-team {{ width: 40px; text-align: center; }}
-    .career-popup .cp-stat {{ width: 52px; min-width: 52px; max-width: 52px; text-align: center; font-weight: 900; -webkit-text-stroke: 0.5px currentColor; font-size: 1.05em; overflow: hidden; }}
+    .career-popup .cp-stat {{ width: 52px; min-width: 52px; max-width: 52px; text-align: center; overflow: hidden; }}
     .career-popup .cp-avg {{ width: 52px; min-width: 52px; max-width: 52px; text-align: center; }}
     .career-popup .cp-leader {{ width: 52px; min-width: 52px; max-width: 52px; text-align: center; }}
-    .career-popup .cp-rank {{ width: 52px; min-width: 52px; max-width: 52px; text-align: center; font-weight: 900; -webkit-text-stroke: 0.5px currentColor; font-size: 1.05em; }}
+    .career-popup .cp-rank {{ width: 52px; min-width: 52px; max-width: 52px; text-align: center; }}
+    .career-popup:not(.career-monthly-mode):not(.career-recent-mode) .cp-stat,
+    .career-popup:not(.career-monthly-mode):not(.career-recent-mode) .cp-rank {{ font-weight: 900; -webkit-text-stroke: 0.5px currentColor; font-size: 1.05em; }}
     .career-popup .cp-pm {{ width: 42px; text-align: center; }}
 
     .career-popup thead th {{ text-align: center; }}
@@ -3993,6 +3995,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       var hlYear = fromSearch ? null : (contextYear || null);
       // Restore default 5-column thead and remove monthly styling
       popup.classList.remove('career-monthly-mode');
+      popup.classList.remove('career-recent-mode');
       var thead = overlay.querySelector('thead tr');
       thead.innerHTML = defaultThead;
       popupStatHeader = document.getElementById('career-stat-header');
@@ -4100,6 +4103,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     var weekEndMD = '{week_end.month:02d}-{week_end.day:02d}';
 
     function showRecentGames(name, isWeekly) {{
+      popup.classList.add('career-recent-mode');
       var games = window.RECENT_GAMES[name];
       if (!games || games.length === 0) return;
       popupName.textContent = name;
