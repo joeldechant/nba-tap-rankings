@@ -4042,10 +4042,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         var monthlyDiv = slot.querySelector('.monthly-table');
         var tapdDiv = slot.querySelector('.tapd-table');
         if (inTapd) {{
-          /* TAPD header click: go back to TAP */
+          /* TAPD header click: go to monthly */
           if (tapdDiv) tapdDiv.style.display = 'none';
-          if (seasonDiv) seasonDiv.style.display = '';
-          if (monthlyDiv) monthlyDiv.style.display = 'none';
+          if (seasonDiv) seasonDiv.style.display = 'none';
+          if (monthlyDiv) monthlyDiv.style.display = '';
           return;
         }}
         var seasonVisible = seasonDiv.style.display !== 'none';
