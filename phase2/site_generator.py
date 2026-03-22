@@ -2638,6 +2638,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .mg-table thead tr,
     .diff-table thead tr {{
       border-bottom: 2px solid #fff;
+      height: 38px;
     }}
 
     .goat-table td.num:last-child,
@@ -2813,9 +2814,6 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .diff-table tbody td {{
       padding-top: 5.5px;
       padding-bottom: 5.5px;
-    }}
-    .diff-table thead tr {{
-      height: 37.7625px;
     }}
     .diff-table thead th {{
       padding-top: 8px;
@@ -3309,6 +3307,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         padding-top: 6px;
         padding-bottom: 6px;
       }}
+      .goat-table thead tr,
+      .g2-table thead tr,
+      .g3-table thead tr,
+      .mg-table thead tr,
       .diff-table thead tr {{
         height: auto;
       }}
