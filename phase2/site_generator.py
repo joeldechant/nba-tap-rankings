@@ -5921,17 +5921,35 @@ def generate_site():
         print(f"  Month winners computed: {len(month_winners)} months")
         print(f"  Team month winners computed: {len(team_month_winners)} months")
 
+    # Remap traded players (TOT/2TM/3TM/4TM) to their current team
+    current_teams = db.get_current_teams(config.CURRENT_SEASON_YEAR)
+
+    def _remap_traded(players):
+        """Replace TOT/2TM/3TM/4TM team with current team from game_box_scores."""
+        remapped = []
+        for p in players:
+            team = p.get('team', '')
+            if team in ('TOT', '2TM', '3TM', '4TM'):
+                current = current_teams.get(p['player'])
+                if current:
+                    p = dict(p)  # shallow copy to avoid mutating original
+                    p['team'] = current
+                else:
+                    continue  # skip if we can't determine current team
+            remapped.append(p)
+        return remapped
+
     # Compute team power rankings
-    season_all = season.get('all', [])
+    season_all = _remap_traded(season.get('all', []))
     team_season = compute_team_power_rank(season_all, ['ted', 'tap', 'tapd'])
     print(f"  Team power rank: {len(team_season.get('ted', []))} teams")
 
     # Team of the month (TED + TAPD only, all qualifying players)
     # Min 4 games filter kicks in after mid-month (day >= 15)
     if last_game_date:
-        team_monthly_players = monthly_all_players
+        team_monthly_players = _remap_traded(monthly_all_players)
         if last_game_date.day >= 15:
-            team_monthly_players = [r for r in monthly_all_players if r.get('g', 0) >= 4]
+            team_monthly_players = [r for r in team_monthly_players if r.get('g', 0) >= 4]
         team_monthly = compute_team_power_rank(team_monthly_players, ['ted'])
         # Add TAPD from all players (filter those with tapd)
         monthly_tapd_all = [r for r in team_monthly_players if r.get('tapd') is not None]

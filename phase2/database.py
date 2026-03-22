@@ -450,6 +450,28 @@ def get_player_recent_games(player, n=5, season_year=None):
     return [dict(r) for r in rows]
 
 
+def get_current_teams(season_year):
+    """Get each player's most recent team from game_box_scores.
+
+    Returns dict of player_name -> team_abbrev (from their most recent game).
+    Useful for mapping traded players (TOT/2TM/3TM) to their current team.
+    """
+    conn = get_connection()
+    rows = conn.execute("""
+        SELECT player, team
+        FROM game_box_scores
+        WHERE season_year = ?
+          AND (game_date, player) IN (
+            SELECT MAX(game_date), player
+            FROM game_box_scores
+            WHERE season_year = ?
+            GROUP BY player
+          )
+    """, (season_year, season_year)).fetchall()
+    conn.close()
+    return {r['player']: r['team'] for r in rows}
+
+
 # ============================================================
 # Update Log
 # ============================================================
