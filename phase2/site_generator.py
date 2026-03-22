@@ -2169,7 +2169,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .team-popup .tp-rank {{ width: 40px; }}
     .team-popup .tp-player {{ width: auto; text-align: left; padding-left: 16px; }}
     .team-popup .tp-stat {{ width: 60px; font-weight: 900; }}
-    .team-popup .tp-trend-month {{ text-align: center; font-weight: 700; }}
+    .team-popup .pm-month {{ width: 120px; }}
+    .team-popup .pm-stat {{ width: 52px; font-weight: 900; }}
 
     /* TOTM (Team of the Month) popup — reuses potm styling */
     .totm-overlay {{
@@ -3317,7 +3318,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         <button class="team-popup-close" id="team-popup-close">&times;</button>
       </div>
       <table>
-        <thead>
+        <thead id="team-popup-thead">
           <tr>
             <th class="tp-rank">#</th>
             <th class="tp-player">Player</th>
@@ -3828,6 +3829,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     var teamOverlay = document.getElementById('team-overlay');
     var teamBody = document.getElementById('team-popup-body');
     var teamTitle = document.getElementById('team-popup-title');
+    var teamThead = document.getElementById('team-popup-thead');
     var teamStatHeader = document.getElementById('team-stat-header');
     var teamStatTooltip = document.getElementById('team-stat-tooltip');
 
@@ -3860,7 +3862,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       }} else {{
         teamTitle.textContent = team + ' - TOP 6 PLAYER ' + su;
       }}
-      teamStatHeader.textContent = su;
+      // Restore player-view headers
+      teamThead.querySelector('tr').innerHTML = '<th class="tp-rank">#</th><th class="tp-player">Player</th><th class="tp-stat" id="team-stat-header">' + su + '</th>';
+      teamStatHeader = document.getElementById('team-stat-header');
       var html = '';
       for (var i = 0; i < players.length; i++) {{
         html += '<tr>'
@@ -3880,16 +3884,16 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       var su = sk === 'tapd' ? 'TAPD' : sk.toUpperCase();
       // Title with clickable orange team abbreviation to go back
       teamTitle.innerHTML = '<span class="team-abbr-link" style="color:#ee7623;cursor:pointer">' + team + '</span> - TOP 6 MONTHLY ' + su;
-      teamStatHeader.textContent = su;
+      // Swap to trend-view headers (Month + Stat, matching POTM popup style)
+      teamThead.querySelector('tr').innerHTML = '<th class="pm-month">Month</th><th class="pm-stat">' + su + '</th>';
       var html = '';
       for (var i = trend.length - 1; i >= 0; i--) {{
         var m = trend[i];
         var val = sk === 'tapd' ? m.tapd : m.ted;
         var isCurrentMonth = (i === trend.length - 1);
         html += '<tr' + (isCurrentMonth ? ' style="color:#ee7623;font-weight:900"' : '') + '>'
-          + '<td class="tp-rank tp-trend-month">' + m.month + '</td>'
-          + '<td class="tp-player"></td>'
-          + '<td class="tp-stat">' + (val != null ? val.toFixed(1) : '-') + '</td>'
+          + '<td class="pm-month">' + m.month + '</td>'
+          + '<td class="pm-stat">' + (val != null ? val.toFixed(1) : '-') + '</td>'
           + '</tr>';
       }}
       teamBody.innerHTML = html;
@@ -3902,9 +3906,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       e.stopPropagation();
       var st = _teamPopupState;
       if (!st.team) return;
-      // Toggle: if currently showing players, switch to trend; if showing trend, switch back
-      var firstTd = teamBody.querySelector('td.tp-rank');
-      var showingTrend = firstTd && firstTd.style.textAlign === 'center';
+      // Toggle: if currently showing trend (pm-month cells), switch back; else show trend
+      var showingTrend = !!teamBody.querySelector('td.pm-month');
       if (showingTrend) {{
         // Go back to player popup
         showTeamPopup(st.team, st.isMonthly);
