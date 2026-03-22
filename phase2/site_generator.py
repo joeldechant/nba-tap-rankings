@@ -2626,10 +2626,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .g2-table thead,
     .g3-table thead,
     .mg-table thead {{
-      box-shadow: 3px 0 0 #fff;
+      box-shadow: 2px 0 0 #fff;
     }}
     .diff-table thead {{
-      box-shadow: 3px 0 0 #fff;
+      box-shadow: 2px 0 0 #fff;
     }}
     .goat-table thead tr,
     .g2-table thead tr,
@@ -3117,20 +3117,29 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       color: #ee7623;
       font-weight: 900;
     }}
+    .career-monthly-mode td {{
+      padding: 10px 8px !important;
+      text-align: center !important;
+      vertical-align: middle !important;
+    }}
 
     .player-search-wrap {{
       text-align: center;
-      padding: 8px 0 4px 0;
+      padding: 12px 0 8px 0;
       position: relative;
+      z-index: 30;
+      grid-row: 2;
+      grid-column: 1;
     }}
     .player-search-wrap input {{
       background: #000;
-      color: #fff;
-      border: 1px solid #555;
+      color: #ee7623;
+      border: 2px solid #ee7623;
       border-radius: 4px;
       padding: 6px 12px;
       font-family: 'Courier New', monospace;
       font-size: 0.9em;
+      font-weight: 900;
       width: 260px;
       max-width: 80%;
       outline: none;
@@ -3139,7 +3148,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       border-color: #ee7623;
     }}
     .player-search-wrap input::placeholder {{
-      color: #777;
+      color: #ee7623;
+      opacity: 0.6;
+      font-weight: 900;
     }}
     .search-dropdown {{
       display: none;
@@ -3147,12 +3158,12 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       left: 50%;
       transform: translateX(-50%);
       background: #111;
-      border: 1px solid #555;
+      border: 2px solid #ee7623;
       border-top: none;
       border-radius: 0 0 4px 4px;
       width: 260px;
       max-width: 80%;
-      z-index: 20;
+      z-index: 30;
       max-height: 280px;
       overflow-y: auto;
     }}
@@ -3394,11 +3405,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         <h3>TAP &mdash; Total Adjusted Production</h3>
         <p>TAP estimates total player production per game as a single points-equivalent number. It builds on TED (Total Earned Differential), which converts all box-score contributions &mdash; points scored, scoring efficiency, rebounds, assists, steals, turnovers, blocks &mdash; plus a defensive adjustment (using DBPM and DWS) into one value. TAP takes this approach one step further, overlaying an additional offensive adjustment (using OBPM and OWS) to capture the residual offensive impact that box-score stats miss &mdash; for example, shooting gravity that warps defenses, or anti-gravity. TAPD is a variant of TAP that incorporates daily game box score plus/minus. For cleaner cross-player and cross-era comparisons, TAP/TAPD are normalized to per 36 minutes and 95 pace. Players must meet a 20 minutes per game and 40 games per season threshold for inclusion in the rankings.</p>
       </div>
-    </div>
-
-    <div class="player-search-wrap">
-      <input type="text" id="player-search" placeholder="Search player..." autocomplete="off" />
-      <div class="search-dropdown" id="search-dropdown"></div>
+      <div class="player-search-wrap">
+        <input type="text" id="player-search" placeholder="Search player..." autocomplete="off" />
+        <div class="search-dropdown" id="search-dropdown"></div>
+      </div>
     </div>
 
 {decade_nav_html}
@@ -3861,6 +3871,12 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         showCareer(name, currentYear, startStat, false, false, false, true);
       }}
 
+      searchInput.addEventListener('focus', function() {{
+        if (window.innerWidth <= 900) {{
+          setTimeout(function() {{ window.scrollTo(0, 0); }}, 300);
+        }}
+      }});
+
       searchInput.addEventListener('input', function() {{
         var matches = getMatches(this.value);
         showDropdown(matches);
@@ -3907,7 +3923,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       var s = statOverride || stat;
       var su = s.toUpperCase();
       var hlYear = contextYear || null;
-      // Restore default 5-column thead (may have been replaced by monthly 3-column view)
+      // Restore default 5-column thead and remove monthly styling
+      popup.classList.remove('career-monthly-mode');
       var thead = overlay.querySelector('thead tr');
       thead.innerHTML = defaultThead;
       popupStatHeader = document.getElementById('career-stat-header');
@@ -4065,18 +4082,12 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           pLookup[playerMonths[j].month] = playerMonths[j];
         }}
       }}
-      // Use career popup container to match season-to-date monthly styling
+      // Use team popup container (same styling as rookie/soph monthly popup)
       var su = stat === 'ted' ? 'TED' : 'TAPD';
       var s = stat === 'ted' ? 'ted' : 'tapd';
-      popupName.textContent = name;
-      // Hide career/monthly toggle (this is a direct monthly popup, not a double-popup)
-      careerMonthlyToggle.style.display = 'none';
-      _careerPopupState = null;
-      // Swap thead to Month / Stat / Rank (same as showCareerMonthly)
-      var thead = overlay.querySelector('thead tr');
-      thead.innerHTML = '<th class="cp-season" style="text-align:center">Month</th>'
-        + '<th class="cp-stat">' + su + '</th>'
-        + '<th class="cp-avg">Rank</th>';
+      teamTitle.textContent = name;
+      teamThead.querySelector('tr').innerHTML = '<th class="tp-player" style="text-align:center">Month</th><th class="tp-stat">' + su + '</th><th class="tp-rank">Rank</th>';
+      teamThead.classList.add('team-trend-mode');
       var html = '';
       for (var i = allMonths.length - 1; i >= 0; i--) {{
         var ms = allMonths[i];
@@ -4087,21 +4098,21 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           var val = pm[s];
           var rank = pm[s + '_rank'];
           html += '<tr>'
-            + '<td class="cp-season"' + cs + '>' + ms.month + '</td>'
-            + '<td class="cp-stat"' + cs + '>' + (val != null ? val.toFixed(1) : '\u2014') + '</td>'
-            + '<td class="cp-avg"' + cs + '>' + (rank != null ? rank : '\u2014') + '</td>'
+            + '<td class="tp-player"' + cs + '>' + ms.month + '</td>'
+            + '<td class="tp-stat"' + cs + '>' + (val != null ? val.toFixed(1) : '\u2014') + '</td>'
+            + '<td class="tp-rank"' + cs + '>' + (rank != null ? rank : '\u2014') + '</td>'
             + '</tr>';
         }} else {{
           html += '<tr>'
-            + '<td class="cp-season"' + cs + '>' + ms.month + '</td>'
-            + '<td class="cp-stat"' + cs + '>\u2014</td>'
-            + '<td class="cp-avg"' + cs + '>\u2014</td>'
+            + '<td class="tp-player"' + cs + '>' + ms.month + '</td>'
+            + '<td class="tp-stat"' + cs + '>\u2014</td>'
+            + '<td class="tp-rank"' + cs + '>\u2014</td>'
             + '</tr>';
         }}
       }}
-      popupBody.innerHTML = html;
-      overlay.classList.add('active');
-      document.body.classList.add('career-open');
+      teamBody.innerHTML = html;
+      teamOverlay.classList.add('active');
+      document.body.classList.add('team-open');
     }}
 
     function closeCareer() {{
@@ -4112,6 +4123,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       _searchPopupState = null;
       careerMonthlyToggle.style.display = 'none';
       careerStatCycle.style.display = 'none';
+      popup.classList.remove('career-monthly-mode');
       // Restore default thead
       var thead = overlay.querySelector('thead tr');
       thead.innerHTML = defaultThead;
@@ -4138,6 +4150,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       if (_searchPopupState) {{
         careerStatCycleText.textContent = su;
       }}
+      // Add monthly-mode class for team-popup-like styling
+      popup.classList.add('career-monthly-mode');
       // Swap thead to Month / Stat / Rank
       var thead = overlay.querySelector('thead tr');
       thead.innerHTML = '<th class="cp-season" style="text-align:center">Month</th>'
