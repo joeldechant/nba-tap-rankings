@@ -1513,13 +1513,26 @@ def build_career_js(historical, season_all):
     # Merge current-season players into career data
     current_year = config.CURRENT_SEASON_YEAR
     qualifying_names = set()
+    # Compute current-season ranks
+    cur_ranks = {}
     if season_all:
+        for stat_key, rank_key in [('ted', 'tr'), ('tap', 'ar'), ('tapd', 'dr')]:
+            has_stat = [r for r in season_all if r.get(stat_key) is not None]
+            has_stat.sort(key=lambda r: r[stat_key], reverse=True)
+            for i, r in enumerate(has_stat):
+                if r['player'] not in cur_ranks:
+                    cur_ranks[r['player']] = {}
+                cur_ranks[r['player']][rank_key] = i + 1
         for r in season_all:
             name = r['player']
             qualifying_names.add(name)
             entry = {'y': current_year, 'tm': r['team'], 'ted': round(r['ted'], 1), 'tap': round(r['tap'], 1)}
             if r.get('tapd') is not None:
                 entry['tapd'] = round(r['tapd'], 1)
+            ranks = cur_ranks.get(name, {})
+            for k in ('tr', 'ar', 'dr'):
+                if k in ranks:
+                    entry[k] = ranks[k]
             if name not in career:
                 career[name] = []
             # Avoid duplicate if already present for this year
@@ -3124,6 +3137,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .career-popup .cp-stat {{ width: 52px; text-align: center; font-weight: 900; }}
     .career-popup .cp-avg {{ width: 48px; text-align: center; }}
     .career-popup .cp-leader {{ width: 52px; text-align: center; font-weight: 900; }}
+    .career-popup .cp-rank {{ width: 44px; text-align: center; }}
     .career-popup .cp-pm {{ width: 42px; text-align: center; }}
 
     .career-popup thead th {{ text-align: center; }}
@@ -3542,6 +3556,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
             <th class="cp-stat" id="career-stat-header">TED</th>
             <th class="cp-avg" id="career-avg-header">AVG</th>
             <th class="cp-leader" id="career-top10-header">TOP 10</th>
+            <th class="cp-rank" id="career-rank-header">RANK</th>
           </tr>
         </thead>
         <tbody id="career-popup-body">
@@ -4025,10 +4040,13 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         var val = c[s] !== null && c[s] !== undefined ? c[s].toFixed(1) : '\\u2014';
         var ss = window.SEASON_STATS[String(c.y)];
         var col4 = '', col5 = '';
+        var rankKey = s === 'ted' ? 'tr' : (s === 'tap' ? 'ar' : 'dr');
+        var rankVal = c[rankKey];
+        var col6 = (rankVal !== null && rankVal !== undefined) ? rankVal : '';
         if (diffMode) {{
           if (ss) {{
             var t100 = ss['top100_' + s];
-            col4 = t100 !== undefined ? t100.toFixed(1) : '';
+            col4 = t100 !== undefined ? Math.round(t100) : '';
             if (c[s] !== null && c[s] !== undefined && t100 !== undefined) {{
               var d = c[s] - t100;
               col5 = (d >= 0 ? '+' : '') + d.toFixed(1);
@@ -4037,20 +4055,20 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         }} else if (goatMode) {{
           if (ss) {{
             var av = ss['avg_' + s];
-            col4 = av !== undefined ? av.toFixed(1) : '';
+            col4 = av !== undefined ? Math.round(av) : '';
             var t10 = ss['top10_' + s];
             var ldr = ss['ldr_' + s + '_val'];
             if (t10 !== undefined && ldr !== undefined) {{
               var top9 = (t10 * 10 - ldr) / 9;
-              col5 = top9.toFixed(1);
+              col5 = Math.round(top9);
             }}
           }}
         }} else {{
           if (ss) {{
             var av = ss['avg_' + s];
-            col4 = av !== undefined ? av.toFixed(1) : '';
+            col4 = av !== undefined ? Math.round(av) : '';
             var t10 = ss['top10_' + s];
-            col5 = t10 !== undefined ? t10.toFixed(1) : '';
+            col5 = t10 !== undefined ? Math.round(t10) : '';
           }}
         }}
         var rc = (!diffMode && c.y === hlYear) ? ' class="cp-current"' : '';
@@ -4058,8 +4076,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           + '<td class="cp-season">' + sl + '</td>'
           + '<td class="cp-team">' + tm + '</td>'
           + '<td class="cp-stat">' + val + '</td>'
-          + '<td class="cp-avg">' + (col4 || '\\u2014') + '</td>'
-          + '<td class="cp-leader">' + (col5 || '\\u2014') + '</td>'
+          + '<td class="cp-avg">' + (col4 !== '' ? col4 : '\\u2014') + '</td>'
+          + '<td class="cp-leader">' + (col5 !== '' ? col5 : '\\u2014') + '</td>'
+          + '<td class="cp-rank">' + (col6 !== '' ? col6 : '\\u2014') + '</td>'
           + '</tr>';
       }}
       popupBody.innerHTML = html;
@@ -4107,7 +4126,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       + '<th class="cp-team">Team</th>'
       + '<th class="cp-stat" id="career-stat-header">TED</th>'
       + '<th class="cp-avg" id="career-avg-header">AVG</th>'
-      + '<th class="cp-leader" id="career-top10-header">TOP 10</th>';
+      + '<th class="cp-leader" id="career-top10-header">TOP 10</th>'
+      + '<th class="cp-rank" id="career-rank-header">RANK</th>';
 
     function showMonthlyStats(name) {{
       var playerMonths = window.PLAYER_MONTHLY && window.PLAYER_MONTHLY[name];

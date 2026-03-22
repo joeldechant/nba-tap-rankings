@@ -251,6 +251,22 @@ def build_historical_json():
     results = deduped
     print(f"  After dedup: {len(results)} unique player-seasons")
 
+    # Compute per-year ranks for each stat
+    from collections import defaultdict as dd
+    by_year = dd(list)
+    for r in results:
+        by_year[r['year']].append(r)
+    year_ranks = {}  # (player, year) -> {ted_rank, tap_rank, tapd_rank}
+    for yr, players in by_year.items():
+        for stat in ('ted', 'tap', 'tapd'):
+            has_stat = [p for p in players if p.get(stat) is not None]
+            has_stat.sort(key=lambda p: p[stat], reverse=True)
+            for i, p in enumerate(has_stat):
+                key = (p['player'], yr)
+                if key not in year_ranks:
+                    year_ranks[key] = {}
+                year_ranks[key][f'{stat}_rank'] = i + 1
+
     # Build career_data: all player-seasons grouped by player name
     career_data = defaultdict(list)
     qualifying_years = set()  # Track (player, year) pairs already added
@@ -261,6 +277,13 @@ def build_historical_json():
         }
         if 'tapd' in r:
             entry['tapd'] = round(r['tapd'], 1)
+        ranks = year_ranks.get((r['player'], r['year']), {})
+        if 'ted_rank' in ranks:
+            entry['tr'] = ranks['ted_rank']
+        if 'tap_rank' in ranks:
+            entry['ar'] = ranks['tap_rank']
+        if 'tapd_rank' in ranks:
+            entry['dr'] = ranks['tapd_rank']
         career_data[r['player']].append(entry)
         qualifying_years.add((r['player'], r['year']))
 
