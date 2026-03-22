@@ -3965,7 +3965,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       if (!career || career.length === 0) return;
       var s = statOverride || stat;
       var su = s.toUpperCase();
-      var hlYear = contextYear || null;
+      var hlYear = fromSearch ? null : (contextYear || null);
       // Restore default 5-column thead and remove monthly styling
       popup.classList.remove('career-monthly-mode');
       var thead = overlay.querySelector('thead tr');
