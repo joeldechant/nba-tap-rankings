@@ -3049,7 +3049,6 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       color: #ee7623;
       font-size: 0.7em;
       font-weight: 900;
-      -webkit-text-stroke: 0.5px currentColor;
       cursor: pointer;
       vertical-align: 0.15em;
     }}
@@ -3174,7 +3173,6 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       color: #ee7623;
       font-size: 0.7em;
       font-weight: 900;
-      -webkit-text-stroke: 0.5px currentColor;
       cursor: pointer;
       vertical-align: 0.15em;
     }}
@@ -3487,7 +3485,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
   <div class="career-overlay" id="career-overlay">
     <div class="career-popup" id="career-popup">
       <div class="career-popup-header">
-        <span id="career-popup-name"></span><span id="career-stat-cycle" class="career-stat-toggle" style="display:none"><span style="color:#000;vertical-align:0.12em">&nbsp;&ndash;&nbsp;</span><span id="career-stat-cycle-text">TED</span></span><span id="career-monthly-toggle" class="career-monthly-toggle" style="display:none"><span style="color:#000;vertical-align:0.12em">&nbsp;&ndash;&nbsp;</span>CAREER</span>
+        <span id="career-popup-name"></span><span id="career-stat-cycle" class="career-stat-toggle" style="display:none"><span style="color:#000;vertical-align:0.12em;font-weight:normal">&nbsp;&ndash;&nbsp;</span><span id="career-stat-cycle-text">TED</span></span><span id="career-monthly-toggle" class="career-monthly-toggle" style="display:none"><span style="color:#000;vertical-align:0.12em;font-weight:normal">&nbsp;&ndash;&nbsp;</span>CAREER</span>
         <button class="career-popup-close" id="career-popup-close">&times;</button>
       </div>
       <table>
@@ -3921,13 +3919,13 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         careerStatCycleText.textContent = su;
         if (_searchPopupState.hasMonthly && s !== 'tap') {{
           _careerPopupState = {{name: name, statMode: s}};
-          careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.12em">&nbsp;&ndash;&nbsp;</span>CAREER';
+          careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.12em;font-weight:normal">&nbsp;&ndash;&nbsp;</span>CAREER';
           careerMonthlyToggle.style.display = '';
           careerMonthlyToggle.style.color = '#ee7623';
           careerMonthlyToggle.style.cursor = 'pointer';
         }} else if (_searchPopupState.hasMonthly && s === 'tap') {{
           _careerPopupState = null;
-          careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.12em">&nbsp;&ndash;&nbsp;</span>CAREER';
+          careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.12em;font-weight:normal">&nbsp;&ndash;&nbsp;</span>CAREER';
           careerMonthlyToggle.style.display = '';
           careerMonthlyToggle.style.color = '#000';
           careerMonthlyToggle.style.cursor = 'default';
@@ -3940,14 +3938,14 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         if (s === 'tap') {{
           // TAP mode: show CAREER in black (not clickable)
           _careerPopupState = null;
-          careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.12em">&nbsp;&ndash;&nbsp;</span>CAREER';
+          careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.12em;font-weight:normal">&nbsp;&ndash;&nbsp;</span>CAREER';
           careerMonthlyToggle.style.display = '';
           careerMonthlyToggle.style.color = '#000';
           careerMonthlyToggle.style.cursor = 'default';
         }} else {{
           // TED or TAPD: show CAREER in orange (clickable)
           _careerPopupState = {{name: name, statMode: s}};
-          careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.12em">&nbsp;&ndash;&nbsp;</span>CAREER';
+          careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.12em;font-weight:normal">&nbsp;&ndash;&nbsp;</span>CAREER';
           careerMonthlyToggle.style.display = '';
           careerMonthlyToggle.style.color = '#ee7623';
           careerMonthlyToggle.style.cursor = 'pointer';
@@ -4135,7 +4133,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         }}
       }}
       popupName.textContent = name;
-      careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.12em">&nbsp;&ndash;&nbsp;</span>MONTHLY';
+      careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.12em;font-weight:normal">&nbsp;&ndash;&nbsp;</span>MONTHLY';
       // Update stat cycle text if in search mode
       if (_searchPopupState) {{
         careerStatCycleText.textContent = su;
