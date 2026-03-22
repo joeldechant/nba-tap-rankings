@@ -1860,8 +1860,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .description {{
       display: grid;
       justify-items: center;
-      padding: 16px 24px 10px 24px;
-      border-bottom: 2px solid #fff;
+      padding: 16px 24px 0 24px;
+      border-bottom: none;
     }}
 
     .stat-desc {{
@@ -3126,11 +3126,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     .player-search-wrap {{
       text-align: center;
-      padding: 10px 0 0 0;
+      padding: 12px 0;
       position: relative;
       z-index: 30;
-      grid-row: 2;
-      grid-column: 1;
+      border-bottom: 2px solid #fff;
     }}
     .player-search-wrap input {{
       background: #000;
@@ -3226,11 +3225,16 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       .stat-desc p {{
         text-align: center;
       }}
-      .player-search-wrap {{
-        padding: 10px 0 0 0;
+      .stat-desc.desc-hidden {{
+        display: none;
       }}
-      .description {{
-        padding-bottom: 10px;
+      .career-monthly-toggle {{
+        display: block;
+        vertical-align: baseline;
+        -webkit-text-stroke: 0.5px currentColor;
+      }}
+      .career-monthly-toggle > span:first-child {{
+        display: none;
       }}
       .decade-nav {{
         gap: 4px;
@@ -3412,10 +3416,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         <h3>TAP &mdash; Total Adjusted Production</h3>
         <p>TAP estimates total player production per game as a single points-equivalent number. It builds on TED (Total Earned Differential), which converts all box-score contributions &mdash; points scored, scoring efficiency, rebounds, assists, steals, turnovers, blocks &mdash; plus a defensive adjustment (using DBPM and DWS) into one value. TAP takes this approach one step further, overlaying an additional offensive adjustment (using OBPM and OWS) to capture the residual offensive impact that box-score stats miss &mdash; for example, shooting gravity that warps defenses, or anti-gravity. TAPD is a variant of TAP that incorporates daily game box score plus/minus. For cleaner cross-player and cross-era comparisons, TAP/TAPD are normalized to per 36 minutes and 95 pace. Players must meet a 20 min per game and 40 games per season threshold for inclusion in the rankings.</p>
       </div>
-      <div class="player-search-wrap">
-        <input type="text" id="player-search" placeholder="Search player..." autocomplete="off" />
-        <div class="search-dropdown" id="search-dropdown"></div>
-      </div>
+    </div>
+    <div class="player-search-wrap">
+      <input type="text" id="player-search" placeholder="Search player..." autocomplete="off" />
+      <div class="search-dropdown" id="search-dropdown"></div>
     </div>
 
 {decade_nav_html}
