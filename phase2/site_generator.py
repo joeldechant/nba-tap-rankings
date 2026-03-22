@@ -16,6 +16,66 @@ from .weekly_update import calculate_season_rankings, calculate_weekly_rankings
 DOCS_DIR = os.path.join(config.PROJECT_DIR, "docs")
 
 
+def _get_rookie_sophomore_sets():
+    """Identify rookies and sophomores by cross-referencing scraped season CSVs.
+
+    Rookies = players in current season who don't appear in any prior season CSV.
+    Sophomores = players in current season whose first appearance is the immediately prior season.
+    Uses accent-normalized name matching to handle encoding differences (CSV vs DB).
+    Returns (rookie_names: set, sophomore_names: set) of DB-canonical player names.
+    """
+    import csv
+    import unicodedata
+
+    def normalize_name(name):
+        """Strip accents and fix double-encoded UTF-8 for comparison."""
+        try:
+            name = name.encode('latin-1').decode('utf-8')
+        except (UnicodeDecodeError, UnicodeEncodeError):
+            pass
+        nfkd = unicodedata.normalize('NFKD', name)
+        return ''.join(c for c in nfkd if not unicodedata.category(c).startswith('M')).lower().strip()
+
+    scraped_dir = os.path.join(config.PROJECT_DIR, "scraped_data")
+    current_br_year = config.CURRENT_SEASON_YEAR + 1  # e.g. 2026 for 2025-26 season
+    prev_br_year = current_br_year - 1  # 2025 for 2024-25 season
+
+    # Load all prior season names (normalized -> set of BR years)
+    prior_years = {}
+    for yr in range(1950, current_br_year):
+        csv_path = os.path.join(scraped_dir, f"{yr}_season.csv")
+        if not os.path.exists(csv_path):
+            continue
+        try:
+            with open(csv_path, 'r', encoding='utf-8') as f:
+                for row in csv.DictReader(f):
+                    n = normalize_name(row.get('Player', ''))
+                    if n:
+                        prior_years.setdefault(n, set()).add(yr)
+        except Exception:
+            continue
+
+    # Get current season DB player names
+    conn = db.get_connection()
+    db_players = [r[0] for r in conn.execute(
+        "SELECT DISTINCT player FROM season_averages WHERE season_year = ?",
+        (config.CURRENT_SEASON_YEAR,)
+    ).fetchall()]
+    conn.close()
+
+    rookie_names = set()
+    sophomore_names = set()
+    for p in db_players:
+        n = normalize_name(p)
+        years = prior_years.get(n, set())
+        if not years:
+            rookie_names.add(p)
+        elif min(years) == prev_br_year:
+            sophomore_names.add(p)
+
+    return rookie_names, sophomore_names
+
+
 def _remap_tapd(tapd_ranked):
     """Remap TAPD results so they look like standard tap results.
 
@@ -1529,7 +1589,9 @@ def build_career_js(historical, season_all):
 
 
 def generate_html(weekly, season, daily, monthly, month_label, month_winners, updated_at, week_start=None, week_end=None,
-                   team_season=None, team_monthly=None, team_month_winners=None, team_monthly_trend=None, player_monthly=None, month_stats=None):
+                   team_season=None, team_monthly=None, team_month_winners=None, team_monthly_trend=None, player_monthly=None, month_stats=None,
+                   rookie_season=None, soph_season=None, rookie_tapd=None, soph_tapd=None,
+                   rookie_monthly=None, soph_monthly=None):
     """Generate the full HTML page — TED only."""
     season_label = f"{config.CURRENT_SEASON_YEAR}-{str(config.CURRENT_SEASON_YEAR + 1)[-2:]}"
 
@@ -1621,6 +1683,32 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     player_monthly_json = json.dumps(player_monthly, ensure_ascii=False, separators=(',', ':'))
     month_stats_json = json.dumps(month_stats, ensure_ascii=False, separators=(',', ':'))
     player_monthly_js = f'<script>window.PLAYER_MONTHLY={player_monthly_json};window.MONTH_STATS_LIST={month_stats_json};</script>'
+
+    # Rookie / Sophomore tables + JS data
+    if rookie_season is None:
+        rookie_season = {'ted': [], 'tap': [], 'tapd': []}
+    if soph_season is None:
+        soph_season = {'ted': [], 'tap': [], 'tapd': []}
+    if rookie_tapd is None:
+        rookie_tapd = []
+    if soph_tapd is None:
+        soph_tapd = []
+    if rookie_monthly is None:
+        rookie_monthly = {}
+    if soph_monthly is None:
+        soph_monthly = {}
+
+    rookie_ted_table = render_table(rookie_season['ted'], 'ted', 'ROOKIE TED TOP 20')
+    rookie_tap_table = render_table(rookie_season['tap'], 'tap', 'ROOKIE TAP TOP 20')
+    rookie_tapd_table = render_table(rookie_tapd, 'tap', 'ROOKIE TAPD TOP 20', stat_label='TAPD')
+    soph_ted_table = render_table(soph_season['ted'], 'ted', 'SOPHOMORE TED TOP 20')
+    soph_tap_table = render_table(soph_season['tap'], 'tap', 'SOPHOMORE TAP TOP 20')
+    soph_tapd_table = render_table(soph_tapd, 'tap', 'SOPHOMORE TAPD TOP 20', stat_label='TAPD')
+
+    # Embed rookie/soph monthly data for player popup
+    rs_monthly_data = {'rookie': rookie_monthly, 'soph': soph_monthly}
+    rs_monthly_json = json.dumps(rs_monthly_data, ensure_ascii=False, separators=(',', ':'))
+    rs_monthly_js = f'<script>window.RS_MONTHLY={rs_monthly_json};</script>'
 
     historical = load_historical_rankings()
     season_all = season.get('all', [])
@@ -2077,6 +2165,31 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       display: block;
     }}
 
+    /* Rookie / Sophomore section */
+    .rookie-soph-section {{
+      border-top: 2px solid #fff;
+    }}
+    .rs-slot .table-header {{
+      cursor: pointer;
+    }}
+    .rs-slot .table-header:hover {{
+      background: #eee;
+    }}
+    .rs-slot .table-section h2 {{
+      color: #ee7623;
+    }}
+    .view-tap .rs-slot .rs-tap-table th.stat,
+    .view-tap .rs-slot .rs-tapd-table th.stat {{
+      color: #ee7623;
+      cursor: pointer;
+    }}
+    .rs-tapd-table .table-header h2 {{
+      color: #ee7623;
+    }}
+    .rs-tapd-table .table-header {{
+      cursor: pointer;
+    }}
+
     /* Team popup */
     .team-overlay {{
       display: none;
@@ -2420,7 +2533,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .view-tap .weekly-daily-slot thead th.stat,
     .view-tap .season-monthly-slot .monthly-table thead th.stat,
     .view-tap .team-rank-slot .tapd-team-table thead th.stat,
-    .view-tap .team-rank-slot .team-monthly-view thead th.stat {{
+    .view-tap .team-rank-slot .team-monthly-view thead th.stat,
+    .view-tap .rs-slot .rs-tapd-table thead th.stat {{
       text-indent: -4px;
     }}
 
@@ -3262,6 +3376,33 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       </div>
     </div>
 
+    <div class="rookie-soph-section">
+      <div class="view-ted" style="display:none">
+        <div class="tables-grid">
+          <div class="rs-slot">
+            <div class="rookie-table">{rookie_ted_table}</div>
+            <div class="soph-table" style="display:none">{soph_ted_table}</div>
+          </div>
+          <div></div>
+        </div>
+      </div>
+      <div class="view-tap">
+        <div class="tables-grid">
+          <div class="rs-slot">
+            <div class="rookie-table">
+              <div class="rs-tap-table">{rookie_tap_table}</div>
+              <div class="rs-tapd-table" style="display:none">{rookie_tapd_table}</div>
+            </div>
+            <div class="soph-table" style="display:none">
+              <div class="rs-tap-table">{soph_tap_table}</div>
+              <div class="rs-tapd-table" style="display:none">{soph_tapd_table}</div>
+            </div>
+          </div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+
 {historical_html}
     <footer>
       <div class="updated">Last updated: {updated_at}</div>
@@ -3364,6 +3505,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 {career_js}
 {recent_games_js}
 {player_monthly_js}
+{rs_monthly_js}
   <script>
   (function() {{
     var stat = 'tap';
@@ -3458,6 +3600,20 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       }}
       closeTeam();
       closeTotm();
+      /* Sync rookie/soph state: preserve which class is visible, reset TAPD to TAP */
+      var oldRsSlot = document.querySelector(oldView + ' .rs-slot');
+      var newRsSlot = document.querySelector(newView + ' .rs-slot');
+      if (oldRsSlot && newRsSlot) {{
+        var oldRookie = oldRsSlot.querySelector('.rookie-table');
+        var showingSoph = oldRookie && oldRookie.style.display === 'none';
+        var newRookie = newRsSlot.querySelector('.rookie-table');
+        var newSoph = newRsSlot.querySelector('.soph-table');
+        if (newRookie) newRookie.style.display = showingSoph ? 'none' : '';
+        if (newSoph) newSoph.style.display = showingSoph ? '' : 'none';
+        /* Reset TAPD sub-toggle to TAP */
+        newRsSlot.querySelectorAll('.rs-tap-table').forEach(function(t) {{ t.style.display = ''; }});
+        newRsSlot.querySelectorAll('.rs-tapd-table').forEach(function(t) {{ t.style.display = 'none'; }});
+      }}
       /* Reset per-year TAPD toggles back to TAP on switch */
       document.querySelectorAll('.view-tap .tapd-year-table').forEach(function(t) {{ t.style.display = 'none'; }});
       document.querySelectorAll('.view-tap .tap-year-table').forEach(function(t) {{ t.style.display = ''; }});
@@ -3760,6 +3916,12 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         // Check if click is from monthly table
         if (td.closest('.monthly-table')) {{
           showMonthlyStats(td.getAttribute('data-player'));
+          return;
+        }}
+        // Check if click is from rookie/soph table
+        if (td.closest('.rs-slot')) {{
+          var classKey = td.closest('.rookie-table') ? 'rookie' : 'soph';
+          showRsMonthly(td.getAttribute('data-player'), classKey);
           return;
         }}
         var yearDiv = td.closest('.year-table[data-year]');
@@ -4083,6 +4245,100 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       th.style.color = '#ee7623';
       th.style.cursor = 'pointer';
     }});
+
+    /* Rookie / Sophomore toggle */
+    document.querySelectorAll('.rs-slot').forEach(function(slot) {{
+      slot.addEventListener('click', function(e) {{
+        var header = e.target.closest('.table-header');
+        if (!header) return;
+        /* Ignore if click was on a stat sub-header (handled by TAP/TAPD toggle below) */
+        var th = e.target.closest('th.stat');
+        if (th) return;
+        var inTapd = !!header.closest('.rs-tapd-table');
+        var rookieDiv = slot.querySelector('.rookie-table');
+        var sophDiv = slot.querySelector('.soph-table');
+        if (!rookieDiv || !sophDiv) return;
+        var rookieVisible = rookieDiv.style.display !== 'none';
+        rookieDiv.style.display = rookieVisible ? 'none' : '';
+        sophDiv.style.display = rookieVisible ? '' : 'none';
+        /* If toggling from TAPD header, stay in TAPD mode */
+        if (inTapd) {{
+          var newActive = rookieVisible ? sophDiv : rookieDiv;
+          var tapT = newActive.querySelector('.rs-tap-table');
+          var tapdT = newActive.querySelector('.rs-tapd-table');
+          if (tapT && tapdT) {{
+            tapT.style.display = 'none';
+            tapdT.style.display = '';
+          }}
+        }}
+      }});
+    }});
+
+    /* Rookie/Soph TAP ↔ TAPD sub-header toggle (TAP view only) */
+    document.querySelectorAll('.view-tap .rs-slot').forEach(function(slot) {{
+      slot.addEventListener('click', function(e) {{
+        var th = e.target.closest('th.stat');
+        if (!th) return;
+        var inTap = !!th.closest('.rs-tap-table');
+        var inTapd = !!th.closest('.rs-tapd-table');
+        if (!inTap && !inTapd) return;
+        /* Find the active class div (rookie or soph) */
+        var rookieDiv = slot.querySelector('.rookie-table');
+        var sophDiv = slot.querySelector('.soph-table');
+        var activeDiv = (rookieDiv && rookieDiv.style.display !== 'none') ? rookieDiv : sophDiv;
+        if (!activeDiv) return;
+        var tapT = activeDiv.querySelector('.rs-tap-table');
+        var tapdT = activeDiv.querySelector('.rs-tapd-table');
+        if (!tapT || !tapdT) return;
+        var tapVisible = tapT.style.display !== 'none';
+        tapT.style.display = tapVisible ? 'none' : '';
+        tapdT.style.display = tapVisible ? '' : 'none';
+      }});
+    }});
+
+    /* Rookie/Soph player popup — monthly stats with class-specific rank */
+    function showRsMonthly(name, classKey) {{
+      var rsData = window.RS_MONTHLY && window.RS_MONTHLY[classKey];
+      var playerMonths = rsData && rsData[name];
+      var allMonths = window.MONTH_STATS_LIST || [];
+      if (!playerMonths || allMonths.length === 0) {{
+        showCareer(name, currentYear);
+        return;
+      }}
+      var pLookup = {{}};
+      for (var j = 0; j < playerMonths.length; j++) {{
+        pLookup[playerMonths[j].month] = playerMonths[j];
+      }}
+      var su = stat === 'ted' ? 'TED' : 'TAPD';
+      teamTitle.textContent = name;
+      teamThead.querySelector('tr').innerHTML = '<th class="tp-player" style="text-align:center">Month</th><th class="tp-stat">' + su + '</th><th class="tp-rank">Rank</th>';
+      teamThead.classList.add('team-trend-mode');
+      var html = '';
+      for (var i = allMonths.length - 1; i >= 0; i--) {{
+        var ms = allMonths[i];
+        var pm = pLookup[ms.month];
+        var isCurrentMonth = (i === allMonths.length - 1);
+        var cs = isCurrentMonth ? ' style="color:#ee7623;font-weight:900"' : '';
+        if (pm) {{
+          var val = stat === 'ted' ? pm.ted : pm.tapd;
+          var rank = stat === 'ted' ? pm.ted_rank : pm.tapd_rank;
+          html += '<tr>'
+            + '<td class="tp-player"' + cs + '>' + ms.month + '</td>'
+            + '<td class="tp-stat"' + cs + '>' + val.toFixed(1) + '</td>'
+            + '<td class="tp-rank"' + cs + '>' + (rank != null ? rank : '\u2014') + '</td>'
+            + '</tr>';
+        }} else {{
+          html += '<tr>'
+            + '<td class="tp-player"' + cs + '>' + ms.month + '</td>'
+            + '<td class="tp-stat"' + cs + '>\u2014</td>'
+            + '<td class="tp-rank"' + cs + '>\u2014</td>'
+            + '</tr>';
+        }}
+      }}
+      teamBody.innerHTML = html;
+      teamOverlay.classList.add('active');
+      document.body.classList.add('team-open');
+    }}
 
     /* Weekly / Daily toggle — click header to swap */
     document.querySelectorAll('.weekly-daily-slot').forEach(function(slot) {{
@@ -6131,11 +6387,100 @@ def generate_site():
     else:
         team_monthly = {'ted': [], 'tapd': []}
 
+    # Rookie / Sophomore rankings
+    rookie_names, sophomore_names = _get_rookie_sophomore_sets()
+    print(f"  Rookies identified: {len(rookie_names)}, Sophomores: {len(sophomore_names)}")
+
+    # Filter season rankings to each class and take top 20
+    def _class_top20(all_players, name_set):
+        """Filter players to a class set, sort by each stat, take top 20."""
+        class_players = [p for p in all_players if p['player'] in name_set]
+        result = {}
+        for sk in ['ted', 'tap', 'tapd']:
+            valid = [p for p in class_players if p.get(sk) is not None]
+            ranked = sorted(valid, key=lambda x: x[sk], reverse=True)[:20]
+            for i, r in enumerate(ranked):
+                r = dict(r)
+                r[f'{sk}_rank'] = i + 1
+                ranked[i] = r
+            result[sk] = ranked
+        return result
+
+    season_all_for_class = season.get('all', [])
+    rookie_season = _class_top20(season_all_for_class, rookie_names)
+    soph_season = _class_top20(season_all_for_class, sophomore_names)
+
+    # TAPD remapping for rookie/soph (same as monthly TAP → TAPD display)
+    rookie_tapd_remapped = _remap_tapd(rookie_season.get('tapd', []))
+    soph_tapd_remapped = _remap_tapd(soph_season.get('tapd', []))
+
+    print(f"  Rookie top 20: TED {len(rookie_season['ted'])}, TAP {len(rookie_season['tap'])}, TAPD {len(rookie_season.get('tapd', []))}")
+    print(f"  Sophomore top 20: TED {len(soph_season['ted'])}, TAP {len(soph_season['tap'])}, TAPD {len(soph_season.get('tapd', []))}")
+
+    # Compute monthly rookie/sophomore rankings for player popup
+    rookie_monthly = {}  # {player: [{month, ted, tapd, ted_rank, tapd_rank}, ...]}
+    soph_monthly = {}
+    if last_game_date:
+        import calendar as cal_mod
+        season_start_month = 10
+        season_start_year = config.CURRENT_SEASON_YEAR
+        ym_pairs_rs = []
+        yy, mm = season_start_year, season_start_month
+        while (yy, mm) <= (last_game_date.year, last_game_date.month):
+            ym_pairs_rs.append((yy, mm))
+            mm += 1
+            if mm > 12:
+                mm = 1
+                yy += 1
+        for yy, mm in ym_pairs_rs:
+            m_start_rs = date(yy, mm, 1)
+            if yy == last_game_date.year and mm == last_game_date.month:
+                m_end_rs = last_game_date
+            else:
+                m_end_rs = date(yy, mm, cal_mod.monthrange(yy, mm)[1])
+            try:
+                m_rank_rs = calculate_weekly_rankings(m_start_rs, m_end_rs)
+            except Exception:
+                continue
+            month_name_rs = m_start_rs.strftime("%B %Y").upper()
+            m_all_rs = m_rank_rs.get('all', [])
+
+            for class_set, class_monthly in [(rookie_names, rookie_monthly), (sophomore_names, soph_monthly)]:
+                class_players = [r for r in m_all_rs if r['player'] in class_set]
+                # Rank within class by TED
+                ted_sorted_c = sorted([r for r in class_players if r.get('ted') is not None],
+                                       key=lambda x: x['ted'], reverse=True)
+                ted_rank_c = {r['player']: i + 1 for i, r in enumerate(ted_sorted_c)}
+                # Rank within class by TAPD (fall back to TAP)
+                tapd_sorted_c = sorted([r for r in class_players if r.get('tapd') is not None or r.get('tap') is not None],
+                                        key=lambda x: x['tapd'] if x.get('tapd') is not None else (x['tap'] if x.get('tap') is not None else 0),
+                                        reverse=True)
+                tapd_rank_c = {r['player']: i + 1 for i, r in enumerate(tapd_sorted_c)}
+                for r in class_players:
+                    pname = r['player']
+                    tapd_val = r.get('tapd', r.get('tap', 0))
+                    entry = {
+                        'month': month_name_rs,
+                        'ted': round(r.get('ted', 0), 1),
+                        'tapd': round(tapd_val, 1) if tapd_val else 0,
+                        'ted_rank': ted_rank_c.get(pname),
+                        'tapd_rank': tapd_rank_c.get(pname),
+                    }
+                    if pname not in class_monthly:
+                        class_monthly[pname] = []
+                    class_monthly[pname].append(entry)
+
+        print(f"  Rookie monthly data: {len(rookie_monthly)} players")
+        print(f"  Sophomore monthly data: {len(soph_monthly)} players")
+
     # Generate HTML
     updated_at = date.today().strftime("%B %d, %Y")
     html = generate_html(weekly, season, daily, monthly, month_label, month_winners, updated_at, week_start, week_end,
                          team_season=team_season, team_monthly=team_monthly, team_month_winners=team_month_winners,
-                         team_monthly_trend=team_monthly_trend, player_monthly=player_monthly, month_stats=month_stats)
+                         team_monthly_trend=team_monthly_trend, player_monthly=player_monthly, month_stats=month_stats,
+                         rookie_season=rookie_season, soph_season=soph_season,
+                         rookie_tapd=rookie_tapd_remapped, soph_tapd=soph_tapd_remapped,
+                         rookie_monthly=rookie_monthly, soph_monthly=soph_monthly)
 
     # Write output
     os.makedirs(DOCS_DIR, exist_ok=True)
