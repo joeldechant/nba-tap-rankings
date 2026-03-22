@@ -2815,7 +2815,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       padding-bottom: 5.5px;
     }}
     .diff-table thead tr {{
-      height: 38.2625px;
+      height: 37.7625px;
     }}
     .diff-table thead th {{
       padding-top: 8px;
