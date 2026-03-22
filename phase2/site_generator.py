@@ -3045,6 +3045,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .career-monthly-toggle {{
       color: #ee7623;
       font-size: 0.7em;
+      font-weight: 900;
       cursor: pointer;
       margin-left: 8px;
       vertical-align: middle;
@@ -3740,11 +3741,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       // Show CAREER toggle only when opened from season-to-date (TED or TAPD only, not TAP)
       if (fromSeason) {{
         if (s === 'tap') {{
-          // TAP mode: show CAREER in white (not clickable)
+          // TAP mode: show CAREER in black (not clickable)
           _careerPopupState = null;
           careerMonthlyToggle.textContent = 'CAREER';
           careerMonthlyToggle.style.display = '';
-          careerMonthlyToggle.style.color = '#fff';
+          careerMonthlyToggle.style.color = '#000';
           careerMonthlyToggle.style.cursor = 'default';
         }} else {{
           // TED or TAPD: show CAREER in orange (clickable)
@@ -3960,13 +3961,18 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       popupBody.innerHTML = html;
     }}
 
+    var _careerToggleClicked = false;
     careerMonthlyToggle.addEventListener('click', function(e) {{
       e.stopPropagation();
+      e.preventDefault();
       if (!_careerPopupState) return;
+      _careerToggleClicked = true;
       var showingMonthly = (careerMonthlyToggle.textContent === 'MONTHLY');
       if (showingMonthly) {{
         // Go back to career view
-        showCareer(_careerPopupState.name, currentYear, _careerPopupState.statMode, false, false, true);
+        var savedName = _careerPopupState.name;
+        var savedMode = _careerPopupState.statMode;
+        showCareer(savedName, currentYear, savedMode, false, false, true);
       }} else {{
         // Show monthly view
         showCareerMonthly();
@@ -4034,6 +4040,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     document.getElementById('career-popup-close').addEventListener('click', closeCareer);
     overlay.addEventListener('click', function(e) {{
+      if (_careerToggleClicked) {{
+        _careerToggleClicked = false;
+        return;
+      }}
       closeCareer();
     }});
     document.addEventListener('keydown', function(e) {{
