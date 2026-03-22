@@ -28,6 +28,7 @@ EXCLUDED_PLAYERS = [
 # Tiered minimum games for season-to-date rankings
 # (date_threshold, min_games) — checked in order, first match wins
 SEASON_GAMES_TIERS = [
+    (date(2026, 4, 15), 40),   # Apr 15+ → 40 games min (post-regular season, full-season screen)
     (date(2026, 3, 1), 30),    # Mar 1+ → 30 games min (~55 team games played)
     (date(2026, 1, 15), 20),   # Jan 15+ → 20 games min (~40 team games played)
     (date(2025, 12, 15), 10),  # Dec 15+ → 10 games min (~26 team games played)
