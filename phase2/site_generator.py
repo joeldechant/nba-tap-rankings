@@ -3737,11 +3737,23 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       var su = s.toUpperCase();
       var hlYear = contextYear || null;
       popupName.textContent = name;
-      // Show CAREER toggle only when opened from season-to-date
+      // Show CAREER toggle only when opened from season-to-date (TED or TAPD only, not TAP)
       if (fromSeason) {{
-        _careerPopupState = {{name: name, statMode: s}};
-        careerMonthlyToggle.textContent = 'CAREER';
-        careerMonthlyToggle.style.display = '';
+        if (s === 'tap') {{
+          // TAP mode: show CAREER in white (not clickable)
+          _careerPopupState = null;
+          careerMonthlyToggle.textContent = 'CAREER';
+          careerMonthlyToggle.style.display = '';
+          careerMonthlyToggle.style.color = '#fff';
+          careerMonthlyToggle.style.cursor = 'default';
+        }} else {{
+          // TED or TAPD: show CAREER in orange (clickable)
+          _careerPopupState = {{name: name, statMode: s}};
+          careerMonthlyToggle.textContent = 'CAREER';
+          careerMonthlyToggle.style.display = '';
+          careerMonthlyToggle.style.color = '#ee7623';
+          careerMonthlyToggle.style.cursor = 'pointer';
+        }}
       }} else {{
         _careerPopupState = null;
         careerMonthlyToggle.style.display = 'none';
@@ -3987,11 +3999,16 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         }}
         // Check if click is from rookie/soph table
         if (td.closest('.rs-slot')) {{
-          var classKey = td.closest('.rookie-table') ? 'rookie' : 'soph';
           var rsStatMode = 'ted';
           if (stat === 'tap') {{
-            rsStatMode = td.closest('.rs-tapd-table') ? 'tapd' : 'tap';
+            if (td.closest('.rs-tapd-table')) {{
+              rsStatMode = 'tapd';
+            }} else {{
+              // TAP mode: no popup
+              return;
+            }}
           }}
+          var classKey = td.closest('.rookie-table') ? 'rookie' : 'soph';
           showRsMonthly(td.getAttribute('data-player'), classKey, rsStatMode);
           return;
         }}
