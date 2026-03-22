@@ -2166,6 +2166,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
 
     /* Rookie / Sophomore section (right column of team-rank-section) */
+    .rs-slot tbody tr:last-child {{
+      border-bottom: 1px solid #fff;
+    }}
     .rs-slot .table-header {{
       cursor: pointer;
     }}
