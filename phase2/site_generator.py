@@ -3049,7 +3049,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       -webkit-text-stroke: 0.5px currentColor;
       cursor: pointer;
       margin-left: 8px;
-      vertical-align: middle;
+      vertical-align: 0.15em;
     }}
     .career-monthly-toggle:hover {{
       opacity: 0.7;
