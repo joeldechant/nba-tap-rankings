@@ -5950,6 +5950,7 @@ def generate_site():
     # Each entry: player name as it appears in BR/DB.
     TEAM_POWER_RANK_OVERRIDES = [
         'Jayson Tatum',
+        'Tyler Herro',
     ]
 
     def _get_override_players(override_names):
