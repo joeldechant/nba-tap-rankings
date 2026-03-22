@@ -1890,6 +1890,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       color: #fff;
       line-height: 1.5;
       text-align: justify;
+      margin-bottom: 0;
     }}
 
     .tables-grid {{
