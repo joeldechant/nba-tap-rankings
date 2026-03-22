@@ -6202,22 +6202,17 @@ def generate_site():
             filtered_all = [r for r in monthly_all_players if r.get('g', 0) >= min_monthly_games]
             monthly_full['ted'] = sorted([r for r in filtered_all if r.get('ted') is not None],
                                          key=lambda x: x['ted'], reverse=True)[:100]
-            monthly_full['tap'] = sorted([r for r in filtered_all if r.get('tap') is not None],
-                                         key=lambda x: x['tap'], reverse=True)[:100]
             tapd_filtered = [r for r in filtered_all if r.get('tapd') is not None]
             if tapd_filtered:
                 monthly_full['tapd'] = sorted(tapd_filtered, key=lambda x: x['tapd'], reverse=True)[:100]
         monthly_tapd = monthly_full.get('tapd', [])
-        if monthly_tapd:
-            monthly_tap = _remap_tapd(monthly_tapd)[:100]
-        else:
-            monthly_tap = monthly_full['tap'][:100]
+        monthly_tap = _remap_tapd(monthly_tapd)[:100] if monthly_tapd else []
         monthly = {
             'ted': monthly_full['ted'][:100],
             'tap': monthly_tap,
         }
         month_label = last_game_date.strftime("%B %Y").upper()
-        print(f"  Monthly ({month_start} to {last_game_date}): TED {len(monthly['ted'])}, TAP {len(monthly['tap'])} players")
+        print(f"  Monthly ({month_start} to {last_game_date}): TED {len(monthly['ted'])}, TAPD {len(monthly['tap'])} players")
     else:
         monthly = {'ted': [], 'tap': []}
         month_label = ""
@@ -6266,17 +6261,12 @@ def generate_site():
             else:
                 ted_filtered = _filter_min_games(m_rankings['ted'], min_g)
             ted_leader = ted_filtered[0] if ted_filtered else None
-            # Use TAPD if available, else standard TAP
+            # Use TAPD only for monthly TAP-side winner (not standard TAP)
             tapd_list = m_rankings.get('tapd', [])
             if tapd_list:
                 tap_filtered = tapd_list if is_current_month else _filter_min_games(tapd_list, min_g)
                 tap_leader_data = tap_filtered[0] if tap_filtered else None
-                tap_val = round(tap_leader_data.get('tapd', tap_leader_data.get('tap', 0)), 1) if tap_leader_data else 0
-                tap_leader_name = tap_leader_data['player'] if tap_leader_data else ''
-            elif m_rankings['tap']:
-                tap_filtered = m_rankings['tap'] if is_current_month else _filter_min_games(m_rankings['tap'], min_g)
-                tap_leader_data = tap_filtered[0] if tap_filtered else None
-                tap_val = round(tap_leader_data['tap'], 1) if tap_leader_data else 0
+                tap_val = round(tap_leader_data.get('tapd', 0), 1) if tap_leader_data else 0
                 tap_leader_name = tap_leader_data['player'] if tap_leader_data else ''
             else:
                 tap_val = 0
@@ -6351,26 +6341,20 @@ def generate_site():
             })
 
             # Collect per-player monthly stats for player popup
-            # Build rank lookups (sorted by TED, TAP, and TAPD)
+            # Build rank lookups (sorted by TED and TAPD only — no monthly TAP)
             ted_sorted_all = sorted([r for r in m_all if r.get('ted') is not None],
                                      key=lambda x: x['ted'], reverse=True)
-            tap_sorted_all = sorted([r for r in m_all if r.get('tap') is not None],
-                                     key=lambda x: x['tap'], reverse=True)
-            tapd_sorted_all = sorted([r for r in m_all if (r.get('tapd') is not None or r.get('tap') is not None)],
-                                      key=lambda x: x['tapd'] if x.get('tapd') is not None else (x['tap'] if x.get('tap') is not None else 0), reverse=True)
+            tapd_sorted_all = sorted([r for r in m_all if r.get('tapd') is not None],
+                                      key=lambda x: x['tapd'], reverse=True)
             ted_rank_lookup = {r['player']: i + 1 for i, r in enumerate(ted_sorted_all)}
-            tap_rank_lookup = {r['player']: i + 1 for i, r in enumerate(tap_sorted_all)}
             tapd_rank_lookup = {r['player']: i + 1 for i, r in enumerate(tapd_sorted_all)}
             for r in m_all:
                 pname = r['player']
-                tapd_val = r.get('tapd', r.get('tap', 0))
                 entry = {
                     'month': month_name,
                     'ted': round(r.get('ted', 0), 1),
-                    'tap': round(r.get('tap', 0), 1) if r.get('tap') is not None else 0,
-                    'tapd': round(tapd_val, 1) if tapd_val else 0,
+                    'tapd': round(r.get('tapd', 0), 1) if r.get('tapd') is not None else 0,
                     'ted_rank': ted_rank_lookup.get(pname),
-                    'tap_rank': tap_rank_lookup.get(pname),
                     'tapd_rank': tapd_rank_lookup.get(pname),
                 }
                 if pname not in player_monthly:
@@ -6553,25 +6537,17 @@ def generate_site():
                 ted_sorted_c = sorted([r for r in class_players if r.get('ted') is not None],
                                        key=lambda x: x['ted'], reverse=True)
                 ted_rank_c = {r['player']: i + 1 for i, r in enumerate(ted_sorted_c)}
-                # Rank within class by TAP
-                tap_sorted_c = sorted([r for r in class_players if r.get('tap') is not None],
-                                       key=lambda x: x['tap'], reverse=True)
-                tap_rank_c = {r['player']: i + 1 for i, r in enumerate(tap_sorted_c)}
-                # Rank within class by TAPD (fall back to TAP)
-                tapd_sorted_c = sorted([r for r in class_players if r.get('tapd') is not None or r.get('tap') is not None],
-                                        key=lambda x: x['tapd'] if x.get('tapd') is not None else (x['tap'] if x.get('tap') is not None else 0),
-                                        reverse=True)
+                # Rank within class by TAPD only (no monthly TAP)
+                tapd_sorted_c = sorted([r for r in class_players if r.get('tapd') is not None],
+                                        key=lambda x: x['tapd'], reverse=True)
                 tapd_rank_c = {r['player']: i + 1 for i, r in enumerate(tapd_sorted_c)}
                 for r in class_players:
                     pname = r['player']
-                    tapd_val = r.get('tapd', r.get('tap', 0))
                     entry = {
                         'month': month_name_rs,
                         'ted': round(r.get('ted', 0), 1),
-                        'tap': round(r.get('tap', 0), 1) if r.get('tap') is not None else 0,
-                        'tapd': round(tapd_val, 1) if tapd_val else 0,
+                        'tapd': round(r.get('tapd', 0), 1) if r.get('tapd') is not None else 0,
                         'ted_rank': ted_rank_c.get(pname),
-                        'tap_rank': tap_rank_c.get(pname),
                         'tapd_rank': tapd_rank_c.get(pname),
                     }
                     if pname not in class_monthly:
