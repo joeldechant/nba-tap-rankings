@@ -4054,9 +4054,16 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           return;
         }}
         var seasonVisible = seasonDiv.style.display !== 'none';
-        seasonDiv.style.display = seasonVisible ? 'none' : '';
-        monthlyDiv.style.display = seasonVisible ? '' : 'none';
-        if (tapdDiv) tapdDiv.style.display = 'none';
+        if (!seasonVisible) {{
+          /* Going back to season view: reset TAPD sub-toggle to TAP */
+          seasonDiv.style.display = '';
+          monthlyDiv.style.display = 'none';
+          if (tapdDiv) tapdDiv.style.display = 'none';
+        }} else {{
+          seasonDiv.style.display = 'none';
+          monthlyDiv.style.display = '';
+          if (tapdDiv) tapdDiv.style.display = 'none';
+        }}
       }});
     }});
 
