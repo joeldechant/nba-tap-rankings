@@ -3840,7 +3840,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       var activeIdx = -1;
 
       function normalize(s) {{
-        return s.toLowerCase().replace(/[^a-z ]/g, '');
+        return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z ]/g, '');
       }}
 
       function getMatches(q) {{
@@ -3964,15 +3964,18 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           careerMonthlyToggle.style.display = '';
           careerMonthlyToggle.style.color = '#ee7623';
           careerMonthlyToggle.style.cursor = 'pointer';
+          popupName.style.cursor = 'pointer';
         }} else if (_searchPopupState.hasMonthly && s === 'tap') {{
           _careerPopupState = null;
           careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.12em;font-weight:normal">&nbsp;&ndash;&nbsp;</span>CAREER';
           careerMonthlyToggle.style.display = '';
           careerMonthlyToggle.style.color = '#000';
           careerMonthlyToggle.style.cursor = 'default';
+          popupName.style.cursor = 'default';
         }} else {{
           _careerPopupState = null;
           careerMonthlyToggle.style.display = 'none';
+          popupName.style.cursor = 'default';
         }}
       }} else if (fromSeason) {{
         careerStatCycle.style.display = 'none';
@@ -3983,6 +3986,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           careerMonthlyToggle.style.display = '';
           careerMonthlyToggle.style.color = '#000';
           careerMonthlyToggle.style.cursor = 'default';
+          popupName.style.cursor = 'default';
         }} else {{
           // TED or TAPD: show CAREER in orange (clickable)
           _careerPopupState = {{name: name, statMode: s}};
@@ -3990,11 +3994,13 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           careerMonthlyToggle.style.display = '';
           careerMonthlyToggle.style.color = '#ee7623';
           careerMonthlyToggle.style.cursor = 'pointer';
+          popupName.style.cursor = 'pointer';
         }}
       }} else {{
         careerStatCycle.style.display = 'none';
         _careerPopupState = null;
         careerMonthlyToggle.style.display = 'none';
+        popupName.style.cursor = 'default';
       }}
       popupStatHeader.textContent = su;
       var avgH = document.getElementById('career-avg-header');
@@ -4206,14 +4212,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       popupBody.innerHTML = html;
     }}
 
-    var _careerToggleClicked = false;
-
     // Stat cycle click handler (search popup only)
     careerStatCycle.addEventListener('click', function(e) {{
       e.stopPropagation();
       e.preventDefault();
       if (!_searchPopupState) return;
-      _careerToggleClicked = true;
       var avail = _searchPopupState.availStats;
       var curIdx = avail.indexOf(_searchPopupState.currentStat);
       var nextIdx = (curIdx + 1) % avail.length;
@@ -4221,14 +4224,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       showCareer(_searchPopupState.name, currentYear, avail[nextIdx], false, false, false, true);
     }});
 
-    careerMonthlyToggle.addEventListener('click', function(e) {{
-      e.stopPropagation();
-      e.preventDefault();
+    function doCareerMonthlyToggle() {{
       if (!_careerPopupState) return;
-      _careerToggleClicked = true;
       var showingMonthly = careerMonthlyToggle.textContent.indexOf('MONTHLY') >= 0;
       if (showingMonthly) {{
-        // Go back to career view
         var savedName = _careerPopupState.name;
         var savedMode = _careerPopupState.statMode;
         if (_searchPopupState) {{
@@ -4237,9 +4236,20 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           showCareer(savedName, currentYear, savedMode, false, false, true);
         }}
       }} else {{
-        // Show monthly view
         showCareerMonthly();
       }}
+    }}
+
+    careerMonthlyToggle.addEventListener('click', function(e) {{
+      e.stopPropagation();
+      e.preventDefault();
+      doCareerMonthlyToggle();
+    }});
+
+    popupName.addEventListener('click', function(e) {{
+      e.stopPropagation();
+      e.preventDefault();
+      doCareerMonthlyToggle();
     }});
 
     document.querySelector('.container').addEventListener('click', function(e) {{
@@ -4302,11 +4312,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }});
 
     document.getElementById('career-popup-close').addEventListener('click', closeCareer);
-    overlay.addEventListener('click', function(e) {{
-      if (_careerToggleClicked) {{
-        _careerToggleClicked = false;
-        return;
-      }}
+    overlay.addEventListener('click', function() {{
       closeCareer();
     }});
     document.addEventListener('keydown', function(e) {{
