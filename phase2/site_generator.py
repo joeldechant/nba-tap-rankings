@@ -3042,6 +3042,17 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       z-index: 1;
     }}
 
+    .career-monthly-toggle {{
+      color: #ee7623;
+      font-size: 0.7em;
+      cursor: pointer;
+      margin-left: 8px;
+      vertical-align: middle;
+    }}
+    .career-monthly-toggle:hover {{
+      opacity: 0.7;
+    }}
+
     .career-popup-close {{
       position: absolute;
       top: 8px;
@@ -3405,6 +3416,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     <div class="career-popup" id="career-popup">
       <div class="career-popup-header">
         <span id="career-popup-name"></span>
+        <span id="career-monthly-toggle" class="career-monthly-toggle" style="display:none">CAREER</span>
         <button class="career-popup-close" id="career-popup-close">&times;</button>
       </div>
       <table>
@@ -3715,13 +3727,25 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     var currentYear = {config.CURRENT_SEASON_YEAR};
     var currentMonthName = '{month_label.split(" ")[0] if month_label else ""}';  // e.g. "MARCH"
 
-    function showCareer(name, contextYear, statOverride, diffMode, goatMode) {{
+    var careerMonthlyToggle = document.getElementById('career-monthly-toggle');
+    var _careerPopupState = null;  // stores name and statMode when showing from season-to-date
+
+    function showCareer(name, contextYear, statOverride, diffMode, goatMode, fromSeason) {{
       var career = window.CAREER[name];
       if (!career || career.length === 0) return;
       var s = statOverride || stat;
       var su = s.toUpperCase();
       var hlYear = contextYear || null;
       popupName.textContent = name;
+      // Show CAREER toggle only when opened from season-to-date
+      if (fromSeason) {{
+        _careerPopupState = {{name: name, statMode: s}};
+        careerMonthlyToggle.textContent = 'CAREER';
+        careerMonthlyToggle.style.display = '';
+      }} else {{
+        _careerPopupState = null;
+        careerMonthlyToggle.style.display = 'none';
+      }}
       popupStatHeader.textContent = su;
       var avgH = document.getElementById('career-avg-header');
       var t10H = document.getElementById('career-top10-header');
@@ -3870,11 +3894,72 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       overlay.classList.remove('active');
       document.body.classList.remove('career-open');
       popupBody.innerHTML = '';
+      _careerPopupState = null;
+      careerMonthlyToggle.style.display = 'none';
       // Restore default thead
       var thead = overlay.querySelector('thead tr');
       thead.innerHTML = defaultThead;
       popupStatHeader = document.getElementById('career-stat-header');
     }}
+
+    function showCareerMonthly() {{
+      if (!_careerPopupState) return;
+      var name = _careerPopupState.name;
+      var s = _careerPopupState.statMode;
+      var su = s.toUpperCase();
+      var playerMonths = window.PLAYER_MONTHLY && window.PLAYER_MONTHLY[name];
+      var allMonths = window.MONTH_STATS_LIST || [];
+      if (allMonths.length === 0) return;
+      var pLookup = {{}};
+      if (playerMonths) {{
+        for (var j = 0; j < playerMonths.length; j++) {{
+          pLookup[playerMonths[j].month] = playerMonths[j];
+        }}
+      }}
+      popupName.textContent = name;
+      careerMonthlyToggle.textContent = 'MONTHLY';
+      // Swap thead to Month / Stat / Rank
+      var thead = overlay.querySelector('thead tr');
+      thead.innerHTML = '<th class="cp-season" style="text-align:center">Month</th>'
+        + '<th class="cp-stat">' + su + '</th>'
+        + '<th class="cp-avg">Rank</th>';
+      var html = '';
+      for (var i = allMonths.length - 1; i >= 0; i--) {{
+        var ms = allMonths[i];
+        var pm = pLookup[ms.month];
+        var isCurrentMonth = (i === allMonths.length - 1);
+        var cs = isCurrentMonth ? ' style="color:#ee7623;font-weight:900"' : '';
+        if (pm) {{
+          var val = pm[s];
+          var rank = pm[s + '_rank'];
+          html += '<tr>'
+            + '<td class="cp-season"' + cs + '>' + ms.month + '</td>'
+            + '<td class="cp-stat"' + cs + '>' + (val != null ? val.toFixed(1) : '\u2014') + '</td>'
+            + '<td class="cp-avg"' + cs + '>' + (rank != null ? rank : '\u2014') + '</td>'
+            + '</tr>';
+        }} else {{
+          html += '<tr>'
+            + '<td class="cp-season"' + cs + '>' + ms.month + '</td>'
+            + '<td class="cp-stat"' + cs + '>\u2014</td>'
+            + '<td class="cp-avg"' + cs + '>\u2014</td>'
+            + '</tr>';
+        }}
+      }}
+      popupBody.innerHTML = html;
+    }}
+
+    careerMonthlyToggle.addEventListener('click', function(e) {{
+      e.stopPropagation();
+      if (!_careerPopupState) return;
+      var showingMonthly = (careerMonthlyToggle.textContent === 'MONTHLY');
+      if (showingMonthly) {{
+        // Go back to career view
+        showCareer(_careerPopupState.name, currentYear, _careerPopupState.statMode, false, false, true);
+      }} else {{
+        // Show monthly view
+        showCareerMonthly();
+      }}
+    }});
 
     document.querySelector('.container').addEventListener('click', function(e) {{
       if (overlay.classList.contains('active')) {{
@@ -3908,6 +3993,15 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
             rsStatMode = td.closest('.rs-tapd-table') ? 'tapd' : 'tap';
           }}
           showRsMonthly(td.getAttribute('data-player'), classKey, rsStatMode);
+          return;
+        }}
+        // Check if click is from season-to-date table (inside season-monthly-slot but not monthly-table)
+        if (td.closest('.season-monthly-slot') && !td.closest('.monthly-table')) {{
+          var seasonSo = null;
+          if (stat === 'tap') {{
+            seasonSo = td.closest('.tapd-table') ? 'tapd' : 'tap';
+          }}
+          showCareer(td.getAttribute('data-player'), currentYear, seasonSo, false, false, true);
           return;
         }}
         var yearDiv = td.closest('.year-table[data-year]');
@@ -6240,12 +6334,15 @@ def generate_site():
             })
 
             # Collect per-player monthly stats for player popup
-            # Build rank lookups (sorted by TED and TAPD)
+            # Build rank lookups (sorted by TED, TAP, and TAPD)
             ted_sorted_all = sorted([r for r in m_all if r.get('ted') is not None],
                                      key=lambda x: x['ted'], reverse=True)
+            tap_sorted_all = sorted([r for r in m_all if r.get('tap') is not None],
+                                     key=lambda x: x['tap'], reverse=True)
             tapd_sorted_all = sorted([r for r in m_all if (r.get('tapd') is not None or r.get('tap') is not None)],
                                       key=lambda x: x['tapd'] if x.get('tapd') is not None else (x['tap'] if x.get('tap') is not None else 0), reverse=True)
             ted_rank_lookup = {r['player']: i + 1 for i, r in enumerate(ted_sorted_all)}
+            tap_rank_lookup = {r['player']: i + 1 for i, r in enumerate(tap_sorted_all)}
             tapd_rank_lookup = {r['player']: i + 1 for i, r in enumerate(tapd_sorted_all)}
             for r in m_all:
                 pname = r['player']
@@ -6253,8 +6350,10 @@ def generate_site():
                 entry = {
                     'month': month_name,
                     'ted': round(r.get('ted', 0), 1),
+                    'tap': round(r.get('tap', 0), 1) if r.get('tap') is not None else 0,
                     'tapd': round(tapd_val, 1) if tapd_val else 0,
                     'ted_rank': ted_rank_lookup.get(pname),
+                    'tap_rank': tap_rank_lookup.get(pname),
                     'tapd_rank': tapd_rank_lookup.get(pname),
                 }
                 if pname not in player_monthly:
