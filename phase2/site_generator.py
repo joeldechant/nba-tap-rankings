@@ -3236,6 +3236,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       .career-monthly-toggle > span:first-child {{
         display: none;
       }}
+      .player-search-wrap input {{
+        font-size: 16px;
+      }}
       .decade-nav {{
         gap: 4px;
         padding: 10px 8px;
@@ -3884,7 +3887,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
       searchInput.addEventListener('focus', function() {{
         if (window.innerWidth <= 900) {{
-          setTimeout(function() {{ searchInput.scrollIntoView({{block: 'start', behavior: 'smooth'}}); }}, 300);
+          setTimeout(function() {{
+            var rect = searchInput.getBoundingClientRect();
+            var scrollY = window.pageYOffset + rect.top - 20;
+            window.scrollTo({{top: scrollY, behavior: 'smooth'}});
+          }}, 300);
         }}
       }});
 
