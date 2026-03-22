@@ -2165,10 +2165,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       display: block;
     }}
 
-    /* Rookie / Sophomore section */
-    .rookie-soph-section {{
-      border-top: 2px solid #fff;
-    }}
+    /* Rookie / Sophomore section (right column of team-rank-section) */
     .rs-slot .table-header {{
       cursor: pointer;
     }}
@@ -3359,7 +3356,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
             <div class="team-season-view">{team_season_ted}</div>
             <div class="team-monthly-view" style="display:none">{team_monthly_ted}</div>
           </div>
-          <div></div>
+          <div class="rs-slot">
+            <div class="rookie-table">{rookie_ted_table}</div>
+            <div class="soph-table" style="display:none">{soph_ted_table}</div>
+          </div>
         </div>
       </div>
       <div class="view-tap">
@@ -3371,23 +3371,6 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
             </div>
             <div class="team-monthly-view" style="display:none">{team_monthly_tapd}</div>
           </div>
-          <div></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="rookie-soph-section">
-      <div class="view-ted" style="display:none">
-        <div class="tables-grid">
-          <div class="rs-slot">
-            <div class="rookie-table">{rookie_ted_table}</div>
-            <div class="soph-table" style="display:none">{soph_ted_table}</div>
-          </div>
-          <div></div>
-        </div>
-      </div>
-      <div class="view-tap">
-        <div class="tables-grid">
           <div class="rs-slot">
             <div class="rookie-table">
               <div class="rs-tap-table">{rookie_tap_table}</div>
@@ -3398,7 +3381,6 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
               <div class="rs-tapd-table" style="display:none">{soph_tapd_table}</div>
             </div>
           </div>
-          <div></div>
         </div>
       </div>
     </div>
