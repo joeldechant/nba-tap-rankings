@@ -3119,6 +3119,69 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       font-weight: 900;
     }}
 
+    .player-search-wrap {{
+      text-align: center;
+      padding: 8px 0 4px 0;
+      position: relative;
+    }}
+    .player-search-wrap input {{
+      background: #000;
+      color: #fff;
+      border: 1px solid #555;
+      border-radius: 4px;
+      padding: 6px 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+      width: 260px;
+      max-width: 80%;
+      outline: none;
+    }}
+    .player-search-wrap input:focus {{
+      border-color: #ee7623;
+    }}
+    .player-search-wrap input::placeholder {{
+      color: #777;
+    }}
+    .search-dropdown {{
+      display: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #111;
+      border: 1px solid #555;
+      border-top: none;
+      border-radius: 0 0 4px 4px;
+      width: 260px;
+      max-width: 80%;
+      z-index: 20;
+      max-height: 280px;
+      overflow-y: auto;
+    }}
+    .search-dropdown .search-item {{
+      padding: 6px 12px;
+      color: #fff;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85em;
+      cursor: pointer;
+      text-align: left;
+    }}
+    .search-dropdown .search-item:hover,
+    .search-dropdown .search-item.active {{
+      background: #ee7623;
+      color: #000;
+    }}
+    .career-stat-toggle {{
+      color: #ee7623;
+      font-size: 0.7em;
+      font-weight: 900;
+      -webkit-text-stroke: 0.5px currentColor;
+      cursor: pointer;
+      vertical-align: 0.15em;
+    }}
+    .career-stat-toggle:hover {{
+      opacity: 0.7;
+    }}
+
     @media (max-width: 900px) {{
       .tables-grid {{
         grid-template-columns: 1fr;
@@ -3335,6 +3398,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       </div>
     </div>
 
+    <div class="player-search-wrap">
+      <input type="text" id="player-search" placeholder="Search player..." autocomplete="off" />
+      <div class="search-dropdown" id="search-dropdown"></div>
+    </div>
+
 {decade_nav_html}
     <div class="season-header" id="season-header"><h3>{season_label} Season <span class="season-click-hint">Click here</span></h3></div>
     <div class="season-hint" id="season-hint"><p>Everything you see in ORANGE is CLICKABLE for added functionality!<br><br class="desktop-break"> Player names are also CLICKABLE for game log or career view!</p><p>&nbsp;</p></div>
@@ -3419,7 +3487,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
   <div class="career-overlay" id="career-overlay">
     <div class="career-popup" id="career-popup">
       <div class="career-popup-header">
-        <span id="career-popup-name"></span><span id="career-monthly-toggle" class="career-monthly-toggle" style="display:none"><span style="color:#000;vertical-align:0.12em">&nbsp;&ndash;&nbsp;</span>CAREER</span>
+        <span id="career-popup-name"></span><span id="career-stat-cycle" class="career-stat-toggle" style="display:none"><span style="color:#000;vertical-align:0.12em">&nbsp;&ndash;&nbsp;</span><span id="career-stat-cycle-text">TED</span></span><span id="career-monthly-toggle" class="career-monthly-toggle" style="display:none"><span style="color:#000;vertical-align:0.12em">&nbsp;&ndash;&nbsp;</span>CAREER</span>
         <button class="career-popup-close" id="career-popup-close">&times;</button>
       </div>
       <table>
@@ -3731,9 +3799,111 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     var currentMonthName = '{month_label.split(" ")[0] if month_label else ""}';  // e.g. "MARCH"
 
     var careerMonthlyToggle = document.getElementById('career-monthly-toggle');
+    var careerStatCycle = document.getElementById('career-stat-cycle');
+    var careerStatCycleText = document.getElementById('career-stat-cycle-text');
     var _careerPopupState = null;  // stores name and statMode when showing from season-to-date
+    var _searchPopupState = null;  // stores search popup state for stat cycling and monthly toggle
 
-    function showCareer(name, contextYear, statOverride, diffMode, goatMode, fromSeason) {{
+    // Player search bar
+    (function() {{
+      var searchInput = document.getElementById('player-search');
+      var dropdown = document.getElementById('search-dropdown');
+      var allNames = Object.keys(window.CAREER).sort();
+      var activeIdx = -1;
+
+      function normalize(s) {{
+        return s.toLowerCase().replace(/[^a-z ]/g, '');
+      }}
+
+      function getMatches(q) {{
+        if (!q || q.length < 2) return [];
+        var nq = normalize(q);
+        var parts = nq.split(/\s+/);
+        var results = [];
+        for (var i = 0; i < allNames.length; i++) {{
+          var nn = normalize(allNames[i]);
+          var match = true;
+          for (var p = 0; p < parts.length; p++) {{
+            if (nn.indexOf(parts[p]) === -1) {{ match = false; break; }}
+          }}
+          if (match) results.push(allNames[i]);
+          if (results.length >= 10) break;
+        }}
+        return results;
+      }}
+
+      function showDropdown(matches) {{
+        if (matches.length === 0) {{ dropdown.style.display = 'none'; return; }}
+        var html = '';
+        for (var i = 0; i < matches.length; i++) {{
+          html += '<div class="search-item" data-idx="' + i + '">' + matches[i] + '</div>';
+        }}
+        dropdown.innerHTML = html;
+        dropdown.style.display = 'block';
+        activeIdx = -1;
+      }}
+
+      function selectPlayer(name) {{
+        dropdown.style.display = 'none';
+        searchInput.value = '';
+        searchInput.blur();
+        // Determine available stats for this player
+        var career = window.CAREER[name];
+        if (!career || career.length === 0) return;
+        var hasTapd = false;
+        for (var i = 0; i < career.length; i++) {{
+          if (career[i].tapd !== null && career[i].tapd !== undefined) {{ hasTapd = true; break; }}
+        }}
+        var startStat = stat;  // current toggle state (ted or tap)
+        if (startStat === 'tap') startStat = 'tap';
+        var availStats = hasTapd ? ['ted', 'tap', 'tapd'] : ['ted', 'tap'];
+        // Check if player has monthly data (active current-season player)
+        var hasMonthly = !!(window.PLAYER_MONTHLY && window.PLAYER_MONTHLY[name]);
+        _searchPopupState = {{name: name, availStats: availStats, currentStat: startStat, hasMonthly: hasMonthly}};
+        showCareer(name, currentYear, startStat, false, false, false, true);
+      }}
+
+      searchInput.addEventListener('input', function() {{
+        var matches = getMatches(this.value);
+        showDropdown(matches);
+      }});
+
+      searchInput.addEventListener('keydown', function(e) {{
+        var items = dropdown.querySelectorAll('.search-item');
+        if (!items.length) return;
+        if (e.key === 'ArrowDown') {{
+          e.preventDefault();
+          activeIdx = Math.min(activeIdx + 1, items.length - 1);
+          items.forEach(function(it, i) {{ it.classList.toggle('active', i === activeIdx); }});
+        }} else if (e.key === 'ArrowUp') {{
+          e.preventDefault();
+          activeIdx = Math.max(activeIdx - 1, 0);
+          items.forEach(function(it, i) {{ it.classList.toggle('active', i === activeIdx); }});
+        }} else if (e.key === 'Enter') {{
+          e.preventDefault();
+          if (activeIdx >= 0 && items[activeIdx]) {{
+            selectPlayer(items[activeIdx].textContent);
+          }} else if (items.length > 0) {{
+            selectPlayer(items[0].textContent);
+          }}
+        }} else if (e.key === 'Escape') {{
+          dropdown.style.display = 'none';
+        }}
+      }});
+
+      dropdown.addEventListener('click', function(e) {{
+        var item = e.target.closest('.search-item');
+        if (item) selectPlayer(item.textContent);
+      }});
+
+      document.addEventListener('click', function(e) {{
+        if (!e.target.closest('.player-search-wrap')) {{
+          dropdown.style.display = 'none';
+        }}
+      }});
+    }})();
+
+    function showCareer(name, contextYear, statOverride, diffMode, goatMode, fromSeason, fromSearch) {{
       var career = window.CAREER[name];
       if (!career || career.length === 0) return;
       var s = statOverride || stat;
@@ -3744,8 +3914,29 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       thead.innerHTML = defaultThead;
       popupStatHeader = document.getElementById('career-stat-header');
       popupName.textContent = name;
-      // Show CAREER toggle only when opened from season-to-date (TED or TAPD only, not TAP)
-      if (fromSeason) {{
+      // Show CAREER toggle when from season-to-date or search
+      if (fromSearch && _searchPopupState) {{
+        // Search mode: show stat cycle + career/monthly toggle
+        careerStatCycle.style.display = '';
+        careerStatCycleText.textContent = su;
+        if (_searchPopupState.hasMonthly && s !== 'tap') {{
+          _careerPopupState = {{name: name, statMode: s}};
+          careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.12em">&nbsp;&ndash;&nbsp;</span>CAREER';
+          careerMonthlyToggle.style.display = '';
+          careerMonthlyToggle.style.color = '#ee7623';
+          careerMonthlyToggle.style.cursor = 'pointer';
+        }} else if (_searchPopupState.hasMonthly && s === 'tap') {{
+          _careerPopupState = null;
+          careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.12em">&nbsp;&ndash;&nbsp;</span>CAREER';
+          careerMonthlyToggle.style.display = '';
+          careerMonthlyToggle.style.color = '#000';
+          careerMonthlyToggle.style.cursor = 'default';
+        }} else {{
+          _careerPopupState = null;
+          careerMonthlyToggle.style.display = 'none';
+        }}
+      }} else if (fromSeason) {{
+        careerStatCycle.style.display = 'none';
         if (s === 'tap') {{
           // TAP mode: show CAREER in black (not clickable)
           _careerPopupState = null;
@@ -3762,6 +3953,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           careerMonthlyToggle.style.cursor = 'pointer';
         }}
       }} else {{
+        careerStatCycle.style.display = 'none';
         _careerPopupState = null;
         careerMonthlyToggle.style.display = 'none';
       }}
@@ -3919,7 +4111,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       document.body.classList.remove('career-open');
       popupBody.innerHTML = '';
       _careerPopupState = null;
+      _searchPopupState = null;
       careerMonthlyToggle.style.display = 'none';
+      careerStatCycle.style.display = 'none';
       // Restore default thead
       var thead = overlay.querySelector('thead tr');
       thead.innerHTML = defaultThead;
@@ -3942,6 +4136,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       }}
       popupName.textContent = name;
       careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.12em">&nbsp;&ndash;&nbsp;</span>MONTHLY';
+      // Update stat cycle text if in search mode
+      if (_searchPopupState) {{
+        careerStatCycleText.textContent = su;
+      }}
       // Swap thead to Month / Stat / Rank
       var thead = overlay.querySelector('thead tr');
       thead.innerHTML = '<th class="cp-season" style="text-align:center">Month</th>'
@@ -3973,6 +4171,20 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
 
     var _careerToggleClicked = false;
+
+    // Stat cycle click handler (search popup only)
+    careerStatCycle.addEventListener('click', function(e) {{
+      e.stopPropagation();
+      e.preventDefault();
+      if (!_searchPopupState) return;
+      _careerToggleClicked = true;
+      var avail = _searchPopupState.availStats;
+      var curIdx = avail.indexOf(_searchPopupState.currentStat);
+      var nextIdx = (curIdx + 1) % avail.length;
+      _searchPopupState.currentStat = avail[nextIdx];
+      showCareer(_searchPopupState.name, currentYear, avail[nextIdx], false, false, false, true);
+    }});
+
     careerMonthlyToggle.addEventListener('click', function(e) {{
       e.stopPropagation();
       e.preventDefault();
@@ -3983,7 +4195,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         // Go back to career view
         var savedName = _careerPopupState.name;
         var savedMode = _careerPopupState.statMode;
-        showCareer(savedName, currentYear, savedMode, false, false, true);
+        if (_searchPopupState) {{
+          showCareer(savedName, currentYear, savedMode, false, false, false, true);
+        }} else {{
+          showCareer(savedName, currentYear, savedMode, false, false, true);
+        }}
       }} else {{
         // Show monthly view
         showCareerMonthly();
