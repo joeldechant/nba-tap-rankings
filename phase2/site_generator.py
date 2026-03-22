@@ -3748,14 +3748,14 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         if (s === 'tap') {{
           // TAP mode: show CAREER in black (not clickable)
           _careerPopupState = null;
-          careerMonthlyToggle.textContent = 'CAREER';
+          careerMonthlyToggle.textContent = '- CAREER';
           careerMonthlyToggle.style.display = '';
           careerMonthlyToggle.style.color = '#000';
           careerMonthlyToggle.style.cursor = 'default';
         }} else {{
           // TED or TAPD: show CAREER in orange (clickable)
           _careerPopupState = {{name: name, statMode: s}};
-          careerMonthlyToggle.textContent = 'CAREER';
+          careerMonthlyToggle.textContent = '- CAREER';
           careerMonthlyToggle.style.display = '';
           careerMonthlyToggle.style.color = '#ee7623';
           careerMonthlyToggle.style.cursor = 'pointer';
@@ -3935,7 +3935,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         }}
       }}
       popupName.textContent = name;
-      careerMonthlyToggle.textContent = 'MONTHLY';
+      careerMonthlyToggle.textContent = '- MONTHLY';
       // Swap thead to Month / Stat / Rank
       var thead = overlay.querySelector('thead tr');
       thead.innerHTML = '<th class="cp-season" style="text-align:center">Month</th>'
@@ -3972,7 +3972,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       e.preventDefault();
       if (!_careerPopupState) return;
       _careerToggleClicked = true;
-      var showingMonthly = (careerMonthlyToggle.textContent === 'MONTHLY');
+      var showingMonthly = (careerMonthlyToggle.textContent === '- MONTHLY');
       if (showingMonthly) {{
         // Go back to career view
         var savedName = _careerPopupState.name;
