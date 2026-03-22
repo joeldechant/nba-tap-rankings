@@ -3885,16 +3885,18 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       var su = sk === 'tapd' ? 'TAPD' : sk.toUpperCase();
       // Title with clickable orange team abbreviation to go back
       teamTitle.innerHTML = '<span class="team-abbr-link" style="color:#ee7623;cursor:pointer">' + team + '</span> - TOP 6 MONTHLY ' + su;
-      // Swap to trend-view headers (Month + Stat, matching POTM popup style)
-      teamThead.querySelector('tr').innerHTML = '<th class="tp-player" style="text-align:left">Month</th><th class="tp-stat">' + su + '</th>';
+      // Swap to trend-view headers (Month + Stat + Rank)
+      teamThead.querySelector('tr').innerHTML = '<th class="tp-player" style="text-align:center">Month</th><th class="tp-stat">' + su + '</th><th class="tp-rank">Rank</th>';
       teamThead.classList.add('team-trend-mode');
       var html = '';
       for (var i = trend.length - 1; i >= 0; i--) {{
         var m = trend[i];
         var val = sk === 'tapd' ? m.tapd : m.ted;
+        var rank = sk === 'tapd' ? m.tapd_rank : m.ted_rank;
         html += '<tr' + (m.current ? ' style="color:#ee7623;font-weight:900"' : '') + '>'
-          + '<td class="tp-player" style="text-align:left">' + m.month + '</td>'
+          + '<td class="tp-player" style="text-align:center">' + m.month + '</td>'
           + '<td class="tp-stat">' + (val != null ? val.toFixed(1) : '-') + '</td>'
+          + '<td class="tp-rank" style="text-align:center">' + (rank != null ? rank : '-') + '</td>'
           + '</tr>';
       }}
       teamBody.innerHTML = html;
@@ -5947,15 +5949,17 @@ def generate_site():
             })
 
             # Capture ALL teams' scores per month for team trend popup
+            # Build TAPD rank lookup
+            tapd_rank_lookup = {ttr['team']: ttr['rank'] for ttr in m_team_tapd.get('tapd', [])}
+            tapd_score_lookup = {ttr['team']: ttr['score'] for ttr in m_team_tapd.get('tapd', [])}
             for tr in m_team_ted.get('ted', []):
                 if tr['team'] not in team_monthly_trend:
                     team_monthly_trend[tr['team']] = []
-                entry = {'month': month_name, 'ted': tr['score'], 'current': is_current_month}
-                # Find matching TAPD score
-                for ttr in m_team_tapd.get('tapd', []):
-                    if ttr['team'] == tr['team']:
-                        entry['tapd'] = ttr['score']
-                        break
+                entry = {'month': month_name, 'ted': tr['score'], 'ted_rank': tr['rank'],
+                         'current': is_current_month}
+                if tr['team'] in tapd_score_lookup:
+                    entry['tapd'] = tapd_score_lookup[tr['team']]
+                    entry['tapd_rank'] = tapd_rank_lookup[tr['team']]
                 team_monthly_trend[tr['team']].append(entry)
             # Also capture teams that only appear in TAPD (rare but possible)
             for ttr in m_team_tapd.get('tapd', []):
@@ -5963,7 +5967,8 @@ def generate_site():
                 if not existing or existing[-1]['month'] != month_name:
                     if ttr['team'] not in team_monthly_trend:
                         team_monthly_trend[ttr['team']] = []
-                    team_monthly_trend[ttr['team']].append({'month': month_name, 'tapd': ttr['score'], 'current': is_current_month})
+                    team_monthly_trend[ttr['team']].append({'month': month_name, 'tapd': ttr['score'],
+                                                            'tapd_rank': ttr['rank'], 'current': is_current_month})
 
             # Compute monthly league averages and top 10 for popup context
             short_month = m_start.strftime("%b").upper()  # OCT, NOV, etc.
