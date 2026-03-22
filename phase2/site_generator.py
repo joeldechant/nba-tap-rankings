@@ -3030,6 +3030,12 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     td.player[data-player]:hover {{
       opacity: 0.7;
     }}
+    .view-tap .rs-slot .rs-tap-table td.player[data-player] {{
+      cursor: default;
+    }}
+    .view-tap .rs-slot .rs-tap-table td.player[data-player]:hover {{
+      opacity: 1;
+    }}
 
     .career-overlay {{
       display: none;
