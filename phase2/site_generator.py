@@ -3045,10 +3045,6 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       z-index: 1;
     }}
 
-    #career-monthly-dash {{
-      font-size: 0.7em;
-      vertical-align: 0.15em;
-    }}
     .career-monthly-toggle {{
       color: #ee7623;
       font-size: 0.7em;
@@ -3423,7 +3419,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
   <div class="career-overlay" id="career-overlay">
     <div class="career-popup" id="career-popup">
       <div class="career-popup-header">
-        <span id="career-popup-name"></span><span id="career-monthly-dash" style="display:none">&nbsp;&ndash;&nbsp;</span><span id="career-monthly-toggle" class="career-monthly-toggle" style="display:none">CAREER</span>
+        <span id="career-popup-name"></span><span id="career-monthly-toggle" class="career-monthly-toggle" style="display:none"><span style="color:#000">&nbsp;&ndash;&nbsp;</span>CAREER</span>
         <button class="career-popup-close" id="career-popup-close">&times;</button>
       </div>
       <table>
@@ -3735,7 +3731,6 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     var currentMonthName = '{month_label.split(" ")[0] if month_label else ""}';  // e.g. "MARCH"
 
     var careerMonthlyToggle = document.getElementById('career-monthly-toggle');
-    var careerMonthlyDash = document.getElementById('career-monthly-dash');
     var _careerPopupState = null;  // stores name and statMode when showing from season-to-date
 
     function showCareer(name, contextYear, statOverride, diffMode, goatMode, fromSeason) {{
@@ -3754,23 +3749,20 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         if (s === 'tap') {{
           // TAP mode: show CAREER in black (not clickable)
           _careerPopupState = null;
-          careerMonthlyToggle.textContent = 'CAREER';
-          careerMonthlyDash.style.display = '';
+          careerMonthlyToggle.innerHTML = '<span style="color:#000">&nbsp;&ndash;&nbsp;</span>CAREER';
           careerMonthlyToggle.style.display = '';
           careerMonthlyToggle.style.color = '#000';
           careerMonthlyToggle.style.cursor = 'default';
         }} else {{
           // TED or TAPD: show CAREER in orange (clickable)
           _careerPopupState = {{name: name, statMode: s}};
-          careerMonthlyToggle.textContent = 'CAREER';
-          careerMonthlyDash.style.display = '';
+          careerMonthlyToggle.innerHTML = '<span style="color:#000">&nbsp;&ndash;&nbsp;</span>CAREER';
           careerMonthlyToggle.style.display = '';
           careerMonthlyToggle.style.color = '#ee7623';
           careerMonthlyToggle.style.cursor = 'pointer';
         }}
       }} else {{
         _careerPopupState = null;
-        careerMonthlyDash.style.display = 'none';
         careerMonthlyToggle.style.display = 'none';
       }}
       popupStatHeader.textContent = su;
@@ -3888,7 +3880,6 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       var s = stat === 'ted' ? 'ted' : 'tapd';
       popupName.textContent = name;
       // Hide career/monthly toggle (this is a direct monthly popup, not a double-popup)
-      careerMonthlyDash.style.display = 'none';
       careerMonthlyToggle.style.display = 'none';
       _careerPopupState = null;
       // Swap thead to Month / Stat / Rank (same as showCareerMonthly)
@@ -3928,7 +3919,6 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       document.body.classList.remove('career-open');
       popupBody.innerHTML = '';
       _careerPopupState = null;
-      careerMonthlyDash.style.display = 'none';
       careerMonthlyToggle.style.display = 'none';
       // Restore default thead
       var thead = overlay.querySelector('thead tr');
@@ -3951,7 +3941,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         }}
       }}
       popupName.textContent = name;
-      careerMonthlyToggle.textContent = 'MONTHLY';
+      careerMonthlyToggle.innerHTML = '<span style="color:#000">&nbsp;&ndash;&nbsp;</span>MONTHLY';
       // Swap thead to Month / Stat / Rank
       var thead = overlay.querySelector('thead tr');
       thead.innerHTML = '<th class="cp-season" style="text-align:center">Month</th>'
@@ -3988,7 +3978,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       e.preventDefault();
       if (!_careerPopupState) return;
       _careerToggleClicked = true;
-      var showingMonthly = (careerMonthlyToggle.textContent === 'MONTHLY');
+      var showingMonthly = careerMonthlyToggle.textContent.indexOf('MONTHLY') >= 0;
       if (showingMonthly) {{
         // Go back to career view
         var savedName = _careerPopupState.name;
