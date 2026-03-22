@@ -3879,7 +3879,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
       searchInput.addEventListener('focus', function() {{
         if (window.innerWidth <= 900) {{
-          setTimeout(function() {{ window.scrollTo(0, 0); }}, 300);
+          setTimeout(function() {{ searchInput.scrollIntoView({{block: 'start', behavior: 'smooth'}}); }}, 300);
         }}
       }});
 
