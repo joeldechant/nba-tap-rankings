@@ -6005,8 +6005,8 @@ def generate_site():
             # Build rank lookups (sorted by TED and TAPD)
             ted_sorted_all = sorted([r for r in m_all if r.get('ted') is not None],
                                      key=lambda x: x['ted'], reverse=True)
-            tapd_sorted_all = sorted([r for r in m_all if r.get('tapd') is not None or r.get('tap') is not None],
-                                      key=lambda x: x.get('tapd', x.get('tap', 0)), reverse=True)
+            tapd_sorted_all = sorted([r for r in m_all if (r.get('tapd') is not None or r.get('tap') is not None)],
+                                      key=lambda x: x['tapd'] if x.get('tapd') is not None else (x['tap'] if x.get('tap') is not None else 0), reverse=True)
             ted_rank_lookup = {r['player']: i + 1 for i, r in enumerate(ted_sorted_all)}
             tapd_rank_lookup = {r['player']: i + 1 for i, r in enumerate(tapd_sorted_all)}
             for r in m_all:
