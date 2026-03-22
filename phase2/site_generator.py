@@ -6579,6 +6579,11 @@ def generate_site():
             tapd_filtered = [r for r in filtered_all if r.get('tapd') is not None]
             if tapd_filtered:
                 monthly_full['tapd'] = sorted(tapd_filtered, key=lambda x: x['tapd'], reverse=True)[:100]
+        # Reassign ranks after re-filtering/re-sorting
+        for i, r in enumerate(monthly_full.get('ted', [])):
+            r['ted_rank'] = i + 1
+        for i, r in enumerate(monthly_full.get('tapd', [])):
+            r['tapd_rank'] = i + 1
         monthly_tapd = monthly_full.get('tapd', [])
         monthly_tap = _remap_tapd(monthly_tapd)[:100] if monthly_tapd else []
         monthly = {
