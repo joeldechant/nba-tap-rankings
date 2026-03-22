@@ -674,8 +674,8 @@ def render_all_time_html(data, stat_key='ted', season_all=None):
             for rank in range(1, len(players_sorted) + 1):
                 tapd_rows += f'        <tr><td class="rank">{rank}</td><td class="player"></td><td class="season"></td><td class="num stat"></td></tr>\n'
         tapd_table_html = f"""
-        <table class="tapd-year-table" style="display:none">
-          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="season">Season</th><th class="num stat stat-toggle">TAPD</th></tr></thead>
+        <table class="tapd-year-table summary-table" style="display:none">
+          <thead><tr><th class="rank">Rank</th><th class="player summary-sort-player">Player</th><th class="season">Season</th><th class="num stat stat-toggle">TAPD</th></tr></thead>
           <tbody>
 {tapd_rows}          </tbody>
         </table>"""
@@ -683,8 +683,8 @@ def render_all_time_html(data, stat_key='ted', season_all=None):
     return f"""    <div class="year-pair single">
       <div class="year-table">
         <div class="table-header"><h2>ALL-TIME <span class="year-stat-label">{stat_upper}</span> TOP 400</h2></div>
-        <table class="tap-year-table">
-          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="season">Season</th><th class="{stat_cls}">{stat_upper}</th></tr></thead>
+        <table class="tap-year-table summary-table">
+          <thead><tr><th class="rank">Rank</th><th class="player summary-sort-player">Player</th><th class="season">Season</th><th class="{stat_cls}">{stat_upper}</th></tr></thead>
           <tbody>
 {rows}          </tbody>
         </table>{tapd_table_html}
@@ -791,8 +791,8 @@ def render_decade_top100_html(decade_label, decade_data, stat_key='ted', season_
             for rank in range(1, len(players_sorted) + 1):
                 tapd_rows += f'        <tr><td class="rank">{rank}</td><td class="player"></td><td class="season"></td><td class="num stat"></td></tr>\n'
         tapd_table_html = f"""
-        <table class="tapd-year-table" style="display:none">
-          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="season">Season</th><th class="num stat stat-toggle">TAPD</th></tr></thead>
+        <table class="tapd-year-table summary-table" style="display:none">
+          <thead><tr><th class="rank">Rank</th><th class="player summary-sort-player">Player</th><th class="season">Season</th><th class="num stat stat-toggle">TAPD</th></tr></thead>
           <tbody>
 {tapd_rows}          </tbody>
         </table>"""
@@ -800,8 +800,8 @@ def render_decade_top100_html(decade_label, decade_data, stat_key='ted', season_
     return f"""    <div class="year-pair single">
       <div class="year-table">
         <div class="table-header" data-tap-n="{decade_top_n}" data-tapd-n="{decade_tapd_n if tapd_eligible else decade_top_n}" data-tap-label="{decade_label[:-1]}" data-tapd-label="{'LATE 90' if decade_start == 1990 and tapd_eligible else decade_label[:-1]}"><h2><span class="decade-label">{decade_label[:-1]}<span class="decade-s">s</span></span> <span class="year-stat-label">{stat_upper}</span> TOP <span class="top-n-label">{decade_top_n}</span></h2></div>
-        <table class="tap-year-table">
-          <thead><tr><th class="rank">Rank</th><th class="player">Player</th><th class="season">Season</th><th class="{stat_cls}">{stat_upper}</th></tr></thead>
+        <table class="tap-year-table summary-table">
+          <thead><tr><th class="rank">Rank</th><th class="player summary-sort-player">Player</th><th class="season">Season</th><th class="{stat_cls}">{stat_upper}</th></tr></thead>
           <tbody>
 {rows}          </tbody>
         </table>{tapd_table_html}
@@ -2622,6 +2622,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       color: #ee7623;
     }}
 
+    .summary-sort-player {{
+      color: #ee7623;
+      cursor: pointer;
+    }}
+
     .all-time-table .table-header:hover,
     .decade-top100 .table-header:hover,
     .goat-table .table-header:hover,
@@ -3982,6 +3987,45 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         if (!e.target.closest('.player-search-wrap')) {{
           dropdown.style.display = 'none';
         }}
+      }});
+    }})();
+
+    // Summary table (all-time / decade) PLAYER sort by appearances
+    (function() {{
+      document.querySelectorAll('.summary-sort-player').forEach(function(th) {{
+        th.addEventListener('click', function(e) {{
+          e.stopPropagation();
+          var table = th.closest('table');
+          var tbody = table.querySelector('tbody');
+          var rows = Array.from(tbody.querySelectorAll('tr'));
+          var sorted = th.dataset.sorted === '1';
+          if (sorted) {{
+            // restore original rank order
+            rows.sort(function(a, b) {{
+              return parseInt(a.cells[0].textContent) - parseInt(b.cells[0].textContent);
+            }});
+            th.dataset.sorted = '';
+          }} else {{
+            // count appearances per player
+            var counts = {{}};
+            rows.forEach(function(r) {{
+              var name = r.querySelector('td.player') ? r.querySelector('td.player').getAttribute('data-player') || r.querySelector('td.player').textContent.trim() : '';
+              counts[name] = (counts[name] || 0) + 1;
+            }});
+            // sort by count desc, tiebreak by stat value desc
+            rows.sort(function(a, b) {{
+              var na = a.querySelector('td.player') ? a.querySelector('td.player').getAttribute('data-player') || a.querySelector('td.player').textContent.trim() : '';
+              var nb = b.querySelector('td.player') ? b.querySelector('td.player').getAttribute('data-player') || b.querySelector('td.player').textContent.trim() : '';
+              var diff = (counts[nb] || 0) - (counts[na] || 0);
+              if (diff !== 0) return diff;
+              var va = parseFloat(a.cells[3].textContent) || 0;
+              var vb = parseFloat(b.cells[3].textContent) || 0;
+              return vb - va;
+            }});
+            th.dataset.sorted = '1';
+          }}
+          rows.forEach(function(r) {{ tbody.appendChild(r); }});
+        }});
       }});
     }})();
 
