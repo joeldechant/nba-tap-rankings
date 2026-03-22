@@ -3047,7 +3047,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     .career-monthly-toggle {{
       color: #ee7623;
+      font-size: 0.7em;
+      font-weight: 900;
+      -webkit-text-stroke: 0.5px currentColor;
       cursor: pointer;
+      vertical-align: 0.15em;
     }}
     .career-monthly-toggle:hover {{
       opacity: 0.7;
