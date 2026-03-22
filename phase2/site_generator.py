@@ -3057,7 +3057,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       vertical-align: 0.15em;
     }}
     .career-monthly-toggle:hover {{
-      opacity: 0.7;
+      opacity: 1;
     }}
 
     .career-popup-close {{
@@ -3191,7 +3191,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       vertical-align: 0.15em;
     }}
     .career-stat-toggle:hover {{
-      opacity: 0.7;
+      opacity: 1;
     }}
 
     @media (max-width: 900px) {{
