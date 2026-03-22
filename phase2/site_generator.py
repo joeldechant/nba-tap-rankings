@@ -3264,6 +3264,12 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       .career-monthly-toggle > span:first-child {{
         display: none;
       }}
+      .career-popup thead th.cp-leader {{
+        letter-spacing: 0;
+        padding-left: 2px;
+        padding-right: 2px;
+        white-space: nowrap;
+      }}
       .player-search-wrap input {{
         font-size: 16px;
       }}
