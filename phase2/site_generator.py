@@ -2916,6 +2916,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       padding: 0;
       position: relative;
     }}
+    .career-popup.monthly-mode {{
+      max-width: 400px;
+    }}
 
     .career-popup-header {{
       background: #fff;
@@ -3570,6 +3573,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     // === Career Popup ===
     var overlay = document.getElementById('career-overlay');
+    var popup = document.getElementById('career-popup');
     var popupBody = document.getElementById('career-popup-body');
     var popupName = document.getElementById('career-popup-name');
     var popupStatHeader = document.getElementById('career-stat-header');
@@ -3699,34 +3703,31 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       var su = stat === 'ted' ? 'TED' : 'TAPD';
       thead.innerHTML = '<th class="cp-season">Month</th>'
         + '<th class="cp-stat">' + su + '</th>'
-        + '<th class="cp-team">AVG</th>'
-        + '<th class="cp-team">TOP 10</th>';
+        + '<th class="cp-team">Rank</th>';
       var html = '';
       // Most recent month first
       for (var i = allMonths.length - 1; i >= 0; i--) {{
         var ms = allMonths[i];
         var pm = pLookup[ms.month];
-        var avg = stat === 'ted' ? ms.avg_ted : ms.avg_tapd;
-        var top10 = stat === 'ted' ? ms.top10_ted : ms.top10_tapd;
         var rc = (i === allMonths.length - 1) ? ' class="cp-current"' : '';
         if (pm) {{
           var val = stat === 'ted' ? pm.ted : pm.tapd;
+          var rank = stat === 'ted' ? pm.ted_rank : pm.tapd_rank;
           html += '<tr' + rc + '>'
             + '<td class="cp-season">' + ms.month + '</td>'
             + '<td class="cp-stat">' + val.toFixed(1) + '</td>'
-            + '<td class="cp-team">' + avg.toFixed(1) + '</td>'
-            + '<td class="cp-team">' + top10.toFixed(1) + '</td>'
+            + '<td class="cp-team">' + (rank != null ? rank : '\u2014') + '</td>'
             + '</tr>';
         }} else {{
           html += '<tr' + rc + '>'
             + '<td class="cp-season">' + ms.month + '</td>'
             + '<td class="cp-stat">\u2014</td>'
-            + '<td class="cp-team">' + avg.toFixed(1) + '</td>'
-            + '<td class="cp-team">' + top10.toFixed(1) + '</td>'
+            + '<td class="cp-team">\u2014</td>'
             + '</tr>';
         }}
       }}
       popupBody.innerHTML = html;
+      popup.classList.add('monthly-mode');
       overlay.classList.add('active');
       document.body.classList.add('career-open');
     }}
@@ -3734,6 +3735,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     function closeCareer() {{
       overlay.classList.remove('active');
       document.body.classList.remove('career-open');
+      popup.classList.remove('monthly-mode');
       popupBody.innerHTML = '';
       // Restore default thead
       var thead = overlay.querySelector('thead tr');
@@ -6000,6 +6002,13 @@ def generate_site():
             })
 
             # Collect per-player monthly stats for player popup
+            # Build rank lookups (sorted by TED and TAPD)
+            ted_sorted_all = sorted([r for r in m_all if r.get('ted') is not None],
+                                     key=lambda x: x['ted'], reverse=True)
+            tapd_sorted_all = sorted([r for r in m_all if r.get('tapd') is not None or r.get('tap') is not None],
+                                      key=lambda x: x.get('tapd', x.get('tap', 0)), reverse=True)
+            ted_rank_lookup = {r['player']: i + 1 for i, r in enumerate(ted_sorted_all)}
+            tapd_rank_lookup = {r['player']: i + 1 for i, r in enumerate(tapd_sorted_all)}
             for r in m_all:
                 pname = r['player']
                 tapd_val = r.get('tapd', r.get('tap', 0))
@@ -6007,10 +6016,8 @@ def generate_site():
                     'month': short_month,
                     'ted': round(r.get('ted', 0), 1),
                     'tapd': round(tapd_val, 1) if tapd_val else 0,
-                    'avg_ted': m_avg_ted,
-                    'avg_tapd': m_avg_tapd,
-                    'top10_ted': m_top10_ted,
-                    'top10_tapd': m_top10_tapd,
+                    'ted_rank': ted_rank_lookup.get(pname),
+                    'tapd_rank': tapd_rank_lookup.get(pname),
                 }
                 if pname not in player_monthly:
                     player_monthly[pname] = []
