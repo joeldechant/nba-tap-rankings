@@ -3134,10 +3134,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     .career-popup .cp-season {{ width: 68px; text-align: center; }}
     .career-popup .cp-team {{ width: 40px; text-align: center; }}
-    .career-popup .cp-stat {{ width: 52px; text-align: center; font-weight: 900; -webkit-text-stroke: 0.5px currentColor; }}
-    .career-popup .cp-avg {{ width: 52px; text-align: center; }}
-    .career-popup .cp-leader {{ width: 52px; text-align: center; }}
-    .career-popup .cp-rank {{ width: 52px; text-align: center; font-weight: 900; -webkit-text-stroke: 0.5px currentColor; font-size: 1.05em; }}
+    .career-popup .cp-stat {{ width: 52px; min-width: 52px; max-width: 52px; text-align: center; font-weight: 900; -webkit-text-stroke: 0.5px currentColor; font-size: 1.05em; overflow: hidden; }}
+    .career-popup .cp-avg {{ width: 52px; min-width: 52px; max-width: 52px; text-align: center; }}
+    .career-popup .cp-leader {{ width: 52px; min-width: 52px; max-width: 52px; text-align: center; }}
+    .career-popup .cp-rank {{ width: 52px; min-width: 52px; max-width: 52px; text-align: center; font-weight: 900; -webkit-text-stroke: 0.5px currentColor; font-size: 1.05em; }}
     .career-popup .cp-pm {{ width: 42px; text-align: center; }}
 
     .career-popup thead th {{ text-align: center; }}
