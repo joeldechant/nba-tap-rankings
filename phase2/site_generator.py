@@ -6576,14 +6576,21 @@ def generate_site():
             })
 
             # Collect per-player monthly stats for player popup
+            # Deduplicate traded players: keep entry with most games per player
+            m_all_dedup = {}
+            for r in m_all:
+                pname = r['player']
+                if pname not in m_all_dedup or r.get('games', 0) > m_all_dedup[pname].get('games', 0):
+                    m_all_dedup[pname] = r
+            m_all_unique = list(m_all_dedup.values())
             # Build rank lookups (sorted by TED and TAPD only — no monthly TAP)
-            ted_sorted_all = sorted([r for r in m_all if r.get('ted') is not None],
+            ted_sorted_all = sorted([r for r in m_all_unique if r.get('ted') is not None],
                                      key=lambda x: x['ted'], reverse=True)
-            tapd_sorted_all = sorted([r for r in m_all if r.get('tapd') is not None],
+            tapd_sorted_all = sorted([r for r in m_all_unique if r.get('tapd') is not None],
                                       key=lambda x: x['tapd'], reverse=True)
             ted_rank_lookup = {r['player']: i + 1 for i, r in enumerate(ted_sorted_all)}
             tapd_rank_lookup = {r['player']: i + 1 for i, r in enumerate(tapd_sorted_all)}
-            for r in m_all:
+            for r in m_all_unique:
                 pname = r['player']
                 entry = {
                     'month': month_name,
