@@ -3137,7 +3137,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .career-popup .cp-stat {{ width: 52px; text-align: center; font-weight: 900; }}
     .career-popup .cp-avg {{ width: 48px; text-align: center; }}
     .career-popup .cp-leader {{ width: 52px; text-align: center; font-weight: 900; }}
-    .career-popup .cp-rank {{ width: 44px; text-align: center; }}
+    .career-popup .cp-rank {{ width: 44px; text-align: center; font-weight: 900; }}
     .career-popup .cp-pm {{ width: 42px; text-align: center; }}
 
     .career-popup thead th {{ text-align: center; }}
