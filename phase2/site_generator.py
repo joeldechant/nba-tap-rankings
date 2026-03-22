@@ -2404,7 +2404,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .tapd-table thead th.stat,
     .view-tap .weekly-daily-slot thead th.stat,
     .view-tap .season-monthly-slot .monthly-table thead th.stat,
-    .view-tap .team-rank-slot .tapd-team-table thead th.stat {{
+    .view-tap .team-rank-slot .tapd-team-table thead th.stat,
+    .view-tap .team-rank-slot .team-monthly-view thead th.stat {{
       text-indent: -4px;
     }}
 
