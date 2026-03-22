@@ -3947,16 +3947,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           teamStatTooltip.classList.add('active');
           return;
         }}
-        // Header click: toggle season/monthly (or TAPD→TAP)
+        // Header click: toggle season/monthly
         var header = e.target.closest('.table-header');
         if (!header) return;
-        // If TAPD table is visible, clicking its header goes back to TAP (not monthly)
-        var tapdT = slot.querySelector('.tapd-team-table');
-        if (tapdT && tapdT.style.display !== 'none' && header.closest('.tapd-team-table')) {{
-          var tapT = slot.querySelector('.tap-team-table');
-          if (tapT) {{ tapT.style.display = ''; tapdT.style.display = 'none'; }}
-          return;
-        }}
         var sv = slot.querySelector('.team-season-view');
         var mv = slot.querySelector('.team-monthly-view');
         if (!sv || !mv) return;
