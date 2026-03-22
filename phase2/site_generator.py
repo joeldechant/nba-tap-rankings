@@ -3574,6 +3574,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     var popupName = document.getElementById('career-popup-name');
     var popupStatHeader = document.getElementById('career-stat-header');
     var currentYear = {config.CURRENT_SEASON_YEAR};
+    var currentMonthName = '{month_label.split(" ")[0] if month_label else ""}';  // e.g. "MARCH"
 
     function showCareer(name, contextYear, statOverride, diffMode, goatMode) {{
       var career = window.CAREER[name];
@@ -3865,7 +3866,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       _teamPopupState = {{team: team, isMonthly: isMonthly, sk: sk, su: su}};
       // Build title with clickable orange team abbreviation for monthly
       if (isMonthly) {{
-        teamTitle.innerHTML = '<span class="team-abbr-link" style="color:#ee7623;cursor:pointer">' + team + '</span> - TOP 6 MONTHLY ' + su;
+        teamTitle.innerHTML = '<span class="team-abbr-link" style="color:#ee7623;cursor:pointer">' + team + '</span> - TOP 6 ' + currentMonthName + ' ' + su;
       }} else {{
         teamTitle.textContent = team + ' - TOP 6 PLAYER ' + su;
       }}
