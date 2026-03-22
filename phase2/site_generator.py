@@ -4012,12 +4012,13 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
               var name = r.querySelector('td.player') ? r.querySelector('td.player').getAttribute('data-player') || r.querySelector('td.player').textContent.trim() : '';
               counts[name] = (counts[name] || 0) + 1;
             }});
-            // sort by count desc, tiebreak by stat value desc
+            // sort by count desc, group by player, within-player by stat desc
             rows.sort(function(a, b) {{
               var na = a.querySelector('td.player') ? a.querySelector('td.player').getAttribute('data-player') || a.querySelector('td.player').textContent.trim() : '';
               var nb = b.querySelector('td.player') ? b.querySelector('td.player').getAttribute('data-player') || b.querySelector('td.player').textContent.trim() : '';
               var diff = (counts[nb] || 0) - (counts[na] || 0);
               if (diff !== 0) return diff;
+              if (na !== nb) return na < nb ? -1 : 1;
               var va = parseFloat(a.cells[3].textContent) || 0;
               var vb = parseFloat(b.cells[3].textContent) || 0;
               return vb - va;
