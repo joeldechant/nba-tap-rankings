@@ -3954,8 +3954,13 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         var mv = slot.querySelector('.team-monthly-view');
         if (!sv || !mv) return;
         if (sv.style.display === 'none') {{
+          /* Going back to season view: reset TAPD sub-toggle to TAP */
           sv.style.display = '';
           mv.style.display = 'none';
+          var tapT = sv.querySelector('.tap-team-table');
+          var tapdTbl = sv.querySelector('.tapd-team-table');
+          if (tapT) tapT.style.display = '';
+          if (tapdTbl) tapdTbl.style.display = 'none';
         }} else {{
           sv.style.display = 'none';
           mv.style.display = '';
