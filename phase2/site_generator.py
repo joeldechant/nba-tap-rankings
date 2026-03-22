@@ -3129,7 +3129,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     .player-search-wrap {{
       text-align: center;
-      padding: 12px 0;
+      padding: 12px 0 14px 0;
       position: relative;
       z-index: 30;
       border-bottom: 2px solid #fff;
@@ -3931,7 +3931,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
       dropdown.addEventListener('click', function(e) {{
         var item = e.target.closest('.search-item');
-        if (item) selectPlayer(item.textContent);
+        if (item) {{
+          e.stopPropagation();
+          selectPlayer(item.textContent);
+        }}
       }});
 
       document.addEventListener('click', function(e) {{
