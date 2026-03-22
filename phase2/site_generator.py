@@ -3043,17 +3043,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       position: sticky;
       top: 0;
       z-index: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0;
     }}
 
     .career-monthly-toggle {{
       color: #ee7623;
-      font-size: 0.7em;
-      font-weight: 900;
-      -webkit-text-stroke: 0.5px currentColor;
       cursor: pointer;
     }}
     .career-monthly-toggle:hover {{
