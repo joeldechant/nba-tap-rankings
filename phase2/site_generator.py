@@ -3903,7 +3903,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         // Check if click is from rookie/soph table
         if (td.closest('.rs-slot')) {{
           var classKey = td.closest('.rookie-table') ? 'rookie' : 'soph';
-          showRsMonthly(td.getAttribute('data-player'), classKey);
+          var rsStatMode = 'ted';
+          if (stat === 'tap') {{
+            rsStatMode = td.closest('.rs-tapd-table') ? 'tapd' : 'tap';
+          }}
+          showRsMonthly(td.getAttribute('data-player'), classKey, rsStatMode);
           return;
         }}
         var yearDiv = td.closest('.year-table[data-year]');
@@ -4279,7 +4283,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }});
 
     /* Rookie/Soph player popup — monthly stats with class-specific rank */
-    function showRsMonthly(name, classKey) {{
+    function showRsMonthly(name, classKey, rsStatMode) {{
       var rsData = window.RS_MONTHLY && window.RS_MONTHLY[classKey];
       var playerMonths = rsData && rsData[name];
       var allMonths = window.MONTH_STATS_LIST || [];
@@ -4291,7 +4295,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       for (var j = 0; j < playerMonths.length; j++) {{
         pLookup[playerMonths[j].month] = playerMonths[j];
       }}
-      var su = stat === 'ted' ? 'TED' : 'TAPD';
+      var su = rsStatMode.toUpperCase();
       teamTitle.textContent = name;
       teamThead.querySelector('tr').innerHTML = '<th class="tp-player" style="text-align:center">Month</th><th class="tp-stat">' + su + '</th><th class="tp-rank">Rank</th>';
       teamThead.classList.add('team-trend-mode');
@@ -4302,8 +4306,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         var isCurrentMonth = (i === allMonths.length - 1);
         var cs = isCurrentMonth ? ' style="color:#ee7623;font-weight:900"' : '';
         if (pm) {{
-          var val = stat === 'ted' ? pm.ted : pm.tapd;
-          var rank = stat === 'ted' ? pm.ted_rank : pm.tapd_rank;
+          var val = pm[rsStatMode];
+          var rank = pm[rsStatMode + '_rank'];
           html += '<tr>'
             + '<td class="tp-player"' + cs + '>' + ms.month + '</td>'
             + '<td class="tp-stat"' + cs + '>' + val.toFixed(1) + '</td>'
@@ -6433,6 +6437,10 @@ def generate_site():
                 ted_sorted_c = sorted([r for r in class_players if r.get('ted') is not None],
                                        key=lambda x: x['ted'], reverse=True)
                 ted_rank_c = {r['player']: i + 1 for i, r in enumerate(ted_sorted_c)}
+                # Rank within class by TAP
+                tap_sorted_c = sorted([r for r in class_players if r.get('tap') is not None],
+                                       key=lambda x: x['tap'], reverse=True)
+                tap_rank_c = {r['player']: i + 1 for i, r in enumerate(tap_sorted_c)}
                 # Rank within class by TAPD (fall back to TAP)
                 tapd_sorted_c = sorted([r for r in class_players if r.get('tapd') is not None or r.get('tap') is not None],
                                         key=lambda x: x['tapd'] if x.get('tapd') is not None else (x['tap'] if x.get('tap') is not None else 0),
@@ -6444,8 +6452,10 @@ def generate_site():
                     entry = {
                         'month': month_name_rs,
                         'ted': round(r.get('ted', 0), 1),
+                        'tap': round(r.get('tap', 0), 1) if r.get('tap') is not None else 0,
                         'tapd': round(tapd_val, 1) if tapd_val else 0,
                         'ted_rank': ted_rank_c.get(pname),
+                        'tap_rank': tap_rank_c.get(pname),
                         'tapd_rank': tapd_rank_c.get(pname),
                     }
                     if pname not in class_monthly:
