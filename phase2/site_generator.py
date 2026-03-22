@@ -3863,6 +3863,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         teamTitle.textContent = team + ' - TOP 6 PLAYER ' + su;
       }}
       // Restore player-view headers
+      teamThead.classList.remove('team-trend-mode');
       teamThead.querySelector('tr').innerHTML = '<th class="tp-rank">#</th><th class="tp-player">Player</th><th class="tp-stat" id="team-stat-header">' + su + '</th>';
       teamStatHeader = document.getElementById('team-stat-header');
       var html = '';
@@ -3885,15 +3886,15 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       // Title with clickable orange team abbreviation to go back
       teamTitle.innerHTML = '<span class="team-abbr-link" style="color:#ee7623;cursor:pointer">' + team + '</span> - TOP 6 MONTHLY ' + su;
       // Swap to trend-view headers (Month + Stat, matching POTM popup style)
-      teamThead.querySelector('tr').innerHTML = '<th class="pm-month">Month</th><th class="pm-stat">' + su + '</th>';
+      teamThead.querySelector('tr').innerHTML = '<th class="tp-player" style="text-align:left">Month</th><th class="tp-stat">' + su + '</th>';
+      teamThead.classList.add('team-trend-mode');
       var html = '';
       for (var i = trend.length - 1; i >= 0; i--) {{
         var m = trend[i];
         var val = sk === 'tapd' ? m.tapd : m.ted;
-        var isCurrentMonth = (i === trend.length - 1);
-        html += '<tr' + (isCurrentMonth ? ' style="color:#ee7623;font-weight:900"' : '') + '>'
-          + '<td class="pm-month">' + m.month + '</td>'
-          + '<td class="pm-stat">' + (val != null ? val.toFixed(1) : '-') + '</td>'
+        html += '<tr' + (m.current ? ' style="color:#ee7623;font-weight:900"' : '') + '>'
+          + '<td class="tp-player" style="text-align:left">' + m.month + '</td>'
+          + '<td class="tp-stat">' + (val != null ? val.toFixed(1) : '-') + '</td>'
           + '</tr>';
       }}
       teamBody.innerHTML = html;
@@ -3906,8 +3907,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       e.stopPropagation();
       var st = _teamPopupState;
       if (!st.team) return;
-      // Toggle: if currently showing trend (pm-month cells), switch back; else show trend
-      var showingTrend = !!teamBody.querySelector('td.pm-month');
+      // Toggle: if currently showing trend, switch back; else show trend
+      var showingTrend = teamThead.classList.contains('team-trend-mode');
       if (showingTrend) {{
         // Go back to player popup
         showTeamPopup(st.team, st.isMonthly);
@@ -5946,11 +5947,10 @@ def generate_site():
             })
 
             # Capture ALL teams' scores per month for team trend popup
-            short_m = m_start.strftime("%b").upper()
             for tr in m_team_ted.get('ted', []):
                 if tr['team'] not in team_monthly_trend:
                     team_monthly_trend[tr['team']] = []
-                entry = {'month': short_m, 'ted': tr['score']}
+                entry = {'month': month_name, 'ted': tr['score'], 'current': is_current_month}
                 # Find matching TAPD score
                 for ttr in m_team_tapd.get('tapd', []):
                     if ttr['team'] == tr['team']:
@@ -5960,10 +5960,10 @@ def generate_site():
             # Also capture teams that only appear in TAPD (rare but possible)
             for ttr in m_team_tapd.get('tapd', []):
                 existing = team_monthly_trend.get(ttr['team'], [])
-                if not existing or existing[-1]['month'] != short_m:
+                if not existing or existing[-1]['month'] != month_name:
                     if ttr['team'] not in team_monthly_trend:
                         team_monthly_trend[ttr['team']] = []
-                    team_monthly_trend[ttr['team']].append({'month': short_m, 'tapd': ttr['score']})
+                    team_monthly_trend[ttr['team']].append({'month': month_name, 'tapd': ttr['score'], 'current': is_current_month})
 
             # Compute monthly league averages and top 10 for popup context
             short_month = m_start.strftime("%b").upper()  # OCT, NOV, etc.
