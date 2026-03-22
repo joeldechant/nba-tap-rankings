@@ -3925,7 +3925,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     document.getElementById('team-popup-close').addEventListener('click', closeTeam);
     teamOverlay.addEventListener('click', function(e) {{
-      closeTeam();
+      if (e.target === teamOverlay) closeTeam();
     }});
 
     /* TOTM (Team of the Month) popup — click RANK header in monthly team table */
