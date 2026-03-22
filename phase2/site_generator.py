@@ -1529,7 +1529,7 @@ def build_career_js(historical, season_all):
 
 
 def generate_html(weekly, season, daily, monthly, month_label, month_winners, updated_at, week_start=None, week_end=None,
-                   team_season=None, team_monthly=None, team_month_winners=None, player_monthly=None, month_stats=None):
+                   team_season=None, team_monthly=None, team_month_winners=None, team_monthly_trend=None, player_monthly=None, month_stats=None):
     """Generate the full HTML page — TED only."""
     season_label = f"{config.CURRENT_SEASON_YEAR}-{str(config.CURRENT_SEASON_YEAR + 1)[-2:]}"
 
@@ -1550,6 +1550,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         team_monthly = {}
     if team_month_winners is None:
         team_month_winners = []
+    if team_monthly_trend is None:
+        team_monthly_trend = {}
     if player_monthly is None:
         player_monthly = {}
     if month_stats is None:
@@ -1610,6 +1612,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     # Embed team month winners for TOTM popup
     team_winners_json = json.dumps(team_month_winners, ensure_ascii=False, separators=(',', ':'))
     team_winners_js = f'<script>window.TEAM_MONTH_WINNERS={team_winners_json};</script>'
+
+    # Embed team monthly trend data for team trend popup
+    team_trend_json = json.dumps(team_monthly_trend, ensure_ascii=False, separators=(',', ':'))
+    team_trend_js = f'<script>window.TEAM_MONTHLY_TREND={team_trend_json};</script>'
 
     # Embed per-player monthly stats and month-level stats for monthly player popup
     player_monthly_json = json.dumps(player_monthly, ensure_ascii=False, separators=(',', ':'))
@@ -2163,6 +2169,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .team-popup .tp-rank {{ width: 40px; }}
     .team-popup .tp-player {{ width: auto; text-align: left; padding-left: 16px; }}
     .team-popup .tp-stat {{ width: 60px; font-weight: 900; }}
+    .team-popup .tp-trend-month {{ text-align: center; font-weight: 700; }}
 
     /* TOTM (Team of the Month) popup — reuses potm styling */
     .totm-overlay {{
@@ -3345,6 +3352,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 {potm_js}
 {team_data_js}
 {team_winners_js}
+{team_trend_js}
 {career_js}
 {recent_games_js}
 {player_monthly_js}
@@ -3823,29 +3831,35 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     var teamStatHeader = document.getElementById('team-stat-header');
     var teamStatTooltip = document.getElementById('team-stat-tooltip');
 
+    var _teamPopupState = {{}}; // remember team/isMonthly/sk for trend toggle
+
+    function _getTeamSk() {{
+      if (stat === 'ted') return 'ted';
+      var slot = document.querySelector('.view-tap .team-rank-slot');
+      if (slot) {{
+        var tapdT = slot.querySelector('.tapd-team-table');
+        if (tapdT && tapdT.style.display !== 'none') return 'tapd';
+        return 'tap';
+      }}
+      return 'tap';
+    }}
+
     function showTeamPopup(team, isMonthly) {{
       var data = window.TEAM_DATA;
       if (!data) return;
       var source = isMonthly ? 'monthly' : 'season';
-      var sk;
-      if (stat === 'ted') {{
-        sk = 'ted';
-      }} else {{
-        // Check if TAPD view is active
-        var slot = document.querySelector('.view-tap .team-rank-slot');
-        if (slot) {{
-          var tapdT = slot.querySelector('.tapd-team-table');
-          if (tapdT && tapdT.style.display !== 'none') sk = 'tapd';
-          else if (isMonthly) sk = 'tapd';  // monthly TAP always uses TAPD
-          else sk = 'tap';
-        }} else {{
-          sk = 'tap';
-        }}
-      }}
+      var sk = _getTeamSk();
+      if (isMonthly && sk === 'tap') sk = 'tapd';  // monthly TAP always uses TAPD
       var players = data[source] && data[source][sk] && data[source][sk][team];
       if (!players || players.length === 0) return;
       var su = sk === 'tapd' ? 'TAPD' : sk.toUpperCase();
-      teamTitle.textContent = team + ' - TOP 6 ' + (isMonthly ? 'MONTHLY ' : 'PLAYER ') + su;
+      _teamPopupState = {{team: team, isMonthly: isMonthly, sk: sk, su: su}};
+      // Build title with clickable orange team abbreviation for monthly
+      if (isMonthly) {{
+        teamTitle.innerHTML = '<span class="team-abbr-link" style="color:#ee7623;cursor:pointer">' + team + '</span> - TOP 6 MONTHLY ' + su;
+      }} else {{
+        teamTitle.textContent = team + ' - TOP 6 PLAYER ' + su;
+      }}
       teamStatHeader.textContent = su;
       var html = '';
       for (var i = 0; i < players.length; i++) {{
@@ -3859,6 +3873,46 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       teamOverlay.classList.add('active');
       document.body.classList.add('team-open');
     }}
+
+    function showTeamTrend(team, sk) {{
+      var trend = window.TEAM_MONTHLY_TREND && window.TEAM_MONTHLY_TREND[team];
+      if (!trend || trend.length === 0) return;
+      var su = sk === 'tapd' ? 'TAPD' : sk.toUpperCase();
+      // Title with clickable orange team abbreviation to go back
+      teamTitle.innerHTML = '<span class="team-abbr-link" style="color:#ee7623;cursor:pointer">' + team + '</span> - TOP 6 MONTHLY ' + su;
+      teamStatHeader.textContent = su;
+      var html = '';
+      for (var i = trend.length - 1; i >= 0; i--) {{
+        var m = trend[i];
+        var val = sk === 'tapd' ? m.tapd : m.ted;
+        var isCurrentMonth = (i === trend.length - 1);
+        html += '<tr' + (isCurrentMonth ? ' style="color:#ee7623;font-weight:900"' : '') + '>'
+          + '<td class="tp-rank tp-trend-month">' + m.month + '</td>'
+          + '<td class="tp-player"></td>'
+          + '<td class="tp-stat">' + (val != null ? val.toFixed(1) : '-') + '</td>'
+          + '</tr>';
+      }}
+      teamBody.innerHTML = html;
+    }}
+
+    // Handle click on orange team abbreviation in team popup title
+    teamTitle.addEventListener('click', function(e) {{
+      var link = e.target.closest('.team-abbr-link');
+      if (!link) return;
+      e.stopPropagation();
+      var st = _teamPopupState;
+      if (!st.team) return;
+      // Toggle: if currently showing players, switch to trend; if showing trend, switch back
+      var firstTd = teamBody.querySelector('td.tp-rank');
+      var showingTrend = firstTd && firstTd.style.textAlign === 'center';
+      if (showingTrend) {{
+        // Go back to player popup
+        showTeamPopup(st.team, st.isMonthly);
+      }} else {{
+        // Show trend
+        showTeamTrend(st.team, st.sk);
+      }}
+    }});
 
     function closeTeam() {{
       teamOverlay.classList.remove('active');
@@ -5810,6 +5864,7 @@ def generate_site():
     # Compute month-by-month leaders for POTM popup + team-of-the-month winners
     month_winners = []
     team_month_winners = []
+    team_monthly_trend = {}  # {TEAM: [{month, ted, tapd}, ...], ...} for team trend popup
     player_monthly = {}  # {player_name: [{month, ted, tapd, avg_ted, avg_tapd, top10_ted, top10_tapd}, ...]}
     month_stats = []  # [{month, avg_ted, avg_tapd, top10_ted, top10_tapd}, ...] for all months
     if last_game_date:
@@ -5886,6 +5941,26 @@ def generate_site():
                 'tapd_team': tapd_tw['team'] if tapd_tw else '',
                 'tapd_val': tapd_tw['score'] if tapd_tw else 0,
             })
+
+            # Capture ALL teams' scores per month for team trend popup
+            short_m = m_start.strftime("%b").upper()
+            for tr in m_team_ted.get('ted', []):
+                if tr['team'] not in team_monthly_trend:
+                    team_monthly_trend[tr['team']] = []
+                entry = {'month': short_m, 'ted': tr['score']}
+                # Find matching TAPD score
+                for ttr in m_team_tapd.get('tapd', []):
+                    if ttr['team'] == tr['team']:
+                        entry['tapd'] = ttr['score']
+                        break
+                team_monthly_trend[tr['team']].append(entry)
+            # Also capture teams that only appear in TAPD (rare but possible)
+            for ttr in m_team_tapd.get('tapd', []):
+                existing = team_monthly_trend.get(ttr['team'], [])
+                if not existing or existing[-1]['month'] != short_m:
+                    if ttr['team'] not in team_monthly_trend:
+                        team_monthly_trend[ttr['team']] = []
+                    team_monthly_trend[ttr['team']].append({'month': short_m, 'tapd': ttr['score']})
 
             # Compute monthly league averages and top 10 for popup context
             short_month = m_start.strftime("%b").upper()  # OCT, NOV, etc.
@@ -6040,7 +6115,7 @@ def generate_site():
     updated_at = date.today().strftime("%B %d, %Y")
     html = generate_html(weekly, season, daily, monthly, month_label, month_winners, updated_at, week_start, week_end,
                          team_season=team_season, team_monthly=team_monthly, team_month_winners=team_month_winners,
-                         player_monthly=player_monthly, month_stats=month_stats)
+                         team_monthly_trend=team_monthly_trend, player_monthly=player_monthly, month_stats=month_stats)
 
     # Write output
     os.makedirs(DOCS_DIR, exist_ok=True)
