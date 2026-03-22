@@ -5945,8 +5945,75 @@ def generate_site():
             remapped.append(p)
         return remapped
 
+    # Manual overrides for team power rank: include specific players who don't meet
+    # qualifying criteria but should count for their team's ranking.
+    # Each entry: player name as it appears in BR/DB.
+    TEAM_POWER_RANK_OVERRIDES = [
+        'Jayson Tatum',
+    ]
+
+    def _get_override_players(override_names):
+        """Compute TED/TAP/TAPD for players who didn't meet season ranking filters."""
+        from phase2.calculator import calculate_stats
+        override_results = []
+        conn = db.get_connection()
+        for name in override_names:
+            # Skip if already in season results
+            if any(p['player'] == name for p in season.get('all', [])):
+                continue
+            row = conn.execute(
+                "SELECT * FROM season_averages WHERE season_year = ? AND player = ?",
+                (config.CURRENT_SEASON_YEAR, name)
+            ).fetchone()
+            if not row:
+                continue
+            row = dict(row)
+            team = row.get('team', '')
+            mp = row.get('mp')
+            if mp is None or mp < config.MIN_MP_SEASON:
+                continue
+            # Get pace
+            pace_lookup = db.get_team_pace(config.CURRENT_SEASON_YEAR)
+            pace = pace_lookup.get(team)
+            if pace is None and pace_lookup:
+                pace = sum(pace_lookup.values()) / len(pace_lookup)
+            if pace is None:
+                continue
+            # Get advanced stats
+            adv_rows = conn.execute(
+                "SELECT * FROM advanced_stats WHERE season_year = ? AND player = ?",
+                (config.CURRENT_SEASON_YEAR, name)
+            ).fetchone()
+            advanced = None
+            if adv_rows:
+                adv = dict(adv_rows)
+                advanced = {'dbpm': adv.get('dbpm'), 'dws': adv.get('dws'),
+                            'obpm': adv.get('obpm'), 'ows': adv.get('ows')}
+            player_data = {
+                'player': name, 'team': team,
+                'pts': row.get('pts', 0), 'mp': mp,
+                'fg': row.get('fg', 0), 'fga': row.get('fga', 0),
+                'three_p': row.get('three_p', 0),
+                'ft': row.get('ft', 0), 'fta': row.get('fta', 0),
+                'rb': row.get('rb', 0), 'ast': row.get('ast', 0),
+                'stl': row.get('stl', 0), 'blk': row.get('blk', 0),
+                'tov': row.get('tov', 0),
+                'g': row.get('g'), 'season_year': config.CURRENT_SEASON_YEAR,
+            }
+            result = calculate_stats(player_data, pace, advanced)
+            if result:
+                result['player'] = name
+                result['team'] = team
+                result['mp'] = mp
+                result['g'] = row.get('g')
+                override_results.append(result)
+                print(f"  Team power rank override: {name} ({team}) TED={result.get('ted', 0):.1f}")
+        conn.close()
+        return override_results
+
     # Compute team power rankings
     season_all = _remap_traded(season.get('all', []))
+    season_all = season_all + _get_override_players(TEAM_POWER_RANK_OVERRIDES)
     team_season = compute_team_power_rank(season_all, ['ted', 'tap', 'tapd'])
     print(f"  Team power rank: {len(team_season.get('ted', []))} teams")
 
