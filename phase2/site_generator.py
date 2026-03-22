@@ -5951,6 +5951,7 @@ def generate_site():
     TEAM_POWER_RANK_OVERRIDES = [
         'Jayson Tatum',
         'Tyler Herro',
+        'Aaron Gordon',
     ]
 
     def _get_override_players(override_names):
