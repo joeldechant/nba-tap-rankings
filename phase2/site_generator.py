@@ -3045,6 +3045,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       z-index: 1;
     }}
 
+    #career-monthly-dash {{
+      font-size: 0.7em;
+      vertical-align: 0.15em;
+    }}
     .career-monthly-toggle {{
       color: #ee7623;
       font-size: 0.7em;
