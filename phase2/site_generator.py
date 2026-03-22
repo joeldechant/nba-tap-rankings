@@ -4270,7 +4270,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         }}
       }}
       popupName.textContent = name;
-      careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.12em;font-weight:normal">&nbsp;&ndash;&nbsp;</span>MONTHLY';
+      careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.12em;font-weight:normal">&nbsp;&ndash;&nbsp;</span>SEASON';
       // Update stat cycle text if in search mode
       if (_searchPopupState) {{
         careerStatCycleText.textContent = su;
@@ -4321,7 +4321,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     function doCareerMonthlyToggle() {{
       if (!_careerPopupState) return;
-      var showingMonthly = careerMonthlyToggle.textContent.indexOf('MONTHLY') >= 0;
+      var showingMonthly = careerMonthlyToggle.textContent.indexOf('SEASON') >= 0;
       if (showingMonthly) {{
         var savedName = _careerPopupState.name;
         var savedMode = _careerPopupState.statMode;
