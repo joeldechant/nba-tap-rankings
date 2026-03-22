@@ -4075,10 +4075,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         html += '<tr' + rc + '>'
           + '<td class="cp-season">' + sl + '</td>'
           + '<td class="cp-team">' + tm + '</td>'
-          + '<td class="cp-stat">' + val + '</td>'
+          + '<td class="cp-stat"><b>' + val + '</b></td>'
           + '<td class="cp-avg">' + (col4 !== '' ? col4 : '\\u2014') + '</td>'
           + '<td class="cp-leader">' + (col5 !== '' ? col5 : '\\u2014') + '</td>'
-          + '<td class="cp-rank">' + (col6 !== '' ? col6 : '\\u2014') + '</td>'
+          + '<td class="cp-rank"><b>' + (col6 !== '' ? col6 : '\\u2014') + '</b></td>'
           + '</tr>';
       }}
       popupBody.innerHTML = html;
