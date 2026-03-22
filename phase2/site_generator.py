@@ -3515,7 +3515,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
   <div class="career-overlay" id="career-overlay">
     <div class="career-popup" id="career-popup">
       <div class="career-popup-header">
-        <span id="career-popup-name"></span><span id="career-stat-cycle" class="career-stat-toggle" style="display:none"><span style="color:#000;vertical-align:0.12em;font-weight:normal">&nbsp;&ndash;&nbsp;</span><span id="career-stat-cycle-text">TED</span></span><span id="career-monthly-toggle" class="career-monthly-toggle" style="display:none"><span style="color:#000;vertical-align:0.12em;font-weight:normal">&nbsp;&ndash;&nbsp;</span>CAREER</span>
+        <span id="career-popup-name"></span><span id="career-stat-cycle" class="career-stat-toggle" style="display:none"><span id="career-stat-dash" style="color:#000;vertical-align:0.12em;font-weight:normal">&nbsp;&ndash;&nbsp;</span><span id="career-stat-cycle-text">TED</span></span><span id="career-monthly-toggle" class="career-monthly-toggle" style="display:none"><span style="color:#000;vertical-align:0.12em;font-weight:normal">&nbsp;&ndash;&nbsp;</span>CAREER</span>
         <button class="career-popup-close" id="career-popup-close">&times;</button>
       </div>
       <table>
@@ -3958,30 +3958,19 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       popupName.textContent = name;
       // Show CAREER toggle when from season-to-date or search
       if (fromSearch && _searchPopupState) {{
-        // Search mode: show stat cycle + career/monthly toggle
+        // Search mode: show stat cycle only (no monthly toggle), matching name font
         careerStatCycle.style.display = '';
+        careerStatCycle.style.fontSize = '1em';
+        careerStatCycle.style.verticalAlign = 'baseline';
         careerStatCycleText.textContent = su;
-        if (_searchPopupState.hasMonthly && s !== 'tap') {{
-          _careerPopupState = {{name: name, statMode: s}};
-          careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.12em;font-weight:normal">&nbsp;&ndash;&nbsp;</span>CAREER';
-          careerMonthlyToggle.style.display = '';
-          careerMonthlyToggle.style.color = '#ee7623';
-          careerMonthlyToggle.style.cursor = 'pointer';
-          popupName.style.cursor = 'pointer';
-        }} else if (_searchPopupState.hasMonthly && s === 'tap') {{
-          _careerPopupState = null;
-          careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.12em;font-weight:normal">&nbsp;&ndash;&nbsp;</span>CAREER';
-          careerMonthlyToggle.style.display = '';
-          careerMonthlyToggle.style.color = '#000';
-          careerMonthlyToggle.style.cursor = 'default';
-          popupName.style.cursor = 'default';
-        }} else {{
-          _careerPopupState = null;
-          careerMonthlyToggle.style.display = 'none';
-          popupName.style.cursor = 'default';
-        }}
+        document.getElementById('career-stat-dash').style.display = '';
+        _careerPopupState = null;
+        careerMonthlyToggle.style.display = 'none';
+        popupName.style.cursor = 'default';
       }} else if (fromSeason) {{
         careerStatCycle.style.display = 'none';
+        careerStatCycle.style.fontSize = '';
+        careerStatCycle.style.verticalAlign = '';
         if (s === 'tap') {{
           // TAP mode: show CAREER in black (not clickable)
           _careerPopupState = null;
@@ -4001,6 +3990,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         }}
       }} else {{
         careerStatCycle.style.display = 'none';
+        careerStatCycle.style.fontSize = '';
+        careerStatCycle.style.verticalAlign = '';
         _careerPopupState = null;
         careerMonthlyToggle.style.display = 'none';
         popupName.style.cursor = 'default';
