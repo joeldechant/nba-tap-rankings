@@ -3873,44 +3873,50 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         showCareer(name, currentYear);
         return;
       }}
-      // Build lookup of player data by month
       var pLookup = {{}};
       if (playerMonths) {{
         for (var j = 0; j < playerMonths.length; j++) {{
           pLookup[playerMonths[j].month] = playerMonths[j];
         }}
       }}
-      // Use team popup container for consistent styling
+      // Use career popup container to match season-to-date monthly styling
       var su = stat === 'ted' ? 'TED' : 'TAPD';
-      teamTitle.textContent = name;
-      teamThead.querySelector('tr').innerHTML = '<th class="tp-player" style="text-align:center">Month</th><th class="tp-stat">' + su + '</th><th class="tp-rank">Rank</th>';
-      teamThead.classList.add('team-trend-mode');
+      var s = stat === 'ted' ? 'ted' : 'tapd';
+      popupName.textContent = name;
+      // Hide career/monthly toggle (this is a direct monthly popup, not a double-popup)
+      careerMonthlyDash.style.display = 'none';
+      careerMonthlyToggle.style.display = 'none';
+      _careerPopupState = null;
+      // Swap thead to Month / Stat / Rank (same as showCareerMonthly)
+      var thead = overlay.querySelector('thead tr');
+      thead.innerHTML = '<th class="cp-season" style="text-align:center">Month</th>'
+        + '<th class="cp-stat">' + su + '</th>'
+        + '<th class="cp-avg">Rank</th>';
       var html = '';
-      // Most recent month first
       for (var i = allMonths.length - 1; i >= 0; i--) {{
         var ms = allMonths[i];
         var pm = pLookup[ms.month];
         var isCurrentMonth = (i === allMonths.length - 1);
         var cs = isCurrentMonth ? ' style="color:#ee7623;font-weight:900"' : '';
         if (pm) {{
-          var val = stat === 'ted' ? pm.ted : pm.tapd;
-          var rank = stat === 'ted' ? pm.ted_rank : pm.tapd_rank;
+          var val = pm[s];
+          var rank = pm[s + '_rank'];
           html += '<tr>'
-            + '<td class="tp-player"' + cs + '>' + ms.month + '</td>'
-            + '<td class="tp-stat"' + cs + '>' + val.toFixed(1) + '</td>'
-            + '<td class="tp-rank"' + cs + '>' + (rank != null ? rank : '\u2014') + '</td>'
+            + '<td class="cp-season"' + cs + '>' + ms.month + '</td>'
+            + '<td class="cp-stat"' + cs + '>' + (val != null ? val.toFixed(1) : '\u2014') + '</td>'
+            + '<td class="cp-avg"' + cs + '>' + (rank != null ? rank : '\u2014') + '</td>'
             + '</tr>';
         }} else {{
           html += '<tr>'
-            + '<td class="tp-player"' + cs + '>' + ms.month + '</td>'
-            + '<td class="tp-stat"' + cs + '>\u2014</td>'
-            + '<td class="tp-rank"' + cs + '>\u2014</td>'
+            + '<td class="cp-season"' + cs + '>' + ms.month + '</td>'
+            + '<td class="cp-stat"' + cs + '>\u2014</td>'
+            + '<td class="cp-avg"' + cs + '>\u2014</td>'
             + '</tr>';
         }}
       }}
-      teamBody.innerHTML = html;
-      teamOverlay.classList.add('active');
-      document.body.classList.add('team-open');
+      popupBody.innerHTML = html;
+      overlay.classList.add('active');
+      document.body.classList.add('career-open');
     }}
 
     function closeCareer() {{
