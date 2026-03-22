@@ -3127,7 +3127,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     .player-search-wrap {{
       text-align: center;
-      padding: 12px 0 14px 0;
+      padding: 14px 0 18px 0;
       position: relative;
       z-index: 30;
       border-bottom: 2px solid #fff;
