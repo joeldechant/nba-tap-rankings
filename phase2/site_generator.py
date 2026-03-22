@@ -3899,17 +3899,22 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         if (!q || q.length < 2) return [];
         var nq = normalize(q);
         var parts = nq.split(/\s+/);
-        var results = [];
+        var exact = [], startsWith = [], contains = [];
         for (var i = 0; i < allNames.length; i++) {{
           var nn = normalize(allNames[i]);
           var match = true;
           for (var p = 0; p < parts.length; p++) {{
             if (nn.indexOf(parts[p]) === -1) {{ match = false; break; }}
           }}
-          if (match) results.push(allNames[i]);
-          if (results.length >= 10) break;
+          if (!match) continue;
+          // Prioritize: last name starts with query > any word starts with query > substring
+          var words = nn.split(' ');
+          var lastName = words[words.length - 1];
+          if (lastName === nq || nn === nq) {{ exact.push(allNames[i]); }}
+          else if (lastName.indexOf(nq) === 0 || words.some(function(w) {{ return w.indexOf(parts[0]) === 0; }})) {{ startsWith.push(allNames[i]); }}
+          else {{ contains.push(allNames[i]); }}
         }}
-        return results;
+        return exact.concat(startsWith, contains).slice(0, 10);
       }}
 
       function showDropdown(matches) {{
