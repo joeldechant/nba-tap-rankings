@@ -2169,8 +2169,15 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .team-popup .tp-rank {{ width: 40px; }}
     .team-popup .tp-player {{ width: auto; text-align: left; padding-left: 16px; }}
     .team-popup .tp-stat {{ width: 60px; font-weight: 900; }}
-    .team-popup .pm-month {{ width: 120px; }}
-    .team-popup .pm-stat {{ width: 52px; font-weight: 900; }}
+    .team-trend-mode ~ tbody td,
+    .team-trend-mode th {{
+      text-align: center !important;
+      width: auto !important;
+      padding-left: 8px !important;
+    }}
+    .team-trend-mode ~ tbody td.tp-stat {{
+      font-weight: 900;
+    }}
 
     /* TOTM (Team of the Month) popup — reuses potm styling */
     .totm-overlay {{
@@ -3893,10 +3900,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         var m = trend[i];
         var val = sk === 'tapd' ? m.tapd : m.ted;
         var rank = sk === 'tapd' ? m.tapd_rank : m.ted_rank;
-        html += '<tr' + (m.current ? ' style="color:#ee7623;font-weight:900"' : '') + '>'
-          + '<td class="tp-player" style="text-align:center">' + m.month + '</td>'
-          + '<td class="tp-stat">' + (val != null ? val.toFixed(1) : '-') + '</td>'
-          + '<td class="tp-rank" style="text-align:center">' + (rank != null ? rank : '-') + '</td>'
+        var cs = m.current ? ' style="color:#ee7623;font-weight:900"' : '';
+        html += '<tr>'
+          + '<td class="tp-player"' + cs + '>' + m.month + '</td>'
+          + '<td class="tp-stat"' + cs + '>' + (val != null ? val.toFixed(1) : '-') + '</td>'
+          + '<td class="tp-rank"' + cs + '>' + (rank != null ? rank : '-') + '</td>'
           + '</tr>';
       }}
       teamBody.innerHTML = html;
