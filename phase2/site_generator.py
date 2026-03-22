@@ -3419,7 +3419,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
   <div class="career-overlay" id="career-overlay">
     <div class="career-popup" id="career-popup">
       <div class="career-popup-header">
-        <span id="career-popup-name"></span><span id="career-monthly-toggle" class="career-monthly-toggle" style="display:none"><span style="color:#000">&nbsp;&ndash;&nbsp;</span>CAREER</span>
+        <span id="career-popup-name"></span><span id="career-monthly-toggle" class="career-monthly-toggle" style="display:none"><span style="color:#000;vertical-align:0.08em">&nbsp;&ndash;&nbsp;</span>CAREER</span>
         <button class="career-popup-close" id="career-popup-close">&times;</button>
       </div>
       <table>
@@ -3749,14 +3749,14 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         if (s === 'tap') {{
           // TAP mode: show CAREER in black (not clickable)
           _careerPopupState = null;
-          careerMonthlyToggle.innerHTML = '<span style="color:#000">&nbsp;&ndash;&nbsp;</span>CAREER';
+          careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.08em">&nbsp;&ndash;&nbsp;</span>CAREER';
           careerMonthlyToggle.style.display = '';
           careerMonthlyToggle.style.color = '#000';
           careerMonthlyToggle.style.cursor = 'default';
         }} else {{
           // TED or TAPD: show CAREER in orange (clickable)
           _careerPopupState = {{name: name, statMode: s}};
-          careerMonthlyToggle.innerHTML = '<span style="color:#000">&nbsp;&ndash;&nbsp;</span>CAREER';
+          careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.08em">&nbsp;&ndash;&nbsp;</span>CAREER';
           careerMonthlyToggle.style.display = '';
           careerMonthlyToggle.style.color = '#ee7623';
           careerMonthlyToggle.style.cursor = 'pointer';
@@ -3941,7 +3941,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         }}
       }}
       popupName.textContent = name;
-      careerMonthlyToggle.innerHTML = '<span style="color:#000">&nbsp;&ndash;&nbsp;</span>MONTHLY';
+      careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.08em">&nbsp;&ndash;&nbsp;</span>MONTHLY';
       // Swap thead to Month / Stat / Rank
       var thead = overlay.querySelector('thead tr');
       thead.innerHTML = '<th class="cp-season" style="text-align:center">Month</th>'
