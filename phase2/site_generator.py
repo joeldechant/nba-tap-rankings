@@ -1711,12 +1711,12 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     if soph_monthly is None:
         soph_monthly = {}
 
-    rookie_ted_table = render_table(rookie_season['ted'], 'ted', 'ROOKIE TED TOP 20')
-    rookie_tap_table = render_table(rookie_season['tap'], 'tap', 'ROOKIE TAP TOP 20')
-    rookie_tapd_table = render_table(rookie_tapd, 'tap', 'ROOKIE TAPD TOP 20', stat_label='TAPD')
-    soph_ted_table = render_table(soph_season['ted'], 'ted', 'SOPHOMORE TED TOP 20')
-    soph_tap_table = render_table(soph_season['tap'], 'tap', 'SOPHOMORE TAP TOP 20')
-    soph_tapd_table = render_table(soph_tapd, 'tap', 'SOPHOMORE TAPD TOP 20', stat_label='TAPD')
+    rookie_ted_table = render_table(rookie_season['ted'], 'ted', 'ROOKIE TED TOP 30')
+    rookie_tap_table = render_table(rookie_season['tap'], 'tap', 'ROOKIE TAP TOP 30')
+    rookie_tapd_table = render_table(rookie_tapd, 'tap', 'ROOKIE TAPD TOP 30', stat_label='TAPD')
+    soph_ted_table = render_table(soph_season['ted'], 'ted', 'SOPHOMORE TED TOP 30')
+    soph_tap_table = render_table(soph_season['tap'], 'tap', 'SOPHOMORE TAP TOP 30')
+    soph_tapd_table = render_table(soph_tapd, 'tap', 'SOPHOMORE TAPD TOP 30', stat_label='TAPD')
 
     # Embed rookie/soph monthly data for player popup
     rs_monthly_data = {'rookie': rookie_monthly, 'soph': soph_monthly}
@@ -6863,14 +6863,14 @@ def generate_site():
     rookie_names, sophomore_names = _get_rookie_sophomore_sets()
     print(f"  Rookies identified: {len(rookie_names)}, Sophomores: {len(sophomore_names)}")
 
-    # Filter season rankings to each class and take top 20
+    # Filter season rankings to each class and take top 30
     def _class_top20(all_players, name_set):
-        """Filter players to a class set, sort by each stat, take top 20."""
+        """Filter players to a class set, sort by each stat, take top 30."""
         class_players = [p for p in all_players if p['player'] in name_set]
         result = {}
         for sk in ['ted', 'tap', 'tapd']:
             valid = [p for p in class_players if p.get(sk) is not None]
-            ranked = sorted(valid, key=lambda x: x[sk], reverse=True)[:20]
+            ranked = sorted(valid, key=lambda x: x[sk], reverse=True)[:30]
             for i, r in enumerate(ranked):
                 r = dict(r)
                 r[f'{sk}_rank'] = i + 1
