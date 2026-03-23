@@ -6878,7 +6878,9 @@ def generate_site():
             result[sk] = ranked
         return result
 
-    season_all_for_class = season.get('all', [])
+    # Compute season rankings with MP >= 15 for rookie/soph (lower threshold)
+    season_rs = calculate_season_rankings(min_mp_override=15)
+    season_all_for_class = season_rs.get('all', [])
     rookie_season = _class_top20(season_all_for_class, rookie_names)
     soph_season = _class_top20(season_all_for_class, sophomore_names)
 
@@ -6911,7 +6913,7 @@ def generate_site():
             else:
                 m_end_rs = date(yy, mm, cal_mod.monthrange(yy, mm)[1])
             try:
-                m_rank_rs = calculate_weekly_rankings(m_start_rs, m_end_rs)
+                m_rank_rs = calculate_weekly_rankings(m_start_rs, m_end_rs, min_mp_override=15)
             except Exception:
                 continue
             month_name_rs = m_start_rs.strftime("%B %Y").upper()

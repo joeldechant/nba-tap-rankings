@@ -264,10 +264,11 @@ def _compute_season_op_lookup(season_avgs_list, adv_stats, pace_lookup):
     return op_lookup
 
 
-def calculate_weekly_rankings(week_start, week_end):
+def calculate_weekly_rankings(week_start, week_end, min_mp_override=None):
     """Calculate TED and TAP rankings for a specific week.
     Uses weekly game averages for box score stats, season-to-date for advanced stats.
-    TAP OP mode controlled by config.USE_SEASON_OP_FOR_WEEKLY."""
+    TAP OP mode controlled by config.USE_SEASON_OP_FOR_WEEKLY.
+    min_mp_override: if set, overrides config.MIN_MP_WEEKLY for this call."""
     weekly_stats = db.get_weekly_game_stats(
         week_start.isoformat(), week_end.isoformat()
     )
@@ -298,7 +299,8 @@ def calculate_weekly_rankings(week_start, week_end):
             continue
 
         # MP filter
-        if mp is None or mp < config.MIN_MP_WEEKLY:
+        min_mp = min_mp_override if min_mp_override is not None else config.MIN_MP_WEEKLY
+        if mp is None or mp < min_mp:
             continue
 
         # Get pace for this team
@@ -383,7 +385,7 @@ def _compute_avg_pm_lookup():
     return {row['player']: row['avg_pm'] for row in rows}
 
 
-def calculate_season_rankings():
+def calculate_season_rankings(min_mp_override=None):
     """Calculate season-to-date TED, TAP, and TAPD rankings.
     Uses re-scraped season averages + advanced stats.
     TAPD uses average game PM from box scores for the DOPM path."""
@@ -419,7 +421,8 @@ def calculate_season_rankings():
             continue
 
         # MP filter
-        if mp is None or mp < config.MIN_MP_SEASON:
+        min_mp_s = min_mp_override if min_mp_override is not None else config.MIN_MP_SEASON
+        if mp is None or mp < min_mp_s:
             continue
 
         # Tiered games filter
