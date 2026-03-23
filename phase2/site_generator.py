@@ -3030,12 +3030,6 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     td.player[data-player]:hover {{
       opacity: 0.7;
     }}
-    .view-tap .rs-slot .rs-tap-table td.player[data-player] {{
-      cursor: default;
-    }}
-    .view-tap .rs-slot .rs-tap-table td.player[data-player]:hover {{
-      opacity: 1;
-    }}
 
     .career-overlay {{
       display: none;
@@ -4380,12 +4374,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         if (td.closest('.rs-slot')) {{
           var rsStatMode = 'ted';
           if (stat === 'tap') {{
-            if (td.closest('.rs-tapd-table')) {{
-              rsStatMode = 'tapd';
-            }} else {{
-              // TAP mode: no popup
-              return;
-            }}
+            rsStatMode = 'tapd';
           }}
           var classKey = td.closest('.rookie-table') ? 'rookie' : 'soph';
           showRsMonthly(td.getAttribute('data-player'), classKey, rsStatMode);
