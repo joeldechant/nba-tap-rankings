@@ -7,6 +7,7 @@ a single docs/index.html for GitHub Pages deployment.
 import os
 import sys
 import json
+import glob
 import copy
 import html as html_module
 from datetime import date, timedelta
@@ -1535,6 +1536,31 @@ def build_career_js(historical, season_all):
                     entry[k] = ranks[k]
             if name not in career:
                 career[name] = []
+                # Add historical non-qualifying dash rows from scraped CSVs
+                # (player qualifies this season but never qualified historically)
+                import unicodedata as _ud
+                def _norm_name(n):
+                    return _ud.normalize('NFD', n).encode('ascii', 'ignore').decode().lower().strip()
+                norm_target = _norm_name(name)
+                for csv_path in sorted(glob.glob(os.path.join('scraped_data', '*_season.csv'))):
+                    br_year = int(os.path.basename(csv_path).split('_')[0])
+                    start_year = br_year - 1
+                    if start_year >= current_year:
+                        continue
+                    try:
+                        with open(csv_path, 'r', encoding='utf-8') as cf:
+                            import csv as _csv
+                            reader = _csv.DictReader(cf)
+                            for crow in reader:
+                                pname = crow.get('Player', '').strip()
+                                if _norm_name(pname) == norm_target:
+                                    tm = crow.get('Team', '').strip()
+                                    if tm in ('2TM', '3TM', '4TM', '5TM'):
+                                        tm = 'TOT'
+                                    career[name].append({'y': start_year, 'tm': tm, 'ted': None, 'tap': None})
+                                    break
+                    except Exception:
+                        pass
             # Avoid duplicate if already present for this year
             if not any(s['y'] == current_year for s in career[name]):
                 career[name].append(entry)
