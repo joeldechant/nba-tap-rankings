@@ -4221,10 +4221,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         if (pm) {{
           var val = pm[s];
           var rank = pm[s + '_rank'];
+          var qualified = (rank != null);
           html += '<tr>'
             + '<td class="tp-player"' + cs + '>' + ms.month + '</td>'
-            + '<td class="tp-stat"' + cs + '>' + (val != null ? val.toFixed(1) : '\u2014') + '</td>'
-            + '<td class="tp-rank"' + cs + '>' + (rank != null ? rank : '\u2014') + '</td>'
+            + '<td class="tp-stat"' + cs + '>' + (qualified && val != null ? val.toFixed(1) : '\u2014') + '</td>'
+            + '<td class="tp-rank"' + cs + '>' + (qualified ? rank : '\u2014') + '</td>'
             + '</tr>';
         }} else {{
           html += '<tr>'
@@ -4788,10 +4789,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         if (pm) {{
           var val = pm[rsStatMode];
           var rank = pm[rsStatMode + '_rank'];
+          var qualified = (rank != null);
           html += '<tr>'
             + '<td class="tp-player"' + cs + '>' + ms.month + '</td>'
-            + '<td class="tp-stat"' + cs + '>' + val.toFixed(1) + '</td>'
-            + '<td class="tp-rank"' + cs + '>' + (rank != null ? rank : '\u2014') + '</td>'
+            + '<td class="tp-stat"' + cs + '>' + (qualified && val != null ? val.toFixed(1) : '\u2014') + '</td>'
+            + '<td class="tp-rank"' + cs + '>' + (qualified ? rank : '\u2014') + '</td>'
             + '</tr>';
         }} else {{
           html += '<tr>'
