@@ -2565,6 +2565,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .view-tap .rs-slot .rs-tapd-table thead th.stat {{
       text-indent: -4px;
       overflow: visible;
+      max-width: 62px;
     }}
 
     .empty {{
