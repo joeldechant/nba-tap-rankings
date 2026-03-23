@@ -4290,10 +4290,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         if (pm) {{
           var val = pm[s];
           var rank = pm[s + '_rank'];
+          var qualified = (rank != null);
           html += '<tr>'
             + '<td class="cp-season"' + cs + '>' + ms.month + '</td>'
-            + '<td class="cp-stat"' + cs + '>' + (val != null ? val.toFixed(1) : '\u2014') + '</td>'
-            + '<td class="cp-avg"' + cs + '>' + (rank != null ? rank : '\u2014') + '</td>'
+            + '<td class="cp-stat"' + cs + '>' + (qualified && val != null ? val.toFixed(1) : '\u2014') + '</td>'
+            + '<td class="cp-avg"' + cs + '>' + (qualified ? rank : '\u2014') + '</td>'
             + '</tr>';
         }} else {{
           html += '<tr>'
