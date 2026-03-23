@@ -2551,7 +2551,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .season-table thead th.stat,
     .tapd-table thead th.stat,
     .monthly-table thead th.stat,
-    .tables-grid thead th.stat {{
+    .tables-grid thead th.stat,
+    .rs-slot thead th.stat {{
       min-width: 62px;
     }}
 
@@ -2563,6 +2564,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .view-tap .team-rank-slot .team-monthly-view thead th.stat,
     .view-tap .rs-slot .rs-tapd-table thead th.stat {{
       text-indent: -4px;
+      overflow: visible;
     }}
 
     .empty {{
