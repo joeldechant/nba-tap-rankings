@@ -4067,7 +4067,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         careerStatCycle.style.verticalAlign = '';
         if (s === 'tap') {{
           // TAP mode: use TAPD for monthly popup
-          _careerPopupState = {{name: name, statMode: 'tapd'}};
+          _careerPopupState = {{name: name, statMode: 'tapd', originalStat: 'tap'}};
           careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.12em;font-weight:normal">&nbsp;&ndash;&nbsp;</span>CAREER';
           careerMonthlyToggle.style.display = '';
           careerMonthlyToggle.style.color = '#ee7623';
@@ -4323,7 +4323,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       var showingMonthly = careerMonthlyToggle.textContent.indexOf('SEASON') >= 0;
       if (showingMonthly) {{
         var savedName = _careerPopupState.name;
-        var savedMode = _careerPopupState.statMode;
+        var savedMode = _careerPopupState.originalStat || _careerPopupState.statMode;
         if (_searchPopupState) {{
           showCareer(savedName, currentYear, savedMode, false, false, false, true);
         }} else {{
