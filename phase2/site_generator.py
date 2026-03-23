@@ -4066,13 +4066,13 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         careerStatCycle.style.fontSize = '';
         careerStatCycle.style.verticalAlign = '';
         if (s === 'tap') {{
-          // TAP mode: show CAREER in black (not clickable)
-          _careerPopupState = null;
+          // TAP mode: use TAPD for monthly popup
+          _careerPopupState = {{name: name, statMode: 'tapd'}};
           careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.12em;font-weight:normal">&nbsp;&ndash;&nbsp;</span>CAREER';
           careerMonthlyToggle.style.display = '';
-          careerMonthlyToggle.style.color = '#000';
-          careerMonthlyToggle.style.cursor = 'default';
-          popupName.style.cursor = 'default';
+          careerMonthlyToggle.style.color = '#ee7623';
+          careerMonthlyToggle.style.cursor = 'pointer';
+          popupName.style.cursor = 'pointer';
         }} else {{
           // TED or TAPD: show CAREER in orange (clickable)
           _careerPopupState = {{name: name, statMode: s}};
