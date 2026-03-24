@@ -1827,17 +1827,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       text-decoration: underline;
     }}
 
-    .header-hint {{
-      text-align: center;
-      margin-top: 10px;
-    }}
-    .header-hint p {{
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: 0.85em;
-      font-style: italic;
-      color: #ee7623;
-      margin: 0;
-      line-height: 1.6;
+    .season-click {{
+      font-size: 0.6em;
+      font-weight: 700;
     }}
 
     .float-toggle {{
@@ -3487,7 +3479,6 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         <path d="M90 18 C70 38 70 62 90 82" stroke="#000" stroke-width="2.5" fill="none"/>
       </svg>
       <div class="toggle-link" id="toggle-link">TED Click Here</div>
-      <div class="header-hint"><p>Everything you see in ORANGE is CLICKABLE for added functionality!</p><p>Player names are also CLICKABLE for game log or career view!</p></div>
     </header>
 
     <div class="description">
@@ -3506,7 +3497,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     </div>
 
 {decade_nav_html}
-    <div class="season-header" id="season-header"><h3>{season_label} Season</h3></div>
+    <div class="season-header" id="season-header"><h3><span class="season-click">CLICK</span> {season_label} Season <span class="season-click">CLICK</span></h3></div>
     <div class="season-hint" id="season-hint"><p>Everything you see in ORANGE is CLICKABLE for added functionality!<br> Player names are also CLICKABLE for game log or career view!</p><p>&nbsp;</p></div>
     <div class="view-ted" style="display:none">
       <div class="tables-grid">
