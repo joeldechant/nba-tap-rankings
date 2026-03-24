@@ -3497,7 +3497,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     </div>
 
 {decade_nav_html}
-    <div class="season-header" id="season-header"><h3><span class="season-click">CLICK</span> {season_label} Season <span class="season-click">CLICK</span></h3></div>
+    <div class="season-header" id="season-header"><h3><span class="season-click">CLICK</span> {season_label} Season <span class="season-click">HERE</span></h3></div>
     <div class="season-hint" id="season-hint"><p>Everything you see in ORANGE is CLICKABLE for added functionality!<br> Player names are also CLICKABLE for game log or career view!</p><p>&nbsp;</p></div>
     <div class="view-ted" style="display:none">
       <div class="tables-grid">
