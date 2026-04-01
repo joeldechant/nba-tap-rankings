@@ -294,11 +294,11 @@ def render_historical_section(data, stat_key='ted', season_all=None):
         if i == 5:
             nav_links += '<div class="nav-break desktop-only"></div>'
     nav_links += '<div class="nav-break"></div>'
-    nav_links += '<a href="#" data-goat="true" style="color:#ee7623">GOAT</a>'
-    nav_links += '<a href="#" data-g2="true" style="color:#ee7623">G2</a>'
-    nav_links += '<a href="#" data-g3="true" style="color:#ee7623">G3</a>'
-    nav_links += '<a href="#" data-mg="true" style="color:#ee7623">MG</a>'
-    nav_links += '<a href="#" data-diff="true" style="color:#ee7623">DIFF</a>'
+    nav_links += '<a href="#" data-goat="true" style="color:var(--c-accent)">GOAT</a>'
+    nav_links += '<a href="#" data-g2="true" style="color:var(--c-accent)">G2</a>'
+    nav_links += '<a href="#" data-g3="true" style="color:var(--c-accent)">G3</a>'
+    nav_links += '<a href="#" data-mg="true" style="color:var(--c-accent)">MG</a>'
+    nav_links += '<a href="#" data-diff="true" style="color:var(--c-accent)">DIFF</a>'
 
     # Build decade sections
     decades_html = ''
@@ -1773,11 +1773,20 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
   <style>
     * {{ margin: 0; padding: 0; box-sizing: border-box; }}
 
+    :root {{
+      --c-text: #fff;
+      --c-accent: #ee7623;
+    }}
+    body.alt-mode {{
+      --c-text: #8fbfa3;
+      --c-accent: #d4918f;
+    }}
+
     body {{
       font-family: 'Courier New', Courier, monospace;
       font-weight: 700;
       background: #000;
-      color: #fff;
+      color: var(--c-text);
       line-height: 1.4;
       padding: 20px;
     }}
@@ -1785,7 +1794,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .container {{
       max-width: 880px;
       margin: 0 auto;
-      border: 3px solid #fff;
+      border: 3px solid var(--c-text);
       padding: 0;
       overflow: visible;
     }}
@@ -1793,7 +1802,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     header {{
       text-align: center;
       padding: 25px 20px 15px;
-      background: #fff;
+      background: var(--c-text);
       color: #000;
     }}
 
@@ -1818,7 +1827,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       text-align: center;
       font-family: Georgia, 'Times New Roman', serif;
       font-size: 0.75em;
-      color: #ee7623;
+      color: var(--c-accent);
       cursor: pointer;
       margin-top: 2px;
       letter-spacing: 0.03em;
@@ -1860,7 +1869,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       font-size: 1.1em;
       font-weight: 900;
       letter-spacing: 0.1em;
-      color: #ee7623;
+      color: var(--c-accent);
       margin: 0;
     }}
 
@@ -1889,7 +1898,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       font-family: Georgia, 'Times New Roman', serif;
       font-size: 0.85em;
       font-style: italic;
-      color: #ee7623;
+      color: var(--c-accent);
       margin: 0;
     }}
     .desktop-break {{
@@ -1925,13 +1934,13 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       text-transform: uppercase;
       letter-spacing: 0.1em;
       margin-bottom: 4px;
-      color: #fff;
+      color: var(--c-text);
       text-align: center;
     }}
 
     .stat-desc p {{
       font-size: 0.85em;
-      color: #fff;
+      color: var(--c-text);
       line-height: 1.5;
       text-align: justify;
       margin-bottom: 0;
@@ -1944,7 +1953,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
 
     .tables-grid > :first-child {{
-      border-right: 2px solid #fff;
+      border-right: 2px solid var(--c-text);
     }}
 
     .table-section {{
@@ -1952,7 +1961,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
 
     .table-header {{
-      background: #fff;
+      background: var(--c-text);
       border: 2px solid #000;
       padding: 10px 12px;
       text-align: center;
@@ -1987,7 +1996,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
 
     .weekly-daily-slot .table-section h2 {{
-      color: #ee7623;
+      color: var(--c-accent);
     }}
 
     .season-monthly-slot .season-table .table-header,
@@ -2002,23 +2011,23 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     .season-monthly-slot .season-table .table-section h2,
     .season-monthly-slot .monthly-table .table-section h2 {{
-      color: #ee7623;
+      color: var(--c-accent);
     }}
 
     .monthly-table th.rank {{
-      color: #ee7623;
+      color: var(--c-accent);
       cursor: pointer;
     }}
 
     /* TAP sub-header in season-to-date TAP and TAPD tables: orange + clickable */
     .view-tap .season-monthly-slot .season-table th.stat,
     .view-tap .season-monthly-slot .tapd-table th.stat {{
-      color: #ee7623;
+      color: var(--c-accent);
       cursor: pointer;
     }}
     /* TAPD table header text: orange + clickable (goes back to TAP) */
     .tapd-table .table-header h2 {{
-      color: #ee7623;
+      color: var(--c-accent);
     }}
     .tapd-table .table-header {{
       cursor: pointer;
@@ -2027,17 +2036,17 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .view-tap .season-monthly-slot .season-table th.stat:active,
     .view-tap .season-monthly-slot .tapd-table th.stat:hover,
     .view-tap .season-monthly-slot .tapd-table th.stat:active {{
-      color: #ee7623;
+      color: var(--c-accent);
       opacity: 1;
     }}
     /* Historical TAP/TAPD toggle: orange clickable sub-header only for years with TAPD data */
     .view-tap th.stat-toggle {{
-      color: #ee7623;
+      color: var(--c-accent);
       cursor: pointer;
     }}
     .view-tap th.stat-toggle:hover,
     .view-tap th.stat-toggle:active {{
-      color: #ee7623;
+      color: var(--c-accent);
       opacity: 1;
     }}
 
@@ -2065,7 +2074,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     .potm-popup {{
       background: #111;
-      border: 2px solid #fff;
+      border: 2px solid var(--c-text);
       max-width: 500px;
       width: 92%;
       max-height: 80vh;
@@ -2075,7 +2084,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
 
     .potm-popup-header {{
-      background: #fff;
+      background: var(--c-text);
       color: #000;
       padding: 12px 16px;
       text-align: center;
@@ -2122,8 +2131,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       font-size: 0.85em;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      color: #fff;
-      border-bottom: 1px solid #fff;
+      color: var(--c-text);
+      border-bottom: 1px solid var(--c-text);
       background: #111;
     }}
 
@@ -2133,7 +2142,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     .potm-popup td {{
       padding: 12px 8px;
-      color: #fff;
+      color: var(--c-text);
       text-align: center;
       vertical-align: middle;
       height: 2.8em;
@@ -2144,13 +2153,13 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .potm-popup .pm-stat {{ width: 52px; font-weight: 900; }}
 
     .potm-popup tbody tr:first-child td {{
-      color: #ee7623;
+      color: var(--c-accent);
       font-weight: 900;
     }}
 
     /* Team Power Rank section */
     .team-rank-section {{
-      border-top: 2px solid #fff;
+      border-top: 2px solid var(--c-text);
     }}
     .team-rank-slot .table-header {{
       cursor: pointer;
@@ -2159,7 +2168,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       background: #eee;
     }}
     .team-rank-slot .table-header h2 {{
-      color: #ee7623;
+      color: var(--c-accent);
     }}
     .team-rank-slot .team-name {{
       cursor: pointer;
@@ -2168,7 +2177,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       opacity: 0.7;
     }}
     .team-rank-slot th.rank {{
-      color: #ee7623;
+      color: var(--c-accent);
       cursor: pointer;
     }}
     .team-rank-slot th.player,
@@ -2187,7 +2196,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       overflow: visible;
     }}
     .view-tap .team-rank-slot .team-stat-tip {{
-      color: #ee7623;
+      color: var(--c-accent);
       cursor: pointer;
     }}
     .team-stat-tooltip {{
@@ -2195,8 +2204,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       position: fixed;
       z-index: 9999;
       background: #222;
-      color: #fff;
-      border: 1px solid #fff;
+      color: var(--c-text);
+      border: 1px solid var(--c-text);
       border-radius: 6px;
       padding: 10px 14px;
       font-family: Georgia, 'Times New Roman', serif;
@@ -2212,7 +2221,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     /* Rookie / Sophomore section (right column of team-rank-section) */
     .rs-slot tbody tr:last-child {{
-      border-bottom: 1px solid #fff;
+      border-bottom: 1px solid var(--c-text);
     }}
     .rs-slot .table-header {{
       cursor: pointer;
@@ -2221,15 +2230,15 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       background: #eee;
     }}
     .rs-slot .table-section h2 {{
-      color: #ee7623;
+      color: var(--c-accent);
     }}
     .view-tap .rs-slot .rs-tap-table th.stat,
     .view-tap .rs-slot .rs-tapd-table th.stat {{
-      color: #ee7623;
+      color: var(--c-accent);
       cursor: pointer;
     }}
     .rs-tapd-table .table-header h2 {{
-      color: #ee7623;
+      color: var(--c-accent);
     }}
     .rs-tapd-table .table-header {{
       cursor: pointer;
@@ -2259,7 +2268,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
     .team-popup {{
       background: #111;
-      border: 2px solid #fff;
+      border: 2px solid var(--c-text);
       max-width: 400px;
       width: 92%;
       max-height: 80vh;
@@ -2268,7 +2277,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       position: relative;
     }}
     .team-popup-header {{
-      background: #fff;
+      background: var(--c-text);
       color: #000;
       padding: 12px 16px;
       text-align: center;
@@ -2311,8 +2320,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       font-size: 0.85em;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      color: #fff;
-      border-bottom: 1px solid #fff;
+      color: var(--c-text);
+      border-bottom: 1px solid var(--c-text);
       background: #111;
     }}
     .team-popup tbody tr {{
@@ -2320,7 +2329,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
     .team-popup td {{
       padding: 10px 8px;
-      color: #fff;
+      color: var(--c-text);
       text-align: center;
       vertical-align: middle;
     }}
@@ -2361,7 +2370,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
     .totm-popup {{
       background: #111;
-      border: 2px solid #fff;
+      border: 2px solid var(--c-text);
       max-width: 500px;
       width: 92%;
       max-height: 80vh;
@@ -2370,7 +2379,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       position: relative;
     }}
     .totm-popup-header {{
-      background: #fff;
+      background: var(--c-text);
       color: #000;
       padding: 12px 16px;
       text-align: center;
@@ -2413,8 +2422,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       font-size: 0.85em;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      color: #fff;
-      border-bottom: 1px solid #fff;
+      color: var(--c-text);
+      border-bottom: 1px solid var(--c-text);
       background: #111;
     }}
     .totm-popup tbody tr {{
@@ -2422,7 +2431,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
     .totm-popup td {{
       padding: 12px 8px;
-      color: #fff;
+      color: var(--c-text);
       text-align: center;
       vertical-align: middle;
       height: 2.8em;
@@ -2431,7 +2440,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .totm-popup .pm-player {{ width: 160px; }}
     .totm-popup .pm-stat {{ width: 52px; font-weight: 900; }}
     .totm-popup tbody tr:first-child td {{
-      color: #ee7623;
+      color: var(--c-accent);
       font-weight: 900;
     }}
 
@@ -2467,17 +2476,17 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       font-size: 0.95em;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      color: #fff;
+      color: var(--c-text);
       background: #000;
       overflow: hidden;
     }}
 
     thead tr {{
-      border-bottom: 1px solid #fff;
+      border-bottom: 1px solid var(--c-text);
     }}
 
     tbody tr {{
-      border-bottom: 1px solid #fff;
+      border-bottom: 1px solid var(--c-text);
     }}
 
     tbody tr:last-child {{
@@ -2486,7 +2495,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     .all-time-table .year-pair,
     .decade-top100 .year-pair {{
-      border-bottom: 3px solid #fff;
+      border-bottom: 3px solid var(--c-text);
     }}
 
     td {{
@@ -2588,7 +2597,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     .empty {{
       text-align: center;
-      color: #fff;
+      color: var(--c-text);
       padding: 30px;
       font-style: italic;
     }}
@@ -2596,9 +2605,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     footer {{
       text-align: center;
       padding: 14px 0;
-      border-top: 2px solid #fff;
+      border-top: 2px solid var(--c-text);
       font-size: 0.82em;
-      color: #fff;
+      color: var(--c-text);
       background: #000;
     }}
 
@@ -2607,11 +2616,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
 
     .historical-section {{
-      border-top: 2px solid #fff;
+      border-top: 2px solid var(--c-text);
     }}
 
     .historical-header {{
-      background: #fff;
+      background: var(--c-text);
       color: #000;
       text-align: center;
       padding: 16px 12px;
@@ -2629,7 +2638,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .g3-table .table-header,
     .mg-table .table-header,
     .diff-table .table-header {{
-      background: #fff;
+      background: var(--c-text);
       cursor: pointer;
     }}
 
@@ -2640,11 +2649,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .g3-table .year-table .table-header h2,
     .mg-table .year-table .table-header h2,
     .diff-table .year-table .table-header h2 {{
-      color: #ee7623;
+      color: var(--c-accent);
     }}
 
     .summary-sort-player {{
-      color: #ee7623;
+      color: var(--c-accent);
       cursor: pointer;
     }}
 
@@ -2679,17 +2688,17 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .g2-table thead,
     .g3-table thead,
     .mg-table thead {{
-      box-shadow: 2px 0 0 #fff;
+      box-shadow: 2px 0 0 var(--c-text);
     }}
     .diff-table thead {{
-      box-shadow: 2px 0 0 #fff;
+      box-shadow: 2px 0 0 var(--c-text);
     }}
     .goat-table thead tr,
     .g2-table thead tr,
     .g3-table thead tr,
     .mg-table thead tr,
     .diff-table thead tr {{
-      border-bottom: 2px solid #fff;
+      border-bottom: 2px solid var(--c-text);
       height: 38px;
     }}
 
@@ -2721,8 +2730,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       position: fixed;
       z-index: 9999;
       background: #222;
-      color: #fff;
-      border: 1px solid #fff;
+      color: var(--c-text);
+      border: 1px solid var(--c-text);
       border-radius: 6px;
       padding: 10px 14px;
       font-family: Georgia, 'Times New Roman', serif;
@@ -2745,12 +2754,12 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       height: 6px;
       font-size: 1px;
       line-height: 6px;
-      color: #ee7623;
+      color: var(--c-accent);
       padding: 0;
-      background: #ee7623;
+      background: var(--c-accent);
       cursor: pointer;
       border: none;
-      border-top: 1px solid #fff;
+      border-top: 1px solid var(--c-text);
       overflow: hidden;
     }}
 
@@ -2760,7 +2769,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .mg1-sort-diff,
     .mg2-sort-diff,
     .mg3-sort-diff {{
-      color: #ee7623;
+      color: var(--c-accent);
       cursor: pointer;
     }}
 
@@ -2786,7 +2795,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .mg2-sort-player,
     .mg3-sort-player {{
       cursor: pointer;
-      color: #ee7623;
+      color: var(--c-accent);
     }}
 
 
@@ -2875,7 +2884,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .diff-table thead th.diff-sort-adiff,
     .diff-table thead th.diff-sort-tdiff {{
       cursor: pointer;
-      color: #ee7623;
+      color: var(--c-accent);
       font-size: 0.95em;
       white-space: nowrap;
       text-transform: none;
@@ -2907,7 +2916,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       font-weight: 900;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: #ee7623;
+      color: var(--c-accent);
       margin: 0;
     }}
 
@@ -2916,7 +2925,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       justify-content: center;
       gap: 10px;
       padding: 22px 16px;
-      border-bottom: 2px solid #fff;
+      border-bottom: 2px solid var(--c-text);
       flex-wrap: wrap;
     }}
 
@@ -2934,20 +2943,20 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       font-family: Georgia, 'Times New Roman', serif;
       font-size: 0.95em;
       font-weight: 700;
-      color: #fff;
+      color: var(--c-text);
       text-decoration: none;
       padding: 4px 12px;
-      border: 1px solid #fff;
+      border: 1px solid var(--c-text);
       transition: background 0.2s, color 0.2s;
     }}
 
     .decade-nav a:hover {{
-      background: #fff;
+      background: var(--c-text);
       color: #000;
     }}
 
     .decade {{
-      border-top: 2px solid #fff;
+      border-top: 2px solid var(--c-text);
     }}
 
     .decade-header {{
@@ -2966,7 +2975,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       font-size: 1.22em;
       font-weight: 900;
       letter-spacing: 0.1em;
-      color: #ee7623;
+      color: var(--c-accent);
       margin: 0;
     }}
 
@@ -2982,7 +2991,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
 
     .year-pair > :first-child {{
-      border-right: 2px solid #fff;
+      border-right: 2px solid var(--c-text);
     }}
 
     .year-table {{
@@ -3020,7 +3029,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
 
     .year-table .table-header {{
-      background: #fff;
+      background: var(--c-text);
       border: 2px solid #000;
       padding: 10px 12px;
       text-align: center;
@@ -3076,7 +3085,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     .career-popup {{
       background: #111;
-      border: 2px solid #fff;
+      border: 2px solid var(--c-text);
       max-width: 600px;
       width: 92%;
       max-height: 80vh;
@@ -3086,7 +3095,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
 
     .career-popup-header {{
-      background: #fff;
+      background: var(--c-text);
       color: #000;
       padding: 12px 16px;
       text-align: center;
@@ -3100,7 +3109,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
 
     .career-monthly-toggle {{
-      color: #ee7623;
+      color: var(--c-accent);
       font-size: 0.7em;
       font-weight: 900;
       cursor: pointer;
@@ -3144,8 +3153,8 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       font-size: 0.85em;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      color: #fff;
-      border-bottom: 1px solid #fff;
+      color: var(--c-text);
+      border-bottom: 1px solid var(--c-text);
       background: #111;
     }}
 
@@ -3155,7 +3164,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     .career-popup td {{
       padding: 4px 8px;
-      color: #fff;
+      color: var(--c-text);
     }}
 
     .career-popup .cp-season {{ width: 68px; text-align: center; }}
@@ -3169,7 +3178,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     .career-popup thead th {{ text-align: center; }}
 
     .career-popup tr.cp-current td {{
-      color: #ee7623;
+      color: var(--c-accent);
       font-weight: 900;
     }}
     .career-monthly-mode td {{
@@ -3183,12 +3192,12 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       padding: 15px 0 24px 0;
       position: relative;
       z-index: 30;
-      border-bottom: 2px solid #fff;
+      border-bottom: 2px solid var(--c-text);
     }}
     .player-search-wrap input {{
       background: #000;
-      color: #ee7623;
-      border: 2px solid #ee7623;
+      color: var(--c-accent);
+      border: 2px solid var(--c-accent);
       border-radius: 4px;
       padding: 6px 12px;
       font-family: 'Courier New', monospace;
@@ -3199,10 +3208,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       outline: none;
     }}
     .player-search-wrap input:focus {{
-      border-color: #ee7623;
+      border-color: var(--c-accent);
     }}
     .player-search-wrap input::placeholder {{
-      color: #ee7623;
+      color: var(--c-accent);
       opacity: 0.6;
       font-weight: 900;
     }}
@@ -3212,7 +3221,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       left: 50%;
       transform: translateX(-50%);
       background: #111;
-      border: 2px solid #ee7623;
+      border: 2px solid var(--c-accent);
       border-top: none;
       border-radius: 0 0 4px 4px;
       width: 260px;
@@ -3223,7 +3232,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
     .search-dropdown .search-item {{
       padding: 6px 12px;
-      color: #fff;
+      color: var(--c-text);
       font-family: 'Courier New', monospace;
       font-size: 0.85em;
       cursor: pointer;
@@ -3231,11 +3240,11 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     }}
     .search-dropdown .search-item:hover,
     .search-dropdown .search-item.active {{
-      background: #ee7623;
+      background: var(--c-accent);
       color: #000;
     }}
     .career-stat-toggle {{
-      color: #ee7623;
+      color: var(--c-accent);
       font-size: 0.7em;
       font-weight: 900;
       cursor: pointer;
@@ -3251,7 +3260,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       }}
       .tables-grid > :first-child {{
         border-right: none;
-        border-bottom: 2px solid #fff;
+        border-bottom: 2px solid var(--c-text);
       }}
       .table-section h2 {{
         display: block;
@@ -3324,7 +3333,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       }}
       .year-pair > :first-child {{
         border-right: none;
-        border-bottom: 2px solid #fff;
+        border-bottom: 2px solid var(--c-text);
       }}
       .all-time-table .year-pair > :first-child,
       .decade-top100 .year-pair > :first-child,
@@ -3472,7 +3481,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     <header>
       <h1 data-ted-text="NBA TED Rankings" data-tap-text="NBA TAP Rankings">NBA TAP Rankings</h1>
       <svg class="basketball" width="36" height="36" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50" cy="50" r="46" fill="#ee7623" stroke="#000" stroke-width="3"/>
+        <circle cx="50" cy="50" r="46" style="fill:var(--c-accent)" stroke="#000" stroke-width="3"/>
         <path d="M4 50 C4 50 96 50 96 50" stroke="#000" stroke-width="2.5"/>
         <path d="M50 4 C50 4 50 96 50 96" stroke="#000" stroke-width="2.5"/>
         <path d="M10 18 C30 38 30 62 10 82" stroke="#000" stroke-width="2.5" fill="none"/>
@@ -3569,7 +3578,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
   </div>
   <div class="float-toggle" id="float-toggle">
     <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="50" cy="50" r="46" fill="#ee7623" stroke="#000" stroke-width="3"/>
+      <circle cx="50" cy="50" r="46" style="fill:var(--c-accent)" stroke="#000" stroke-width="3"/>
       <path d="M4 50 C4 50 96 50 96 50" stroke="#000" stroke-width="2.5"/>
       <path d="M50 4 C50 4 50 96 50 96" stroke="#000" stroke-width="2.5"/>
       <path d="M10 18 C30 38 30 62 10 82" stroke="#000" stroke-width="2.5" fill="none"/>
@@ -3865,6 +3874,10 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
     document.querySelector('.basketball').addEventListener('click', doToggle);
     toggleLink.addEventListener('click', doToggle);
     floatToggle.addEventListener('click', doToggle);
+    floatToggle.addEventListener('dblclick', function(e) {{
+      e.stopPropagation();
+      document.body.classList.toggle('alt-mode');
+    }});
     document.getElementById('season-header').addEventListener('click', function() {{
       document.getElementById('season-hint').classList.toggle('open');
     }});
@@ -4090,7 +4103,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           _careerPopupState = {{name: name, statMode: 'tapd', originalStat: 'tap'}};
           careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.12em;font-weight:normal">&nbsp;&ndash;&nbsp;</span>CAREER';
           careerMonthlyToggle.style.display = '';
-          careerMonthlyToggle.style.color = '#ee7623';
+          careerMonthlyToggle.style.color = 'var(--c-accent)';
           careerMonthlyToggle.style.cursor = 'pointer';
           popupName.style.cursor = 'pointer';
         }} else {{
@@ -4098,7 +4111,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           _careerPopupState = {{name: name, statMode: s}};
           careerMonthlyToggle.innerHTML = '<span style="color:#000;vertical-align:0.12em;font-weight:normal">&nbsp;&ndash;&nbsp;</span>CAREER';
           careerMonthlyToggle.style.display = '';
-          careerMonthlyToggle.style.color = '#ee7623';
+          careerMonthlyToggle.style.color = 'var(--c-accent)';
           careerMonthlyToggle.style.cursor = 'pointer';
           popupName.style.cursor = 'pointer';
         }}
@@ -4237,7 +4250,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         var ms = allMonths[i];
         var pm = pLookup[ms.month];
         var isCurrentMonth = (i === allMonths.length - 1);
-        var cs = isCurrentMonth ? ' style="color:#ee7623;font-weight:900"' : '';
+        var cs = isCurrentMonth ? ' style="color:var(--c-accent);font-weight:900"' : '';
         if (pm) {{
           var val = pm[s];
           var rank = pm[s + '_rank'];
@@ -4307,7 +4320,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         var ms = allMonths[i];
         var pm = pLookup[ms.month];
         var isCurrentMonth = (i === allMonths.length - 1);
-        var cs = isCurrentMonth ? ' style="color:#ee7623;font-weight:900"' : '';
+        var cs = isCurrentMonth ? ' style="color:var(--c-accent);font-weight:900"' : '';
         if (pm) {{
           var val = pm[s];
           var rank = pm[s + '_rank'];
@@ -4512,7 +4525,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       _teamPopupState = {{team: team, isMonthly: isMonthly, sk: sk, su: su}};
       // Build title with clickable orange team abbreviation for monthly
       if (isMonthly) {{
-        teamTitle.innerHTML = '<span class="team-abbr-link" style="color:#ee7623;cursor:pointer">' + team + '</span> - TOP 6 MONTHLY ' + su;
+        teamTitle.innerHTML = '<span class="team-abbr-link" style="color:var(--c-accent);cursor:pointer">' + team + '</span> - TOP 6 MONTHLY ' + su;
       }} else {{
         teamTitle.textContent = team + ' - TOP 6 PLAYER ' + su;
       }}
@@ -4538,7 +4551,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       if (!trend || trend.length === 0) return;
       var su = sk === 'tapd' ? 'TAPD' : sk.toUpperCase();
       // Title with clickable orange team abbreviation to go back
-      teamTitle.innerHTML = '<span class="team-abbr-link" style="color:#ee7623;cursor:pointer">' + team + '</span> - TOP 6 TEAM ' + su;
+      teamTitle.innerHTML = '<span class="team-abbr-link" style="color:var(--c-accent);cursor:pointer">' + team + '</span> - TOP 6 TEAM ' + su;
       // Swap to trend-view headers (Month + Stat + Rank)
       teamThead.querySelector('tr').innerHTML = '<th class="tp-player" style="text-align:center">Month</th><th class="tp-stat">' + su + '</th><th class="tp-rank">Rank</th>';
       teamThead.classList.add('team-trend-mode');
@@ -4547,7 +4560,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         var m = trend[i];
         var val = sk === 'tapd' ? m.tapd : m.ted;
         var rank = sk === 'tapd' ? m.tapd_rank : m.ted_rank;
-        var cs = m.current ? ' style="color:#ee7623;font-weight:900"' : '';
+        var cs = m.current ? ' style="color:var(--c-accent);font-weight:900"' : '';
         html += '<tr>'
           + '<td class="tp-player"' + cs + '>' + m.month + '</td>'
           + '<td class="tp-stat"' + cs + '>' + (val != null ? val.toFixed(1) : '-') + '</td>'
@@ -4729,7 +4742,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 
     /* Make monthly RANK header orange */
     document.querySelectorAll('.team-monthly-view th.rank').forEach(function(th) {{
-      th.style.color = '#ee7623';
+      th.style.color = 'var(--c-accent)';
       th.style.cursor = 'pointer';
     }});
 
@@ -4805,7 +4818,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
         var ms = allMonths[i];
         var pm = pLookup[ms.month];
         var isCurrentMonth = (i === allMonths.length - 1);
-        var cs = isCurrentMonth ? ' style="color:#ee7623;font-weight:900"' : '';
+        var cs = isCurrentMonth ? ' style="color:var(--c-accent);font-weight:900"' : '';
         if (pm) {{
           var val = pm[rsStatMode];
           var rank = pm[rsStatMode + '_rank'];
@@ -5129,9 +5142,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           var textRow = document.createElement('tr');
           textRow.className = 'goat-text-row';
           if (mode === 'diff-player') {{
-            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;min-height:2.4em;display:flex;align-items:center;justify-content:center">Watch out for the herd of GOATs above!</p></td>';
+            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:var(--c-accent);margin:0;min-height:2.4em;display:flex;align-items:center;justify-content:center">Watch out for the herd of GOATs above!</p></td>';
           }} else {{
-            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;max-width:23em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 30 DIFF seasons and see your GOAT candidates!</p></td>';
+            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:var(--c-accent);margin:0;max-width:23em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:var(--c-accent)">PLAYER</span> above to sort the top 30 DIFF seasons and see your GOAT candidates!</p></td>';
           }}
           if (mode === 'diff') {{
             tbody.insertBefore(textRow, tbody.children[30]);
@@ -5388,9 +5401,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           var textRow = document.createElement('tr');
           textRow.className = 'g2-text-row';
           if (mode === 'diff-player') {{
-            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;min-height:2.4em;display:flex;align-items:center;justify-content:center">Watch out for the herd of GOATs above!</p></td>';
+            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:var(--c-accent);margin:0;min-height:2.4em;display:flex;align-items:center;justify-content:center">Watch out for the herd of GOATs above!</p></td>';
           }} else {{
-            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;max-width:23em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 40 DIFF seasons and see your GOAT candidates!</p></td>';
+            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:var(--c-accent);margin:0;max-width:23em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:var(--c-accent)">PLAYER</span> above to sort the top 40 DIFF seasons and see your GOAT candidates!</p></td>';
           }}
           if (mode === 'diff') {{
             tbody.insertBefore(textRow, tbody.children[40]);
@@ -5635,9 +5648,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           var textRow = document.createElement('tr');
           textRow.className = 'g3-text-row';
           if (mode === 'diff-player') {{
-            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;min-height:2.4em;display:flex;align-items:center;justify-content:center">Watch out for the herd of GOATs above!</p></td>';
+            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:var(--c-accent);margin:0;min-height:2.4em;display:flex;align-items:center;justify-content:center">Watch out for the herd of GOATs above!</p></td>';
           }} else {{
-            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;max-width:23em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 50 DIFF seasons and see your GOAT candidates!</p></td>';
+            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:var(--c-accent);margin:0;max-width:23em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:var(--c-accent)">PLAYER</span> above to sort the top 50 DIFF seasons and see your GOAT candidates!</p></td>';
           }}
           if (mode === 'diff') {{
             tbody.insertBefore(textRow, tbody.children[50]);
@@ -5897,9 +5910,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           var textRow = document.createElement('tr');
           textRow.className = 'mg1-text-row';
           if (mode === 'diff-player') {{
-            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;min-height:2.4em;display:flex;align-items:center;justify-content:center">Watch out for the herd of GOATs above!</p></td>';
+            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:var(--c-accent);margin:0;min-height:2.4em;display:flex;align-items:center;justify-content:center">Watch out for the herd of GOATs above!</p></td>';
           }} else {{
-            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 4px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 20 DIFF seasons and see your modern GOAT candidates!</p></td>';
+            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 4px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:var(--c-accent);margin:0;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:var(--c-accent)">PLAYER</span> above to sort the top 20 DIFF seasons and see your modern GOAT candidates!</p></td>';
           }}
           if (mode === 'diff') {{
             tbody.insertBefore(textRow, tbody.children[20]);
@@ -6098,9 +6111,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           var textRow = document.createElement('tr');
           textRow.className = 'mg2-text-row';
           if (mode === 'diff-player') {{
-            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;min-height:2.4em;display:flex;align-items:center;justify-content:center">Watch out for the herd of GOATs above!</p></td>';
+            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:var(--c-accent);margin:0;min-height:2.4em;display:flex;align-items:center;justify-content:center">Watch out for the herd of GOATs above!</p></td>';
           }} else {{
-            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 4px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;max-width:28em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 30 DIFF seasons and see your modern GOAT candidates!</p></td>';
+            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 4px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:var(--c-accent);margin:0;max-width:28em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:var(--c-accent)">PLAYER</span> above to sort the top 30 DIFF seasons and see your modern GOAT candidates!</p></td>';
           }}
           if (mode === 'diff') {{
             tbody.insertBefore(textRow, tbody.children[30]);
@@ -6308,9 +6321,9 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
           var textRow = document.createElement('tr');
           textRow.className = 'mg3-text-row';
           if (mode === 'diff-player') {{
-            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;min-height:2.4em;display:flex;align-items:center;justify-content:center">Watch out for the herd of GOATs above!</p></td>';
+            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 16px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:var(--c-accent);margin:0;min-height:2.4em;display:flex;align-items:center;justify-content:center">Watch out for the herd of GOATs above!</p></td>';
           }} else {{
-            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 4px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:#ee7623;margin:0;max-width:28em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:#ee7623">PLAYER</span> above to sort the top 40 DIFF seasons and see your modern GOAT candidates!</p></td>';
+            textRow.innerHTML = '<td colspan="5" style="text-align:center;padding:12px 4px;cursor:pointer;border:none;background:#000"><p style="font-family:Georgia,serif;font-size:0.85em;font-style:italic;color:var(--c-accent);margin:0;max-width:28em;display:inline-block">Click <span style="font-weight:700;font-style:normal;color:var(--c-accent)">PLAYER</span> above to sort the top 40 DIFF seasons and see your modern GOAT candidates!</p></td>';
           }}
           if (mode === 'diff') {{
             tbody.insertBefore(textRow, tbody.children[40]);
