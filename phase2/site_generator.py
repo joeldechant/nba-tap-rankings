@@ -1778,8 +1778,14 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       --c-accent: #ee7623;
     }}
     body.alt-mode {{
-      --c-text: #8fbfa3;
-      --c-accent: #d4918f;
+      --c-text: #a8d8b8;
+      --c-accent: #e8a5a0;
+    }}
+    body.alt-mode * {{
+      text-shadow: 0 0 4px currentColor;
+    }}
+    body.alt-mode table * {{
+      text-shadow: 0 0 3px currentColor;
     }}
 
     body {{
