@@ -1795,6 +1795,16 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
       padding: 25px 20px 15px;
       background: #fff;
       color: #000;
+      position: relative;
+    }}
+
+    .update-stamp {{
+      position: absolute;
+      top: 8px;
+      left: 10px;
+      font-size: 0.6em;
+      color: #999;
+      font-weight: 400;
     }}
 
     header h1 {{
@@ -3470,6 +3480,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 <body>
   <div class="container">
     <header>
+      <span class="update-stamp">{date.today().month}.{date.today().day}</span>
       <h1 data-ted-text="NBA TED Rankings" data-tap-text="NBA TAP Rankings">NBA TAP Rankings</h1>
       <svg class="basketball" width="36" height="36" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <circle cx="50" cy="50" r="46" fill="#ee7623" stroke="#000" stroke-width="3"/>
