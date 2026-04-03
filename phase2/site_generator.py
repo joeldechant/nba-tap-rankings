@@ -6856,7 +6856,13 @@ def generate_site():
                 'tov': row.get('tov', 0),
                 'g': row.get('g'), 'season_year': config.CURRENT_SEASON_YEAR,
             }
-            result = calculate_stats(player_data, pace, advanced)
+            # Compute avg PM for TAPD
+            pm_row = conn.execute(
+                "SELECT AVG(plus_minus) as avg_pm FROM game_box_scores WHERE season_year = ? AND player = ? AND plus_minus IS NOT NULL",
+                (config.CURRENT_SEASON_YEAR, name)
+            ).fetchone()
+            avg_pm = pm_row['avg_pm'] if pm_row and pm_row['avg_pm'] is not None else None
+            result = calculate_stats(player_data, pace, advanced, game_plus_minus=avg_pm)
             if result:
                 result['player'] = name
                 result['team'] = team
