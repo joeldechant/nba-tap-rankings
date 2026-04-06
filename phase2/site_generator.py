@@ -3480,7 +3480,7 @@ def generate_html(weekly, season, daily, monthly, month_label, month_winners, up
 <body>
   <div class="container">
     <header>
-      <span class="update-stamp">{date.today().month}.{date.today().day}</span>
+      <span class="update-stamp">{update_stamp}</span>
       <h1 data-ted-text="NBA TED Rankings" data-tap-text="NBA TAP Rankings">NBA TAP Rankings</h1>
       <svg class="basketball" width="36" height="36" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <circle cx="50" cy="50" r="46" fill="#ee7623" stroke="#000" stroke-width="3"/>
@@ -6545,6 +6545,16 @@ def generate_site():
     print("Generating TED Weekly Rankings site...")
 
     db.init_db()
+
+    # Get last scrape date for timestamp
+    conn = db.get_connection()
+    _update_row = conn.execute("SELECT completed_at FROM update_log ORDER BY id DESC LIMIT 1").fetchone()
+    if _update_row and _update_row['completed_at']:
+        _last_update = date.fromisoformat(_update_row['completed_at'][:10])
+    else:
+        _last_update = date.today()
+    conn.close()
+    update_stamp = f"{_last_update.month}.{_last_update.day}"
 
     # Calculate rankings
     week_start, week_end = get_rolling_week()
